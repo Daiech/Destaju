@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Sistema Gestor de Labores de Campo</h1>
+</div>
+<p class="lead">Bienvendo a SGLC. Debes iniciar sesi&oacute;n para acceder a la plataforma.</p>
+<form class="form-signin">
+	<h2 class="form-signin-heading">Iniciar sesi&oacute;n</h2>
+	{% csrf_token %}
+	<input type="text" class="form-control" placeholder="Nombre de usuario o Correo electr&oacute;nico" autofocus>
+	<input type="password" class="form-control" placeholder="Contrase&ntilde;a">
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesi&oacute;n</button>
+</form>
+{% endblock %}
+{% block style %}
+<style type="text/css">
+</style>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		//TODO here
+	});
+</script>
+{% endblock %}
