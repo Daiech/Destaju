@@ -2,13 +2,17 @@
 import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
-APPS = ["website"]
+URL_BASE = "http://localhost:8000"
 
+APPS = ["apps.website", "apps.account", "apps.actions_log"]
+
+LOGIN_URL = "/cuenta/login"
+LOGOUT_URL = "/cuenta/logout"
+LOGIN_REDIRECT_URL = "/"
 
 MANAGERS = ADMINS
 

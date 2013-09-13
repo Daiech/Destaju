@@ -1,0 +1,58 @@
+[	
+	{
+		"model": "actions_log.actions",
+		"pk": 1,
+		"fields":
+		{
+			
+			"name": "Iniciar sesión",
+			"code": "LOG_IN",
+			"description": "Un usuario inicia sesión en la plataforma.",
+			"date_created": "2012-11-22 00:24:18"
+		}
+	},
+	{
+		"model": "actions_log.actions",
+		"pk": 2,
+		"fields":
+		{
+			"name": "Registro de usuarios",
+			"code": "SIGN_IN",
+			"description": "Acción de registrar un usuario en la plataforma.",
+			"date_created": "2012-11-22 16:22:56"
+		}
+	},
+	{
+		"model": "actions_log.actions",
+		"pk": 3,
+		"fields":
+		{
+			"name": "Cerrar sesion",
+			"code": "LOG_OUT",
+			"description": "Acción de cerrar sesion, solo se ejecuta cuando se da clic en el boton 'cerrar sesion' no cuando cierran el navegador o apagan el computador",
+			"date_created": "2012-11-22 16:34:04"
+		}
+	},
+	{
+		"model": "actions_log.actions",
+		"pk": 4,
+		"fields":
+		{
+			"name": "Actualizar datos",
+			"code": "CHG_USDATA",
+			"description": "Actualizar datos de usuario, se guarda la información anterior del usuario",
+			"date_created": "2012-11-23 20:35:12"
+		}
+	}, 
+	{
+		"model": "actions_log.actions",
+		"pk": 5,
+		"fields":
+		{
+			"name": "Cambiar Contraseña",
+			"code": "CHG_PASS",
+			"description": "Notificación de cambio de contraseña",
+			"date_created": "2012-11-23 20:35:57"
+		}
+	}
+]

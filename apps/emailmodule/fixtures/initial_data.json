@@ -1,0 +1,73 @@
+[
+  {
+    "model": "emailmodule.email_admin_type",
+    "pk": 1,
+    "fields": {
+      "name": "obligatorio",
+      "description": "Este tipo de correos son obligatorios y no se pueden desactivar",
+      "date_added": "2013-07-25 04:14:29"
+    }
+  },
+  {
+    "model": "emailmodule.email_admin_type",
+    "pk": 2,
+    "fields": {
+      "name": "global",
+      "description": "Este tipo de correo esta relacionado directamente con cada usuario y se pueden desactivar o activar en las configuraciones generales",
+      "date_added": "2013-07-25 04:16:08"
+    }
+  },
+  {
+    "model": "emailmodule.email_admin_type",
+    "pk": 3,
+    "fields": {
+      "name": "staff",
+      "description": "Correo que se envía al staff de la plataforma",
+      "date_added": "2013-07-25 04:16:08"
+    }
+  },
+  {
+    "model": "emailmodule.email",
+    "pk": 4,
+    "fields": {
+      "name": "validación de correo",
+      "description": "Correo de validacion para activar la cuenta",
+      "email_type": "1",
+      "admin_type": 1,
+      "date_added": "2013-07-25 04:50:10"
+    }
+  },
+  {
+    "model": "emailmodule.email",
+    "pk": 5,
+    "fields": {
+      "name": "Invitación a la plataforma",
+      "description": "Correo que se envia cuando un usuario invita a otra persona a usar la plataforma",
+      "email_type": "2",
+      "admin_type": 1,
+      "date_added": "2013-07-25 04:50:10"
+    }
+  },
+  {
+    "model": "emailmodule.email",
+    "pk": 6,
+    "fields": {
+      "name": "Feedback",
+      "description": "Comentarios que dejan los usuarios, se envia directamente al staff de la plataforma",
+      "email_type": "9",
+      "admin_type": 3,
+      "date_added": "2013-07-25 04:50:10"
+    }
+  },
+  {
+    "model": "emailmodule.email",
+    "pk": 7,
+    "fields": {
+      "name": "Reenviar activación de cuenta",
+      "description": "Reenvía activación de cuenta",
+      "email_type": "10",
+      "admin_type": 2,
+      "date_added": "2013-07-25 04:50:10"
+    }
+  }
+]

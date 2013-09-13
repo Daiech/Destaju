@@ -13,5 +13,8 @@
       <li><a href="#about">Acerda de</a></li>
       <li><a href="#contact">Contacto</a></li>
     </ul>
+    {% if user.is_authenticated %}
+    <div class="pull-right"><a href="{% url 'log_out' %} ">Cerrar sesi&oacute;n</a> </div>
+    {% endif %}
   </div><!--/.nav-collapse -->
 </div>
