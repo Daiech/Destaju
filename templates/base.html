@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="{{ PROJECT_NAME }}, {{ PROJECT_DESCRIPTION }}">
     <meta name="author" content="">
     <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.png">
 
-    <title>{% block TITLE %}{% endblock %} - SGLC</title>
+    <title>{% block TITLE %}{% endblock %} - {{ PROJECT_NAME }}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
@@ -16,7 +16,7 @@
     <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/sticky-footer-navbar.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
     {% block style %}
-	{% endblock %}
+    {% endblock %}
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -29,31 +29,32 @@
 
     <!-- Wrap all page content here -->
     <div id="wrap">
+        <!-- Fixed navbar -->
+        <div class="navbar navbar-default navbar-fixed-top">
+        	{% include "top_bar.html" %}
+        </div>
 
-		<!-- Fixed navbar -->
-		<div class="navbar navbar-default navbar-fixed-top">
-			{% include "top_bar.html" %}
-		</div>
-
-		<!-- Begin page content -->
-		<div class="container">
-			{% block content %}
-			{% endblock %}
-		</div>
+        <!-- Begin page content -->
+        <div class="container">
+        	{% block content %}
+        	{% endblock %}
+        </div>
     </div>
 
     <div id="footer">
       <div class="container">
-        <p class="text-muted credit">SGLC 2013 <a href="http://daiech.com">Daiech.com</a></p>
+        <p class="text-muted credit">
+          {{ PROJECT_NAME }} <script>document.write((new Date()).getFullYear())</script> <a href="http://daiech.com">Daiech.com</a>
+        </p>
       </div>
     </div>
     <div id="alert-message" class="alert alert-success alert-block" style="display: none">
-          <button type="button" class="close" data-dismiss="alert">×</button>
+        <button type="button" class="close" data-dismiss="alert">×</button>
         <h4></h4>
         <p></p>
     </div>
     <div id="alert-error" class="alert alert-error" style="display: none">
-          <button type="button" class="close" data-dismiss="alert">×</button>
+        <button type="button" class="close" data-dismiss="alert">×</button>
         <h4></h4>
         <p></p>
     </div>

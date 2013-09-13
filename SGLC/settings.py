@@ -8,6 +8,7 @@ ADMINS = (
 
 URL_BASE = "http://localhost:8000"
 PROJECT_NAME = "SGLC"
+PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule"]
 
 LOGIN_URL = "/cuenta/login"
@@ -163,3 +164,16 @@ LOGGING = {
         },
     }
 }
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    'django.core.context_processors.request',
+    'apps.website.context_processors.get_project_name',
+    # 'apps.website.context_processors.is_debug',
+)

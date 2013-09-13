@@ -1,17 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Inicio{% endblock %}
+{% block TITLE %}Inicio{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>Sistema Gestor de Labores de Campo</h1>
+  <h1>{{ PROJECT_NAME }} <small>{{ PROJECT_DESCRIPTION }}</small></h1>
 </div>
-<p class="lead">Bienvendo a SGLC. Debes iniciar sesi&oacute;n para acceder a la plataforma.</p>
-<form class="form-signin" method="post" action="{% url 'log_in' %}">
-	<h2 class="form-signin-heading">Iniciar sesi&oacute;n</h2>
-	{% csrf_token %}
-	<input type="text"  id="id_username" maxlength="254" name="username" class="form-control" placeholder="Nombre de usuario o Correo electr&oacute;nico" autofocus>
-	<input type="password" id="id_password" name="password" class="form-control" placeholder="Contrase&ntilde;a">
-	<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesi&oacute;n</button>
-</form>
+<p class="lead">Bienvendo a {{ PROJECT_NAME }}. Debes iniciar sesi&oacute;n para acceder.</p>
+<div class="">
+	<form class="form-signin" method="post" action="{% url 'log_in' %}">
+		<h2 class="form-signin-heading">Iniciar sesi&oacute;n</h2>
+		{% csrf_token %}
+		<input type="text"  id="id_username" maxlength="254" name="username" class="form-control" placeholder="Nombre de usuario o Correo electr&oacute;nico" autofocus>
+		<input type="password" id="id_password" name="password" class="form-control" placeholder="Contrase&ntilde;a">
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesi&oacute;n</button>
+	</form>
+</div>
 {% endblock %}
 {% block style %}
 <style type="text/css">
