@@ -7,8 +7,8 @@ ADMINS = (
 )
 
 URL_BASE = "http://localhost:8000"
-
-APPS = ["apps.website", "apps.account", "apps.actions_log"]
+PROJECT_NAME = "SGLC"
+APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule"]
 
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"

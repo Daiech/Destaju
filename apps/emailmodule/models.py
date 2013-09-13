@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from groups.models import groups
 
 
 class email_admin_type(models.Model):
@@ -21,14 +20,6 @@ class email(models.Model):
 
     def __unicode__(self):
         return "tipo de correo: %s " % (self.name)
-
-
-class email_group_permissions(models.Model):
-    id_group = models.ForeignKey(groups, null=False, related_name='%(class)s_id_group')
-    id_email_type = models.ForeignKey(email, null=False, related_name='%(class)s_id_email_type')
-    id_user = models.ForeignKey(User,  null=False, related_name='%(class)s_id_user_from')
-    is_active = models.BooleanField(default=True)
-    date_added = models.DateTimeField(auto_now=True)
 
 
 class email_global_permissions(models.Model):

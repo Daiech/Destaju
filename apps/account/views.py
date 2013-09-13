@@ -49,12 +49,13 @@ def newUser(request):
             new_user.username = new_user.username.replace(" ", "-")
             try:
                 new_user.save()
-                from models import activation_keys
+                from apps.account.models import activation_keys
                 activation_keys(id_user=new_user, email=email_user, activation_key=activation_key).save()
                 saveActionLog(new_user, "SIGN_IN", "username: %s, email: %s" % (name_newuser, formulario['email'].data), str(request.META['REMOTE_ADDR']))  # Registro en el Action log
                 sendEmailHtml(1, {'username': name_newuser, 'activation_key': activation_key}, [str(email_user)])  # Envio de correo con clave de activacion
                 return render_to_response('registered.html', {'email_address': email_user}, context_instance=RequestContext(request))
-            except:
+            except Exception, e:
+                print e
                 return HttpResponseRedirect('/#Error-de-registro-de-usuario')
             # return userLogin(request, user_name, formulario['password1'].data)
     else:
@@ -255,6 +256,7 @@ def personalData(request):
     print "update: ", update
     ctx = {"formUser": form, "dataUpdate": update, "passwordUpdate": False, "error_email": error_email}
     return render_to_response('personal_data.html', ctx, context_instance=RequestContext(request))
+
 
 @login_required()
 def changePassword(request):

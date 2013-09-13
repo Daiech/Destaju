@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from emailmodule.models import *
+from django.conf import settings
+from apps.emailmodule.models import *
 try:
     from apps.actions_log.views import saveActionLog, saveViewsLog, saveErrorLog
 except Exception, e:
@@ -36,35 +37,33 @@ def sendEmailHtml(email_type, ctx, to, _group=None):
     """
 
     if email_type == 1:
-        subject = ctx['username'] + " Bienvenido a Actarium"
-        plaintext = get_template('emailmodule/emailtest.txt')
-        htmly = get_template('emailmodule/email_activate_account.html')
+        subject = ctx['username'] + " Bienvenido!"
+        plaintext = get_template('emailtest.txt')
+        htmly = get_template('email_activate_account.html')
     elif email_type == 2:
-        subject = ctx['username'] + u" te invitó a usar Actarium, La plataforma para la gestión de Actas y Reuniones."
-        plaintext = get_template('emailmodule/emailtest.txt')
-        htmly = get_template('emailmodule/email_actarium_invitation.html')
+        subject = ctx['username'] + u" te invitó a " + settings.PROJECT_NAME
+        plaintext = get_template('emailtest.txt')
+        htmly = get_template('email_project_invitation.html')
     elif email_type == 3:
         subject = ctx['email'] + " Dejo un comentario tipo: " + ctx['type_feed'] + " en Actarium"
-        plaintext = get_template('emailmodule/emailtest.txt')
-        htmly = get_template('emailmodule/email_feedback_notification.html')
+        plaintext = get_template('emailtest.txt')
+        htmly = get_template('email_feedback_notification.html')
     elif email_type == 4:
-        subject = ctx['firstname'] + " (" + ctx['username'] + ") " + u"está solicitando tu precencia en Actarium"
-        plaintext = get_template('emailmodule/emailtest.txt')
-        htmly = get_template('emailmodule/email_resend_activate_account.html')
+        subject = ctx['firstname'] + " (" + ctx['username'] + ") " + u"está solicitando tu precencia en " + settings.PROJECT_NAME
+        plaintext = get_template('emailtest.txt')
+        htmly = get_template('email_resend_activate_account.html')
     else:
-        plaintext = get_template('emailmodule/emailtest.txt')
-        htmly = get_template('emailmodule/emailtest.html')
-        subject, to = 'Mensaje de prueba', ['emesa@daiech.com']
+        plaintext = get_template('emailtest.txt')
+        htmly = get_template('emailtest.html')
+        subject, to = 'Mensaje de prueba', ['daiech@daiech.com']
     from_email = 'Daiech <no-reply@daiech.com>'
     d = Context(ctx)
     text_content = plaintext.render(d)
     html_content = htmly.render(d)
 
-    actives_required_list = [3, 4, 6, 14]  # This list contains the number of email_type that requires the user is active in actarium
+    actives_required_list = [3, 4, 6, 14]  # This list contains the number of email_type that requires the user is active in the project
     if email_type in actives_required_list:
         to = activeFilter(to)
-
-    to = groupAdminFilter(to, email_type, _group)
 
     msg = EmailMultiAlternatives(subject, text_content, from_email, to)
     msg.attach_alternative(html_content, "text/html")
@@ -73,40 +72,6 @@ def sendEmailHtml(email_type, ctx, to, _group=None):
     except:
         #        print "Error al enviar correo electronico tipo: ", email_type, " con plantilla HTML."
         saveErrorLog('Ha ocurrido un error al intentar enviar un correo de tipo %s a %s' % (email_type, to))
-
-
-def groupAdminFilter(email_list, email_type, _group):
-    new_email_list = []
-    _email_admin_type = email_admin_type.objects.get(name='grupo')
-    print "email type", email_type
-    _email = email.objects.get(email_type=email_type)
-    if _email.admin_type == _email_admin_type:
-        for e in email_list:
-            print e
-            _user = User.objects.get(email=e)
-            try:
-                # print "user",_user
-                # print "email admin type", _email_admin_type
-                # print "group ",_group
-                egp = email_group_permissions.objects.get(id_user=_user, id_email_type=_email, id_group=_group)
-                if egp.is_active:
-                    new_email_list.append(e)
-                    # print "....si esta, si activo"
-                else:
-                    print ".....si esta, no activo"
-            except email_group_permissions.DoesNotExist:
-                new_email_list.append(e)
-                # print ".....No esta, colocar como activo"
-
-        # print "---------diferencia en listas de correos--- eliminar despues de probar----------"
-        # print " email_list -------"
-        # print email_list
-        # print " new_email_list ---"
-        # print new_email_list
-
-        return new_email_list
-    else:
-        return email_list
 
 
 def activeFilter(email_list):
