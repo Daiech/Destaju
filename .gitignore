@@ -201,3 +201,6 @@ pip-log.txt
 ehthumbs.db
 Icon?
 Thumbs.db
+
+#Enlace simbolico al Django Admin
+public/static/admin
