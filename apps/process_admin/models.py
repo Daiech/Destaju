@@ -53,3 +53,19 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return "%s: %s %s" % (self.email, self.activation_key, self.is_expired)
+
+
+class Activities(models.Model):
+    code = models.CharField(max_length=30, verbose_name="code")
+    name = models.CharField(max_length=150, verbose_name="name")
+    description = models.TextField(blank=True)
+    measuring_unit = models.CharField(max_length=50, verbose_name="measuring_unit")
+    value = models.CharField(max_length=50, verbose_name="measuring_unit")
+    id_user = models.ForeignKey(
+        User,  null=False, related_name='%(class)s_id_user') 
+    is_active = models.BooleanField(default=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    
+    def __unicode__(self):
+        return "%s - %s: %s" % (self.code, self.name, self.value)

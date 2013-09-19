@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block TITLE %}Inicio{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>{{ PROJECT_NAME }} <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+</div>
+<p class="lead">Formulario para agregar una actividad</p>
+<div class="white-box-container">
+	<form action="{% url 'create_activity' %}" method = "POST"  enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form }}
+	<input type="submit" value="enviar" />
+	</form>
+</div>
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		//TODO here
+	});
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
