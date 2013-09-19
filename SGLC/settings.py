@@ -10,7 +10,7 @@ ADMINS = (
 URL_BASE = "http://localhost:8000"
 PROJECT_NAME = "SGLC"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
-APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule"]
+APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.process_admin"]
 
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"
