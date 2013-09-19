@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class UserProfileManager(models.Manager):
 
     def create_user_profile(self):
-        pass	
+        pass
 
 
 class UserType(models.Model):
@@ -14,10 +14,10 @@ class UserType(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    # objects = ActivationManager()
+    # objects = UserTypeManager()
 
     def __unicode__(self):
-        return "%s: %s %s" % (self.email, self.activation_key, self.is_expired)
+        return self.name, self.is_active
 
 
 class Employment(models.Model):
@@ -27,10 +27,10 @@ class Employment(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    # objects = ActivationManager()
+    # objects = EmploymentManager()
 
     def __unicode__(self):
-        return "%s: %s %s" % (self.email, self.activation_key, self.is_expired)
+        return self.name, self.is_active
 
 
 class UserProfile(models.Model):
@@ -49,7 +49,7 @@ class UserProfile(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    objects = UserProfileManager()
+    # objects = UserProfileManager()
 
     def __unicode__(self):
-        return "%s: %s %s" % (self.email, self.activation_key, self.is_expired)
+        return "%s: dni:%s, user type:%s" % (self.id_user, self.dni, self.id_user_type)
