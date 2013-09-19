@@ -9,22 +9,38 @@
     <a class="navbar-brand" href="/">{{ PROJECT_NAME }}</a>
   </div>
   <div class="collapse navbar-collapse">
-    <ul class="nav navbar-nav">
-      <li id="menu-home"><a href="/">Inicio</a></li>
-      <li id="menu-about"><a href="#about">Acerda de</a></li>
-      <li id="menu-contact"><a href="#contact">Contacto</a></li>
-    </ul>
-    {% if user.is_authenticated %}
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-        <a href="{% url 'log_out' %}" class="alert-link">Cerrar sesi&oacute;n</a>
-      </li>
-      <li>
-        <a href="{% url 'personal_data' %}">
-         <img src="{{ user.email|showgravatar:'18'}}" width="18px" />
-        </a>
-      </li>
-    </ul>
+      <ul class="nav navbar-nav">
+          <li class="dropdown">
+              <a href="#" id="menu-admin" role="button" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n <b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu-admin">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Gesti&oacute;n de usuarios</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Gesti&oacute;n de Actividades</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Gesti&oacute;n de Descuentos</a></li>
+                  <!-- <li role="presentation" class="divider"></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li> -->
+              </ul>
+          </li>
+          <li class="dropdown">
+              <a href="#" id="menu-op" role="button" class="dropdown-toggle" data-toggle="dropdown">Ordenes de Producci&oacute;n <b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="menu-op">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Generaci&oacute;n de OP</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Llenado de OP</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Calificaci&oacute;n de OP</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Visualizaci&oacute;n de OP</a></li>
+              </ul>
+          </li>
+      </ul>
+      {% if user.is_authenticated %}
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="{% url 'log_out' %}" class="alert-link">Cerrar sesi&oacute;n</a>
+        </li>
+        <li>
+          <a href="{% url 'personal_data' %}">
+           <img src="{{ user.email|showgravatar:'18'}}" width="18px" />
+          </a>
+        </li>
+      </ul>
     {% endif %}
   </div><!--/.nav-collapse -->
 </div>
