@@ -11,26 +11,55 @@ class UserType(models.Model):
     """Table necessary for create an user account, This serves to validate the email."""
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.CharField(max_length=300, verbose_name="description")
+
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     # objects = UserTypeManager()
 
     def __unicode__(self):
-        return self.name, self.is_active
+        return self.name
+
+    class Meta:
+        ordering = ('name',)
 
 
-class Employment(models.Model):
+class Permissions(models.Model):
+    """Table to define all Permissions."""
+    name = models.CharField(max_length=150, verbose_name="name")
+    description = models.CharField(max_length=300, verbose_name="description")
+    user_type = models.ManyToManyField(UserType)
+
+    is_active = models.BooleanField(default=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    # objects = UserTypeManager()
+
+    def __unicode__(self):
+        return self.name
+
+    def user_types(self):
+        return ", ".join([s.name for s in self.user_type.all()])
+
+    class Meta:
+        ordering = ('date_added',)
+
+
+class Employments(models.Model):
     """Table necessary for create an user account, This serves to validate the email."""
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.CharField(max_length=300, verbose_name="description")
+
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     # objects = EmploymentManager()
 
     def __unicode__(self):
-        return self.name, self.is_active
+        return self.name
+
+    class Meta:
+        ordering = ('name',)
 
 
 class UserProfile(models.Model):
@@ -45,14 +74,15 @@ class UserProfile(models.Model):
 
     id_user = models.OneToOneField(User)
     id_user_type = models.OneToOneField(UserType)
-    id_employment = models.OneToOneField(Employment)
+    id_employment = models.ForeignKey(Employments, null=True, blank=True)
+
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     # objects = UserProfileManager()
 
-    def __unicode__(self):
-        return "%s: %s %s" % (self.email, self.activation_key, self.is_expired)
+    # def __unicode__(self):
+    #     return "%s: %s %s" % (self.id_user, self.id_user_type, self.is_active)
 
 
 class Activities(models.Model):
