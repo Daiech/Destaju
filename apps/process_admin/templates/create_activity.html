@@ -8,8 +8,10 @@
 <div class="white-box-container">
 	<form action="{% url 'create_activity' %}" method = "POST"  enctype="multipart/form-data">
 	{% csrf_token %}
+	<table>
 	{{ form }}
-	<input type="submit" value="enviar" />
+	</table>
+	<input type="submit" value="enviar" class="btn btn-success"/>
 	</form>
 </div>
 {% endblock %}
