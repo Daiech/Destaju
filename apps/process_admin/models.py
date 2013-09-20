@@ -93,8 +93,8 @@ class UserProfile(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     # objects = UserProfileManager()
 
-    # def __unicode__(self):
-    #     return "%s: %s %s" % (self.id_user, self.id_user_type, self.is_active)
+    def __unicode__(self):
+        return "%s: %s %s" % (self.id_user, self.id_user_type, self.is_active)
 
 
 class Activities(models.Model):

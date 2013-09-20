@@ -14,7 +14,13 @@ if (!(window.console && console.log)) {
 // Place any jQuery/helper plugins in here.
 
 function main () {
-    
+    $("a.btn-delete").on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if ( confirm("Seguro que quiere eliminar?") ){
+            top.location = $(this).attr("href");
+        }
+    });
 }
 
 
