@@ -8,7 +8,14 @@ class ActivityForm(ModelForm):
     class Meta:
         model = Activities
         fields = ['code','name', 'description', 'measuring_unit', 'value', 'is_available']
-        
+        labels = {
+            'code':'C&oacute;digo',
+            'name':'Nombre',
+            'description':'Descripci&oacute;n',
+            'measuring_unit':'Unidad de medida',
+            'value':'Precio',
+            'is_available':'Disponible',
+        }
     
     
     

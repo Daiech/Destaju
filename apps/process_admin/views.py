@@ -35,6 +35,7 @@ def create_activity(request):
 	return render_to_response('create_activity.html', locals(), context_instance=RequestContext(request))
 
 
+@login_required()
 def update_activity(request, id_activity):
 	"""Manage activities"""
 	act = get_object_or_404(Activities, pk = id_activity)
@@ -53,6 +54,7 @@ def update_activity(request, id_activity):
 	return render_to_response("create_activity.html", locals(), context_instance=RequestContext(request))
 
 
+@login_required()
 def delete_activity(request, id_activity):
 	"""Logical deletion of activities"""
 	act = get_object_or_404(Activities, pk = id_activity)

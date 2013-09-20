@@ -102,7 +102,7 @@ class Activities(models.Model):
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.TextField(blank=True)
     measuring_unit = models.CharField(max_length=50, verbose_name="measuring_unit")
-    value = models.CharField(max_length=50, verbose_name="measuring_unit")
+    value = models.CharField(max_length=50, verbose_name="value")
     id_user = models.ForeignKey(
         User,  null=False, related_name='%(class)s_id_user') 
     is_active = models.BooleanField(default=True)
