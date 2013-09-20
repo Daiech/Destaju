@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-
+from django.core.urlresolvers import reverse
 
 @login_required()
 def read_users(request):
@@ -59,26 +59,29 @@ def create_activity(request):
 			activity.id_user = request.user
 			activity.save()
 			form = ActivityForm()
-		show_form = True
+		else:
+				show_form = True
+		if '_addanother' in request.POST:
+			show_form = True
 	else:
 		form  = ActivityForm() 
+	form_mode  = "_save"
 	activities = Activities.objects.get_active()
 	return render_to_response('create_activity.html', locals(), context_instance=RequestContext(request))
 
 def update_activity(request, id_activity):
-	"""Form to edit an activity"""
-	act = Activities.objects.get(pk = id_activity)
+	"""Manage activities"""
+	act = get_object_or_404(Activities, pk = id_activity)
 	if request.method == "POST":
 		form = ActivityForm(request.POST, instance=act)
 		if form.is_valid():
 			form.save()
+			return HttpResponseRedirect(reverse(create_activity))
 		else:
 			show_form = True
 	else:
 		show_form = True
-		if act:
-			form = ActivityForm(instance=act)
-		else:
-			return HttpResponseRedirect("/administracion/listar_actividades/#error")
+		form = ActivityForm(instance=act)
+	form_mode = "_edit"
 	activities = Activities.objects.get_active()
 	return render_to_response("create_activity.html", locals(), context_instance=RequestContext(request))
