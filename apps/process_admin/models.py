@@ -76,7 +76,7 @@ class UserProfile(models.Model):
     is_active_worker = models.BooleanField(default=True)
 
     id_user = models.OneToOneField(User)
-    id_user_type = models.OneToOneField(UserType)
+    id_user_type = models.ForeignKey(UserType)
     id_employment = models.ForeignKey(Employments, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
