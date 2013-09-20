@@ -7,6 +7,15 @@ class UserProfileManager(models.Manager):
         pass
 
 
+class ActivitiesManager(models.Manager):
+    
+    def get_available(self):
+        return self.filter(is_active=True, is_available=True).order_by('-date_modified')
+    
+    def get_active(self):
+        return self.filter(is_active=True).order_by('-date_modified')
+
+
 class UserType(models.Model):
     """Table necessary for create an user account, This serves to validate the email."""
     name = models.CharField(max_length=150, verbose_name="name")
@@ -64,8 +73,10 @@ class Activities(models.Model):
     id_user = models.ForeignKey(
         User,  null=False, related_name='%(class)s_id_user') 
     is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    objects = ActivitiesManager()
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)

@@ -2,18 +2,70 @@
 {% block TITLE %}Inicio{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>{{ PROJECT_NAME }} <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+ 	<h1>ACTIVIDADES <small>Agrega, edita o elimina actividades</small> 
+  		<a  href="#ActivityFormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary">
+	    	<span class="glyphicon glyphicon-plus"></span> Agregar</a>
+	   	<a href="" title="Haz click aqu&iacute; si deseas cargar las actividades desde un archivo CSV" class="btn btn-primary">
+	   		<span class="glyphicon glyphicon-arrow-up" ></span> Cargar</a>
+	</h1>
 </div>
-<p class="lead">Formulario para agregar una actividad</p>
-<div class="white-box-container">
-	<form action="{% url 'create_activity' %}" method = "POST"  enctype="multipart/form-data">
-	{% csrf_token %}
-	<table>
-	{{ form }}
-	</table>
-	<input type="submit" value="enviar" class="btn btn-success"/>
-	</form>
+<div class="modal fade" id="ActivityFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Agregar Actividad</h3>
+			</div>
+			<div class="modal-body">
+				<form method = "POST"  enctype="multipart/form-data" id="ActivityForm">
+				{% csrf_token %}
+				<table>
+				{{ form }}
+				<tr><td></td><td><input type="submit" value="enviar" style="display:none"/></td>
+				</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button id="ModalButton" type="button" class="btn btn-primary">Guardar</button>
+		    </div>
+		</div>
+	</div>
 </div>
+<table class="table table-bordered table-hover">
+	<tr>
+		<th>Estado</th>
+		<th>C&oacute;digo</th>
+		<th>Nombre</th>
+		<th>Descripci&oacute;n</th>
+		<th>Unidad de medida</th>
+		<th>Precio</th>
+		<th>Fecha Creaci&oacute;n</th>
+		<th>Fecha Ultima modificaci&oacute;n</th>
+		<th>Acciones</th>
+	</tr>
+	{% for a in activities %}
+	<tr>
+		<td>{% if a.is_available %}
+			<span title="Esta actividad se lista actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
+			<span title="Esta actividad no se encuentra activa actualmente 
+						y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-warning-sign" ></span>
+			{% endif %}
+		</td>
+		<td>{{a.code}}</td>
+		<td>{{a.name}}</td>
+		<td>{{a.description}}</td>
+		<td>{{a.measuring_unit}}</td>
+		<td>${{a.value}}</td>
+		<td>{{a.date_added}}</td>
+		<td>{{a.date_modified}}</td>
+		<td>
+			<a href="/administracion/editar_actividad/{{a.id}}" title="Editar esta actividad" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+			<a href="/administracion/eliminar_actividad/{{a.id}}" title="Eliminar esta actividad" class="btn"><span class="glyphicon glyphicon-remove"></span></a>
+		</td>
+	<tr>
+{% endfor %}
+</table>
 {% endblock %}
 
 {% block style %}
@@ -24,7 +76,12 @@
 {% block js %}
 <script type="text/javascript">
 	$(document).ready(function(){
-		//TODO here
+		{% if show_form %}
+				$('#ActivityFormModal').modal('show')
+		{% endif %}
+		$("#ModalButton").click(function() {
+	           $("#ActivityForm").submit();
+	       });
 	});
 </script>
 {% endblock %}
