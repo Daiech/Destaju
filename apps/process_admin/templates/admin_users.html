@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block TITLE %}Administraci&oacute;n de usuarios{% endblock %}
+{% block content %}
+	<div class="page-header">
+	  <h1>{{ PROJECT_NAME }} <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+	</div>
+	<p class="lead">Administraci&oacute;n de usuarios</p>
+	<ul class="b">
+		{% for u in users %}
+			<li>
+				{{ u }}: {% if u.userprofile.dni %}
+					ndi:{{ u.userprofile.dni }}
+				{% endif %} 
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+	});
+</script>
+{% endblock %}

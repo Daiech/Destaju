@@ -5,11 +5,16 @@ from apps.process_admin.forms import *
 from apps.process_admin.models import *
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-def home(request):
-	return HttpResponse("Welcome")
 
-@login_required(login_url='/account/login')
+@login_required()
+def admin_users(request):
+	users = User.objects.all()
+	return render_to_response("admin_users.html", locals(), context_instance=RequestContext(request))
+
+
+@login_required()
 def create_activity(request):
 	"""Form to create an activity"""
 	if request.method == 'POST':

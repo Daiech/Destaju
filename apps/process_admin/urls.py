@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 process_admin_urls = patterns('apps.process_admin.views',
-    url(r'^$', 'home', name=""),
+    url(r'^administrar_usuarios$', 'admin_users', name="admin_users"),
     url(r'^agregar_actividad$', 'create_activity', name="create_activity")
     # url(r'^', , name=""),
     # url(r'^password/reset/done/$', 'password_reset_done2', name="password_reset_done2"),
