@@ -139,7 +139,7 @@
 			"name":"AD_US_LOGIN",
 			"description":"Permite ingresar a la plataforma",
 			"is_active":1,
-			"user_type": [1, 2, 3, 4, 5, 6],
+			"usertype": [1, 2, 3, 4, 5, 6],
 			"date_added":"2013-09-19 21:28:02",
 			"date_modified":"2013-09-19 21:28:02"
 		}
@@ -152,7 +152,7 @@
 			"name":"AD_US_CHANGE_USER_TYPE",
 			"description":"Usuario que puede asignar tipos de usuario a un usuario",
 			"is_active":1,
-			"user_type": [1, 2],
+			"usertype": [1, 2],
 			"date_added":"2013-09-19 21:39:46",
 			"date_modified":"2013-09-19 21:39:46"
 		}
@@ -165,7 +165,7 @@
 			"name":"AD_US_CREATE",
 			"description":"Puede agregar usuarios",
 			"is_active":1,
-			"user_type": [1, 2],
+			"usertype": [1, 2],
 			"date_added":"2013-09-19 21:52:25",
 			"date_modified":"2013-09-19 21:52:25"
 		}
@@ -178,7 +178,7 @@
 			"name":"AD_US_UPDATE",
 			"description":"Puede actualizar usuarios",
 			"is_active":1,
-			"user_type": [1, 2],
+			"usertype": [1, 2],
 			"date_added":"2013-09-19 21:53:56",
 			"date_modified":"2013-09-19 21:53:56"
 		}
@@ -191,7 +191,7 @@
 			"name":"AD_US_DELETE",
 			"description":"Puede eliminar usuarios",
 			"is_active":1,
-			"user_type": [1, 2],
+			"usertype": [1, 2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -203,7 +203,7 @@
 			"name":"AD_US_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -215,7 +215,7 @@
 			"name":"AD_AC_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -227,7 +227,7 @@
 			"name":"AD_AC_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -239,7 +239,7 @@
 			"name":"AD_AC_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -251,7 +251,7 @@
 			"name":"AD_AC_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -263,7 +263,7 @@
 			"name":"AD_DE_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -275,7 +275,7 @@
 			"name":"AD_DE_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -287,7 +287,7 @@
 			"name":"AD_DE_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -299,7 +299,7 @@
 			"name":"AD_DE_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -311,7 +311,7 @@
 			"name":"OP_GE_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,3],
+			"usertype":[1,2,3],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -323,7 +323,7 @@
 			"name":"OP_GE_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,3],
+			"usertype":[1,2,3],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -335,7 +335,7 @@
 			"name":"OP_GE_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,3],
+			"usertype":[1,2,3],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -347,7 +347,7 @@
 			"name":"OP_GE_DISABLE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,3],
+			"usertype":[1,2,3],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -359,7 +359,7 @@
 			"name":"OP_GE_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,3],
+			"usertype":[1,2,3],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -371,7 +371,7 @@
 			"name":"OP_LL_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,4],
+			"usertype":[1,2,4],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -383,7 +383,7 @@
 			"name":"OP_LL_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,4],
+			"usertype":[1,2,4],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -395,7 +395,7 @@
 			"name":"OP_LL_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,4],
+			"usertype":[1,2,4],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -407,7 +407,7 @@
 			"name":"OP_LL_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,4],
+			"usertype":[1,2,4],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -419,7 +419,7 @@
 			"name":"OP_CA_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,5],
+			"usertype":[1,2,5],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -431,7 +431,7 @@
 			"name":"OP_CA_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,5],
+			"usertype":[1,2,5],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -443,7 +443,7 @@
 			"name":"OP_CA_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,5],
+			"usertype":[1,2,5],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -455,7 +455,7 @@
 			"name":"OP_CA_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,5],
+			"usertype":[1,2,5],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -467,7 +467,7 @@
 			"name":"OP_VE_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -479,7 +479,7 @@
 			"name":"OP_VE_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -491,7 +491,7 @@
 			"name":"OP_VE_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -503,7 +503,7 @@
 			"name":"OP_VE_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,6],
+			"usertype":[1,2,6],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -515,7 +515,7 @@
 			"name":"NO_AD_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -527,7 +527,7 @@
 			"name":"NO_AD_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -539,7 +539,7 @@
 			"name":"NO_AD_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -551,7 +551,7 @@
 			"name":"NO_AD_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -563,7 +563,7 @@
 			"name":"NO_GE_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -575,7 +575,7 @@
 			"name":"NO_GE_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -587,7 +587,7 @@
 			"name":"NO_GE_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -599,7 +599,7 @@
 			"name":"NO_GE_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,6],
+			"usertype":[1,2,6],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -611,7 +611,7 @@
 			"name":"RE_HI_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -623,7 +623,7 @@
 			"name":"RE_HI_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -635,7 +635,7 @@
 			"name":"RE_HI_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -647,7 +647,7 @@
 			"name":"RE_HI_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,6],
+			"usertype":[1,2,6],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -659,7 +659,7 @@
 			"name":"RE_RE_CREATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -671,7 +671,7 @@
 			"name":"RE_RE_UPDATE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -683,7 +683,7 @@
 			"name":"RE_RE_DELETE",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2],
+			"usertype":[1,2],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}
@@ -695,7 +695,7 @@
 			"name":"RE_RE_READ",
 			"description":"...",
 			"is_active":1,
-			"user_type":[1,2,6],
+			"usertype":[1,2,6],
 			"date_added":"2013-09-19 21:57:05",
 			"date_modified":"2013-09-19 21:57:05"
 		}

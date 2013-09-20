@@ -28,7 +28,7 @@ class Permissions(models.Model):
     """Table to define all Permissions."""
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.CharField(max_length=300, verbose_name="description")
-    user_type = models.ManyToManyField(UserType)
+    usertype = models.ManyToManyField(UserType)
 
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
