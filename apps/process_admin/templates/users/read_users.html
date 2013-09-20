@@ -8,6 +8,9 @@
 		<div class="panel-heading">
 			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
 			<div class="text-right">
+				<a  href="{% url 'read_users' %}?workers={% if not is_active_worker %}1{% else %}0{% endif %}" title="" data-toggle="modal" class="btn btn-sm">
+			    	Ver {% if is_active_worker %}in{% endif %}activos
+			    </a>
 				<a  href="#" title="" data-toggle="modal" class="btn btn-primary btn-sm">
 			    	<span class="glyphicon glyphicon-plus"></span> Agregar
 			    </a>
@@ -50,8 +53,8 @@
 					{% endif %}
 				</td>
 				<td class="text-center actions">
-					<a href="" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
-					<a href="" title="Eliminar este usuario" class="btn"><span class="glyphicon glyphicon-remove"></span></a>
+					<a href="{% url 'update_user' u.id %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{% url 'delete_user' u.id %}" title="Eliminar este usuario" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
 				</td>
 			</tr>
 			{% endfor %}
