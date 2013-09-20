@@ -17,6 +17,9 @@ class UserType(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     # objects = UserTypeManager()
 
+    def get_permissions(self):
+        return ", ".join([s.name for s in self.permissions_set.all()])
+
     def __unicode__(self):
         return self.name
 
@@ -39,7 +42,7 @@ class Permissions(models.Model):
         return self.name
 
     def user_types(self):
-        return ", ".join([s.name for s in self.user_type.all()])
+        return ", ".join([s.name for s in self.usertype.all()])
 
     class Meta:
         ordering = ('name',)

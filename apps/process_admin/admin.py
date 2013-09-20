@@ -8,7 +8,7 @@ class EmploymentsAdmin(admin.ModelAdmin):
 
 
 class UserTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'is_active')
+    list_display = ('name', 'description', 'get_permissions', 'is_active')
 
 
 class UserProfileAdmin(admin.ModelAdmin):
