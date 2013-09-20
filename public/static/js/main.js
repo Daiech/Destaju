@@ -13,128 +13,75 @@ if (!(window.console && console.log)) {
 
 // Place any jQuery/helper plugins in here.
 
-function main(){
-    $("#log-sup").on("click", function(e){
-        e.preventDefault();
-        $("#username").focus();
-    });
+function main () {
+    
+}
 
-    //-------------------<letra blanca del perfil on hover>-------------------------//
-    $(".dropdown-menu li.current-user").hover(
-        function(e){
-            $(".content-box *").addClass("color-fff");
-        },
-        function(e){
-            $(".content-box *").removeClass("color-fff");
-        }
-    );
-    //-------------------</letra blanca del perfil on hover>-------------------------//
 
-    //------<No cierra el Menú de login al dar click>---------------/
-    // $(".next-li").focus(function(e){
-    //     $(".dropdown-menu").addClass("disblock");
-    // }).blur(function(e){
-    //     // $(".dropdown-menu").removeClass("disblock")
-    // });
-    //------ </No cierra el Menú de login al dar click>--------------/
-
-    //------ <On Login Submit >--------------/
-    $("#close-login-menu").on("click",function(e){
-        e.preventDefault();
-        $(".dropdown-menu").removeClass("disblock");
-    });
-    //------ </On Login Submit >--------------/
-
-    //----------<On Menu hover>-------------------/
-    $(".navbar-element").hover(function(){
-            $(this).children("div.navbar-item").addClass("navbar-item-hover");
-            $(this).children("div.navbar-button-propierties").css({"height":"15px"}, 100);
-    },function(){
-        if(!$(this).hasClass("menu-active")){
-            $(this).children("div.navbar-item").removeClass("navbar-item-hover");
-            $(this).children("div.navbar-button-propierties").css({"height":"10px"}, 100);
-        }
-    });
-    //----------</On Menu hover>-------------------/
-
-    //----------------<>-------------------/
-    $("#drop-d-menu").on("click",function(){
-        $("#navbar-button-container").slideToggle("fast");
-    });
-    //----------------</>-------------------/
-
-    //----------------<feedback>-------------------/
-    $("#feed-option, #callFeed, #menu-feed").on("click", openFeedBack);
-    $("#close-feed, #cancel-feed").on("click", closeFeedBack);
-    function openFeedBack(e){
-        e.preventDefault();
-        $("#feed-modal").animate({
-            'right':'0px'
-        });
+function fixtures(){
+    var codes = [
+        "AD_US_READ",
+        "AD_AC_CREATE",
+        "AD_AC_UPDATE",
+        "AD_AC_DELETE",
+        "AD_AC_READ",
+        "AD_DE_CREATE",
+        "AD_DE_UPDATE",
+        "AD_DE_DELETE",
+        "AD_DE_READ",
+        "OP_GE_CREATE",
+        "OP_GE_UPDATE",
+        "OP_GE_DELETE",
+        "OP_GE_DISABLE",
+        "OP_GE_READ",
+        "OP_LL_CREATE",
+        "OP_LL_UPDATE",
+        "OP_LL_DELETE",
+        "OP_LL_READ",
+        "OP_CA_CREATE",
+        "OP_CA_UPDATE",
+        "OP_CA_DELETE",
+        "OP_CA_READ",
+        "OP_VE_CREATE",
+        "OP_VE_UPDATE",
+        "OP_VE_DELETE",
+        "OP_VE_READ",
+        "NO_AD_CREATE",
+        "NO_AD_UPDATE",
+        "NO_AD_DELETE",
+        "NO_AD_READ",
+        "NO_GE_CREATE",
+        "NO_GE_UPDATE",
+        "NO_GE_DELETE",
+        "NO_GE_READ",
+        "RE_HI_CREATE",
+        "RE_HI_UPDATE",
+        "RE_HI_DELETE",
+        "RE_HI_READ",
+        "RE_RE_CREATE",
+        "RE_RE_UPDATE",
+        "RE_RE_DELETE",
+        "RE_RE_READ"
+    ]
+    i=0;
+    s = "";
+    for (i;i<codes.length;i++){
+        /*console.log(codes[i]);*/
+        s = s + '{<br>'+
+            '"model": "process_admin.permissions",<br>'+
+            '"pk":' + parseInt(i + 6) + ',<br>'+
+            '"fields":<br>'+
+            '{<br>'+
+                '"name":"'+ codes[i] +'",<br>'+
+                '"description":"...",<br>'+
+                '"is_active":1,<br>'+
+                '"user_type": [1, 2],<br>'+
+                '"date_added":"2013-09-19 21:57:05",<br>'+
+                '"date_modified":"2013-09-19 21:57:05"<br>'+
+            '}<br>'+
+        '},<br>';
     }
-    function closeFeedBack(e) {
-        e.preventDefault();
-        $("#feed-modal").animate({
-            'right':'-505px'
-        });
-    }
-    var num = 0;
-    $("#feed-imput > button.btn").on("click", function(){
-        num = $(this).val();
-        $("#textComent").focus();
-        ph = "";
-        switch(parseInt(num)){
-            case 0 : ph = "Escribenos tus comentarios..."; break;
-            case 1 : ph = "Tienes alguna idea para Actarium? Escribenos."; break;
-            case 2 : ph = "Encontraste un error? Escribenos"; break;
-            case 3 : ph = "Tienes una duda o una pregunta en general?"; break;
-            default: ph = "Error";
-        }
-        $("#textComent").attr({"placeholder": ph});
-    });
-    function enablendButton(e) {
-        if($("#textComent").val().length>0){
-            $("#send-feed-back").removeClass("disabled");
-        }
-        else{
-            $("#send-feed-back").addClass("disabled");
-        }
-    }
-    $("#textComent").on("keyup",enablendButton);
-    $("#send-feed-back").on("click",function(e){
-        e.preventDefault();
-        if(!$(this).hasClass("disabled")){
-            comment = $("#textComent");
-            mail = $("#fb-email");
-            params = {"rate": num, "comment": comment.val(), "email": mail.val()}
-            $("#send-feed-back").addClass("disabled");
-            sendAjax("/feed-back",params, "#load-feed-back", function(data) {
-                console.log(data)
-                if(data['error']){
-                    $("#send-feed-back").removeClass("disabled");
-                    mail.focus().parent().addClass("error")
-                }
-                else{
-                    setAlertMessage("Muchas gracias", "Tu mensaje ha sido enviado, te agradecemos por escribirnos y esperamos poder responderte pronto.")
-                    comment.val("");
-                    mail.parent().removeClass("error");
-                    $("#feed-imput > button.btn").removeClass("active");
-                    closeFeedBack(e);  
-                }
-            });//sendAjax
-        }
-    });
-    //----------------</feedback>-------------------/
-
-    //terms cheched
-    $("#term_privacy").on("change", function(){
-        if($(this).is(':checked')){
-            $("#btn-submit").attr("disabled", false)
-        } else {
-            $("#btn-submit").attr("disabled", true)
-        }
-    });
-
+    console.log(s);
 }
 
 

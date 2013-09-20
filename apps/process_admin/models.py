@@ -42,7 +42,7 @@ class Permissions(models.Model):
         return ", ".join([s.name for s in self.user_type.all()])
 
     class Meta:
-        ordering = ('date_added',)
+        ordering = ('name',)
 
 
 class Employments(models.Model):
