@@ -10,7 +10,7 @@ users = patterns('apps.process_admin.views',
 )
 
 activities = patterns('apps.process_admin.views',
-    url(r'^agregar_actividad$', 'create_activity', name="create_activity"),
+    url(r'^agregar-actividad$', 'create_activity', name="create_activity"),
     url(r'^editar-actividad/(?P<id_activity>[0-9]+)', 'update_activity', name="update_activity"),
     url(r'^eliminar-actividad/(?P<id_activity>[0-9]+)', 'delete_activity', name="delete_activity")
 )

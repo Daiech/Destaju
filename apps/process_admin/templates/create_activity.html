@@ -58,8 +58,13 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Agregar Actividad</h3>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>
+				{% if form_mode == "_create" %}
+					Agregar Actividad
+				{% elif form_mode ==  "_update" %}
+					Editar Actividad
+				{% endif %}
+				</h3>
 			</div>
 			<form method = "POST"  enctype="multipart/form-data" id="ActivityForm">
 			<div class="modal-body">
@@ -70,11 +75,11 @@
 				</table>
 			</div>
 			<div class="modal-footer">
-				{% if form_mode == "_save" %}
-				<button type="submit" class="btn btn-primary" name="_addanother">Guardar y agregar otro</button>
+				{% if form_mode == "_create" %}
+				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
 				{% endif %}		        
-		        <button type="submit" class="btn btn-primary" name="_save">Guardar</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
 		    </div>
 		    </form>
 		</div>
@@ -97,6 +102,11 @@
 				$('#ActivityFormModal').modal('show')
 		{% endif %}
 		$("span").tooltip();
+		{% if form_mode ==  "_update" %}
+			$(".close-modal").on('click', function(){
+				top.location ="{% url 'create_activity' %}";
+			});
+		{% endif %}
 	});
 </script>
 {% endblock %}

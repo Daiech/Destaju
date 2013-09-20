@@ -61,11 +61,11 @@ def create_activity(request):
 			form = ActivityForm()
 		else:
 				show_form = True
-		if '_addanother' in request.POST:
+		if '_createanother' in request.POST:
 			show_form = True
 	else:
 		form  = ActivityForm() 
-	form_mode  = "_save"
+	form_mode  = "_create"
 	activities = Activities.objects.get_active()
 	return render_to_response('create_activity.html', locals(), context_instance=RequestContext(request))
 
@@ -84,7 +84,7 @@ def update_activity(request, id_activity):
 	else:
 		show_form = True
 		form = ActivityForm(instance=act)
-	form_mode = "_edit"
+	form_mode = "_update"
 	activities = Activities.objects.get_active()
 	return render_to_response("create_activity.html", locals(), context_instance=RequestContext(request))
 
