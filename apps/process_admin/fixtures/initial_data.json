@@ -1,0 +1,703 @@
+[
+	{
+		"model": "process_admin.employments",
+		"pk":1,
+		"fields":
+		{
+			"name":"Administrativo",
+			"description":"Usuario administrativo de la empresa",
+			"is_active":1,
+			"date_added":"2013-09-19 20:55:33",
+			"date_modified":"2013-09-19 20:55:33"
+		}
+	},
+	{
+		"model": "process_admin.employments",
+		"pk":2,
+		"fields":
+		{
+			"name":"Cortero",
+			"description":"Corta cosas",
+			"is_active":1,
+			"date_added":"2013-09-19 20:56:14",
+			"date_modified":"2013-09-19 20:56:14"
+		}
+	},
+	{
+		"model": "process_admin.employments",
+		"pk":3,
+		"fields":
+		{
+			"name":"Lancero",
+			"description":"lanza cosas",
+			"is_active":1,
+			"date_added":"2013-09-19 20:56:32",
+			"date_modified":"2013-09-19 20:56:32"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":1,
+		"fields":
+		{
+			"name":"1. Super Admin",
+			"description":"Super administrador de la plataforma",
+			"is_active":1,
+			"date_added":"2013-09-19 21:01:11",
+			"date_modified":"2013-09-19 21:47:27"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":2,
+		"fields":
+		{
+			"name":"2. Admin",
+			"description":"Administrador de la plataforma",
+			"is_active":1,
+			"date_added":"2013-09-19 21:01:26",
+			"date_modified":"2013-09-19 21:48:06"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":3,
+		"fields":
+		{
+			"name":"3. Supervisor 1",
+			"description":"Supervisor de la plataforma",
+			"is_active":1,
+			"date_added":"2013-09-19 21:01:45",
+			"date_modified":"2013-09-19 21:48:21"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":4,
+		"fields":
+		{
+			"name":"4. Supervisor 2",
+			"description":"Supervisor 2 de la plataforma",
+			"is_active":1,
+			"date_added":"2013-09-19 21:26:47",
+			"date_modified":"2013-09-19 21:48:30"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":5,
+		"fields":
+		{
+			"name":"5. Supervisor 3",
+			"description":"Supervisor 3 de la plataforma",
+			"is_active":1,
+			"date_added":"2013-09-19 21:27:08",
+			"date_modified":"2013-09-19 21:48:55"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":6,
+		"fields":
+		{
+			"name":"6. Consultor",
+			"description":"Consulta reportes en la plataforma",
+			"is_active":1,
+			"date_added":"2013-09-19 21:27:47",
+			"date_modified":"2013-09-19 21:49:03"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":7,
+		"fields":
+		{
+			"name":"7. Empleado",
+			"description":"Empleado de la plataforma",
+			"is_active":1,
+			"date_added":"2013-09-19 21:01:59",
+			"date_modified":"2013-09-19 21:49:16"
+		}
+	},
+	{
+		"model": "process_admin.usertype",
+		"pk":8,
+		"fields":
+		{
+			"name":"8. Proveedor",
+			"description":"Proveedor de la planta",
+			"is_active":1,
+			"date_added":"2013-09-19 21:02:53",
+			"date_modified":"2013-09-19 21:50:47"
+		}
+	},
+	{
+		"model": "process_admin.permissions",
+		"pk":1,
+		"fields":
+		{
+			"name":"AD_US_LOGIN",
+			"description":"Permite ingresar a la plataforma",
+			"is_active":1,
+			"usertype": [1, 2, 3, 4, 5, 6],
+			"date_added":"2013-09-19 21:28:02",
+			"date_modified":"2013-09-19 21:28:02"
+		}
+	},
+	{
+		"model": "process_admin.permissions",
+		"pk":2,
+		"fields":
+		{
+			"name":"AD_US_CHANGE_USER_TYPE",
+			"description":"Usuario que puede asignar tipos de usuario a un usuario",
+			"is_active":1,
+			"usertype": [1, 2],
+			"date_added":"2013-09-19 21:39:46",
+			"date_modified":"2013-09-19 21:39:46"
+		}
+	},
+	{
+		"model": "process_admin.permissions",
+		"pk":3,
+		"fields":
+		{
+			"name":"AD_US_CREATE",
+			"description":"Puede agregar usuarios",
+			"is_active":1,
+			"usertype": [1, 2],
+			"date_added":"2013-09-19 21:52:25",
+			"date_modified":"2013-09-19 21:52:25"
+		}
+	},
+	{
+		"model": "process_admin.permissions",
+		"pk":4,
+		"fields":
+		{
+			"name":"AD_US_UPDATE",
+			"description":"Puede actualizar usuarios",
+			"is_active":1,
+			"usertype": [1, 2],
+			"date_added":"2013-09-19 21:53:56",
+			"date_modified":"2013-09-19 21:53:56"
+		}
+	},
+	{
+		"model": "process_admin.permissions",
+		"pk":5,
+		"fields":
+		{
+			"name":"AD_US_DELETE",
+			"description":"Puede eliminar usuarios",
+			"is_active":1,
+			"usertype": [1, 2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":6,
+		"fields":{
+			"name":"AD_US_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":7,
+		"fields":{
+			"name":"AD_AC_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":8,
+		"fields":{
+			"name":"AD_AC_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":9,
+		"fields":{
+			"name":"AD_AC_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":10,
+		"fields":{
+			"name":"AD_AC_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":11,
+		"fields":{
+			"name":"AD_DE_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":12,
+		"fields":{
+			"name":"AD_DE_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":13,
+		"fields":{
+			"name":"AD_DE_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":14,
+		"fields":{
+			"name":"AD_DE_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":15,
+		"fields":{
+			"name":"OP_GE_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,3],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":16,
+		"fields":{
+			"name":"OP_GE_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,3],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":17,
+		"fields":{
+			"name":"OP_GE_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,3],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":18,
+		"fields":{
+			"name":"OP_GE_DISABLE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,3],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":19,
+		"fields":{
+			"name":"OP_GE_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,3],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":20,
+		"fields":{
+			"name":"OP_LL_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,4],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":21,
+		"fields":{
+			"name":"OP_LL_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,4],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":22,
+		"fields":{
+			"name":"OP_LL_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,4],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":23,
+		"fields":{
+			"name":"OP_LL_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,4],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":24,
+		"fields":{
+			"name":"OP_CA_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,5],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":25,
+		"fields":{
+			"name":"OP_CA_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,5],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":26,
+		"fields":{
+			"name":"OP_CA_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,5],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":27,
+		"fields":{
+			"name":"OP_CA_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,5],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":28,
+		"fields":{
+			"name":"OP_VE_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":29,
+		"fields":{
+			"name":"OP_VE_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":30,
+		"fields":{
+			"name":"OP_VE_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":31,
+		"fields":{
+			"name":"OP_VE_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,6],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":32,
+		"fields":{
+			"name":"NO_AD_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":33,
+		"fields":{
+			"name":"NO_AD_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":34,
+		"fields":{
+			"name":"NO_AD_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":35,
+		"fields":{
+			"name":"NO_AD_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":36,
+		"fields":{
+			"name":"NO_GE_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":37,
+		"fields":{
+			"name":"NO_GE_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":38,
+		"fields":{
+			"name":"NO_GE_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":39,
+		"fields":{
+			"name":"NO_GE_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,6],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":40,
+		"fields":{
+			"name":"RE_HI_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":41,
+		"fields":{
+			"name":"RE_HI_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":42,
+		"fields":{
+			"name":"RE_HI_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":43,
+		"fields":{
+			"name":"RE_HI_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,6],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":44,
+		"fields":{
+			"name":"RE_RE_CREATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":45,
+		"fields":{
+			"name":"RE_RE_UPDATE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":46,
+		"fields":{
+			"name":"RE_RE_DELETE",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	},
+	{
+		"model":"process_admin.permissions",
+		"pk":47,
+		"fields":{
+			"name":"RE_RE_READ",
+			"description":"...",
+			"is_active":1,
+			"usertype":[1,2,6],
+			"date_added":"2013-09-19 21:57:05",
+			"date_modified":"2013-09-19 21:57:05"
+		}
+	}
+]
