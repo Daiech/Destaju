@@ -40,7 +40,7 @@
 		"pk":1,
 		"fields":
 		{
-			"name":"1. Super Admin",
+			"name":"Super Admin",
 			"description":"Super administrador de la plataforma",
 			"is_active":1,
 			"date_added":"2013-09-19 21:01:11",
@@ -52,7 +52,7 @@
 		"pk":2,
 		"fields":
 		{
-			"name":"2. Admin",
+			"name":"Admin",
 			"description":"Administrador de la plataforma",
 			"is_active":1,
 			"date_added":"2013-09-19 21:01:26",
@@ -64,7 +64,7 @@
 		"pk":3,
 		"fields":
 		{
-			"name":"3. Supervisor 1",
+			"name":"Supervisor 1",
 			"description":"Supervisor de la plataforma",
 			"is_active":1,
 			"date_added":"2013-09-19 21:01:45",
@@ -76,7 +76,7 @@
 		"pk":4,
 		"fields":
 		{
-			"name":"4. Supervisor 2",
+			"name":"Supervisor 2",
 			"description":"Supervisor 2 de la plataforma",
 			"is_active":1,
 			"date_added":"2013-09-19 21:26:47",
@@ -88,7 +88,7 @@
 		"pk":5,
 		"fields":
 		{
-			"name":"5. Supervisor 3",
+			"name":"Supervisor 3",
 			"description":"Supervisor 3 de la plataforma",
 			"is_active":1,
 			"date_added":"2013-09-19 21:27:08",
@@ -100,7 +100,7 @@
 		"pk":6,
 		"fields":
 		{
-			"name":"6. Consultor",
+			"name":"Consultor",
 			"description":"Consulta reportes en la plataforma",
 			"is_active":1,
 			"date_added":"2013-09-19 21:27:47",
@@ -112,7 +112,7 @@
 		"pk":7,
 		"fields":
 		{
-			"name":"7. Empleado",
+			"name":"Empleado",
 			"description":"Empleado de la plataforma",
 			"is_active":1,
 			"date_added":"2013-09-19 21:01:59",
