@@ -9,16 +9,40 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-@login_required()
-def read_users(request):
+
+def get_users_by_workers(request):
+	"""Return all User objects depending of GET var 'workers'"""
 	is_active_worker = True
+	w = None
 	if request.method == "GET" and 'workers' in request.GET:
 		try:
 			w = int(request.GET.get("workers"))
-		except Exception:
+		except Exception, e:
+			print "Exception: ",e
 			w = 1
 		is_active_worker = bool(w)
 	users = User.objects.filter(userprofile__is_active_worker=is_active_worker, userprofile__is_active=True)
+	return users, is_active_worker
+
+
+@login_required()
+def read_users(request):
+	from apps.account.forms import UserForm
+	if request.method == 'POST':
+		form  = UserForm(request.POST)
+		if form.is_valid():
+			_user = form.save()
+			_up = UserProfile(id_user=_user)
+			_up.save()
+			form = UserForm()
+		else:
+			show_form = True
+		if '_createanother' in request.POST:
+			show_form = True
+	else:
+		form  = UserForm()
+	form_mode  = "_create"
+	users, is_active_worker = get_users_by_workers(request)
 	return render_to_response("users/read_users.html", locals(), context_instance=RequestContext(request))
 
 
@@ -36,8 +60,26 @@ def read_user(request, id_user):
 
 @login_required()
 def update_user(request, id_user):
-	users = User.objects.all()
-	return render_to_response("update_user.html", locals(), context_instance=RequestContext(request))
+	_user = get_object_or_404(User, pk=id_user)
+	users, is_active_worker = get_users_by_workers(request)
+	from apps.account.forms import UserForm
+	if request.method == "POST":
+		form = UserForm(request.POST, instance=_user)
+		if form.is_valid():
+			form.save()
+			w=1
+			try:
+				w = int(request.GET.get("workers"))
+			except Exception:
+				w = 1
+			return HttpResponseRedirect(reverse(read_users) + "?workers=" + str(w))
+		else:
+			show_form = True
+	else:
+		show_form = True
+		form = UserForm(instance=_user)
+	form_mode = "_update"
+	return render_to_response("users/read_users.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()

@@ -81,11 +81,11 @@ class UserProfile(models.Model):
     cell_phone = models.CharField(max_length=150, verbose_name="cell_phone")
     city = models.CharField(max_length=150, verbose_name="city")
     address = models.CharField(max_length=150, verbose_name="address")
-    date_born = models.DateField()
+    date_born = models.DateField(null=True)
     is_active_worker = models.BooleanField(default=True)
 
     id_user = models.OneToOneField(User)
-    id_user_type = models.ForeignKey(UserType)
+    id_user_type = models.ForeignKey(UserType, null=True)
     id_employment = models.ForeignKey(Employments, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
