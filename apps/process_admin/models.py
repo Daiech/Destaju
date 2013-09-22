@@ -33,7 +33,7 @@ class UserType(models.Model):
         return self.name
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('pk',)
 
 
 class Permissions(models.Model):
@@ -71,7 +71,7 @@ class Employments(models.Model):
         return self.name
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('id',)
 
 
 class UserProfile(models.Model):

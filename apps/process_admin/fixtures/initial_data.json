@@ -124,7 +124,7 @@
 		"pk":8,
 		"fields":
 		{
-			"name":"8. Proveedor",
+			"name":"Proveedor",
 			"description":"Proveedor de la planta",
 			"is_active":1,
 			"date_added":"2013-09-19 21:02:53",

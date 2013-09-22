@@ -242,8 +242,8 @@ def personalData(request):
                 print "Multiples objetos retornados, error en la base de datos, se debe revizar"
                 error_email = True
                 update = False
-            except:
-                print "Error desconocido"
+            except Exception, e:
+                print "Error desconocido: ", e
                 error_email = True
                 update = False
         else:
