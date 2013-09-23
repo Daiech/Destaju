@@ -14,4 +14,17 @@ activities = patterns('apps.process_admin.views',
     url(r'^editar-actividad/(?P<id_activity>[0-9]+)', 'update_activity', name="update_activity"),
     url(r'^eliminar-actividad/(?P<id_activity>[0-9]+)', 'delete_activity', name="delete_activity")
 )
-process_admin_urls = users + activities
+
+legal_discounts = patterns('apps.process_admin.views',
+    url(r'^descuentos-legales$', 'create_legal_discounts', name="create_legal_discounts"),
+    url(r'^editar-descuento-legal/(?P<id_legal_discount>[0-9]+)', 'update_legal_discount', name="update_legal_discount"),
+    url(r'^eliminar-descuento-legal/(?P<id_legal_discount>[0-9]+)', 'delete_legal_discount', name="delete_legal_discount")
+)
+
+general_discounts = patterns('apps.process_admin.views',
+    url(r'^descuentos-generales$', 'create_general_discounts', name="create_general_discounts"),
+    url(r'^editar-descuento-general/(?P<id_general_discount>[0-9]+)', 'update_general_discount', name="update_general_discount"),
+    url(r'^eliminar-descuento-general/(?P<id_general_discount>[0-9]+)', 'delete_general_discount', name="delete_general_discount")
+)
+
+process_admin_urls = users + activities + legal_discounts + general_discounts

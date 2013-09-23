@@ -16,6 +16,24 @@ class ActivitiesManager(models.Manager):
         return self.filter(is_active=True).order_by('-date_modified')
 
 
+class LegalDiscountsManager(models.Manager):
+    
+    def get_available(self):
+        return self.filter(is_active=True, is_available=True).order_by('-date_modified')
+    
+    def get_active(self):
+        return self.filter(is_active=True).order_by('-date_modified')
+    
+    
+class GeneralDiscountsManager(models.Manager):
+    
+    def get_available(self):
+        return self.filter(is_active=True, is_available=True).order_by('-date_modified')
+    
+    def get_active(self):
+        return self.filter(is_active=True).order_by('-date_modified')
+    
+
 class UserType(models.Model):
     """Table necessary for create an user account, This serves to validate the email."""
     name = models.CharField(max_length=150, verbose_name="name")
@@ -114,3 +132,33 @@ class Activities(models.Model):
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
 
+class LegalDiscounts(models.Model):
+    code = models.CharField(max_length=30, verbose_name="code")
+    name = models.CharField(max_length=150, verbose_name="name")
+    description = models.TextField(blank=True)
+    value = models.CharField(max_length=50, verbose_name="value")
+    id_user = models.ForeignKey(
+        User,  null=False, related_name='%(class)s_id_user') 
+    is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    objects = LegalDiscountsManager()
+    
+    def __unicode__(self):
+        return "%s - %s: %s" % (self.code, self.name, self.value)
+
+class GeneralDiscounts(models.Model):
+    code = models.CharField(max_length=30, verbose_name="code")
+    name = models.CharField(max_length=150, verbose_name="name")
+    description = models.TextField(blank=True)
+    id_user = models.ForeignKey(
+        User,  null=False, related_name='%(class)s_id_user') 
+    is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    objects = GeneralDiscountsManager()
+    
+    def __unicode__(self):
+        return "%s - %s: %s" % (self.code, self.name, self.value)

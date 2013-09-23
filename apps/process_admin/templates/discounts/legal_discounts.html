@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block TITLE %}Administracion de descuentos legales{% endblock %}
+{% block content %}
+<div class="page-header">
+ 	<h1>DESCUENTOS LEGALES <small>Administrar los descuentos legales</small> 
+  		
+	</h1>
+</div>
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title pull-left">Gesti&oacute;n de descuentos legales</h3>
+		<div class="text-right">
+			<a  href="#ActivityFormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary">
+    			<span class="glyphicon glyphicon-plus"></span> Agregar
+    		</a>
+		</div>
+	</div>
+	<table id="legalDiscountsTable" class="table table-hover table-condensed table-striped ">
+		<thead>
+		<tr>
+			<th>Estado</th>
+			<th>C&oacute;digo</th>
+			<th>Nombre</th>
+			<th>Descripci&oacute;n</th>
+			<th>Porcentaje</th>
+			<th>Fecha Creaci&oacute;n</th>
+			<th>Fecha Ultima modificaci&oacute;n</th>
+			<th>Acciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for a in legal_discounts_list %}
+		
+		<tr>
+			<td class="text-center">{% if a.is_available %}
+				<span title="Este descuento se encuentra disponible actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
+				<span title="Este descuento no se encuentra activa actualmente 
+							y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-ban-circle" ></span>
+				{% endif %}
+			</td>
+			<td >{{a.code}}</td>
+			<td>{{a.name}}</td>
+			<td>{{a.description}}</td>
+			<td>${{a.value}}</td>
+			<td>{{a.date_added}}</td>
+			<td>{{a.date_modified}}</td>
+			<td class="text-center actions">
+				<a href="{% url 'update_legal_discount' a.id %}" title="Editar este descuento legal" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a href="{% url 'delete_legal_discount' a.id %}" title="Eliminar este descuento legal" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+</div>
+
+<div class="modal fade" id="ActivityFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>
+				{% if form_mode == "_create" %}
+					Agregar Actividad
+				{% elif form_mode ==  "_update" %}
+					Editar Actividad
+				{% endif %}
+				</h3>
+			</div>
+			<form method = "POST"  enctype="multipart/form-data" id="ActivityForm">
+			<div class="modal-body">
+				
+				{% csrf_token %}
+				<table>
+				{{ form }}
+				</table>
+			</div>
+			<div class="modal-footer">
+				{% if form_mode == "_create" %}
+				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+				{% endif %}		        
+		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		    </div>
+		    </form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		{% if show_form %}
+				$('#ActivityFormModal').modal('show')
+		{% endif %}
+		$("span").tooltip();
+		{% if form_mode ==  "_update" %}
+			$(".close-modal").on('click', function(){
+				top.location ="{% url 'create_activity' %}";
+			});
+		{% endif %}
+
+		/* dataTables jQuery plugin activation setDataTables(id_table)*/
+		setDataTables('#legalDiscountsTable')
+		
+	});
+</script>
+{% endblock %}

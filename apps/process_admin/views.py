@@ -124,16 +124,16 @@ def create_activity(request):
 	else:
 		form  = ActivityForm() 
 	form_mode  = "_create"
-	activities = Activities.objects.get_active()
-	return render_to_response('create_activity.html', locals(), context_instance=RequestContext(request))
+	activities_list = Activities.objects.get_active()
+	return render_to_response('activities/create_activity.html', locals(), context_instance=RequestContext(request))
 
 
 @login_required()
 def update_activity(request, id_activity):
 	"""Manage activities"""
-	act = get_object_or_404(Activities, pk = id_activity)
+	_activity = get_object_or_404(Activities, pk = id_activity)
 	if request.method == "POST":
-		form = ActivityForm(request.POST, instance=act)
+		form = ActivityForm(request.POST, instance=_activity)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect(reverse(create_activity))
@@ -141,22 +141,120 @@ def update_activity(request, id_activity):
 			show_form = True
 	else:
 		show_form = True
-		form = ActivityForm(instance=act)
+		form = ActivityForm(instance=_activity)
 	form_mode = "_update"
-	activities = Activities.objects.get_active()
-	return render_to_response("create_activity.html", locals(), context_instance=RequestContext(request))
+	activities_list = Activities.objects.get_active()
+	return render_to_response("activities/create_activity.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()
 def delete_activity(request, id_activity):
 	"""Logical deletion of activities"""
-	act = get_object_or_404(Activities, pk = id_activity)
-	act.is_active=False
-	act.save()
+	_activity = get_object_or_404(Activities, pk = id_activity)
+	_activity.is_active=False
+	_activity.save()
 	return HttpResponseRedirect(reverse(create_activity))
 	
-	
-	
+@login_required()
+def create_legal_discounts(request):
+	"""Form to create legal discounts"""
+	if request.method == 'POST':
+		form  = LegalDiscountForm(request.POST)
+		if form.is_valid():
+			legal_discount = form.save(commit=False)
+			legal_discount.id_user = request.user
+			legal_discount.save()
+			form = LegalDiscountForm()
+		else:
+				show_form = True
+		if '_createanother' in request.POST:
+			show_form = True
+	else:
+		form  = LegalDiscountForm() 
+	form_mode  = "_create"
+	legal_discounts_list = LegalDiscounts.objects.get_active()
+	return render_to_response('discounts/legal_discounts.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def update_legal_discount(request, id_legal_discount):
+	"""Manage legal discounts"""
+	_legal_discount = get_object_or_404(LegalDiscounts, pk = id_legal_discount)
+	if request.method == "POST":
+		form = LegalDiscountForm(request.POST, instance=_legal_discount)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse(create_legal_discounts))
+		else:
+			show_form = True
+	else:
+		show_form = True
+		form = LegalDiscountForm(instance=_legal_discount)
+	form_mode = "_update"
+	legal_discounts_list = LegalDiscounts.objects.get_active()
+	return render_to_response("discounts/legal_discounts.html", locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def delete_legal_discount(request, id_legal_discount):
+	"""Logical deletion of legal discounts"""
+	_legal_discount = get_object_or_404(LegalDiscounts, pk = id_legal_discount)
+	_legal_discount.is_active=False
+	_legal_discount.save()
+	return HttpResponseRedirect(reverse(create_legal_discounts))
+
+
+@login_required()
+def create_general_discounts(request):
+	"""Form to create general discounts"""
+	if request.method == 'POST':
+		form  = GeneralDiscountForm(request.POST)
+		if form.is_valid():
+			general_discount = form.save(commit=False)
+			general_discount.id_user = request.user
+			try:
+				general_discount.save()
+				print "es valido"
+			except:
+				print "error guardando"
+			form = GeneralDiscountForm()
+		else:
+				show_form = True
+		if '_createanother' in request.POST:
+			show_form = True
+	else:
+		form  = GeneralDiscountForm() 
+	form_mode  = "_create"
+	general_discounts_list = GeneralDiscounts.objects.get_active()
+	return render_to_response('discounts/general_discounts.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def update_general_discount(request, id_general_discount):
+	"""Manage general discounts"""
+	_general_discount = get_object_or_404(GeneralDiscounts, pk = id_general_discount)
+	if request.method == "POST":
+		form = GeneralDiscountForm(request.POST, instance=_general_discount)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse(create_general_discounts))
+		else:
+			show_form = True
+	else:
+		show_form = True
+		form = GeneralDiscountForm(instance=_general_discount)
+	form_mode = "_update"
+	general_discounts_list = GeneralDiscounts.objects.get_active()
+	return render_to_response("discounts/general_discounts.html", locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def delete_general_discount(request, id_general_discount):
+	"""Logical deletion of general discounts"""
+	_general_discount = get_object_or_404(GeneralDiscounts, pk = id_general_discount)
+	_general_discount.is_active=False
+	_general_discount.save()
+	return HttpResponseRedirect(reverse(create_general_discounts))
 	
 	
 	
