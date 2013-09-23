@@ -36,8 +36,8 @@
         <li>
           <a href="{% url 'log_out' %}" class="alert-link">Cerrar sesi&oacute;n</a>
         </li>
-        <li>
-          <a href="{% url 'personal_data' %}">
+        <li class="btn-account">
+          <a href="{% url 'personal_data' %}">{{ user.username }}
            <img src="{{ user.email|showgravatar:'18'}}" width="18px" />
           </a>
         </li>

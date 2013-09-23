@@ -103,7 +103,12 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		{% if show_form %}
-				$('#usersForm').modal('show')
+				$('#usersForm').modal('show');
+		{% endif %}
+		{% if form_mode == "_update" %}
+			$('#usersForm').on('hidden.bs.modal', function () {
+			  	top.location = "{% url 'read_users' %}"
+			});
 		{% endif %}
 		$("span").tooltip();
 	});
