@@ -28,14 +28,14 @@ class RegisterForm(UserCreationForm):
 
 class UserForm(forms.ModelForm):
     email = forms.EmailField(label="Correo Electrónico", widget=forms.TextInput(attrs={'placeholder': 'Email', "class": "form-control", 'type': 'email'}))
-    username = forms.CharField(label="Nombre de usuario", widget=forms.TextInput(attrs={'placeholder': 'Username', "class": "form-control"}))
+    # username = forms.CharField(label="Nombre de usuario", widget=forms.TextInput(attrs={'placeholder': 'Username', "class": "form-control"}))
     first_name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre', "class": "form-control", "autofocus": "true"}))
     last_name = forms.CharField(label="Apellido", widget=forms.TextInput(attrs={'placeholder': 'Apellido', "class": "form-control"}))
 
     class Meta:
         model = User
         unique = ('email')
-        fields = ('first_name', 'last_name', 'username', 'email')
+        fields = ('first_name', 'last_name', 'email')
 
     def save(self):
         print self.cleaned_data["email"]
