@@ -54,12 +54,6 @@ def read_users(request):
 
 
 @login_required()
-def create_user(request):
-	users = User.objects.all()
-	return render_to_response("create_user.html", locals(), context_instance=RequestContext(request))
-
-
-@login_required()
 def read_user(request, id_user):
 	users = User.objects.all()
 	return render_to_response("read_user.html", locals(), context_instance=RequestContext(request))
@@ -74,7 +68,6 @@ def update_user(request, id_user):
 	if request.method == "POST":
 		user_form  = UserForm(request.POST, instance=_user)
 		userprofile_form  = UserProfileForm(request.POST, instance=_user)
-		print request.POST
 		u = user_form.is_valid()
 		up = userprofile_form.is_valid()
 		if u and up:
@@ -93,7 +86,7 @@ def update_user(request, id_user):
 	else:
 		show_form = True
 		user_form  = UserForm(instance=_user)
-		userprofile_form  = UserProfileForm(instance=_user)
+		userprofile_form  = UserProfileForm(instance=_user.userprofile)
 	form_mode = "_update"
 	return render_to_response("users/read_users.html", locals(), context_instance=RequestContext(request))
 

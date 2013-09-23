@@ -10,6 +10,7 @@
     width:50%;
     z-index: 10000;
 }
+.btn-account{border-right: solid thin #dadada;border-left: solid thin #dadada;}
 .white-box-container{border-radius: 3px; border:solid thin #dadada;display:inline-block; padding: 15px;width: auto;}
 .t-center{text-align:center}
 input[type="text"], input[type="password"], input[type="url"], input[type="email"], input[type="tel"]{display: block;

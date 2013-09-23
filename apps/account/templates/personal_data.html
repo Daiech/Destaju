@@ -18,26 +18,31 @@
             {% csrf_token %}
             <table class="">
                 <tr>
-                    <th colspan="2" class="t-center">Tus datos</th>
+                    <th colspan="2" class="text-center">Tus datos <hr> </th>
                 </tr>
                 {{formUser}}
                 <tr>
-                    <td colspan="2" class="t-center"><img src="{{ user.email|showgravatar:'28'}}" alt="Avatar" width="28px"> Cambia tu avatar en <a href="http://gravatar.com/" target="_blank">Gravatar.com</a>.</td>
+                    <td colspan="2" class="gravatar"><img src="{{ user.email|showgravatar:'28'}}" alt="Avatar" width="28px"> Cambia tu avatar en <a href="http://gravatar.com/" target="_blank">Gravatar.com</a>.</td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="t-center"><hr>
-                        <a class="btn btn-default" href="{% url 'change_password' %}">Cambiar contrase&ntilde;a</a>
-                        <button type="submit" class="btn btn-success">
+                    <td colspan="2" class="">
+                        <hr>
+                        <a class="btn btn-link" href="{% url 'change_password' %}">Cambiar contrase&ntilde;a</a>
+                        <button type="submit" class="btn btn-success pull-right">
                             Actualizar Datos
                         </button>
                     </td>
                 </tr>
-
+                <tr>
+                    <td colspan="2" >
+                        <hr>
+                        <p class=""><strong>Nota:</strong> Todos los datos son de caracter obligatorio.</p>
+                    </td>
+                </tr>
             </table>
 
         </form>
     </div>
-    <p class="">Los datos con * son de caracter obligatorio.</p>
     <hr>
 
     <p>Eres miembro desde el {{ user.date_joined }} </p>
@@ -51,6 +56,7 @@
 {% block style %}
 <style>
 	td{padding-left:7px;}
+    .gravatar{padding-left: 0;}
     article p{font-size: 12px;line-height: 1;margin: 5px;}
 
     li hr{
