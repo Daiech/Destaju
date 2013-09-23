@@ -67,7 +67,7 @@ def update_user(request, id_user):
 	from apps.process_admin.forms import UserProfileForm
 	if request.method == "POST":
 		user_form  = UserForm(request.POST, instance=_user)
-		userprofile_form  = UserProfileForm(request.POST, instance=_user)
+		userprofile_form  = UserProfileForm(request.POST, instance=_user.userprofile)
 		u = user_form.is_valid()
 		up = userprofile_form.is_valid()
 		if u and up:
