@@ -127,4 +127,23 @@ function sendAjax(url, params, load_elem, myCallback){
         }
     );
 }
+function setDataTables(id_table){
+	var oTable = $(id_table).dataTable( {
+		"oLanguage": {
+			"sLengthMenu": "Mostrar _MENU_ registros",
+			"sZeroRecords": "No hay datos para mostrar",
+			"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+			"sInfoEmpty": "Mostrando 0 a 0 de 0 registros",
+			"sInfoFiltered": "(filtro de _MAX_ registros en total)",
+			"sSearch": "Buscar _INPUT_",
+			"oPaginate": {
+		        "sFirst": "Primera",
+		        "sLast": "Ultima",
+		        "sNext": "Siguiente",
+		        "sPrevious": "Anterior"
+		        	
+		      }
+			}
+		} );
+}
 $(document).ready(main);

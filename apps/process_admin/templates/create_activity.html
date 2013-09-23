@@ -18,7 +18,8 @@
    			</a>
 		</div>
 	</div>
-	<table class="table table-hover table-condensed table-striped ">
+	<table id="activitiesTable" class="table table-hover table-condensed table-striped ">
+		<thead>
 		<tr>
 			<th>Estado</th>
 			<th>C&oacute;digo</th>
@@ -30,7 +31,10 @@
 			<th>Fecha Ultima modificaci&oacute;n</th>
 			<th>Acciones</th>
 		</tr>
+		</thead>
+		<tbody>
 		{% for a in activities %}
+		
 		<tr>
 			<td class="text-center">{% if a.is_available %}
 				<span title="Esta actividad se lista actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
@@ -51,6 +55,7 @@
 			</td>
 		</tr>
 	{% endfor %}
+	</tbody>
 	</table>
 </div>
 
@@ -107,6 +112,10 @@
 				top.location ="{% url 'create_activity' %}";
 			});
 		{% endif %}
+
+		/* dataTables jQuery plugin activation setDataTables(id_table)*/
+		setDataTables('#activitiesTable')
+		
 	});
 </script>
 {% endblock %}
