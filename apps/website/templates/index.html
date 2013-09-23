@@ -1,28 +1,53 @@
-{% extends "base.html" %}
-{% block TITLE %}Inicio{% endblock %}
-{% block content %}
-<div class="page-header">
-  <h1>{{ PROJECT_NAME }} <small>{{ PROJECT_DESCRIPTION }}</small></h1>
-</div>
-<p class="lead">Bienvendo a {{ PROJECT_NAME }}. Debes iniciar sesi&oacute;n para acceder.</p>
-<div class="">
-	<form class="form-signin" method="post" action="{% url 'log_in' %}">
-		<h2 class="form-signin-heading">Iniciar sesi&oacute;n</h2>
-		{% csrf_token %}
-		<input type="text"  id="id_username" maxlength="254" name="username" class="form-control" placeholder="Nombre de usuario o Correo electr&oacute;nico" autofocus>
-		<input type="password" id="id_password" name="password" class="form-control" placeholder="Contrase&ntilde;a">
-		<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesi&oacute;n</button>
-	</form>
-</div>
-{% endblock %}
-{% block style %}
-<style type="text/css">
-</style>
-{% endblock %}
-{% block js %}
-<script type="text/javascript">
-	$(document).ready(function(){
-		//TODO here
-	});
-</script>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ PROJECT_NAME }}, {{ PROJECT_DESCRIPTION }}">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.png">
+
+    <title>{{ PROJECT_NAME }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{{ STATIC_URL }}libs/bootstrap/assets/js/html5shiv.js"></script>
+      <script src="{{ STATIC_URL }}libs/bootstrap/assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+        <!-- Begin page content -->
+        <div class="container">
+	        <div class="page-headers text-center">
+			  <h1>{{ PROJECT_NAME }} <br> <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+			</div>
+			<div class="">
+				<form class="form-signin" method="post" action="{% url 'log_in' %}">
+					<!-- <h2 class="form-signin-heading">Iniciar sesi&oacute;n</h2> -->
+					{% csrf_token %}
+					<input type="text"  id="id_username" maxlength="254" name="username" class="form-control" placeholder="Nombre de usuario o Correo electr&oacute;nico" autofocus>
+					<input type="password" id="id_password" name="password" class="form-control" placeholder="Contrase&ntilde;a">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesi&oacute;n</button>
+				</form>
+			</div>
+        </div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">
+          {{ PROJECT_NAME }} <script>document.write((new Date()).getFullYear())</script> <a href="http://daiech.com">Daiech.com</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
