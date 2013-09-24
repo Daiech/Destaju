@@ -26,7 +26,7 @@ def get_users_by_workers(request):
 
 
 @login_required()
-def read_users(request):
+def admin_users(request):
 	from apps.account.forms import UserForm
 	from apps.process_admin.forms import UserProfileForm
 	if request.method == 'POST':
@@ -52,13 +52,14 @@ def read_users(request):
 		userprofile_form  = UserProfileForm()
 	form_mode  = "_create"
 	users, is_active_worker = get_users_by_workers(request)
-	return render_to_response("users/read_users.html", locals(), context_instance=RequestContext(request))
+	user_obj = False
+	return render_to_response("users/admin_users.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()
 def read_user(request, id_user):
-	users = User.objects.all()
-	return render_to_response("read_user.html", locals(), context_instance=RequestContext(request))
+	u = get_object_or_404(User, pk=id_user)
+	return render_to_response("users/read_user.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()
@@ -82,7 +83,7 @@ def update_user(request, id_user):
 				w = int(request.GET.get("workers"))
 			except Exception:
 				w = 1
-			return HttpResponseRedirect(reverse(read_users) + "?workers=" + str(w))
+			return HttpResponseRedirect(reverse(admin_users) + "?workers=" + str(w))
 		else:
 			show_form = True
 	else:
@@ -90,7 +91,8 @@ def update_user(request, id_user):
 		user_form  = UserForm(instance=_user)
 		userprofile_form  = UserProfileForm(instance=_user.userprofile)
 	form_mode = "_update"
-	return render_to_response("users/read_users.html", locals(), context_instance=RequestContext(request))
+	user_obj = _user
+	return render_to_response("users/admin_users.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()
@@ -99,7 +101,7 @@ def delete_user(request, id_user):
 	_user.userprofile.is_active = False
 	_user.userprofile.is_active_worker = False
 	_user.userprofile.save()
-	return HttpResponseRedirect(reverse("read_users") + "#usuario-eliminado"+ str(_user.id))
+	return HttpResponseRedirect(reverse("admin_users") + "#usuario-eliminado"+ str(_user.id))
 
 
 @login_required()

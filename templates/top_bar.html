@@ -13,7 +13,7 @@
           <li class="dropdown">
               <a href="#" id="menu-admin" role="button" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu-admin">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'read_users' %}">Gesti&oacute;n de usuarios</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'admin_users' %}">Gesti&oacute;n de usuarios</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_activity'  %}">Gesti&oacute;n de Actividades</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_legal_discounts'  %}">Gesti&oacute;n de Descuentos legales</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_general_discounts'  %}">Gesti&oacute;n de Descuentos generales</a></li>
@@ -40,7 +40,7 @@
         </li>
         <li class="btn-account">
           <a href="{% url 'personal_data' %}">{{ user.username }}
-           <img src="{{ user.email|showgravatar:'18'}}" width="18px" />
+           <!-- <img src="{{ user.email|showgravatar:'18'}}" width="18px" /> -->
           </a>
         </li>
       </ul>

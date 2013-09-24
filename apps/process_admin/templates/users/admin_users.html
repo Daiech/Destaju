@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block TITLE %}Administraci&oacute;n de usuarios{% endblock %}
+{% block content %}
+	<div class="page-header">
+	  	<h1>Gesti&oacute;n de usuarios <small></small></h1>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
+			<div class="text-right">
+				<a  href="{% url 'admin_users' %}?workers={% if not is_active_worker %}1{% else %}0{% endif %}" title="" data-toggle="modal" class="btn btn-sm">
+			    	Ver {% if is_active_worker %}in{% endif %}activos
+			    </a>
+				<a  href="#newUserModal" title="" data-toggle="modal" class="btn btn-primary btn-sm">
+			    	<span class="glyphicon glyphicon-plus"></span> Agregar
+			    </a>
+		   		<a href="#" title="" class="btn btn-primary btn-sm">
+			   		<span class="glyphicon glyphicon-arrow-up" ></span> Cargar
+			   	</a>
+			</div>
+		</div>
+		<table class="table table-hover table-condensed table-striped ">
+			<tr>
+				<th>Activo</th>
+				<th>Nombres/Apellidos</th>
+				<th>Correo Electr&oacute;nico</th>
+				<th>C&eacute;dula</th>
+				<th>Tel&eacute;fono</th>
+				<th>Tipo de usuario</th>
+				<th>Cargo</th>
+				<th>Acciones</th>
+			</tr>
+			{% for u in users %}
+			<tr>
+				<td class="text-center">
+					{% if u.userprofile.is_active_worker %}
+						<span title="{{ u.get_short_name }} es trabajador Activo" class="glyphicon glyphicon-ok" ></span>
+					{% else %}
+						<span title="No es trabajador Activo" class="glyphicon glyphicon-ban-circle" ></span>
+					{% endif %}
+				</td>
+				<td>
+				{{ u.get_full_name }}
+				</td>
+				<td>{{ u.email }}</td>
+				<td>{{ u.userprofile.dni }}</td>
+				<td>{{ u.userprofile.cell_phone }}</td>
+				<td>{{ u.userprofile.id_user_type.name }}</td>
+				<td>{{ u.userprofile.id_employment.name }}</td>
+				<td class="text-center actions">
+					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{% url 'delete_user' u.id %}" title="Eliminar este usuario" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+<!-- Modal -->
+<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para mostrar info de un usuario. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Usuario</h4>
+			</div>
+			<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
+					{% csrf_token %}
+			<div class="modal-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
+						<div class="text-right">
+						{% if form_mode == '_update' %}
+							<a href="{% url 'delete_user' user_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+						{% else %}
+						<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar</a>
+						{% endif %}
+						</div>
+					</div>
+					{% csrf_token %}
+					<table class="table table-hover table-condensed table-striped">
+					{{ user_form }}
+					{{ userprofile_form }}
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				{% if form_mode == "_create" %}
+				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+				{% endif %}
+		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		    </div>
+		    </form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para mostrar info de un usuario. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Usuario</h4>
+			</div>
+			<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		    </div>
+		    </form>
+		</div>
+	</div>
+</div>
+<!-- closeModal -->
+<div id="userTemplate" class="hidden">
+	{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
+			<div class="text-right">
+				<a href="[[ url_update ]]{% if not u.userprofile.is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+		   		<a href="[[ url_delete ]]" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+			</div>
+		</div>
+		<table class="table table-hover table-condensed table-striped ">
+			<tr>
+				<th>Nombres/Apellidos</th>
+				<td>
+				[[ first_name ]] [[ last_name ]]
+				</td>
+			</tr>
+			<tr>
+				<th>Correo Electr&oacute;nico</th>
+				<td>[[ email ]]</td>
+			</tr>
+			<tr>
+				<th>C&eacute;dula</th>
+				<td>[[ userprofile.dni  ]]</td>
+			</tr>
+			<tr>
+				<th>Tel&eacute;fono Celular</th> 
+				<td>[[ userprofile.cell_phone ]]</td>
+			</tr>
+			<tr>
+				<th>Fecha Nacimiento</th>
+				<td>[[ userprofile.date_born ]]</td>
+			</tr>
+			<tr>
+				<th>Direcci&oacute;n</th>
+				<td>[[ userprofile.address ]]</td>
+			</tr>
+			<tr>
+				<th>Ciudad</th>
+				<td>[[ userprofile.city ]]</td>
+			</tr>
+			<tr>
+				<th>Tipo de usuario</th>
+				<td>[[ userprofile.id_user_type ]]</td>
+			</tr>
+			<tr>
+				<th>Cargo</th>
+				<td>[[ userprofile.id_employment ]]</td>
+			</tr>
+			<tr>
+				<th>Trabajador Activo</th>
+				<td class="">
+					[[#userprofile.is_active_worker]]
+						<span title="[[ fist_name ]]s trabajador Activo" class="glyphicon glyphicon-ok" ></span>
+					[[/userprofile.is_active_worker]]
+					[[^userprofile.is_active_worker]]
+						<span title="No es trabajador Activo" class="glyphicon glyphicon-ban-circle" ></span>
+					[[/userprofile.is_active_worker]]
+				</td>
+			</tr>
+		</table>
+	</div>	
+</div>
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+	/*td{border: solid thin #dadada;}*/
+</style>
+{% endblock %}
+{% load jsonify %}
+{% block js %}
+<script src="{{ STATIC_URL }}libs/mustache.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		{% if show_form %}
+			$('#newUserModal').modal('show');
+			$("#id_first_name").focus();
+		{% endif %}
+		{% if form_mode == "_update" %}
+			$('#userModal').on('hidden.bs.modal', function () {
+			  	top.location = "{% url 'admin_users' %}"
+			});
+		{% endif %}
+		$("span, .actions a").tooltip();
+		users_list = {
+		{% for u in users %}
+			"{{ u.pk }}":
+			{
+				"pk":"{{ u.pk }}",
+				"url_update": "{% url 'update_user' u.id %}",
+				"url_delete": "{% url 'delete_user' u.id %}",
+				"username":"{{ u.username }}",
+				"first_name":"{{ u.first_name }}",
+				"last_name":"{{ u.last_name }}",
+				"email":"{{ u.email }}",
+				"userprofile":{
+						"dni": "{{ u.userprofile.dni }}",
+					    "cell_phone": "{{ u.userprofile.cell_phone }}",
+					    "city": "{{ u.userprofile.city }}",
+					    "address": "{{ u.userprofile.address }}",
+					    "date_born": "{{ u.userprofile.date_born }}",
+					    "is_active_worker": {{ u.userprofile.is_active_worker|lower }},
+					    "id_user_type": "{{ u.userprofile.id_user_type.name }}",
+					    "id_employment": "{{ u.userprofile.id_employment.name }}"
+				}
+			},
+		{% endfor %}
+		}
+		$(".btn-view").on("click", function (e){
+			e.preventDefault();
+			e.stopPropagation();
+			var pk = $(this).attr("data-pk");
+			console.log(users_list[pk]);
+			$("#userModal .modal-body").html(Mustache.to_html($("#userTemplate").html(), users_list[pk]));
+			$("#userModal .modal-body")
+			$('#userModal').modal('show');
+			$("a.btn-delete").on("click", function (e) {
+		        e.preventDefault();
+		        e.stopPropagation();
+		        if ( confirm("Seguro que quiere eliminar?") ){
+		            top.location = $(this).attr("href");
+		        }
+		    });
+		});
+	});
+</script>
+{% endblock %}
