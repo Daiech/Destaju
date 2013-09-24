@@ -114,7 +114,7 @@ def admin_employments(request):
 			try:
 				obj.save()
 			except:
-			form = EmploymentsForm()
+				form = EmploymentsForm()
 		else:
 			show_form = True
 		if '_createanother' in request.POST:
