@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block TITLE %}Administracion de lugares{% endblock %}
+{% block content %}
+<div class="page-header">
+ 	<h1>LUGARES <small>Administrar los lugares en los que se realiza una labor de campo</small> 
+	</h1>
+</div>
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title pull-left">Gesti&oacute;n de lugares</h3>
+		<div class="text-right">
+			<a  href="#placesFormModal" title="Haz click aqu&iacute; para agregar un nuevo lugar" data-toggle="modal" class="btn btn-primary">
+    			<span class="glyphicon glyphicon-plus"></span> Agregar
+    		</a>
+		</div>
+	</div>
+	<table id="placesTable" class="table table-hover table-condensed table-striped ">
+		<thead>
+			<tr>
+				<th>Estado</th>
+				<th>C&oacute;digo</th>
+				<th>Nombre</th>
+				<th>Descripci&oacute;n</th>
+				<th>Fecha Creaci&oacute;n</th>
+				<th>Fecha Ultima modificaci&oacute;n</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for a in places_list %}
+			<tr>
+				<td class="text-center">{% if a.is_available %}
+					<span title="Este descuento se encuentra disponible actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
+					<span title="Este descuento no se encuentra activa actualmente 
+								y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-ban-circle" ></span>
+					{% endif %}
+				</td>
+				<td >{{a.code}}</td>
+				<td>{{a.name}}</td>
+				<td>{{a.description}}</td>
+				<td>{{a.date_added}}</td>
+				<td>{{a.date_modified}}</td>
+				<td class="text-center actions">
+					<a href="{% url 'update_place' a.id %}" title="Editar este lugar" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{% url 'delete_place' a.id %}" title="Eliminar este lugar" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<div class="modal fade" id="placesFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar lugares. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>
+				{% if form_mode == "_create" %}
+					Agregar un lugar
+				{% elif form_mode ==  "_update" %}
+					Editar lugar
+				{% endif %}
+				</h3>
+			</div>
+			<form method = "POST"  enctype="multipart/form-data" id="placesForm">
+			<div class="modal-body">
+				{% csrf_token %}
+				<table>
+				{{ form }}
+				</table>
+			</div>
+			<div class="modal-footer">
+				{% if form_mode == "_create" %}
+				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+				{% endif %}		        
+		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		    </div>
+		    </form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		{% if show_form %}
+				$('#placesFormModal').modal('show')
+		{% endif %}
+		$("span").tooltip();
+		{% if form_mode ==  "_update" %}
+			$(".close-modal").on('click', function(){
+				top.location ="{% url 'create_places' %}";
+			});
+		{% endif %}
+		/* dataTables jQuery plugin activation setDataTables(id_table)*/
+		setDataTables('#placesTable')		
+	});
+</script>
+{% endblock %}

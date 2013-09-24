@@ -26,4 +26,16 @@ general_discounts = patterns('apps.process_admin.views',
     url(r'^eliminar-descuento-general/(?P<id_general_discount>[0-9]+)', 'delete_general_discount', name="delete_general_discount")
 )
 
-process_admin_urls = users + activities + legal_discounts + general_discounts
+places = patterns('apps.process_admin.views',
+    url(r'^lugares$', 'create_places', name="create_places"),
+    url(r'^editar-lugar/(?P<id_place>[0-9]+)', 'update_place', name="update_place"),
+    url(r'^eliminar-lugar/(?P<id_place>[0-9]+)', 'delete_place', name="delete_place")
+)
+
+tools = patterns('apps.process_admin.views',
+    url(r'^herramientas$', 'create_tools', name="create_tools"),
+    url(r'^editar-herramienta/(?P<id_tool>[0-9]+)', 'update_tool', name="update_tool"),
+    url(r'^eliminar-herramienta/(?P<id_tool>[0-9]+)', 'delete_tool', name="delete_tool")
+)
+
+process_admin_urls = users + activities + legal_discounts + general_discounts + places + tools

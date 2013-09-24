@@ -7,25 +7,7 @@ class UserProfileManager(models.Manager):
         pass
 
 
-class ActivitiesManager(models.Manager):
-    
-    def get_available(self):
-        return self.filter(is_active=True, is_available=True).order_by('-date_modified')
-    
-    def get_active(self):
-        return self.filter(is_active=True).order_by('-date_modified')
-
-
-class LegalDiscountsManager(models.Manager):
-    
-    def get_available(self):
-        return self.filter(is_active=True, is_available=True).order_by('-date_modified')
-    
-    def get_active(self):
-        return self.filter(is_active=True).order_by('-date_modified')
-    
-    
-class GeneralDiscountsManager(models.Manager):
+class CommonQueriesManager(models.Manager):
     
     def get_available(self):
         return self.filter(is_active=True, is_available=True).order_by('-date_modified')
@@ -127,7 +109,7 @@ class Activities(models.Model):
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    objects = ActivitiesManager()
+    objects = CommonQueriesManager()
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
@@ -143,7 +125,7 @@ class LegalDiscounts(models.Model):
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    objects = LegalDiscountsManager()
+    objects = CommonQueriesManager()
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
@@ -158,7 +140,39 @@ class GeneralDiscounts(models.Model):
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    objects = GeneralDiscountsManager()
+    objects = CommonQueriesManager()
+    
+    def __unicode__(self):
+        return "%s - %s: %s" % (self.code, self.name, self.value)
+    
+
+class Places(models.Model):
+    code = models.CharField(max_length=30, verbose_name="code")
+    name = models.CharField(max_length=150, verbose_name="name")
+    description = models.TextField(blank=True)
+    id_user = models.ForeignKey(
+        User,  null=False, related_name='%(class)s_id_user') 
+    is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    objects = CommonQueriesManager()
+    
+    def __unicode__(self):
+        return "%s - %s: %s" % (self.code, self.name, self.value)
+    
+    
+class Tools(models.Model):
+    code = models.CharField(max_length=30, verbose_name="code")
+    name = models.CharField(max_length=150, verbose_name="name")
+    description = models.TextField(blank=True)
+    id_user = models.ForeignKey(
+        User,  null=False, related_name='%(class)s_id_user') 
+    is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    objects = CommonQueriesManager()
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
