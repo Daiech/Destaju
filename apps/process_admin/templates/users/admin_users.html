@@ -15,11 +15,12 @@
 			    	<span class="glyphicon glyphicon-plus"></span> Agregar
 			    </a>
 		   		<a href="#" title="" class="btn btn-primary btn-sm">
-			   		<span class="glyphicon glyphicon-arrow-up" ></span> Cargar
+			   		<span class="glyphicon glyphicon-arrow-up" ></span> Cargar CSV
 			   	</a>
 			</div>
 		</div>
-		<table class="table table-hover table-condensed table-striped ">
+		<table id="dataTable" class="table table-hover table-condensed table-striped ">
+			<thead>
 			<tr>
 				<th>Activo</th>
 				<th>Nombres/Apellidos</th>
@@ -30,6 +31,8 @@
 				<th>Cargo</th>
 				<th>Acciones</th>
 			</tr>
+			</thead>
+			<tbody>
 			{% for u in users %}
 			<tr>
 				<td class="text-center">
@@ -54,65 +57,65 @@
 				</td>
 			</tr>
 			{% endfor %}
+			</tbody>
 		</table>
 	</div>
 <!-- Modal -->
-<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para mostrar info de un usuario. -->
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Usuario</h4>
-			</div>
-			<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
-					{% csrf_token %}
-			<div class="modal-body">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
-						<div class="text-right">
-						{% if form_mode == '_update' %}
-							<a href="{% url 'delete_user' user_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
-						{% else %}
-						<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar</a>
-						{% endif %}
-						</div>
-					</div>
-					{% csrf_token %}
-					<table class="table table-hover table-condensed table-striped">
-					{{ user_form }}
-					{{ userprofile_form }}
-					</table>
+	<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar un usuario. -->
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Usuario</h4>
 				</div>
+				<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
+				{% csrf_token %}
+				<div class="modal-body">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
+							<div class="text-right">
+							{% if form_mode == '_update' %}
+								<a href="{% url 'delete_user' user_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+							{% else %}
+							<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
+							{% endif %}
+							</div>
+						</div>
+						<table class="table table-hover table-condensed table-striped">
+						{{ user_form }}
+						{{ userprofile_form }}
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					{% if form_mode == "_create" %}
+					<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+					{% endif %}
+			        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			    </div>
+			    </form>
 			</div>
-			<div class="modal-footer">
-				{% if form_mode == "_create" %}
-				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
-				{% endif %}
-		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		    </div>
-		    </form>
 		</div>
 	</div>
-</div>
-<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para mostrar info de un usuario. -->
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Usuario</h4>
+	<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para mostrar info de un usuario. -->
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Usuario</h4>
+				</div>
+				<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			    </div>
+			    </form>
 			</div>
-			<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
-			<div class="modal-body">
-			</div>
-			<div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		    </div>
-		    </form>
 		</div>
 	</div>
-</div>
 <!-- closeModal -->
 <div id="userTemplate" class="hidden">
 	{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
@@ -183,7 +186,6 @@
 <style type="text/css">
 	.actions .btn{padding: 0;}
 	.panel-title{line-height: 34px;}
-	/*td{border: solid thin #dadada;}*/
 </style>
 {% endblock %}
 {% load jsonify %}
@@ -241,6 +243,9 @@
 		        }
 		    });
 		});
+
+		/* dataTables jQuery plugin activation setDataTables(id_table)*/
+		setDataTables('#dataTable');
 	});
 </script>
 {% endblock %}

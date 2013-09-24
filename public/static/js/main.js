@@ -24,73 +24,6 @@ function main () {
 }
 
 
-function fixtures(){
-    var codes = [
-        "AD_US_READ",
-        "AD_AC_CREATE",
-        "AD_AC_UPDATE",
-        "AD_AC_DELETE",
-        "AD_AC_READ",
-        "AD_DE_CREATE",
-        "AD_DE_UPDATE",
-        "AD_DE_DELETE",
-        "AD_DE_READ",
-        "OP_GE_CREATE",
-        "OP_GE_UPDATE",
-        "OP_GE_DELETE",
-        "OP_GE_DISABLE",
-        "OP_GE_READ",
-        "OP_LL_CREATE",
-        "OP_LL_UPDATE",
-        "OP_LL_DELETE",
-        "OP_LL_READ",
-        "OP_CA_CREATE",
-        "OP_CA_UPDATE",
-        "OP_CA_DELETE",
-        "OP_CA_READ",
-        "OP_VE_CREATE",
-        "OP_VE_UPDATE",
-        "OP_VE_DELETE",
-        "OP_VE_READ",
-        "NO_AD_CREATE",
-        "NO_AD_UPDATE",
-        "NO_AD_DELETE",
-        "NO_AD_READ",
-        "NO_GE_CREATE",
-        "NO_GE_UPDATE",
-        "NO_GE_DELETE",
-        "NO_GE_READ",
-        "RE_HI_CREATE",
-        "RE_HI_UPDATE",
-        "RE_HI_DELETE",
-        "RE_HI_READ",
-        "RE_RE_CREATE",
-        "RE_RE_UPDATE",
-        "RE_RE_DELETE",
-        "RE_RE_READ"
-    ]
-    i=0;
-    s = "";
-    for (i;i<codes.length;i++){
-        /*console.log(codes[i]);*/
-        s = s + '{<br>'+
-            '"model": "process_admin.permissions",<br>'+
-            '"pk":' + parseInt(i + 6) + ',<br>'+
-            '"fields":<br>'+
-            '{<br>'+
-                '"name":"'+ codes[i] +'",<br>'+
-                '"description":"...",<br>'+
-                '"is_active":1,<br>'+
-                '"user_type": [1, 2],<br>'+
-                '"date_added":"2013-09-19 21:57:05",<br>'+
-                '"date_modified":"2013-09-19 21:57:05"<br>'+
-            '}<br>'+
-        '},<br>';
-    }
-    console.log(s);
-}
-
-
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -135,7 +68,7 @@ function setDataTables(id_table){
 			"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ registros",
 			"sInfoEmpty": "Mostrando 0 a 0 de 0 registros",
 			"sInfoFiltered": "(filtro de _MAX_ registros en total)",
-			"sSearch": "Buscar _INPUT_",
+			"sSearch": "_INPUT_",
 			"oPaginate": {
 		        "sFirst": "Primera",
 		        "sLast": "Ultima",
@@ -143,7 +76,8 @@ function setDataTables(id_table){
 		        "sPrevious": "Anterior"
 		        	
 		      }
-			}
-		} );
+			},
+        } );
+    $("#usersList_filter > label > input").attr("placeholder", "Filtrar");
 }
 $(document).ready(main);
