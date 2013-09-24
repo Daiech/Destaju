@@ -36,6 +36,8 @@ def read_users(request):
 		up = userprofile_form.is_valid()
 		if u and up:
 			_user = user_form.save()
+			_user.username = _user.email
+			_user.save()
 			_up = userprofile_form.save(commit=False)
 			_up.id_user = _user
 			_up.save()
