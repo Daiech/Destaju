@@ -9,12 +9,12 @@
 	<div class="panel-heading">
 		<h3 class="panel-title pull-left">Gesti&oacute;n de lugares</h3>
 		<div class="text-right">
-			<a  href="#placesFormModal" title="Haz click aqu&iacute; para agregar un nuevo lugar" data-toggle="modal" class="btn btn-primary">
+			<a  href="#placesFormModal" title="Haz click aqu&iacute; para agregar un nuevo lugar" data-toggle="modal" class="btn btn-primary btn-sm">
     			<span class="glyphicon glyphicon-plus"></span> Agregar
     		</a>
 		</div>
 	</div>
-	<table id="placesTable" class="table table-hover table-condensed table-striped ">
+	<table id="dataTable" class="table table-hover table-condensed table-striped ">
 		<thead>
 			<tr>
 				<th>Estado</th>
@@ -53,20 +53,35 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>
-				{% if form_mode == "_create" %}
-					Agregar un lugar
-				{% elif form_mode ==  "_update" %}
-					Editar lugar
-				{% endif %}
-				</h3>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+					LUGARES
+				</h4>
 			</div>
 			<form method = "POST"  enctype="multipart/form-data" id="placesForm">
+			{% csrf_token %}
 			<div class="modal-body">
-				{% csrf_token %}
-				<table>
-				{{ form }}
-				</table>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left">
+						{% if form_mode == "_create" %}
+							AGREGAR
+						{% elif form_mode ==  "_update" %}
+							EDITAR
+						{% endif %}
+						</h3>
+						<div class="text-right">
+						{% if form_mode == '_update' %}
+							<a href="{% url 'delete_place' place_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+						{% else %}
+							<a href="{% url 'create_places' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Volver</a>
+						{% endif %}
+						</div>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+					{{ form }}
+					</table>
+				</div>
 			</div>
 			<div class="modal-footer">
 				{% if form_mode == "_create" %}
@@ -101,7 +116,7 @@
 			});
 		{% endif %}
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
-		setDataTables('#placesTable')		
+		setDataTables('#dataTable')		
 	});
 </script>
 {% endblock %}
