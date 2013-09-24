@@ -7,6 +7,11 @@ users = patterns('apps.process_admin.views',
     url(r'^eliminar-usuario/(?P<id_user>[0-9]+)/$', 'delete_user', name="delete_user"),
     url(r'^ver-usuario/(?P<id_user>[0-9]+)/$', 'read_user', name="read_user"),
 )
+employments = patterns('apps.process_admin.views',
+    url(r'^administrar-cargos/$', 'admin_employments', name="admin_employments"),
+    url(r'^editar-cargo/(?P<id_employment>[0-9]+)', 'update_employment', name="update_employment"),
+    url(r'^eliminar-cargo/(?P<id_employment>[0-9]+)', 'delete_employment', name="delete_employment")
+)
 
 activities = patterns('apps.process_admin.views',
     url(r'^agregar-actividad$', 'create_activity', name="create_activity"),
@@ -38,4 +43,4 @@ tools = patterns('apps.process_admin.views',
     url(r'^eliminar-herramienta/(?P<id_tool>[0-9]+)', 'delete_tool', name="delete_tool")
 )
 
-process_admin_urls = users + activities + legal_discounts + general_discounts + places + tools
+process_admin_urls = users + activities + legal_discounts + general_discounts + places + tools + employments

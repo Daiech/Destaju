@@ -102,6 +102,57 @@ def delete_user(request, id_user):
 	_user.userprofile.is_active_worker = False
 	_user.userprofile.save()
 	return HttpResponseRedirect(reverse("admin_users") + "#usuario-eliminado"+ str(_user.id))
+	
+
+@login_required()
+def admin_employments(request):
+	"""admin employments"""
+	if request.method == 'POST':
+		form  = EmploymentsForm(request.POST)
+		if form.is_valid():
+			obj = form.save(commit=False)
+			obj.id_user = request.user
+			try:
+				obj.save()
+			except:
+			form = EmploymentsForm()
+		else:
+			show_form = True
+		if '_createanother' in request.POST:
+			show_form = True
+	else:
+		form  = EmploymentsForm() 
+	form_mode  = "_create"
+	object_list = Employments.objects.filter(is_active=True)
+	return render_to_response('employments/admin_employments.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def update_employment(request, id_employment):
+	"""Manage employments"""
+	obj = get_object_or_404(Employments, pk=id_employment)
+	if request.method == "POST":
+		form = EmploymentsForm(request.POST, instance=obj)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse(admin_employments))
+		else:
+			show_form = True
+	else:
+		show_form = True
+		form = EmploymentsForm(instance=obj)
+	form_mode = "_update"
+	object_list = Employments.objects.filter(is_active=True)
+	return render_to_response("employments/admin_employments.html", locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def delete_employment(request, id_employment):
+	"""Logical deletion of employments"""
+	obj = get_object_or_404(Employments, pk=id_employment)
+	obj.is_active=False
+	obj.save()
+	return HttpResponseRedirect(reverse(admin_employments))
 
 
 @login_required()

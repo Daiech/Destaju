@@ -57,6 +57,15 @@ class GeneralDiscountForm(forms.ModelForm):
     class Meta:
         model = GeneralDiscounts
         fields = ('code','name', 'description', 'is_available')
+         
+        
+class EmploymentsForm(forms.ModelForm):
+    name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
+    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del anuncio'}))
+    
+    class Meta:
+        model = Employments
+        fields = ('name', 'description')
         
 
 class PlacesForm(forms.ModelForm):

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block TITLE %}Administraci&oacute;n de cargos{% endblock %}
+{% block content %}
+	<div class="page-header">
+	  	<h1>Gesti&oacute;n de Cargos <small></small></h1>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title pull-left">Gesti&oacute;n de cargos</h3>
+			<div class="text-right">
+				<a  href="#myModal" title="" data-toggle="modal" class="btn btn-primary btn-sm">
+			    	<span class="glyphicon glyphicon-plus"></span> Agregar
+			    </a>
+		   		<a href="#" title="" class="btn btn-primary btn-sm">
+			   		<span class="glyphicon glyphicon-arrow-up" ></span> Cargar CSV
+			   	</a>
+			</div>
+		</div>
+		<table id="dataTable" class="table table-hover table-condensed table-striped ">
+			<thead>
+			<tr>
+				<th>No.</th>
+				<th>Nombre</th>
+				<th>Descripc&oacute;n</th>
+				<th>Fecha Creaci&oacute;n</th>
+				<th>Fecha Ultima modificaci&oacute;n</th>
+				<th>Acciones</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for obj in object_list %}
+			<tr>
+				<td class="text-center">{{ forloop.counter }}</td>
+				<td>{{ obj.name }}</td>
+				<td>{{ obj.description }}</td>
+				<td>{{ obj.date_added }}</td>
+				<td>{{ obj.date_modified }}</td>
+				<td class="text-center actions">
+					<a href="{% url 'update_employment' obj.id %}" title="Editar" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{% url 'delete_employment' obj.id %}" title="Eliminar" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+				</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar un cargo. -->
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">CARGOS</h4>
+				</div>
+				<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
+				{% csrf_token %}
+				<div class="modal-body">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title pull-left">Gesti&oacute;n de cargos</h3>
+							<div class="text-right">
+							{% if form_mode == '_update' %}
+								<a href="{% url 'delete_employment' obj.pk %}" title="Eliminar este cargo" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+							{% else %}
+							<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
+							{% endif %}
+							</div>
+						</div>
+						<table class="table table-hover table-condensed table-striped">
+						{{ form }}
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					{% if form_mode == "_create" %}
+					<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+					{% endif %}
+			        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			    </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+<!-- closeModal -->
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+{% load jsonify %}
+{% block js %}
+<script src="{{ STATIC_URL }}libs/mustache.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		{% if show_form %}
+			$('#myModal').modal('show');
+			$("#id_first_name").focus();
+		{% endif %}
+		{% if form_mode == "_update" %}
+			$('#myModal').on('hidden.bs.modal', function () {
+			  	top.location = "{% url 'admin_employments' %}"
+			});
+		{% endif %}
+		$("span, .actions a").tooltip();
+
+		/* dataTables jQuery plugin activation setDataTables(id_table)*/
+		setDataTables('#dataTable');
+	});
+</script>
+{% endblock %}
