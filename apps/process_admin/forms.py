@@ -1,6 +1,6 @@
 #encoding:utf-8
 from django import forms
-from apps.process_admin.models import Activities, UserProfile, UserType, Employments, LegalDiscounts
+from apps.process_admin.models import Activities, UserProfile, UserType, Employments, LegalDiscounts, GeneralDiscounts
 from django.contrib.auth.models import User
 
 
@@ -54,5 +54,5 @@ class GeneralDiscountForm(forms.ModelForm):
     is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
     
     class Meta:
-        model = LegalDiscounts
+        model = GeneralDiscounts
         fields = ('code','name', 'description', 'is_available')

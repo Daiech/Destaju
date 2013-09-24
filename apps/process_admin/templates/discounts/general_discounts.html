@@ -3,56 +3,53 @@
 {% block content %}
 <div class="page-header">
  	<h1>DESCUENTOS Generales <small>Administrar los descuentos generales</small> 
-  		
 	</h1>
 </div>
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<h3 class="panel-title pull-left">Gesti&oacute;n de descuentos generales</h3>
 		<div class="text-right">
-			<a  href="#ActivityFormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary">
+			<a  href="#generalDiscountsFormModal" title="Haz click aqu&iacute; para agregar un nuevo descuento general" data-toggle="modal" class="btn btn-primary">
     			<span class="glyphicon glyphicon-plus"></span> Agregar
     		</a>
 		</div>
 	</div>
 	<table id="generalDiscountsTable" class="table table-hover table-condensed table-striped ">
 		<thead>
-		<tr>
-			<th>Estado</th>
-			<th>C&oacute;digo</th>
-			<th>Nombre</th>
-			<th>Descripci&oacute;n</th>
-			<th>Fecha Creaci&oacute;n</th>
-			<th>Fecha Ultima modificaci&oacute;n</th>
-			<th>Acciones</th>
-		</tr>
+			<tr>
+				<th>Estado</th>
+				<th>C&oacute;digo</th>
+				<th>Nombre</th>
+				<th>Descripci&oacute;n</th>
+				<th>Fecha Creaci&oacute;n</th>
+				<th>Fecha Ultima modificaci&oacute;n</th>
+				<th>Acciones</th>
+			</tr>
 		</thead>
 		<tbody>
-		{% for a in general_discounts_list %}
-		
-		<tr>
-			<td class="text-center">{% if a.is_available %}
-				<span title="Este descuento se encuentra disponible actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
-				<span title="Este descuento no se encuentra activa actualmente 
-							y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-ban-circle" ></span>
-				{% endif %}
-			</td>
-			<td >{{a.code}}</td>
-			<td>{{a.name}}</td>
-			<td>{{a.description}}</td>
-			<td>{{a.date_added}}</td>
-			<td>{{a.date_modified}}</td>
-			<td class="text-center actions">
-				<a href="{% url 'update_general_discount' a.id %}" title="Editar este descuento general" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
-				<a href="{% url 'delete_general_discount' a.id %}" title="Eliminar este descuento general" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
-			</td>
-		</tr>
-	{% endfor %}
-	</tbody>
+			{% for a in general_discounts_list %}
+			<tr>
+				<td class="text-center">{% if a.is_available %}
+					<span title="Este descuento se encuentra disponible actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
+					<span title="Este descuento no se encuentra activa actualmente 
+								y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-ban-circle" ></span>
+					{% endif %}
+				</td>
+				<td >{{a.code}}</td>
+				<td>{{a.name}}</td>
+				<td>{{a.description}}</td>
+				<td>{{a.date_added}}</td>
+				<td>{{a.date_modified}}</td>
+				<td class="text-center actions">
+					<a href="{% url 'update_general_discount' a.id %}" title="Editar este descuento general" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{% url 'delete_general_discount' a.id %}" title="Eliminar este descuento general" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
 	</table>
 </div>
-
-<div class="modal fade" id="ActivityFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+<div class="modal fade" id="generalDiscountsFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar descuentos generales. -->
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -64,9 +61,8 @@
 				{% endif %}
 				</h3>
 			</div>
-			<form method = "POST"  enctype="multipart/form-data" id="ActivityForm">
+			<form method = "POST"  enctype="multipart/form-data" id="generalDiscountsForm">
 			<div class="modal-body">
-				
 				{% csrf_token %}
 				<table>
 				{{ form }}
@@ -83,7 +79,6 @@
 		</div>
 	</div>
 </div>
-
 {% endblock %}
 
 {% block style %}
@@ -97,7 +92,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		{% if show_form %}
-				$('#ActivityFormModal').modal('show')
+				$('#generalDiscountsFormModal').modal('show')
 		{% endif %}
 		$("span").tooltip();
 		{% if form_mode ==  "_update" %}
@@ -105,10 +100,8 @@
 				top.location ="{% url 'create_general_discounts' %}";
 			});
 		{% endif %}
-
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
-		setDataTables('#generalDiscountsTable')
-		
+		setDataTables('#generalDiscountsTable')		
 	});
 </script>
 {% endblock %}
