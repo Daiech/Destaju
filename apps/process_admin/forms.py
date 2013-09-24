@@ -1,6 +1,6 @@
 #encoding:utf-8
 from django import forms
-from apps.process_admin.models import Activities, UserProfile, UserType, Employments, LegalDiscounts, GeneralDiscounts
+from apps.process_admin.models import Activities, UserProfile, UserType, Employments, LegalDiscounts, GeneralDiscounts, Places, Tools
 from django.contrib.auth.models import User
 
 
@@ -47,6 +47,7 @@ class LegalDiscountForm(forms.ModelForm):
         model = LegalDiscounts
         fields = ('code','name', 'description', 'value', 'is_available')
         
+        
 class GeneralDiscountForm(forms.ModelForm):
     code = forms.CharField(label="Codigo", widget=forms.TextInput(attrs={'placeholder': 'Codigo', 'autofocus': 'autofocus'}))
     name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
@@ -55,4 +56,26 @@ class GeneralDiscountForm(forms.ModelForm):
     
     class Meta:
         model = GeneralDiscounts
+        fields = ('code','name', 'description', 'is_available')
+        
+
+class PlacesForm(forms.ModelForm):
+    code = forms.CharField(label="Codigo", widget=forms.TextInput(attrs={'placeholder': 'Codigo', 'autofocus': 'autofocus'}))
+    name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
+    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del anuncio'}))
+    is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
+    
+    class Meta:
+        model = Places
+        fields = ('code','name', 'description', 'is_available')
+        
+
+class ToolsForm(forms.ModelForm):
+    code = forms.CharField(label="Codigo", widget=forms.TextInput(attrs={'placeholder': 'Codigo', 'autofocus': 'autofocus'}))
+    name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
+    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del anuncio'}))
+    is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
+    
+    class Meta:
+        model = Tools
         fields = ('code','name', 'description', 'is_available')

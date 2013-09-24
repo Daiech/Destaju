@@ -254,10 +254,112 @@ def delete_general_discount(request, id_general_discount):
 	return HttpResponseRedirect(reverse(create_general_discounts))
 	
 	
+
+@login_required()
+def create_places(request):
+	"""Form to create places"""
+	if request.method == 'POST':
+		form  = PlacesForm(request.POST)
+		if form.is_valid():
+			place = form.save(commit=False)
+			place.id_user = request.user
+			try:
+				place.save()
+				print "es valido"
+			except:
+				print "error guardando"
+			form = PlacesForm()
+		else:
+				show_form = True
+		if '_createanother' in request.POST:
+			show_form = True
+	else:
+		form  = PlacesForm() 
+	form_mode  = "_create"
+	places_list = Places.objects.get_active()
+	return render_to_response('places/places.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def update_place(request, id_place):
+	"""Manage places"""
+	_place = get_object_or_404(Places, pk = id_place)
+	if request.method == "POST":
+		form = PlacesForm(request.POST, instance=_place)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse(create_places))
+		else:
+			show_form = True
+	else:
+		show_form = True
+		form = PlacesForm(instance=_place)
+	form_mode = "_update"
+	places_list = Places.objects.get_active()
+	return render_to_response("places/places.html", locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def delete_place(request, id_place):
+	"""Logical deletion of places"""
+	_place = get_object_or_404(Places, pk = id_place)
+	_place.is_active=False
+	_place.save()
+	return HttpResponseRedirect(reverse(create_places))
 	
 	
-	
-	
+
+@login_required()
+def create_tools(request):
+	"""Form to create tools"""
+	if request.method == 'POST':
+		form  = ToolsForm(request.POST)
+		if form.is_valid():
+			tool = form.save(commit=False)
+			tool.id_user = request.user
+			try:
+				tool.save()
+				print "es valido"
+			except:
+				print "error guardando"
+			form = ToolsForm()
+		else:
+				show_form = True
+		if '_createanother' in request.POST:
+			show_form = True
+	else:
+		form  = ToolsForm() 
+	form_mode  = "_create"
+	tools_list = Tools.objects.get_active()
+	return render_to_response('tools/tools.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def update_tool(request, id_tool):
+	"""Manage tools"""
+	_tool = get_object_or_404(Tools, pk = id_tool)
+	if request.method == "POST":
+		form = ToolsForm(request.POST, instance=_tool)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse(create_tools))
+		else:
+			show_form = True
+	else:
+		show_form = True
+		form = ToolsForm(instance=_tool)
+	form_mode = "_update"
+	tools_list = Tools.objects.get_active()
+	return render_to_response("tools/tools.html", locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def delete_tool(request, id_tool):
+	"""Logical deletion of tools"""
+	_tool = get_object_or_404(Tools, pk = id_tool)
+	_tool.is_active=False
+	_tool.save()
+	return HttpResponseRedirect(reverse(create_tools))
 	
 	
 	
