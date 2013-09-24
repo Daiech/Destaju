@@ -7,7 +7,6 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 
 
 def get_users_by_workers(request):
@@ -192,6 +191,7 @@ def update_activity(request, id_activity):
 		form = ActivityForm(instance=_activity)
 	form_mode = "_update"
 	activities_list = Activities.objects.get_active()
+	activity_obj = _activity
 	return render_to_response("activities/create_activity.html", locals(), context_instance=RequestContext(request))
 
 
@@ -240,6 +240,7 @@ def update_legal_discount(request, id_legal_discount):
 		form = LegalDiscountForm(instance=_legal_discount)
 	form_mode = "_update"
 	legal_discounts_list = LegalDiscounts.objects.get_active()
+	legal_discount_obj = _legal_discount
 	return render_to_response("discounts/legal_discounts.html", locals(), context_instance=RequestContext(request))
 
 
@@ -293,6 +294,7 @@ def update_general_discount(request, id_general_discount):
 		form = GeneralDiscountForm(instance=_general_discount)
 	form_mode = "_update"
 	general_discounts_list = GeneralDiscounts.objects.get_active()
+	general_discount_obj = _general_discount
 	return render_to_response("discounts/general_discounts.html", locals(), context_instance=RequestContext(request))
 
 
@@ -347,6 +349,7 @@ def update_place(request, id_place):
 		form = PlacesForm(instance=_place)
 	form_mode = "_update"
 	places_list = Places.objects.get_active()
+	place_obj = _place
 	return render_to_response("places/places.html", locals(), context_instance=RequestContext(request))
 
 
@@ -401,6 +404,7 @@ def update_tool(request, id_tool):
 		form = ToolsForm(instance=_tool)
 	form_mode = "_update"
 	tools_list = Tools.objects.get_active()
+	tool_obj = _tool
 	return render_to_response("tools/tools.html", locals(), context_instance=RequestContext(request))
 
 

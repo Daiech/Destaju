@@ -1,21 +1,21 @@
 {% extends "base.html" %}
-{% block TITLE %}Administracion de descuentos legales{% endblock %}
+{% block TITLE %}Administracion de descuentos por ley{% endblock %}
 {% block content %}
 <div class="page-header">
- 	<h1>DESCUENTOS LEGALES <small>Administrar los descuentos legales</small> 
+ 	<h1>DESCUENTOS LEGALES <small>Administrar los descuentos por ley</small> 
   		
 	</h1>
 </div>
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h3 class="panel-title pull-left">Gesti&oacute;n de descuentos legales</h3>
+		<h3 class="panel-title pull-left">Gesti&oacute;n de descuentos por ley</h3>
 		<div class="text-right">
-			<a  href="#legalDiscountsFormModal" title="Haz click aqu&iacute; para agregar un nuevo descuento legal" data-toggle="modal" class="btn btn-primary">
+			<a  href="#legalDiscountsFormModal" title="Haz click aqu&iacute; para agregar un nuevo descuento legal" data-toggle="modal" class="btn btn-primary btn-sm">
     			<span class="glyphicon glyphicon-plus"></span> Agregar
     		</a>
 		</div>
 	</div>
-	<table id="legalDiscountsTable" class="table table-hover table-condensed table-striped ">
+	<table id="dataTable" class="table table-hover table-condensed table-striped ">
 		<thead>
 		<tr>
 			<th>Estado</th>
@@ -58,20 +58,35 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>
-				{% if form_mode == "_create" %}
-					Agregar un descuento legal
-				{% elif form_mode ==  "_update" %}
-					Editar un descuento legal
-				{% endif %}
-				</h3>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+				DESCUENTO POR LEY
+				</h4>
 			</div>
 			<form method = "POST"  enctype="multipart/form-data" id="legalDiscountsForm">
+			{% csrf_token %}
 			<div class="modal-body">
-				{% csrf_token %}
-				<table>
-				{{ form }}
-				</table>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left">
+						{% if form_mode == "_create" %}
+							AGREGAR
+						{% elif form_mode ==  "_update" %}
+							EDITAR
+						{% endif %}
+						</h3>
+						<div class="text-right">
+						{% if form_mode == '_update' %}
+							<a href="{% url 'delete_legal_discount' legal_discount_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+						{% else %}
+							<a href="{% url 'create_legal_discounts' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Volver</a>
+						{% endif %}
+						</div>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+					{{ form }}
+					</table>
+				</div>
 			</div>
 			<div class="modal-footer">
 				{% if form_mode == "_create" %}
@@ -106,7 +121,7 @@
 			});
 		{% endif %}
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
-		setDataTables('#legalDiscountsTable')
+		setDataTables('#dataTable')
 	});
 </script>
 {% endblock %}
