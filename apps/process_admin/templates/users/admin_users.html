@@ -198,7 +198,7 @@
 			$("#id_first_name").focus();
 		{% endif %}
 		{% if form_mode == "_update" %}
-			$('#userModal').on('hidden.bs.modal', function () {
+			$('#newUserModal').on('hidden.bs.modal', function () {
 			  	top.location = "{% url 'admin_users' %}"
 			});
 		{% endif %}
