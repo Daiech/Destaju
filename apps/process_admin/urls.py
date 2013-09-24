@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 
 users = patterns('apps.process_admin.views',
-    url(r'^lista-de-usuarios/$', 'read_users', name="read_users"),
+    url(r'^lista-de-usuarios/$', 'admin_users', name="admin_users"),
     url(r'^editar-usuario/(?P<id_user>[0-9]+)/$', 'update_user', name="update_user"),
     url(r'^eliminar-usuario/(?P<id_user>[0-9]+)/$', 'delete_user', name="delete_user"),
     url(r'^ver-usuario/(?P<id_user>[0-9]+)/$', 'read_user', name="read_user"),

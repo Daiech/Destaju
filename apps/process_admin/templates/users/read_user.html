@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block TITLE %} {{ u }} Administraci&oacute;n de usuarios{% endblock %}
+{% block content %}
+	<div class="page-header">
+	  	<h1>Gesti&oacute;n de usuarios <small></small></h1>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
+			<div class="text-right">
+				<a  href="{% url 'admin_users' %}?workers={% if not u.userprofile.is_active_worker %}1{% else %}0{% endif %}" title="" data-toggle="modal" class="btn btn-sm">
+			    	Ver todos
+			    </a>
+				<a href="{% url 'update_user' u.id %}{% if not u.userprofile.is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+		   		<a href="{% url 'delete_user' u.id %}" title="Eliminar este usuario" class="btn btn-primary btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+			</div>
+		</div>
+		<table class="table table-hover table-condensed table-striped ">
+			<tr>
+				<th>Nombres/Apellidos</th>
+				<td>
+				{{ u.get_full_name }}
+				</td>
+			</tr>
+			<tr>
+				<th>Correo Electr&oacute;nico</th>
+				<td>{{ u.email }}</td>
+			</tr>
+			<tr>
+				<th>C&eacute;dula</th>
+				<td>{{ u.userprofile.dni }}</td>
+			</tr>
+			<tr>
+				<th>Tel&eacute;fono Celular</th> 
+				<td>{{ u.userprofile.cell_phone }}</td>
+			</tr>
+			<tr>
+				<th>Fecha Nacimiento</th>
+				<td>{{ u.userprofile.date_born|date }}</td>
+			</tr>
+			<tr>
+				<th>Direcci&oacute;n/Ciudad</th>
+				<td>{{ u.userprofile.address }} {{ u.userprofile.city }}</td>
+			</tr>
+			<tr>
+				<th>Tipo de usuario</th>
+				<td>{{ u.userprofile.id_user_type.name }}</td>
+			</tr>
+			<tr>
+				<th>Cargo</th>
+				<td>{{ u.userprofile.id_employment.name }}</td>
+			</tr>
+			<tr>
+				<th>Trabajador Activo</th>
+				<td class="">
+					{% if u.userprofile.is_active_worker %}
+						<span title="{{ u.get_short_name }} es trabajador Activo" class="glyphicon glyphicon-ok" ></span>
+					{% else %}
+						<span title="No es trabajador Activo" class="glyphicon glyphicon-ban-circle" ></span>
+					{% endif %}
+				</td>
+			</tr>
+		</table>
+	</div>
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+	/*td{border: solid thin #dadada;}*/
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("span, .actions a").tooltip();
+	});
+</script>
+{% endblock %}
