@@ -23,7 +23,7 @@
 				<th>Nombre</th>
 				<th>Descripc&oacute;n</th>
 				<th>Fecha Creaci&oacute;n</th>
-				<th>Fecha Ultima modificaci&oacute;n</th>
+				<!-- <th>Fecha Ultima modificaci&oacute;n</th> -->
 				<th>Acciones</th>
 			</tr>
 			</thead>
@@ -34,7 +34,7 @@
 				<td>{{ obj.name }}</td>
 				<td>{{ obj.description }}</td>
 				<td>{{ obj.date_added }}</td>
-				<td>{{ obj.date_modified }}</td>
+				<!-- <td>{{ obj.date_modified|date }}</td> -->
 				<td class="text-center actions">
 					<a href="{% url 'update_employment' obj.id %}" title="Editar" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 					<a href="{% url 'delete_employment' obj.id %}" title="Eliminar" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
