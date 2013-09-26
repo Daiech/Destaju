@@ -38,7 +38,7 @@ def admin_users(request):
 			_user.username = _user.email
 			_user.save()
 			_up = userprofile_form.save(commit=False)
-			_up.id_user = _user
+			_up.user = _user
 			_up.save()
 			user_form = UserForm()
 			userprofile_form  = UserProfileForm()
@@ -110,7 +110,7 @@ def admin_employments(request):
 		form  = EmploymentsForm(request.POST)
 		if form.is_valid():
 			obj = form.save(commit=False)
-			obj.id_user = request.user
+			obj.user = request.user
 			try:
 				obj.save()
 			except:
@@ -161,7 +161,7 @@ def create_activity(request):
 		form  = ActivityForm(request.POST)
 		if form.is_valid():
 			activity = form.save(commit=False)
-			activity.id_user = request.user
+			activity.user = request.user
 			activity.save()
 			form = ActivityForm()
 		else:
@@ -178,7 +178,7 @@ def create_activity(request):
 @login_required()
 def update_activity(request, id_activity):
 	"""Manage activities"""
-	_activity = get_object_or_404(Activities, pk = id_activity)
+	_activity = get_object_or_404(Activities, pk=id_activity)
 	if request.method == "POST":
 		form = ActivityForm(request.POST, instance=_activity)
 		if form.is_valid():
@@ -198,7 +198,7 @@ def update_activity(request, id_activity):
 @login_required()
 def delete_activity(request, id_activity):
 	"""Logical deletion of activities"""
-	_activity = get_object_or_404(Activities, pk = id_activity)
+	_activity = get_object_or_404(Activities, pk=id_activity)
 	_activity.is_active=False
 	_activity.save()
 	return HttpResponseRedirect(reverse(create_activity))
@@ -210,7 +210,7 @@ def create_legal_discounts(request):
 		form  = LegalDiscountForm(request.POST)
 		if form.is_valid():
 			legal_discount = form.save(commit=False)
-			legal_discount.id_user = request.user
+			legal_discount.user = request.user
 			legal_discount.save()
 			form = LegalDiscountForm()
 		else:
@@ -227,7 +227,7 @@ def create_legal_discounts(request):
 @login_required()
 def update_legal_discount(request, id_legal_discount):
 	"""Manage legal discounts"""
-	_legal_discount = get_object_or_404(LegalDiscounts, pk = id_legal_discount)
+	_legal_discount = get_object_or_404(LegalDiscounts, pk=id_legal_discount)
 	if request.method == "POST":
 		form = LegalDiscountForm(request.POST, instance=_legal_discount)
 		if form.is_valid():
@@ -247,7 +247,7 @@ def update_legal_discount(request, id_legal_discount):
 @login_required()
 def delete_legal_discount(request, id_legal_discount):
 	"""Logical deletion of legal discounts"""
-	_legal_discount = get_object_or_404(LegalDiscounts, pk = id_legal_discount)
+	_legal_discount = get_object_or_404(LegalDiscounts, pk=id_legal_discount)
 	_legal_discount.is_active=False
 	_legal_discount.save()
 	return HttpResponseRedirect(reverse(create_legal_discounts))
@@ -260,7 +260,7 @@ def create_general_discounts(request):
 		form  = GeneralDiscountForm(request.POST)
 		if form.is_valid():
 			general_discount = form.save(commit=False)
-			general_discount.id_user = request.user
+			general_discount.user = request.user
 			try:
 				general_discount.save()
 				print "es valido"
@@ -281,7 +281,7 @@ def create_general_discounts(request):
 @login_required()
 def update_general_discount(request, id_general_discount):
 	"""Manage general discounts"""
-	_general_discount = get_object_or_404(GeneralDiscounts, pk = id_general_discount)
+	_general_discount = get_object_or_404(GeneralDiscounts, pk=id_general_discount)
 	if request.method == "POST":
 		form = GeneralDiscountForm(request.POST, instance=_general_discount)
 		if form.is_valid():
@@ -301,12 +301,11 @@ def update_general_discount(request, id_general_discount):
 @login_required()
 def delete_general_discount(request, id_general_discount):
 	"""Logical deletion of general discounts"""
-	_general_discount = get_object_or_404(GeneralDiscounts, pk = id_general_discount)
+	_general_discount = get_object_or_404(GeneralDiscounts, pk=id_general_discount)
 	_general_discount.is_active=False
 	_general_discount.save()
 	return HttpResponseRedirect(reverse(create_general_discounts))
-	
-	
+
 
 @login_required()
 def create_places(request):
@@ -315,7 +314,7 @@ def create_places(request):
 		form  = PlacesForm(request.POST)
 		if form.is_valid():
 			place = form.save(commit=False)
-			place.id_user = request.user
+			place.user = request.user
 			try:
 				place.save()
 				print "es valido"
@@ -336,7 +335,7 @@ def create_places(request):
 @login_required()
 def update_place(request, id_place):
 	"""Manage places"""
-	_place = get_object_or_404(Places, pk = id_place)
+	_place = get_object_or_404(Places, pk=id_place)
 	if request.method == "POST":
 		form = PlacesForm(request.POST, instance=_place)
 		if form.is_valid():
@@ -356,12 +355,11 @@ def update_place(request, id_place):
 @login_required()
 def delete_place(request, id_place):
 	"""Logical deletion of places"""
-	_place = get_object_or_404(Places, pk = id_place)
+	_place = get_object_or_404(Places, pk=id_place)
 	_place.is_active=False
 	_place.save()
 	return HttpResponseRedirect(reverse(create_places))
-	
-	
+
 
 @login_required()
 def create_tools(request):
@@ -370,7 +368,7 @@ def create_tools(request):
 		form  = ToolsForm(request.POST)
 		if form.is_valid():
 			tool = form.save(commit=False)
-			tool.id_user = request.user
+			tool.user = request.user
 			try:
 				tool.save()
 				print "es valido"
@@ -391,7 +389,7 @@ def create_tools(request):
 @login_required()
 def update_tool(request, id_tool):
 	"""Manage tools"""
-	_tool = get_object_or_404(Tools, pk = id_tool)
+	_tool = get_object_or_404(Tools, pk=id_tool)
 	if request.method == "POST":
 		form = ToolsForm(request.POST, instance=_tool)
 		if form.is_valid():
@@ -411,20 +409,7 @@ def update_tool(request, id_tool):
 @login_required()
 def delete_tool(request, id_tool):
 	"""Logical deletion of tools"""
-	_tool = get_object_or_404(Tools, pk = id_tool)
+	_tool = get_object_or_404(Tools, pk=id_tool)
 	_tool.is_active=False
 	_tool.save()
 	return HttpResponseRedirect(reverse(create_tools))
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

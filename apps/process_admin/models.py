@@ -1,11 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class UserProfileManager(models.Manager):
-
-    def create_user_profile(self):
-        pass
-
 
 class CommonQueriesManager(models.Manager):
     
@@ -24,7 +19,6 @@ class UserType(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    # objects = UserTypeManager()
 
     def get_permissions(self):
         return ", ".join([s.name for s in self.permissions_set.all()])
@@ -45,7 +39,6 @@ class Permissions(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    # objects = UserTypeManager()
 
     def __unicode__(self):
         return self.name
@@ -84,9 +77,9 @@ class UserProfile(models.Model):
     date_born = models.DateField(null=True)
     is_active_worker = models.BooleanField(default=True)
 
-    id_user = models.OneToOneField(User)
-    id_user_type = models.ForeignKey(UserType, null=True)
-    id_employment = models.ForeignKey(Employments, null=True, blank=True)
+    user = models.OneToOneField(User)
+    user_type = models.ForeignKey(UserType, null=True)
+    employment = models.ForeignKey(Employments, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -94,7 +87,7 @@ class UserProfile(models.Model):
     # objects = UserProfileManager()
 
     def __unicode__(self):
-        return "%s: %s %s" % (self.id_user, self.id_user_type, self.is_active)
+        return "%s: %s %s" % (self.user, self.user_type, self.is_active)
 
 
 class Activities(models.Model):
@@ -103,8 +96,7 @@ class Activities(models.Model):
     description = models.TextField(blank=True)
     measuring_unit = models.CharField(max_length=50, verbose_name="measuring_unit")
     value = models.CharField(max_length=50, verbose_name="value")
-    id_user = models.ForeignKey(
-        User,  null=False, related_name='%(class)s_id_user') 
+    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -113,14 +105,14 @@ class Activities(models.Model):
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
+
 
 class LegalDiscounts(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.TextField(blank=True)
     value = models.CharField(max_length=50, verbose_name="value")
-    id_user = models.ForeignKey(
-        User,  null=False, related_name='%(class)s_id_user') 
+    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -130,12 +122,12 @@ class LegalDiscounts(models.Model):
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
 
+
 class GeneralDiscounts(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.TextField(blank=True)
-    id_user = models.ForeignKey(
-        User,  null=False, related_name='%(class)s_id_user') 
+    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -150,8 +142,7 @@ class Places(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.TextField(blank=True)
-    id_user = models.ForeignKey(
-        User,  null=False, related_name='%(class)s_id_user') 
+    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -166,8 +157,7 @@ class Tools(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.TextField(blank=True)
-    id_user = models.ForeignKey(
-        User,  null=False, related_name='%(class)s_id_user') 
+    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)

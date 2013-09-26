@@ -28,12 +28,12 @@ class UserProfileForm(forms.ModelForm):
     address = forms.CharField(label="* Dirección", widget=forms.TextInput(attrs={'placeholder': 'Dirección'}))
     date_born = forms.CharField(label="* Fecha de nacimiento", widget=forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}))
     is_active_worker = forms.BooleanField(label="* Trabajador activo", initial=True, required=False)
-    id_user_type = forms.ModelChoiceField(label="* Tipo de usuario", queryset=queryset_usertype, empty_label=None)
-    id_employment = forms.ModelChoiceField(label="Cargo", required=False, queryset=queryset_employments, empty_label="(Seleccione)")
+    user_type = forms.ModelChoiceField(label="* Tipo de usuario", queryset=queryset_usertype, empty_label=None)
+    employment = forms.ModelChoiceField(label="Cargo", required=False, queryset=queryset_employments, empty_label="(Seleccione)")
 
     class Meta:
         model = UserProfile
-        fields = ('dni','cell_phone', 'city', 'address', 'date_born', 'is_active_worker', 'id_user_type', 'id_employment')
+        fields = ('dni','cell_phone', 'city', 'address', 'date_born', 'is_active_worker', 'user_type', 'employment')
         
 
 class LegalDiscountForm(forms.ModelForm):

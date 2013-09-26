@@ -48,8 +48,8 @@
 				<td>{{ u.email }}</td>
 				<td>{{ u.userprofile.dni }}</td>
 				<td>{{ u.userprofile.cell_phone }}</td>
-				<td>{{ u.userprofile.id_user_type.name }}</td>
-				<td>{{ u.userprofile.id_employment.name }}</td>
+				<td>{{ u.userprofile.user_type.name }}</td>
+				<td>{{ u.userprofile.employment.name }}</td>
 				<td class="text-center actions">
 					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-eye-open"></span></a>
 					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -160,11 +160,11 @@
 			</tr>
 			<tr>
 				<th>Tipo de usuario</th>
-				<td>[[ userprofile.id_user_type ]]</td>
+				<td>[[ userprofile.user_type ]]</td>
 			</tr>
 			<tr>
 				<th>Cargo</th>
-				<td>[[ userprofile.id_employment ]]</td>
+				<td>[[ userprofile.employment ]]</td>
 			</tr>
 			<tr>
 				<th>Trabajador Activo</th>
@@ -221,8 +221,8 @@
 					    "address": "{{ u.userprofile.address }}",
 					    "date_born": "{{ u.userprofile.date_born }}",
 					    "is_active_worker": {{ u.userprofile.is_active_worker|lower }},
-					    "id_user_type": "{{ u.userprofile.id_user_type.name }}",
-					    "id_employment": "{{ u.userprofile.id_employment.name }}"
+					    "user_type": "{{ u.userprofile.user_type.name }}",
+					    "employment": "{{ u.userprofile.employment.name }}"
 				}
 			},
 		{% endfor %}

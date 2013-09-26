@@ -12,7 +12,7 @@ class UserTypeAdmin(admin.ModelAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ("id_user", "dni", "phone", "cell_phone", "date_born", "city", "id_user_type", "is_active_worker")
+    list_display = ("user", "dni", "phone", "cell_phone", "date_born", "city", "user_type", "is_active_worker")
 
 
 class PermissionsAdmin(admin.ModelAdmin):
