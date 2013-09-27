@@ -1,4 +1,5 @@
 # Create your views here.
+# encoding:utf-8
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from apps.process_admin.forms import *
@@ -7,6 +8,8 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core import serializers
+from apps.actions_log.views import save_modifications
 
 
 def get_users_by_workers(request):
@@ -175,23 +178,25 @@ def create_activity(request):
 	return render_to_response('activities/create_activity.html', locals(), context_instance=RequestContext(request))
 
 
+
+
 @login_required()
 def update_activity(request, id_activity):
 	"""Manage activities"""
-	_activity = get_object_or_404(Activities, pk=id_activity)
-	if request.method == "POST":
-		form = ActivityForm(request.POST, instance=_activity)
+	activity_obj = get_object_or_404(Activities, pk=id_activity)
+	if request.method == "POST":		
+		form = ActivityForm(request.POST, instance=activity_obj)
 		if form.is_valid():
+			save_modifications(request.user, form, Activities.objects.get(pk=id_activity))
 			form.save()
 			return HttpResponseRedirect(reverse(create_activity))
 		else:
 			show_form = True
 	else:
 		show_form = True
-		form = ActivityForm(instance=_activity)
+		form = ActivityForm(instance=activity_obj)
 	form_mode = "_update"
 	activities_list = Activities.objects.get_active()
-	activity_obj = _activity
 	return render_to_response("activities/create_activity.html", locals(), context_instance=RequestContext(request))
 
 

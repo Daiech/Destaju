@@ -96,7 +96,7 @@ class Activities(models.Model):
     description = models.TextField(blank=True)
     measuring_unit = models.CharField(max_length=50, verbose_name="measuring_unit")
     value = models.CharField(max_length=50, verbose_name="value")
-    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
+    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user')
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -106,6 +106,8 @@ class Activities(models.Model):
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
 
+    def get_table_name(self):
+        return "Actividades"
 
 class LegalDiscounts(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
@@ -166,3 +168,6 @@ class Tools(models.Model):
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
+    
+    
+    

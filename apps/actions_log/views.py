@@ -1,12 +1,13 @@
 # Create your views here.
 #encoding:utf-8
 from django.contrib.auth.decorators import login_required
-from apps.actions_log.models import actions, rel_user_action
+from apps.actions_log.models import actions, rel_user_action, UpdateLog
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from pymongo import MongoClient, DESCENDING as pymongo_DESCENDING
+from django.forms.models import model_to_dict
 #from django.core.mail import EmailMessage
 import datetime
 import sys
@@ -183,7 +184,25 @@ def showViewsStats(request):
         return HttpResponseRedirect('/')
     
     
-    
+def save_modifications(user,form,obj):
+    form_cleaned = form.cleaned_data
+    obj_dic = model_to_dict(obj)
+    table_name = obj.get_table_name()
+    pk_obj = obj.pk
+    modifications = []
+    for f in form_cleaned.keys():
+        if form_cleaned[f] != obj_dic[str(f)]: 
+            modifications.append(u"%s - %s modificó el campo: %s de la tabla %s, ANTES: %s, DESPUES %s" % (str(pk_obj), str(user.username), str(form[f].label), table_name , str(form_cleaned[f]), str(obj_dic[str(f)])))
+            u = UpdateLog(user = user, 
+                      table_name = table_name, 
+                      record_pk = pk_obj, 
+                      field = str(form[f].label), 
+                      last_data = str(obj_dic[str(f)]), 
+                      new_data = str(form_cleaned[f]))
+            u.save()
+    for m in modifications:
+        print m
+    return True
     
     
     
