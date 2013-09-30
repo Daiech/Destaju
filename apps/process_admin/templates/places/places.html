@@ -23,6 +23,7 @@
 				<th>Nombre</th>
 				<th>Descripci&oacute;n</th>
 				<th>Fecha Creaci&oacute;n</th>
+				<th>Mod</th>
 				<th>Fecha Ultima modificaci&oacute;n</th>
 				<th>Acciones</th>
 			</tr>
@@ -40,6 +41,7 @@
 				<td>{{a.name}}</td>
 				<td>{{a.description}}</td>
 				<td>{{a.date_added}}</td>
+				<td>{{a.modifications}}</td>
 				<td>{{a.date_modified}}</td>
 				<td class="text-center actions">
 					<a href="{% url 'update_place' a.id %}" title="Editar este lugar" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -74,7 +76,7 @@
 						</h3>
 						<div class="text-right">
 						{% if form_mode == '_update' %}
-							<a href="{% url 'delete_place' place_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+							<a href="{% url 'delete_place' obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 						{% else %}
 							<a href="{% url 'create_places' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Volver</a>
 						{% endif %}

@@ -231,20 +231,19 @@ def create_legal_discounts(request):
 @login_required()
 def update_legal_discount(request, id_legal_discount):
 	"""Manage legal discounts"""
-	_legal_discount = get_object_or_404(LegalDiscounts, pk=id_legal_discount)
+	obj = get_object_or_404(LegalDiscounts, pk=id_legal_discount)
 	if request.method == "POST":
-		form = LegalDiscountForm(request.POST, instance=_legal_discount)
+		form = LegalDiscountForm(request.POST, instance=obj)
 		if form.is_valid():
-			form.save()
+			save_with_modifications(request.user, form, obj, LegalDiscounts)
 			return HttpResponseRedirect(reverse(create_legal_discounts))
 		else:
 			show_form = True
 	else:
 		show_form = True
-		form = LegalDiscountForm(instance=_legal_discount)
+		form = LegalDiscountForm(instance=obj)
 	form_mode = "_update"
 	legal_discounts_list = LegalDiscounts.objects.get_all_active()
-	legal_discount_obj = _legal_discount
 	return render_to_response("discounts/legal_discounts.html", locals(), context_instance=RequestContext(request))
 
 
@@ -285,20 +284,19 @@ def create_general_discounts(request):
 @login_required()
 def update_general_discount(request, id_general_discount):
 	"""Manage general discounts"""
-	_general_discount = get_object_or_404(GeneralDiscounts, pk=id_general_discount)
+	obj = get_object_or_404(GeneralDiscounts, pk=id_general_discount)
 	if request.method == "POST":
-		form = GeneralDiscountForm(request.POST, instance=_general_discount)
+		form = GeneralDiscountForm(request.POST, instance=obj)
 		if form.is_valid():
-			form.save()
+			save_with_modifications(request.user, form, obj, GeneralDiscounts)
 			return HttpResponseRedirect(reverse(create_general_discounts))
 		else:
 			show_form = True
 	else:
 		show_form = True
-		form = GeneralDiscountForm(instance=_general_discount)
+		form = GeneralDiscountForm(instance=obj)
 	form_mode = "_update"
 	general_discounts_list = GeneralDiscounts.objects.get_all_active()
-	general_discount_obj = _general_discount
 	return render_to_response("discounts/general_discounts.html", locals(), context_instance=RequestContext(request))
 
 
@@ -339,20 +337,19 @@ def create_places(request):
 @login_required()
 def update_place(request, id_place):
 	"""Manage places"""
-	_place = get_object_or_404(Places, pk=id_place)
+	obj = get_object_or_404(Places, pk=id_place)
 	if request.method == "POST":
-		form = PlacesForm(request.POST, instance=_place)
+		form = PlacesForm(request.POST, instance=obj)
 		if form.is_valid():
-			form.save()
+			save_with_modifications(request.user, form, obj, Places)
 			return HttpResponseRedirect(reverse(create_places))
 		else:
 			show_form = True
 	else:
 		show_form = True
-		form = PlacesForm(instance=_place)
+		form = PlacesForm(instance=obj)
 	form_mode = "_update"
 	places_list = Places.objects.get_all_active()
-	place_obj = _place
 	return render_to_response("places/places.html", locals(), context_instance=RequestContext(request))
 
 
@@ -393,20 +390,19 @@ def create_tools(request):
 @login_required()
 def update_tool(request, id_tool):
 	"""Manage tools"""
-	_tool = get_object_or_404(Tools, pk=id_tool)
+	obj = get_object_or_404(Tools, pk=id_tool)
 	if request.method == "POST":
-		form = ToolsForm(request.POST, instance=_tool)
+		form = ToolsForm(request.POST, instance=obj)
 		if form.is_valid():
-			form.save()
+			save_with_modifications(request.user, form, obj, Tools)
 			return HttpResponseRedirect(reverse(create_tools))
 		else:
 			show_form = True
 	else:
 		show_form = True
-		form = ToolsForm(instance=_tool)
+		form = ToolsForm(instance=obj)
 	form_mode = "_update"
 	tools_list = Tools.objects.get_all_active()
-	tool_obj = _tool
 	return render_to_response("tools/tools.html", locals(), context_instance=RequestContext(request))
 
 

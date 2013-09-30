@@ -25,6 +25,7 @@
 			<th>Descripci&oacute;n</th>
 			<th>Porcentaje</th>
 			<th>Fecha Creaci&oacute;n</th>
+			<th>Mod</th>
 			<th>Fecha Ultima modificaci&oacute;n</th>
 			<th>Acciones</th>
 		</tr>
@@ -44,6 +45,7 @@
 			<td>{{a.description}}</td>
 			<td>${{a.value}}</td>
 			<td>{{a.date_added}}</td>
+			<td>{{a.modifications}}</td>
 			<td>{{a.date_modified}}</td>
 			<td class="text-center actions">
 				<a href="{% url 'update_legal_discount' a.id %}" title="Editar este descuento legal" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -79,7 +81,7 @@
 						</h3>
 						<div class="text-right">
 						{% if form_mode == '_update' %}
-							<a href="{% url 'delete_legal_discount' legal_discount_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+							<a href="{% url 'delete_legal_discount' obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 						{% else %}
 							<a href="{% url 'create_legal_discounts' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Volver</a>
 						{% endif %}

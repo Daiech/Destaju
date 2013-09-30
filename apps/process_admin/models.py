@@ -135,6 +135,9 @@ class LegalDiscounts(models.Model):
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
+    
+    def get_table_name(self):
+        return "Descuentos legales"
 
 
 class GeneralDiscounts(models.Model):
@@ -152,6 +155,9 @@ class GeneralDiscounts(models.Model):
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
     
+    def get_table_name(self):
+        return "Descuentos Generales"
+    
 
 class Places(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
@@ -168,6 +174,9 @@ class Places(models.Model):
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
     
+    def get_table_name(self):
+        return "Lugares"
+    
     
 class Tools(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
@@ -183,6 +192,9 @@ class Tools(models.Model):
     
     def __unicode__(self):
         return "%s - %s: %s" % (self.code, self.name, self.value)
+    
+    def get_table_name(self):
+        return "Herramientas"
     
     
     
