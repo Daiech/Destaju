@@ -174,7 +174,7 @@ def create_activity(request):
 	else:
 		form  = ActivityForm() 
 	form_mode  = "_create"
-	activities_list = Activities.objects.get_active()
+	activities_list = Activities.objects.get_all_active()
 	return render_to_response('activities/create_activity.html', locals(), context_instance=RequestContext(request))
 
 
@@ -195,7 +195,7 @@ def update_activity(request, id_activity):
 		show_form = True
 		form = ActivityForm(instance=obj)
 	form_mode = "_update"
-	activities_list = Activities.objects.get_active()
+	activities_list = Activities.objects.get_all_active()
 	return render_to_response("activities/create_activity.html", locals(), context_instance=RequestContext(request))
 
 
@@ -224,7 +224,7 @@ def create_legal_discounts(request):
 	else:
 		form  = LegalDiscountForm() 
 	form_mode  = "_create"
-	legal_discounts_list = LegalDiscounts.objects.get_active()
+	legal_discounts_list = LegalDiscounts.objects.get_all_active()
 	return render_to_response('discounts/legal_discounts.html', locals(), context_instance=RequestContext(request))
 
 
@@ -243,7 +243,7 @@ def update_legal_discount(request, id_legal_discount):
 		show_form = True
 		form = LegalDiscountForm(instance=_legal_discount)
 	form_mode = "_update"
-	legal_discounts_list = LegalDiscounts.objects.get_active()
+	legal_discounts_list = LegalDiscounts.objects.get_all_active()
 	legal_discount_obj = _legal_discount
 	return render_to_response("discounts/legal_discounts.html", locals(), context_instance=RequestContext(request))
 
@@ -278,7 +278,7 @@ def create_general_discounts(request):
 	else:
 		form  = GeneralDiscountForm() 
 	form_mode  = "_create"
-	general_discounts_list = GeneralDiscounts.objects.get_active()
+	general_discounts_list = GeneralDiscounts.objects.get_all_active()
 	return render_to_response('discounts/general_discounts.html', locals(), context_instance=RequestContext(request))
 
 
@@ -297,7 +297,7 @@ def update_general_discount(request, id_general_discount):
 		show_form = True
 		form = GeneralDiscountForm(instance=_general_discount)
 	form_mode = "_update"
-	general_discounts_list = GeneralDiscounts.objects.get_active()
+	general_discounts_list = GeneralDiscounts.objects.get_all_active()
 	general_discount_obj = _general_discount
 	return render_to_response("discounts/general_discounts.html", locals(), context_instance=RequestContext(request))
 
@@ -332,7 +332,7 @@ def create_places(request):
 	else:
 		form  = PlacesForm() 
 	form_mode  = "_create"
-	places_list = Places.objects.get_active()
+	places_list = Places.objects.get_all_active()
 	return render_to_response('places/places.html', locals(), context_instance=RequestContext(request))
 
 
@@ -351,7 +351,7 @@ def update_place(request, id_place):
 		show_form = True
 		form = PlacesForm(instance=_place)
 	form_mode = "_update"
-	places_list = Places.objects.get_active()
+	places_list = Places.objects.get_all_active()
 	place_obj = _place
 	return render_to_response("places/places.html", locals(), context_instance=RequestContext(request))
 
@@ -386,7 +386,7 @@ def create_tools(request):
 	else:
 		form  = ToolsForm() 
 	form_mode  = "_create"
-	tools_list = Tools.objects.get_active()
+	tools_list = Tools.objects.get_all_active()
 	return render_to_response('tools/tools.html', locals(), context_instance=RequestContext(request))
 
 
@@ -405,7 +405,7 @@ def update_tool(request, id_tool):
 		show_form = True
 		form = ToolsForm(instance=_tool)
 	form_mode = "_update"
-	tools_list = Tools.objects.get_active()
+	tools_list = Tools.objects.get_all_active()
 	tool_obj = _tool
 	return render_to_response("tools/tools.html", locals(), context_instance=RequestContext(request))
 
