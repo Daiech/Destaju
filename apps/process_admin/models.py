@@ -2,14 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class CommonQueriesManager(models.Manager):
+class GenericManager(models.Manager):
+
+    def get_all_active(self):
+        return self.filter(is_active=True).order_by('-date_modified')
+
+    def get_or_none(self, **kwargs):
+        try:
+            return self.get(**kwargs)
+        except self.model.DoesNotExist:
+            return None
+
+
+class CommonQueriesManager(GenericManager):
     
     def get_available(self):
         return self.filter(is_active=True, is_available=True).order_by('-date_modified')
-    
-    def get_active(self):
-        return self.filter(is_active=True).order_by('-date_modified')
-    
+
 
 class UserType(models.Model):
     """Table necessary for create an user account, This serves to validate the email."""
@@ -84,7 +93,7 @@ class UserProfile(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    # objects = UserProfileManager()
+    objects = GenericManager()
 
     def __unicode__(self):
         return "%s: %s %s" % (self.user, self.user_type, self.is_active)
@@ -108,6 +117,7 @@ class Activities(models.Model):
 
     def get_table_name(self):
         return "Actividades"
+
 
 class LegalDiscounts(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")

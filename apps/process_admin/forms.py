@@ -1,6 +1,7 @@
 #encoding:utf-8
 from django import forms
 from apps.process_admin.models import Activities, UserProfile, UserType, Employments, LegalDiscounts, GeneralDiscounts, Places, Tools
+from apps.process_admin.validators import validate_dni
 from django.contrib.auth.models import User
 
 
@@ -22,7 +23,7 @@ class UserProfileForm(forms.ModelForm):
     queryset_usertype = UserType.objects.exclude(pk=1).order_by('-pk').all()
     queryset_employments = Employments.objects.all()
 
-    dni = forms.CharField(label="* Cédula", widget=forms.TextInput(attrs={'placeholder': 'Cédula de ciudadanía', 'autofocus': 'autofocus'}))
+    dni = forms.CharField(label="* Cédula", validators=[validate_dni], widget=forms.TextInput(attrs={'placeholder': 'Cédula de ciudadanía', 'autofocus': 'autofocus'}))
     cell_phone = forms.CharField(label="* Celular", widget=forms.TextInput(attrs={'placeholder': 'Telefono Celular', 'type': 'tel'}))
     city = forms.CharField(label="* Ciudad", widget=forms.TextInput(attrs={'placeholder': 'Ciudad'}))
     address = forms.CharField(label="* Dirección", widget=forms.TextInput(attrs={'placeholder': 'Dirección'}))
