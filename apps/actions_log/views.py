@@ -1,7 +1,7 @@
 # Create your views here.
 #encoding:utf-8
 from django.contrib.auth.decorators import login_required
-from apps.actions_log.models import actions, rel_user_action, UpdateLog
+from apps.actions_log.models import actions, rel_user_action, UpdateTables
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
@@ -188,28 +188,35 @@ def showViewsStats(request):
 @login_required()
 def read_modifications(request):
     """read the modifications"""
-    object_list = UpdateLog.objects.all()
+    object_list = UpdateTables.objects.all()
     return render_to_response('modifications.html', locals(), context_instance=RequestContext(request))
     
-def save_modifications(user,form,obj):
+def save_with_modifications(user,form,form_obj,model):
+    "This method save the data from form and save a record with the data modified"
+    obj = model.objects.get(pk=form_obj.pk)
     form_cleaned = form.cleaned_data
     obj_dic = model_to_dict(obj)
     table_name = obj.get_table_name()
     pk_obj = obj.pk
-    # modifications = []
+    object_list = []
     for f in form_cleaned.keys():
         if form_cleaned[f] != obj_dic[str(f)]: 
-            # modifications.append(u"%s - %s modificó el campo: %s de la tabla %s, ANTES: %s, DESPUES %s" % (str(pk_obj), str(user.username), str(form[f].label), table_name , str(form_cleaned[f]), str(obj_dic[str(f)])))
-            u = UpdateLog(user = user, 
-                      table_name = table_name, 
-                      record_pk = pk_obj, 
-                      field = str(form[f].label), 
-                      last_data = str(obj_dic[str(f)]), 
-                      new_data = str(form_cleaned[f]))
-            u.save()
-    # for m in modifications:
-    #     print m
-    return True
+            update_table_obj = UpdateTables(user = user, 
+                            table_name = table_name, 
+                            record_pk = pk_obj, 
+                            field = str(form[f].label),
+                            modification_number = obj.modifications + 1, 
+                            last_data = str(obj_dic[str(f)]), 
+                            new_data = str(form_cleaned[f]),
+                            )
+            object_list.append(update_table_obj)
+    if object_list != []:
+        UpdateTables.objects.bulk_create(object_list)
+        form_obj.modifications = form_obj.modifications + 1 
+        form.save()
+        return True
+    else:
+        return False
     
     
     

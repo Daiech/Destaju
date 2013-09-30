@@ -99,6 +99,7 @@ class Activities(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user')
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
+    modifications = models.IntegerField(default=0) 
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     objects = CommonQueriesManager()

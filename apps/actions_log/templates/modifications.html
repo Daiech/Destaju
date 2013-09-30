@@ -16,6 +16,7 @@
             <th>Tabla</th>
             <th>Usuario</th>
             <th>Registro</th>
+            <th>N&uacute;mero de mod</th>
             <th>Campo</th>
             <th>Antes</th>
             <th>Despues</th>
@@ -28,6 +29,7 @@
             <td >{{obj.table_name}}</td>
             <td>{{obj.user.username}}</td>
             <td>{{obj.record_pk}}</td>
+            <td>{{obj.modification_number}}</td>
             <td>{{obj.field}}</td>
             <td>{%if obj.last_data == "True" %}Disponible{% elif obj.last_data == "False" %}No disponible{% else %} {{obj.last_data}}{%endif%}</td>
             <td>{%if obj.new_data == "True" %}Disponible{% elif obj.new_data == "False" %}No disponible{% else %} {{obj.new_data}}{%endif%}</td>
