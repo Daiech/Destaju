@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block TITLE %}Modificaciones{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Modificaciones <small>modifiaciones sobre registros en {{ PROJECT_NAME }} </small> 
+        
+    </h1>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title ">Historial de modificaciones</h3>
+    </div>
+    <table id="dataTable" class="table table-hover table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>Tabla</th>
+            <th>Usuario</th>
+            <th>Registro</th>
+            <th>Campo</th>
+            <th>Antes</th>
+            <th>Despues</th>
+            <th>Fecha modificaci&oacute;n</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in object_list %}
+        <tr>
+            <td >{{obj.table_name}}</td>
+            <td>{{obj.user.username}}</td>
+            <td>{{obj.record_pk}}</td>
+            <td>{{obj.field}}</td>
+            <td>{%if obj.last_data == "True" %}Disponible{% elif obj.last_data == "False" %}No disponible{% else %} {{obj.last_data}}{%endif%}</td>
+            <td>{%if obj.new_data == "True" %}Disponible{% elif obj.new_data == "False" %}No disponible{% else %} {{obj.new_data}}{%endif%}</td>
+            <td>{{obj.date_added}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+    .actions .btn{padding: 0;}
+    .panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("span").tooltip();
+        /* dataTables jQuery plugin activation setDataTables(id_table)*/
+        setDataTables('#dataTable')
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

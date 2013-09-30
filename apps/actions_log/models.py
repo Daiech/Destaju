@@ -29,3 +29,6 @@ class UpdateLog(models.Model):
     last_data = models.TextField(blank=True)
     new_data = models.TextField(blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return u"%s - %s modificó el campo: %s de la tabla %s, ANTES: %s, DESPUES %s" % (self.record_pk, self.user.username, self.field, self.table_name , self.last_data, self.new_data )

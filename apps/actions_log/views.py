@@ -183,16 +183,23 @@ def showViewsStats(request):
     else:
         return HttpResponseRedirect('/')
     
+
+
+@login_required()
+def read_modifications(request):
+    """read the modifications"""
+    object_list = UpdateLog.objects.all()
+    return render_to_response('modifications.html', locals(), context_instance=RequestContext(request))
     
 def save_modifications(user,form,obj):
     form_cleaned = form.cleaned_data
     obj_dic = model_to_dict(obj)
     table_name = obj.get_table_name()
     pk_obj = obj.pk
-    modifications = []
+    # modifications = []
     for f in form_cleaned.keys():
         if form_cleaned[f] != obj_dic[str(f)]: 
-            modifications.append(u"%s - %s modificó el campo: %s de la tabla %s, ANTES: %s, DESPUES %s" % (str(pk_obj), str(user.username), str(form[f].label), table_name , str(form_cleaned[f]), str(obj_dic[str(f)])))
+            # modifications.append(u"%s - %s modificó el campo: %s de la tabla %s, ANTES: %s, DESPUES %s" % (str(pk_obj), str(user.username), str(form[f].label), table_name , str(form_cleaned[f]), str(obj_dic[str(f)])))
             u = UpdateLog(user = user, 
                       table_name = table_name, 
                       record_pk = pk_obj, 
@@ -200,8 +207,8 @@ def save_modifications(user,form,obj):
                       last_data = str(obj_dic[str(f)]), 
                       new_data = str(form_cleaned[f]))
             u.save()
-    for m in modifications:
-        print m
+    # for m in modifications:
+    #     print m
     return True
     
     
