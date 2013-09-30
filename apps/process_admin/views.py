@@ -38,7 +38,11 @@ def admin_users(request):
 		up = userprofile_form.is_valid()
 		if u and up:
 			_user = user_form.save()
-			_user.username = _user.email
+			if user_form.cleaned_data['email'] != '':
+				_user.username = _user.email
+			else:
+				from apps.account.views import validateUsername
+				_user.username = validateUsername(_user.first_name)
 			_user.save()
 			_up = userprofile_form.save(commit=False)
 			_up.user = _user
