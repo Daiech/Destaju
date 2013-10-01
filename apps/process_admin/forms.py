@@ -23,7 +23,7 @@ class UserProfileForm(forms.ModelForm):
     queryset_usertype = UserType.objects.exclude(pk=1).order_by('-pk').all()
     queryset_employments = Employments.objects.all()
 
-    dni = forms.CharField(label="* Cédula", validators=[validate_dni], widget=forms.TextInput(attrs={'placeholder': 'Cédula de ciudadanía', 'autofocus': 'autofocus'}))
+    dni = forms.CharField(label="* Cédula", validators=[], widget=forms.TextInput(attrs={'placeholder': 'Cédula de ciudadanía', 'autofocus': 'autofocus'}))
     cell_phone = forms.CharField(label="* Celular", widget=forms.TextInput(attrs={'placeholder': 'Telefono Celular', 'type': 'tel'}))
     city = forms.CharField(label="* Ciudad", widget=forms.TextInput(attrs={'placeholder': 'Ciudad'}))
     address = forms.CharField(label="* Dirección", widget=forms.TextInput(attrs={'placeholder': 'Dirección'}))
@@ -31,6 +31,39 @@ class UserProfileForm(forms.ModelForm):
     is_active_worker = forms.BooleanField(label="* Trabajador activo", initial=True, required=False)
     user_type = forms.ModelChoiceField(label="* Tipo de usuario", queryset=queryset_usertype, empty_label=None)
     employment = forms.ModelChoiceField(label="Cargo", required=False, queryset=queryset_employments, empty_label="(Seleccione)")
+
+    def is_dni_unique(self, user):
+        cleaned_data = self.cleaned_data
+        try:
+            u = UserProfile.objects.exclude(user=user).get(dni=cleaned_data["dni"])
+            print "UUUUUUUUUUUUUUUUU", u
+            if u:
+                from django.core.exceptions import ValidationError
+                raise ValidationError('estas editandote, Pilas, alguien ya tiene esta cedula')
+        except UserProfile.DoesNotExist, e:
+            return True
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        try:
+            user_obj = self.instance
+            print "ESTE ES MI USUARIO:", user_obj
+        except Exception, e:
+            print "FUCKING ERROR!", e
+            user_obj = None
+        try:
+            from django.core.exceptions import ValidationError
+            if user_obj:
+                u = UserProfile.objects.exclude(user=user_obj).filter(dni=cleaned_data["dni"])
+                if u:
+                    if not user_obj in u:
+                        raise ValidationError('Pilas, alguien ya tiene esta cedula')
+            else:
+                if UserProfile.objects.filter(dni=cleaned_data["dni"]):
+                    raise ValidationError('Cédula duplicada, verifique que otro usuario no tenga esta misma cédula.')
+        except UserProfile.DoesNotExist, e:
+            print "Relax! DoesNotExist", e
+        return cleaned_data
 
     class Meta:
         model = UserProfile

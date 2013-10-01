@@ -78,7 +78,7 @@ class Employments(models.Model):
 
 class UserProfile(models.Model):
     """Table necessary for create an user account, This serves to validate the email."""
-    dni = models.CharField(max_length=30, verbose_name="dni")
+    dni = models.CharField(max_length=30, null=False, verbose_name="dni")
     phone = models.CharField(max_length=150, verbose_name="phone")
     cell_phone = models.CharField(max_length=150, verbose_name="cell_phone")
     city = models.CharField(max_length=150, verbose_name="city")
@@ -98,6 +98,10 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return "%s: %s %s" % (self.user, self.user_type, self.is_active)
 
+    class Meta:
+        ordering = ('id',)
+        unique_together = ("user", "dni")
+            
 
 class Activities(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
