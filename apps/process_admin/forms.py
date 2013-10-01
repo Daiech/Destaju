@@ -47,22 +47,17 @@ class UserProfileForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         try:
             user_obj = self.instance
-            print "ESTE ES MI USUARIO:", user_obj
         except Exception, e:
-            print "FUCKING ERROR!", e
-            user_obj = None
-        try:
+            user_obj = False
+        if user_obj:
+            """if user_obj is defined: the form has an instance. (updating)"""
+            there_is_dni = UserProfile.objects.exclude(user=user_obj.user).filter(dni=cleaned_data["dni"])
+        else:
+            """if user_obj is not defined: the form doesn't have an instance. (creating)"""
+            there_is_dni = UserProfile.objects.filter(dni=cleaned_data["dni"])
+        if there_is_dni:
             from django.core.exceptions import ValidationError
-            if user_obj:
-                u = UserProfile.objects.exclude(user=user_obj).filter(dni=cleaned_data["dni"])
-                if u:
-                    if not user_obj in u:
-                        raise ValidationError('Pilas, alguien ya tiene esta cedula')
-            else:
-                if UserProfile.objects.filter(dni=cleaned_data["dni"]):
-                    raise ValidationError('Cédula duplicada, verifique que otro usuario no tenga esta misma cédula.')
-        except UserProfile.DoesNotExist, e:
-            print "Relax! DoesNotExist", e
+            raise ValidationError('Cédula duplicada, verifique que otro usuario no tenga esta misma cédula.')
         return cleaned_data
 
     class Meta:
