@@ -38,11 +38,14 @@ def admin_users(request):
 		up = userprofile_form.is_valid()
 		if u and up:
 			_user = user_form.save()
+			## add a username
 			if user_form.cleaned_data['email'] != '':
 				_user.username = _user.email
 			else:
 				from apps.account.views import validateUsername
 				_user.username = validateUsername(_user.first_name)
+			## add a username
+
 			_user.save()
 			_up = userprofile_form.save(commit=False)
 			_up.user = _user
@@ -70,35 +73,36 @@ def read_user(request, id_user):
 
 @login_required()
 def update_user(request, id_user):
-	_user = get_object_or_404(User, pk=id_user)
-	users, is_active_worker = get_users_by_workers(request)
-	from apps.account.forms import UserForm
-	from apps.process_admin.forms import UserProfileForm
-	if request.method == "POST":
-		user_form  = UserForm(request.POST, instance=_user)
-		userprofile_form  = UserProfileForm(request.POST, instance=_user.userprofile)
-		u = user_form.is_valid()
-		up = userprofile_form.is_valid()
-		if u and up:
-			_user = user_form.save()
-			_up = userprofile_form.save()
-			user_form = UserForm()
-			userprofile_form  = UserProfileForm()
-			w=1
-			try:
-				w = int(request.GET.get("workers"))
-			except Exception:
-				w = 1
-			return HttpResponseRedirect(reverse(admin_users) + "?workers=" + str(w))
-		else:
-			show_form = True
-	else:
-		show_form = True
-		user_form  = UserForm(instance=_user)
-		userprofile_form  = UserProfileForm(instance=_user.userprofile)
-	form_mode = "_update"
-	user_obj = _user
-	return render_to_response("users/admin_users.html", locals(), context_instance=RequestContext(request))
+    _user = get_object_or_404(User, pk=id_user)
+    users, is_active_worker = get_users_by_workers(request)
+    from apps.account.forms import UserForm
+    from apps.process_admin.forms import UserProfileForm
+    if request.method == "POST":
+        user_form  = UserForm(request.POST, instance=_user)
+        userprofile_form  = UserProfileForm(request.POST, instance=_user.userprofile)
+        u = user_form.is_valid()
+        up = userprofile_form.is_valid()
+        # up2 = userprofile_form.is_dni_unique(_user)
+        if u and up:
+            _user = user_form.save()
+            _up = userprofile_form.save()
+            user_form = UserForm()
+            userprofile_form  = UserProfileForm()
+            w=1
+            try:
+                w = int(request.GET.get("workers"))
+            except Exception:
+                w = 1
+            return HttpResponseRedirect(reverse(admin_users) + "?workers=" + str(w))
+        else:
+            show_form = True
+    else:
+        show_form = True
+        user_form  = UserForm(instance=_user)
+        userprofile_form  = UserProfileForm(instance=_user.userprofile)
+    form_mode = "_update"
+    user_obj = _user
+    return render_to_response("users/admin_users.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()

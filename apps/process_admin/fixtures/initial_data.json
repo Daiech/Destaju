@@ -7,8 +7,8 @@
 			"name":"Administrativo",
 			"description":"Usuario administrativo de la empresa",
 			"is_active":1,
-			"date_added":"2013-09-19 20:55:33",
-			"date_modified":"2013-09-19 20:55:33"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -19,8 +19,8 @@
 			"name":"Cortero",
 			"description":"Corta cosas",
 			"is_active":1,
-			"date_added":"2013-09-19 20:56:14",
-			"date_modified":"2013-09-19 20:56:14"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -31,8 +31,8 @@
 			"name":"Lancero",
 			"description":"lanza cosas",
 			"is_active":1,
-			"date_added":"2013-09-19 20:56:32",
-			"date_modified":"2013-09-19 20:56:32"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -43,8 +43,8 @@
 			"name":"Super Admin",
 			"description":"Super administrador de la plataforma",
 			"is_active":1,
-			"date_added":"2013-09-19 21:01:11",
-			"date_modified":"2013-09-19 21:47:27"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -55,8 +55,8 @@
 			"name":"Admin",
 			"description":"Administrador de la plataforma",
 			"is_active":1,
-			"date_added":"2013-09-19 21:01:26",
-			"date_modified":"2013-09-19 21:48:06"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -67,8 +67,8 @@
 			"name":"Supervisor 1",
 			"description":"Supervisor de la plataforma",
 			"is_active":1,
-			"date_added":"2013-09-19 21:01:45",
-			"date_modified":"2013-09-19 21:48:21"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -79,8 +79,8 @@
 			"name":"Supervisor 2",
 			"description":"Supervisor 2 de la plataforma",
 			"is_active":1,
-			"date_added":"2013-09-19 21:26:47",
-			"date_modified":"2013-09-19 21:48:30"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -91,8 +91,8 @@
 			"name":"Supervisor 3",
 			"description":"Supervisor 3 de la plataforma",
 			"is_active":1,
-			"date_added":"2013-09-19 21:27:08",
-			"date_modified":"2013-09-19 21:48:55"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -103,8 +103,8 @@
 			"name":"Consultor",
 			"description":"Consulta reportes en la plataforma",
 			"is_active":1,
-			"date_added":"2013-09-19 21:27:47",
-			"date_modified":"2013-09-19 21:49:03"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -115,8 +115,8 @@
 			"name":"Empleado",
 			"description":"Empleado de la plataforma",
 			"is_active":1,
-			"date_added":"2013-09-19 21:01:59",
-			"date_modified":"2013-09-19 21:49:16"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -127,8 +127,8 @@
 			"name":"Proveedor",
 			"description":"Proveedor de la planta",
 			"is_active":1,
-			"date_added":"2013-09-19 21:02:53",
-			"date_modified":"2013-09-19 21:50:47"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -140,8 +140,8 @@
 			"description":"Permite ingresar a la plataforma",
 			"is_active":1,
 			"usertype": [1, 2, 3, 4, 5, 6],
-			"date_added":"2013-09-19 21:28:02",
-			"date_modified":"2013-09-19 21:28:02"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -153,8 +153,8 @@
 			"description":"Usuario que puede asignar tipos de usuario a un usuario",
 			"is_active":1,
 			"usertype": [1, 2],
-			"date_added":"2013-09-19 21:39:46",
-			"date_modified":"2013-09-19 21:39:46"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -166,8 +166,8 @@
 			"description":"Puede agregar usuarios",
 			"is_active":1,
 			"usertype": [1, 2],
-			"date_added":"2013-09-19 21:52:25",
-			"date_modified":"2013-09-19 21:52:25"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -179,8 +179,8 @@
 			"description":"Puede actualizar usuarios",
 			"is_active":1,
 			"usertype": [1, 2],
-			"date_added":"2013-09-19 21:53:56",
-			"date_modified":"2013-09-19 21:53:56"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -192,8 +192,8 @@
 			"description":"Puede eliminar usuarios",
 			"is_active":1,
 			"usertype": [1, 2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -204,8 +204,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -216,8 +216,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -228,8 +228,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -240,8 +240,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -252,8 +252,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -264,8 +264,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -276,8 +276,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -288,8 +288,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -300,8 +300,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -312,8 +312,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -324,8 +324,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -336,8 +336,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -348,8 +348,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -360,8 +360,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -372,8 +372,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -384,8 +384,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -396,8 +396,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -408,8 +408,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -420,8 +420,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -432,8 +432,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -444,8 +444,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -456,8 +456,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -468,8 +468,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -480,8 +480,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -492,8 +492,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -504,8 +504,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -516,8 +516,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -528,8 +528,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -540,8 +540,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -552,8 +552,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -564,8 +564,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -576,8 +576,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -588,8 +588,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -600,8 +600,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -612,8 +612,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -624,8 +624,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -636,8 +636,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -648,8 +648,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -660,8 +660,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -672,8 +672,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -684,8 +684,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	},
 	{
@@ -696,8 +696,8 @@
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],
-			"date_added":"2013-09-19 21:57:05",
-			"date_modified":"2013-09-19 21:57:05"
+			"date_added":"2013-07-25T09:16:08Z",
+			"date_modified":"2013-07-25T09:16:08Z"
 		}
 	}
 ]

@@ -92,7 +92,8 @@ def validateUsername(username):
         User.objects.get(username=username)
         return getNextUsername(username)
     except User.DoesNotExist:
-        return username.replace(" ", "-")
+        from django.template.defaultfilters import slugify
+        return slugify(username)
 
 
 def newInvitedUser(email_to_invite, _user_from, first_name=False, last_name=False):
