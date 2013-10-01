@@ -29,7 +29,8 @@
 			<th>Unidad de medida</th>
 			<th>Precio</th>
 			<th>Fecha Creaci&oacute;n</th>
-			<th>Fecha Ultima modificaci&oacute;n</th>
+			<th>Mod</th>
+			<th>Ultima modificaci&oacute;n</th>
 			<th>Acciones</th>
 		</tr>
 		</thead>
@@ -47,8 +48,9 @@
 			<td>{{a.description}}</td>
 			<td>{{a.measuring_unit}}</td>
 			<td>${{a.value}}</td>
-			<td>{{a.date_added}}</td>
-			<td>{{a.date_modified}}</td>
+			<td><span title="{{a.date_added}}">{{a.date_added|date:"Y/m/d G:i"}}</span></td>
+			<td class="text-center">{{a.modifications}}</td>
+			<td><span title="{{a.date_modified}}">{{a.date_modified|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center actions">
 				<a href="{% url 'update_activity' a.id %}" title="Editar esta actividad" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a href="{% url 'delete_activity' a.id %}" title="Eliminar esta actividad" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
@@ -83,7 +85,7 @@
 						</h3>
 						<div class="text-right">
 						{% if form_mode == '_update' %}
-							<a href="{% url 'delete_activity' activity_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+							<a href="{% url 'delete_activity' obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 						{% else %}
 						<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
 						{% endif %}

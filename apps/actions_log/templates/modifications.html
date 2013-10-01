@@ -15,11 +15,12 @@
         <tr>
             <th>Tabla</th>
             <th>Usuario</th>
-            <th>Registro</th>
+            <th>Id_Reg</th>
+            <th>No._Mod</th>
             <th>Campo</th>
             <th>Antes</th>
             <th>Despues</th>
-            <th>Fecha modificaci&oacute;n</th>
+            <th>Fecha</th>
         </tr>
         </thead>
         <tbody>
@@ -27,11 +28,12 @@
         <tr>
             <td >{{obj.table_name}}</td>
             <td>{{obj.user.username}}</td>
-            <td>{{obj.record_pk}}</td>
+            <td class="text-center">{{obj.record_pk}}</td>
+            <td class="text-center">{{obj.modification_number}}</td>
             <td>{{obj.field}}</td>
-            <td>{%if obj.last_data == "True" %}Disponible{% elif obj.last_data == "False" %}No disponible{% else %} {{obj.last_data}}{%endif%}</td>
-            <td>{%if obj.new_data == "True" %}Disponible{% elif obj.new_data == "False" %}No disponible{% else %} {{obj.new_data}}{%endif%}</td>
-            <td>{{obj.date_added}}</td>
+            <td>{%if obj.last_data == "True" %}Disponible{% elif obj.last_data == "False" %}No disponible{% else %}<span  title="{{obj.last_data}}"> {{obj.last_data|truncatechars:30}}</span>{%endif%}</td>
+            <td>{%if obj.new_data == "True" %}Disponible{% elif obj.new_data == "False" %}No disponible{% else %}<span title="{{obj.new_data}}"> {{obj.new_data|truncatechars:30}}</span>{%endif%}</td>
+            <td><span title="{{obj.date_added}}" >{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
         </tr>
     {% endfor %}
     </tbody>
