@@ -46,12 +46,13 @@ class UserProfileForm(forms.ModelForm):
     def clean(self):
         cleaned_data = self.cleaned_data
         try:
-            user_obj = self.instance
+            user_obj = self.instance.pk
         except Exception, e:
-            user_obj = False
+            user_obj = None
+            print "HOOOOO*//////////////////////////// %s" % e
         if user_obj:
             """if user_obj is defined: the form has an instance. (updating)"""
-            there_is_dni = UserProfile.objects.exclude(user=user_obj.user).filter(dni=cleaned_data["dni"])
+            there_is_dni = UserProfile.objects.exclude(user=self.instance.user).filter(dni=cleaned_data["dni"])
         else:
             """if user_obj is not defined: the form doesn't have an instance. (creating)"""
             there_is_dni = UserProfile.objects.filter(dni=cleaned_data["dni"])
