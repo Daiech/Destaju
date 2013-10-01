@@ -9,7 +9,7 @@
 			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
 			<div class="text-right">
 				<a  href="{% url 'admin_users' %}?workers={% if not is_active_worker %}1{% else %}0{% endif %}" title="" data-toggle="modal" class="btn btn-sm">
-			    	Ver {% if is_active_worker %}in{% endif %}activos
+			    	Ver {% if is_active_worker %}inactivos{% else %}Todos {% endif %}
 			    </a>
 				<a  href="#newUserModal" title="" data-toggle="modal" class="btn btn-primary btn-sm">
 			    	<span class="glyphicon glyphicon-plus"></span> Agregar

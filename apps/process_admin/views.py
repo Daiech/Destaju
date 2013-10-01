@@ -13,18 +13,23 @@ from apps.actions_log.views import save_with_modifications
 
 
 def get_users_by_workers(request):
-	"""Return all User objects depending of GET var 'workers'"""
-	is_active_worker = True
-	w = None
-	if request.method == "GET" and 'workers' in request.GET:
-		try:
-			w = int(request.GET.get("workers"))
-		except Exception, e:
-			print "Exception: ",e
-			w = 1
-		is_active_worker = bool(w)
-	users = User.objects.filter(userprofile__is_active_worker=is_active_worker, userprofile__is_active=True)
-	return users, is_active_worker
+    """Return all User objects depending of GET var 'workers'"""
+    is_active_worker = True
+    w = None
+    if request.method == "GET" and 'workers' in request.GET:
+        try:
+            w = int(request.GET.get("workers"))
+        except Exception, e:
+            w = 1
+        is_active_worker = bool(w)
+    if is_active_worker:
+        users = User.objects.filter(is_active=True, userprofile__is_active=True).order_by("-userprofile__is_active_worker")
+        print "LOS USUARIOS"
+    else:
+        users = User.objects.filter(userprofile__is_active_worker=is_active_worker, userprofile__is_active=True)
+        print "LOS NO USUARIOS"
+    print users
+    return users, is_active_worker
 
 
 @login_required()
@@ -82,7 +87,6 @@ def update_user(request, id_user):
         userprofile_form  = UserProfileForm(request.POST, instance=_user.userprofile)
         u = user_form.is_valid()
         up = userprofile_form.is_valid()
-        # up2 = userprofile_form.is_dni_unique(_user)
         if u and up:
             _user = user_form.save()
             _up = userprofile_form.save()
