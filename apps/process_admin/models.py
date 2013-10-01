@@ -172,7 +172,7 @@ class Places(models.Model):
     objects = CommonQueriesManager()
     
     def __unicode__(self):
-        return "%s - %s: %s" % (self.code, self.name, self.value)
+        return "%s - %s: %s" % (self.code, self.name, self.is_active)
     
     def get_table_name(self):
         return "Lugares"
@@ -191,7 +191,7 @@ class Tools(models.Model):
     objects = CommonQueriesManager()
     
     def __unicode__(self):
-        return "%s - %s: %s" % (self.code, self.name, self.value)
+        return "%s - %s: %s" % (self.code, self.name, self.is_active)
     
     def get_table_name(self):
         return "Herramientas"
