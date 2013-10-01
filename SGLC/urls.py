@@ -5,7 +5,7 @@ from apps.actions_log.urls import actions_log_urls
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
-print actions_log_urls
+
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'apps.website.views.home', name='home'),

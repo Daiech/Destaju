@@ -33,3 +33,6 @@ class UpdateTables(models.Model):
 
     def __unicode__(self):
         return u"%s - %s modificó el campo: %s de la tabla %s, ANTES: %s, DESPUES %s" % (self.record_pk, self.user.username, self.field, self.table_name , self.last_data, self.new_data )
+    
+    class Meta:
+        ordering = ('-date_added',)

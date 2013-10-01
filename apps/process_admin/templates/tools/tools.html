@@ -24,7 +24,7 @@
 				<th>Descripci&oacute;n</th>
 				<th>Fecha Creaci&oacute;n</th>
 				<th>Mod</th>
-				<th>Fecha Ultima modificaci&oacute;n</th>
+				<th>Ultima modificaci&oacute;n</th>
 				<th>Acciones</th>
 			</tr>
 		</thead>
@@ -40,9 +40,9 @@
 				<td >{{a.code}}</td>
 				<td>{{a.name}}</td>
 				<td>{{a.description}}</td>
-				<td>{{a.date_added}}</td>
-				<td>{{a.modifications}}</td>
-				<td>{{a.date_modified}}</td>
+				<td><span title="{{a.date_added}}">{{a.date_added|date:"Y/m/d G:i"}}</span></td>
+				<td class="text-center">{{a.modifications}}</td>
+				<td><span title="{{a.date_modified}}">{{a.date_modified|date:"Y/m/d G:i"}}</span></td>
 				<td class="text-center actions">
 					<a href="{% url 'update_tool' a.id %}" title="Editar esta herramienta" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 					<a href="{% url 'delete_tool' a.id %}" title="Eliminar esta herramienta" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>

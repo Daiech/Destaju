@@ -62,6 +62,12 @@ function sendAjax(url, params, load_elem, myCallback){
 }
 function setDataTables(id_table){
 	var oTable = $(id_table).dataTable( {
+		"iDisplayLength": 30,
+        "aLengthMenu": [
+            [30, 100, 1000, -1],
+            [30, 100, 1000, "Todos"]
+        ],
+        "aaSorting": [],
 		"oLanguage": {
 			"sLengthMenu": "Mostrar _MENU_ registros",
 			"sZeroRecords": "No hay datos para mostrar",
@@ -75,7 +81,7 @@ function setDataTables(id_table){
 		        "sNext": "Siguiente",
 		        "sPrevious": "Anterior"
 		        	
-		      }
+		      },
 			},
         } );
     $("#usersList_filter > label > input").attr("placeholder", "Filtrar");
