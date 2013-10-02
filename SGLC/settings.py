@@ -15,6 +15,7 @@ APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", 
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"
 LOGIN_REDIRECT_URL = "/"
+FROM_EMAIL = "Daiech <no-reply@daiech.com>"
 
 MANAGERS = ADMINS
 

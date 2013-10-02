@@ -123,7 +123,21 @@ def permission_login(request, id_user):
         activation_key = getActivationKey(_user.email)
         _user.set_password(activation_key[:8])
         # enviar correo a _user con la siguiente pass
+        try:
+            from apps.account.models import activation_keys
+            activation_keys(id_user=_user, email=_user.email, activation_key=activation_key).save()
+        except Exception, e:
+            print "Error in activation_keys:", e
+        from apps.emailmodule.views import sendEmailHtml
+        email_ctx = {
+            "username": request.user.get_full_name(),
+            "newuser_username": _user.get_full_name(),
+            "activation_key": activation_key,
+            "pass": activation_key[:8],
+            "id_inv": activation_key[5:20]
+        }
         print "pass:", activation_key[:8]
+        sendEmailHtml(2, email_ctx, [_user.email])
         _user.save()
     else:
         return HttpResponseRedirect(reverse("admin_users") + "#no-tiene-correo"+ str(_user.id))
