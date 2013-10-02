@@ -23,50 +23,48 @@ def get_users_by_workers(request):
         is_active_worker = bool(w)
     if is_active_worker:
         users = User.objects.filter(is_active=True, userprofile__is_active=True).order_by("-userprofile__is_active_worker")
-        print "LOS USUARIOS"
     else:
-        users = User.objects.filter(userprofile__is_active_worker=is_active_worker, userprofile__is_active=True)
-        print "LOS NO USUARIOS"
-    print users
+        users = User.objects.filter(is_active=True, userprofile__is_active_worker=is_active_worker, userprofile__is_active=True)
     return users, is_active_worker
 
 
 @login_required()
 def admin_users(request):
-	from apps.account.forms import UserForm
-	from apps.process_admin.forms import UserProfileForm
-	if request.method == 'POST':
-		user_form  = UserForm(request.POST)
-		userprofile_form  = UserProfileForm(request.POST)
-		u = user_form.is_valid()
-		up = userprofile_form.is_valid()
-		if u and up:
-			_user = user_form.save()
-			## add a username
-			if user_form.cleaned_data['email'] != '':
-				_user.username = _user.email
-			else:
-				from apps.account.views import validateUsername
-				_user.username = validateUsername(_user.first_name)
-			## add a username
-
-			_user.save()
-			_up = userprofile_form.save(commit=False)
-			_up.user = _user
-			_up.save()
-			user_form = UserForm()
-			userprofile_form  = UserProfileForm()
-		else:
-			show_form = True
-		if '_createanother' in request.POST:
-			show_form = True
-	else:
-		user_form  = UserForm()
-		userprofile_form  = UserProfileForm()
-	form_mode  = "_create"
-	users, is_active_worker = get_users_by_workers(request)
-	user_obj = False
-	return render_to_response("users/admin_users.html", locals(), context_instance=RequestContext(request))
+    from apps.account.forms import UserForm
+    from apps.process_admin.forms import UserProfileForm
+    if request.method == 'POST':
+        user_form  = UserForm(request.POST)
+        userprofile_form  = UserProfileForm(request.POST)
+        u = user_form.is_valid()
+        up = userprofile_form.is_valid()
+        if u and up:
+            _user = user_form.save()
+            ## add a username
+            if user_form.cleaned_data['email'] != '':
+                _user.username = _user.email
+            else:
+                from apps.account.views import validateUsername
+                _user.username = validateUsername(_user.first_name)
+            ## add a username
+            _user.is_active = False
+            _user.save()
+            _up = userprofile_form.save(commit=False)
+            _up.user = _user
+            _up.save()
+            user_form = UserForm()
+            userprofile_form  = UserProfileForm()
+        else:
+            show_form = True
+        if '_createanother' in request.POST:
+            show_form = True
+    else:
+        user_form  = UserForm()
+        userprofile_form  = UserProfileForm()
+    form_mode  = "_create"
+    users, is_active_worker = get_users_by_workers(request)
+    user_obj = False
+    pk = str(request.GET.get("user")) if "user" in request.GET and request.GET.get("user") != "" else "#"
+    return render_to_response("users/admin_users.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()
@@ -91,12 +89,12 @@ def update_user(request, id_user):
             _up = userprofile_form.save()
             user_form = UserForm()
             userprofile_form  = UserProfileForm()
-            w=1
-            try:
-                w = int(request.GET.get("workers"))
-            except Exception:
-                w = 1
-            return HttpResponseRedirect(reverse(admin_users) + "?workers=" + str(w))
+            # GET vars
+            w = str(request.GET.get("workers")) if "workers" in request.GET and request.GET.get("workers") != "" else 1
+            u = str(request.POST.get("pk_user")) if "pk_user" in request.POST and request.POST.get("pk_user") != "" else None
+            next = str("&next=" + request.POST.get("next")) if "next" in request.POST and request.POST.get("next") != "" else ""
+            u = "&user=" + u if u else ""
+            return HttpResponseRedirect(reverse(admin_users) + "?workers=" + str(w) + str(next) + str(u))
         else:
             show_form = True
     else:
@@ -110,11 +108,25 @@ def update_user(request, id_user):
 
 @login_required()
 def delete_user(request, id_user):
-	_user = get_object_or_404(User, pk=id_user)
-	_user.userprofile.is_active = False
-	_user.userprofile.is_active_worker = False
-	_user.userprofile.save()
-	return HttpResponseRedirect(reverse("admin_users") + "#usuario-eliminado"+ str(_user.id))
+    _user = get_object_or_404(User, pk=id_user)
+    _user.userprofile.is_active = False
+    _user.userprofile.is_active_worker = False
+    _user.userprofile.save()
+    return HttpResponseRedirect(reverse("admin_users") + "#usuario-eliminado"+ str(_user.id))
+
+
+@login_required()
+def permission_login(request, id_user):
+    _user = get_object_or_404(User, pk=id_user)
+    if _user.email:
+        from apps.account.views import getActivationKey
+        activation_key = getActivationKey(_user.email)
+        _user.set_password(activation_key[:8])
+        print "pass:", activation_key[:8]
+        _user.save()
+    else:
+        return HttpResponseRedirect(reverse("admin_users") + "#no-tiene-correo"+ str(_user.id))
+    return HttpResponseRedirect(reverse("admin_users") + "#ahora-puede-iniciar"+ str(_user.id))
 	
 
 @login_required()
@@ -217,7 +229,8 @@ def delete_activity(request, id_activity):
 	_activity.is_active=False
 	_activity.save()
 	return HttpResponseRedirect(reverse(create_activity))
-	
+
+
 @login_required()
 def create_legal_discounts(request):
 	"""Form to create legal discounts"""

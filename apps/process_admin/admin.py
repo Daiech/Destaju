@@ -16,7 +16,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 
 class PermissionsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'user_types', 'is_active')
+    list_display = ('code', 'description', 'user_types', 'is_active')
 
 
 admin.site.register(Employments, EmploymentsAdmin)

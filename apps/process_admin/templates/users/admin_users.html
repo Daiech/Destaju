@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block TITLE %}Administraci&oacute;n de usuarios{% endblock %}
 {% block content %}
-	<div class="page-header">
-	  	<h1>Gesti&oacute;n de usuarios <small></small></h1>
-	</div>
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
@@ -27,9 +24,8 @@
 				<th>Nombres/Apellidos</th>
 				<th>Correo Electr&oacute;nico</th>
 				<th>C&eacute;dula</th>
-				<th>Tel&eacute;fono</th>
-				<th>Tipo de usuario</th>
 				<th>Cargo</th>
+				<th>Tipo de usuario</th>
 				<th>Acciones</th>
 			</tr>
 			</thead>
@@ -48,10 +44,14 @@
 				</td>
 				<td>{{ u.email }}</td>
 				<td>{{ u.userprofile.dni }}</td>
-				<td>{{ u.userprofile.cell_phone }}</td>
-				<td>{{ u.userprofile.user_type.name }}</td>
 				<td>{{ u.userprofile.employment.name }}</td>
+				<td>{{ u.userprofile.user_type.name }}</td>
 				<td class="text-center actions">
+					{% if u.userprofile.user_type.can_login %}
+						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma" class="btn btn-can-login" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-user"></span></a>
+					{% else %}
+						<span class="glyphicon">&nbsp;</span>
+					{% endif %}
 					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-eye-open"></span></a>
 					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 					<a href="{% url 'delete_user' u.id %}" title="Eliminar este usuario" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
@@ -72,6 +72,8 @@
 				</div>
 				<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
 				{% csrf_token %}
+				<input type="hidden" value="" name="next" id="next">
+				<input type="hidden" value="" name="pk_user" id="pkUser">
 				<div class="modal-body">
 					<div class="panel panel-info">
 						<div class="panel-heading">
@@ -101,6 +103,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para mostrar info de un usuario. -->
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -109,16 +112,17 @@
 					<h4 class="modal-title">Usuario</h4>
 				</div>
 				<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
-				<div class="modal-body">
-				</div>
-				<div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-			    </div>
+					<div class="modal-body">
+					</div>
+					<div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				    </div>
 			    </form>
 			</div>
 		</div>
 	</div>
 <!-- closeModal -->
+<!-- Show User Template -->
 <div id="userTemplate" class="hidden">
 	{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
 	<div class="panel panel-info">
@@ -162,7 +166,7 @@
 			</tr>
 			<tr>
 				<th>Tipo de usuario</th>
-				<td>[[ userprofile.user_type ]]</td>
+				<td>[[ userprofile.user_type.name ]]</td>
 			</tr>
 			<tr>
 				<th>Cargo</th>
@@ -182,6 +186,41 @@
 		</table>
 	</div>	
 </div>
+<!-- /Show User Template -->
+
+<!-- can user login Template -->
+
+<div id="userLoginTemplate" class="hidden">
+	{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">¿Seguro que quiere que [[ first_name ]] pueda acceder a la plataforma?</h3>
+		</div>
+		<div class="panel-body">
+			<p class="text-message">
+				[[#email]]
+					Se enviar&aacute; un correo electr&oacute;nico a <strong>[[ email ]]</strong> (<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]">Editar</a>) con los datos para acceder a la plataforma.<br><br>
+					<strong>[[ first_name ]] [[ last_name ]]</strong> podr&aacute; acceder a la plataforma como <strong>[[ userprofile.user_type.name ]]</strong>.
+				[[/email]]
+				[[^email]]
+					no tiene email asignado, es necesario un correo electr&oacute;nico para la acitvaci&oacute;n de la cuenta.
+				[[/email]]
+			</p>
+		</div>
+		<div class="panel-footer text-center">
+			[[#email]]
+				<a href="[[ url_login ]]" class="btn btn-success [[^email]]disabled[[/email]]">Si, permitir acceso</a>
+				<button type="button" class="btn btn-link" data-dismiss="modal">No, Cancelar</button>
+			[[/email]]
+			[[^email]]
+				<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]" class="btn btn-info">Agregar correo electr&oacute;nico.</a>
+			[[/email]]
+		</div>
+	</div>
+	<small><strong>Nota</strong>: Descripci&oacute;n de <strong>[[ userprofile.user_type.name ]]</strong>: [[ userprofile.user_type.description ]]</small>
+</div>
+<!-- /can user login Template -->
+
 {% endblock %}
 
 {% block style %}
@@ -223,7 +262,7 @@
 					    "address": "{{ u.userprofile.address }}",
 					    "date_born": "{{ u.userprofile.date_born }}",
 					    "is_active_worker": {{ u.userprofile.is_active_worker|lower }},
-					    "user_type": "{{ u.userprofile.user_type.name }}",
+					    "user_type": {"name" : "{{ u.userprofile.user_type.name }}", "description": "{{ u.userprofile.user_type.description }}"},
 					    "employment": "{{ u.userprofile.employment.name }}"
 				}
 			},
@@ -233,7 +272,6 @@
 			e.preventDefault();
 			e.stopPropagation();
 			var pk = $(this).attr("data-pk");
-			console.log(users_list[pk]);
 			$("#userModal .modal-body").html(Mustache.to_html($("#userTemplate").html(), users_list[pk]));
 			$("#userModal .modal-body")
 			$('#userModal').modal('show');
@@ -245,7 +283,38 @@
 		        }
 		    });
 		});
-
+		function openDinamicModal (elem, ctx) {
+			/*
+				elem => DOM element with Mustache template
+				ctx => Context with JSON vars for mustache
+			*/
+			$("#userModal .modal-body").html(Mustache.to_html($(elem).html(), ctx));
+			$("#userModal .modal-body");
+			$('#userModal').modal('show');
+		}
+		$(".btn-can-login").on("click", function (e){
+			e.preventDefault();
+			e.stopPropagation();
+			var pk = $(this).attr("data-pk");
+			console.log($(this).attr("href"));
+			url = $(this).attr("href");
+			ctx = users_list[pk]
+			ctx["url_login"] = url
+			openDinamicModal("#userLoginTemplate", ctx);
+		});
+		if (getUrlVars().next){
+			$("#next").val(getUrlVars().next);
+			{% if form_mode != '_update' %}
+			if (getUrlVars().user){
+				ctx = users_list[getUrlVars().user]
+				ctx["url_login"] = "{% url 'permission_login' pk %}"
+				openDinamicModal("#userLoginTemplate", ctx);
+			}
+			{% endif %}
+		}
+		if (getUrlVars().user){
+			$("#pkUser").val(getUrlVars().user);
+		}
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
 		setDataTables('#dataTable');
 	});

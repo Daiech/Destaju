@@ -136,7 +136,7 @@
 		"pk":1,
 		"fields":
 		{
-			"name":"AD_US_LOGIN",
+			"code":"AD_US_LOGIN",
 			"description":"Permite ingresar a la plataforma",
 			"is_active":1,
 			"usertype": [1, 2, 3, 4, 5, 6],
@@ -149,7 +149,7 @@
 		"pk":2,
 		"fields":
 		{
-			"name":"AD_US_CHANGE_USER_TYPE",
+			"code":"AD_US_CHANGE_USER_TYPE",
 			"description":"Usuario que puede asignar tipos de usuario a un usuario",
 			"is_active":1,
 			"usertype": [1, 2],
@@ -162,7 +162,7 @@
 		"pk":3,
 		"fields":
 		{
-			"name":"AD_US_CREATE",
+			"code":"AD_US_CREATE",
 			"description":"Puede agregar usuarios",
 			"is_active":1,
 			"usertype": [1, 2],
@@ -175,7 +175,7 @@
 		"pk":4,
 		"fields":
 		{
-			"name":"AD_US_UPDATE",
+			"code":"AD_US_UPDATE",
 			"description":"Puede actualizar usuarios",
 			"is_active":1,
 			"usertype": [1, 2],
@@ -188,7 +188,7 @@
 		"pk":5,
 		"fields":
 		{
-			"name":"AD_US_DELETE",
+			"code":"AD_US_DELETE",
 			"description":"Puede eliminar usuarios",
 			"is_active":1,
 			"usertype": [1, 2],
@@ -200,7 +200,7 @@
 		"model":"process_admin.permissions",
 		"pk":6,
 		"fields":{
-			"name":"AD_US_READ",
+			"code":"AD_US_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -212,7 +212,7 @@
 		"model":"process_admin.permissions",
 		"pk":7,
 		"fields":{
-			"name":"AD_AC_CREATE",
+			"code":"AD_AC_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -224,7 +224,7 @@
 		"model":"process_admin.permissions",
 		"pk":8,
 		"fields":{
-			"name":"AD_AC_UPDATE",
+			"code":"AD_AC_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -236,7 +236,7 @@
 		"model":"process_admin.permissions",
 		"pk":9,
 		"fields":{
-			"name":"AD_AC_DELETE",
+			"code":"AD_AC_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -248,7 +248,7 @@
 		"model":"process_admin.permissions",
 		"pk":10,
 		"fields":{
-			"name":"AD_AC_READ",
+			"code":"AD_AC_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -260,7 +260,7 @@
 		"model":"process_admin.permissions",
 		"pk":11,
 		"fields":{
-			"name":"AD_DE_CREATE",
+			"code":"AD_DE_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -272,7 +272,7 @@
 		"model":"process_admin.permissions",
 		"pk":12,
 		"fields":{
-			"name":"AD_DE_UPDATE",
+			"code":"AD_DE_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -284,7 +284,7 @@
 		"model":"process_admin.permissions",
 		"pk":13,
 		"fields":{
-			"name":"AD_DE_DELETE",
+			"code":"AD_DE_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -296,7 +296,7 @@
 		"model":"process_admin.permissions",
 		"pk":14,
 		"fields":{
-			"name":"AD_DE_READ",
+			"code":"AD_DE_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -308,7 +308,7 @@
 		"model":"process_admin.permissions",
 		"pk":15,
 		"fields":{
-			"name":"OP_GE_CREATE",
+			"code":"OP_GE_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
@@ -320,7 +320,7 @@
 		"model":"process_admin.permissions",
 		"pk":16,
 		"fields":{
-			"name":"OP_GE_UPDATE",
+			"code":"OP_GE_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
@@ -332,7 +332,7 @@
 		"model":"process_admin.permissions",
 		"pk":17,
 		"fields":{
-			"name":"OP_GE_DELETE",
+			"code":"OP_GE_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
@@ -344,7 +344,7 @@
 		"model":"process_admin.permissions",
 		"pk":18,
 		"fields":{
-			"name":"OP_GE_DISABLE",
+			"code":"OP_GE_DISABLE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
@@ -356,7 +356,7 @@
 		"model":"process_admin.permissions",
 		"pk":19,
 		"fields":{
-			"name":"OP_GE_READ",
+			"code":"OP_GE_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,3],
@@ -368,7 +368,7 @@
 		"model":"process_admin.permissions",
 		"pk":20,
 		"fields":{
-			"name":"OP_LL_CREATE",
+			"code":"OP_LL_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
@@ -380,7 +380,7 @@
 		"model":"process_admin.permissions",
 		"pk":21,
 		"fields":{
-			"name":"OP_LL_UPDATE",
+			"code":"OP_LL_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
@@ -392,7 +392,7 @@
 		"model":"process_admin.permissions",
 		"pk":22,
 		"fields":{
-			"name":"OP_LL_DELETE",
+			"code":"OP_LL_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
@@ -404,7 +404,7 @@
 		"model":"process_admin.permissions",
 		"pk":23,
 		"fields":{
-			"name":"OP_LL_READ",
+			"code":"OP_LL_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,4],
@@ -416,7 +416,7 @@
 		"model":"process_admin.permissions",
 		"pk":24,
 		"fields":{
-			"name":"OP_CA_CREATE",
+			"code":"OP_CA_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
@@ -428,7 +428,7 @@
 		"model":"process_admin.permissions",
 		"pk":25,
 		"fields":{
-			"name":"OP_CA_UPDATE",
+			"code":"OP_CA_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
@@ -440,7 +440,7 @@
 		"model":"process_admin.permissions",
 		"pk":26,
 		"fields":{
-			"name":"OP_CA_DELETE",
+			"code":"OP_CA_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
@@ -452,7 +452,7 @@
 		"model":"process_admin.permissions",
 		"pk":27,
 		"fields":{
-			"name":"OP_CA_READ",
+			"code":"OP_CA_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,5],
@@ -464,7 +464,7 @@
 		"model":"process_admin.permissions",
 		"pk":28,
 		"fields":{
-			"name":"OP_VE_CREATE",
+			"code":"OP_VE_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -476,7 +476,7 @@
 		"model":"process_admin.permissions",
 		"pk":29,
 		"fields":{
-			"name":"OP_VE_UPDATE",
+			"code":"OP_VE_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -488,7 +488,7 @@
 		"model":"process_admin.permissions",
 		"pk":30,
 		"fields":{
-			"name":"OP_VE_DELETE",
+			"code":"OP_VE_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -500,7 +500,7 @@
 		"model":"process_admin.permissions",
 		"pk":31,
 		"fields":{
-			"name":"OP_VE_READ",
+			"code":"OP_VE_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],
@@ -512,7 +512,7 @@
 		"model":"process_admin.permissions",
 		"pk":32,
 		"fields":{
-			"name":"NO_AD_CREATE",
+			"code":"NO_AD_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -524,7 +524,7 @@
 		"model":"process_admin.permissions",
 		"pk":33,
 		"fields":{
-			"name":"NO_AD_UPDATE",
+			"code":"NO_AD_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -536,7 +536,7 @@
 		"model":"process_admin.permissions",
 		"pk":34,
 		"fields":{
-			"name":"NO_AD_DELETE",
+			"code":"NO_AD_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -548,7 +548,7 @@
 		"model":"process_admin.permissions",
 		"pk":35,
 		"fields":{
-			"name":"NO_AD_READ",
+			"code":"NO_AD_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -560,7 +560,7 @@
 		"model":"process_admin.permissions",
 		"pk":36,
 		"fields":{
-			"name":"NO_GE_CREATE",
+			"code":"NO_GE_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -572,7 +572,7 @@
 		"model":"process_admin.permissions",
 		"pk":37,
 		"fields":{
-			"name":"NO_GE_UPDATE",
+			"code":"NO_GE_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -584,7 +584,7 @@
 		"model":"process_admin.permissions",
 		"pk":38,
 		"fields":{
-			"name":"NO_GE_DELETE",
+			"code":"NO_GE_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -596,7 +596,7 @@
 		"model":"process_admin.permissions",
 		"pk":39,
 		"fields":{
-			"name":"NO_GE_READ",
+			"code":"NO_GE_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],
@@ -608,7 +608,7 @@
 		"model":"process_admin.permissions",
 		"pk":40,
 		"fields":{
-			"name":"RE_HI_CREATE",
+			"code":"RE_HI_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -620,7 +620,7 @@
 		"model":"process_admin.permissions",
 		"pk":41,
 		"fields":{
-			"name":"RE_HI_UPDATE",
+			"code":"RE_HI_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -632,7 +632,7 @@
 		"model":"process_admin.permissions",
 		"pk":42,
 		"fields":{
-			"name":"RE_HI_DELETE",
+			"code":"RE_HI_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -644,7 +644,7 @@
 		"model":"process_admin.permissions",
 		"pk":43,
 		"fields":{
-			"name":"RE_HI_READ",
+			"code":"RE_HI_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],
@@ -656,7 +656,7 @@
 		"model":"process_admin.permissions",
 		"pk":44,
 		"fields":{
-			"name":"RE_RE_CREATE",
+			"code":"RE_RE_CREATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -668,7 +668,7 @@
 		"model":"process_admin.permissions",
 		"pk":45,
 		"fields":{
-			"name":"RE_RE_UPDATE",
+			"code":"RE_RE_UPDATE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -680,7 +680,7 @@
 		"model":"process_admin.permissions",
 		"pk":46,
 		"fields":{
-			"name":"RE_RE_DELETE",
+			"code":"RE_RE_DELETE",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2],
@@ -692,7 +692,7 @@
 		"model":"process_admin.permissions",
 		"pk":47,
 		"fields":{
-			"name":"RE_RE_READ",
+			"code":"RE_RE_READ",
 			"description":"...",
 			"is_active":1,
 			"usertype":[1,2,6],

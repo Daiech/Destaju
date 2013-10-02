@@ -29,8 +29,14 @@ class UserType(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    def can_login(self):
+        if self.permissions_set.filter(code="AD_US_LOGIN").count() == 0:
+            return False
+        else:
+            return True
+
     def get_permissions(self):
-        return ", ".join([s.name for s in self.permissions_set.all()])
+        return ", ".join([s.code for s in self.permissions_set.all()])
 
     def __unicode__(self):
         return self.name
@@ -41,7 +47,7 @@ class UserType(models.Model):
 
 class Permissions(models.Model):
     """Table to define all Permissions."""
-    name = models.CharField(max_length=150, verbose_name="name")
+    code = models.CharField(max_length=150, verbose_name="code")
     description = models.CharField(max_length=300, verbose_name="description")
     usertype = models.ManyToManyField(UserType)
 
@@ -50,13 +56,13 @@ class Permissions(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.name
+        return self.code
 
     def user_types(self):
-        return ", ".join([s.name for s in self.usertype.all()])
+        return ", ".join([s.code for s in self.usertype.all()])
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('code',)
 
 
 class Employments(models.Model):
@@ -94,6 +100,9 @@ class UserProfile(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     objects = GenericManager()
+
+    def get_permissions(self):
+        return self.user_type.get_permissions()
 
     def __unicode__(self):
         return "%s: %s %s" % (self.user, self.user_type, self.is_active)

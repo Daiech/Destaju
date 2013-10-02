@@ -6,6 +6,7 @@ users = patterns('apps.process_admin.views',
     url(r'^editar-usuario/(?P<id_user>[0-9]+)/$', 'update_user', name="update_user"),
     url(r'^eliminar-usuario/(?P<id_user>[0-9]+)/$', 'delete_user', name="delete_user"),
     url(r'^ver-usuario/(?P<id_user>[0-9]+)/$', 'read_user', name="read_user"),
+    url(r'^asignar-credenciales/(?P<id_user>[0-9]+)/$', 'permission_login', name="permission_login"),
 )
 employments = patterns('apps.process_admin.views',
     url(r'^administrar-cargos/$', 'admin_employments', name="admin_employments"),
