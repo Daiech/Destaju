@@ -27,17 +27,34 @@ class RegisterForm(UserCreationForm):
 
 
 class UserForm(forms.ModelForm):
-    email = forms.EmailField(label="Correo Electrónico", required=False, validators=[validate_email_unique], widget=forms.TextInput(attrs={'placeholder': 'Email', "class": "form-control", 'type': 'email'}))
+    email = forms.EmailField(label="Correo Electrónico", required=False, validators=[], widget=forms.TextInput(attrs={'placeholder': 'Email', "class": "form-control", 'type': 'email'}))
     # username = forms.CharField(label="Nombre de usuario", widget=forms.TextInput(attrs={'placeholder': 'Username', "class": "form-control"}))
     first_name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre', "class": "form-control", "autofocus": "true"}))
     last_name = forms.CharField(label="Apellido", widget=forms.TextInput(attrs={'placeholder': 'Apellido', "class": "form-control"}))
 
     class Meta:
         model = User
-        unique = ('email')
+        # unique = ('email')
         fields = ('first_name', 'last_name', 'email')
 
     def save(self):
         print self.cleaned_data["email"]
         user = super(UserForm, self).save()
         return user
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        try:
+            user_obj = self.instance.pk
+        except Exception, e:
+            user_obj = None
+        if user_obj:
+            """(updating)"""
+            there_is_email = User.objects.exclude(pk=self.instance.pk).filter(email=email).count()
+        else:
+            """(creating)"""
+            there_is_email = User.objects.filter(email=email).count()
+        if email and there_is_email:
+            from django.core.exceptions import ValidationError
+            raise ValidationError('Email duplicado, verifique que otro usuario no tenga este mismo correo.')
+        return email

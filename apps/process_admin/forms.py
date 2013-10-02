@@ -43,23 +43,22 @@ class UserProfileForm(forms.ModelForm):
         except UserProfile.DoesNotExist, e:
             return True
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
+    def clean_dni(self):
+        dni = self.cleaned_data.get("dni")
         try:
             user_obj = self.instance.pk
         except Exception, e:
             user_obj = None
-            print "HOOOOO*//////////////////////////// %s" % e
         if user_obj:
             """if user_obj is defined: the form has an instance. (updating)"""
-            there_is_dni = UserProfile.objects.exclude(user=self.instance.user).filter(dni=cleaned_data["dni"])
+            there_is_dni = UserProfile.objects.exclude(user=self.instance.user).filter(dni=dni)
         else:
             """if user_obj is not defined: the form doesn't have an instance. (creating)"""
-            there_is_dni = UserProfile.objects.filter(dni=cleaned_data["dni"])
+            there_is_dni = UserProfile.objects.filter(dni=dni)
         if there_is_dni:
             from django.core.exceptions import ValidationError
             raise ValidationError('Cédula duplicada, verifique que otro usuario no tenga esta misma cédula.')
-        return cleaned_data
+        return dni
 
     class Meta:
         model = UserProfile

@@ -99,7 +99,7 @@ class UserProfile(models.Model):
         return "%s: %s %s" % (self.user, self.user_type, self.is_active)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('is_active',)
         unique_together = ("user", "dni")
             
 
