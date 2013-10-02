@@ -5,6 +5,12 @@ from apps.process_admin.models import Activities, Places, Tools, UserProfile
 from django.contrib.auth.models import User
 
 
+def user_unicode(self):
+    return  u'%s' % (self.get_full_name())
+
+User.__unicode__ = user_unicode
+
+
 class ProductionOrderForm(forms.ModelForm):
     queryset_activity = Activities.objects.filter(is_active=True,is_available=True)
     queryset_place = Places.objects.filter(is_active=True, is_available=True)

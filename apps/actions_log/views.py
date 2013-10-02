@@ -8,7 +8,9 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from pymongo import MongoClient, DESCENDING as pymongo_DESCENDING
 from django.forms.models import model_to_dict
+from django.db.models.query import QuerySet
 #from django.core.mail import EmailMessage
+
 import datetime
 import sys
 #@login_required(login_url='/account/login')
@@ -191,67 +193,48 @@ def read_modifications(request):
     object_list = UpdateTables.objects.all()
     return render_to_response('modifications.html', locals(), context_instance=RequestContext(request))
     
-def save_with_modifications(user,form,form_obj,model):
-    "This method save the data from form and save a record with the data modified"
-    obj = model.objects.get(pk=form_obj.pk)
-    form_cleaned = form.cleaned_data
-    obj_dic = model_to_dict(obj)
-    table_name = obj.get_table_name()
-    pk_obj = obj.pk
-    object_list = []
-    for f in form_cleaned.keys():
-        if form_cleaned[f] != obj_dic[str(f)]: 
-            update_table_obj = UpdateTables(user = user, 
-                            table_name = table_name, 
-                            record_pk = pk_obj, 
-                            field = str(form[f].label),
-                            modification_number = obj.modifications + 1, 
-                            last_data = str(obj_dic[str(f)]), 
-                            new_data = str(form_cleaned[f]),
-                            )
-            object_list.append(update_table_obj)
-    if object_list != []:
-        UpdateTables.objects.bulk_create(object_list)
-        form_obj.modifications = form_obj.modifications + 1 
-        form.save()
-        return True
-    else:
-        return False
-    
 
-def save_m2m_with_modifications(user,form,form_obj,model):
+def save_with_modifications(user,form,form_obj,model):
     "This method save_2m2 the data from form and save a record with the data modified"
     obj = model.objects.get(pk=form_obj.pk)
-    form_cleaned = form.cleaned_data
-    obj_dic = model_to_dict(obj)
+    form_cleaned = form.cleaned_data 
     table_name = obj.get_table_name()
     pk_obj = obj.pk
     object_list = []
-    a=0
+
     for f in form_cleaned.keys():
-        if form_cleaned[f] != obj_dic[str(f)]: 
-#            print "last_data", obj_dic[str(f)]
-#            print "new_data", form_cleaned[f]
-#            
-            try:
+        if type(form_cleaned[f]) == QuerySet:
+            if list(form_cleaned[f]) != list(getattr(obj,f).all()):
+                
+                ld = "<ul>"
+                for i in getattr(obj,f).all():
+                    ld = ld + "<li>" +str(i) +"</li>"
+                ld = ld + "</ul>"
+
                 nd = "<ul>"
                 for j in form_cleaned[f]:
-                    nd = nd + "<li>" +str(j.name) +"</li>"
+                    nd = nd + "<li>" +str(j) +"</li>"
                 nd = nd + "</ul>"
-#                form_cleaned[f] = nd
-                print nd
-                a=1
-            except:
-                pass
-            update_table_obj = UpdateTables(user = user, 
+                update_table_obj = UpdateTables(user = user, 
+                        table_name = table_name, 
+                        record_pk = pk_obj, 
+                        field = str(form[f].label),
+                        modification_number = obj.modifications + 1, 
+                        last_data = ld, 
+                        new_data = nd
+                            )
+                object_list.append(update_table_obj)
+        else:
+            if form_cleaned[f] !=  getattr(obj,f):
+                update_table_obj = UpdateTables(user = user, 
                             table_name = table_name, 
                             record_pk = pk_obj, 
                             field = str(form[f].label),
                             modification_number = obj.modifications + 1, 
-                            last_data = str(obj_dic[str(f)]), 
-                            new_data = nd if a == 1 else str(form_cleaned[f]),
+                            last_data = getattr(obj,f), 
+                            new_data = str(form_cleaned[f]),
                             )
-            object_list.append(update_table_obj)
+                object_list.append(update_table_obj)
     if object_list != []:
         UpdateTables.objects.bulk_create(object_list)
         form_obj.modifications = form_obj.modifications + 1 
