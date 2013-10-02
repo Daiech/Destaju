@@ -2,20 +2,17 @@
 {% block TITLE %}Inicio{% endblock %}
 {% block content %}
 <div class="page-header">
- 	<h1>ACTIVIDADES <small>Agrega, edita o elimina actividades</small> 
+ 	<h1>ORDENES DE PRODUCCI&Oacute;N <small>Agrega, edita o elimina ordenes de producci&oacute;n</small> 
   		
 	</h1>
 </div>
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h3 class="panel-title pull-left">Gesti&oacute;n de actividades</h3>
+		<h3 class="panel-title pull-left">Gesti&oacute;n de ordenes de produccion</h3>
 		<div class="text-right">
-			<a  href="#activityFormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
+			<a  href="#FormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
     			<span class="glyphicon glyphicon-plus"></span> Agregar
     		</a>
-   			<a href="" title="Haz click aqu&iacute; si deseas cargar las actividades desde un archivo CSV" class="btn btn-primary btn-sm">
-   				<span class="glyphicon glyphicon-arrow-up" ></span> Cargar
-   			</a>
 		</div>
 	</div>
 	<div class="table-responsive">
@@ -23,11 +20,12 @@
 		<thead>
 		<tr>
 			<th>Estado</th>
-			<th>C&oacute;digo</th>
-			<th>Nombre</th>
-			<th>Descripci&oacute;n</th>
-			<th>Unidad de medida</th>
-			<th>Precio</th>
+			<th>#</th>
+			<th>Creador</th>
+			<th>Actividad</th>
+			<th>Lugar</th>
+			<th>Herramientas</th>
+			<th>Responsables</th>
 			<th>Fecha Creaci&oacute;n</th>
 			<th>Mod</th>
 			<th>Ultima modificaci&oacute;n</th>
@@ -35,43 +33,56 @@
 		</tr>
 		</thead>
 		<tbody>
-		{% for a in activities_list %}
+		{% for obj in object_list %}
 		<tr>
-			<td class="text-center">{% if a.is_available %}
+			<td class="text-center">{% if obj.is_available %}
 				<span title="Esta actividad se lista actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
 				<span title="Esta actividad no se encuentra activa actualmente 
 							y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-ban-circle" ></span>
 				{% endif %}
 			</td>
-			<td >{{a.code}}</td>
-			<td>{{a.name}}</td>
-			<td>{{a.description}}</td>
-			<td>{{a.measuring_unit}}</td>
-			<td>${{a.value}}</td>
-			<td><span title="{{a.date_added}}">{{a.date_added|date:"Y/m/d G:i"}}</span></td>
-			<td class="text-center">{{a.modifications}}</td>
-			<td><span title="{{a.date_modified}}">{{a.date_modified|date:"Y/m/d G:i"}}</span></td>
+			<td >{{obj.pk}}</td>
+			<td>{{obj.user.username}}</td>
+			<td>{{obj.activity.name}}</td>
+			<td>{{obj.place.name}}</td>
+			<td>
+				<ul>
+				{% for tool in obj.tools.all %}
+					<li>{{ tool.name }}</li>
+				{% endfor %}
+				</ul>
+			</td>
+			<td>
+				<ul>
+				{% for user in obj.responsible.all %}
+					<li>{{ user.get_full_name }}</li>
+				{% endfor %}
+				</ul>
+			</td>
+			<td><span title="{{a.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
+			<td class="text-center">{{obj.modifications}}</td>
+			<td><span title="{{a.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center actions">
-				<a href="{% url 'update_activity' a.id %}" title="Editar esta actividad" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
-				<a href="{% url 'delete_activity' a.id %}" title="Eliminar esta actividad" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+				<a href="{% url 'update_production_order' obj.id %}" title="Editar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a href="{% url 'delete_production_order' obj.id %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
 			</td>
 		</tr>
-	{% endfor %}
+		{% endfor %}
 	</tbody>
 	</table>
 	</div>
 </div>
 
-<div class="modal fade" id="activityFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4>
-				ACTIVIDAD
+				ORDEN DE PRODUCCI&Oacute;N
 				</h4>
 			</div>
-			<form method = "POST"  enctype="multipart/form-data" id="activityForm">
+			<form method = "POST"  enctype="multipart/form-data" id="Form">
 			{% csrf_token %}
 			<div class="modal-body">
 				<div class="panel panel-info">
@@ -85,9 +96,9 @@
 						</h3>
 						<div class="text-right">
 						{% if form_mode == '_update' %}
-							<a href="{% url 'delete_activity' obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+							<a href="{% url 'delete_production_order' obj.pk %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 						{% else %}
-						<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
+						<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span>Volver</a>
 						{% endif %}
 						</div>
 					</div>
@@ -121,12 +132,12 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		{% if show_form %}
-				$('#activityFormModal').modal('show')
+				$('#FormModal').modal('show')
 		{% endif %}
 		$("span").tooltip();
 		{% if form_mode ==  "_update" %}
 			$(".close-modal").on('click', function(){
-				top.location ="{% url 'create_activity' %}";
+				top.location ="{% url 'create_production_order' %}";
 			});
 		{% endif %}
 

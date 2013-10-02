@@ -218,7 +218,47 @@ def save_with_modifications(user,form,form_obj,model):
     else:
         return False
     
-    
+
+def save_m2m_with_modifications(user,form,form_obj,model):
+    "This method save_2m2 the data from form and save a record with the data modified"
+    obj = model.objects.get(pk=form_obj.pk)
+    form_cleaned = form.cleaned_data
+    obj_dic = model_to_dict(obj)
+    table_name = obj.get_table_name()
+    pk_obj = obj.pk
+    object_list = []
+    a=0
+    for f in form_cleaned.keys():
+        if form_cleaned[f] != obj_dic[str(f)]: 
+#            print "last_data", obj_dic[str(f)]
+#            print "new_data", form_cleaned[f]
+#            
+            try:
+                nd = "<ul>"
+                for j in form_cleaned[f]:
+                    nd = nd + "<li>" +str(j.name) +"</li>"
+                nd = nd + "</ul>"
+#                form_cleaned[f] = nd
+                print nd
+                a=1
+            except:
+                pass
+            update_table_obj = UpdateTables(user = user, 
+                            table_name = table_name, 
+                            record_pk = pk_obj, 
+                            field = str(form[f].label),
+                            modification_number = obj.modifications + 1, 
+                            last_data = str(obj_dic[str(f)]), 
+                            new_data = nd if a == 1 else str(form_cleaned[f]),
+                            )
+            object_list.append(update_table_obj)
+    if object_list != []:
+        UpdateTables.objects.bulk_create(object_list)
+        form_obj.modifications = form_obj.modifications + 1 
+        form.save()
+        return True
+    else:
+        return False
     
     
     

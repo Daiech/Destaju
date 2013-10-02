@@ -118,7 +118,7 @@ class Activities(models.Model):
     objects = CommonQueriesManager()
     
     def __unicode__(self):
-        return "%s - %s: %s" % (self.code, self.name, self.value)
+        return "%s - %s" % (self.code, self.name)
 
     def get_table_name(self):
         return "Actividades"
@@ -138,7 +138,7 @@ class LegalDiscounts(models.Model):
     objects = CommonQueriesManager()
     
     def __unicode__(self):
-        return "%s - %s: %s" % (self.code, self.name, self.value)
+        return "%s - %s" % (self.code, self.name)
     
     def get_table_name(self):
         return "Descuentos legales"
@@ -157,7 +157,7 @@ class GeneralDiscounts(models.Model):
     objects = CommonQueriesManager()
     
     def __unicode__(self):
-        return "%s - %s: %s" % (self.code, self.name, self.value)
+        return "%s - %s" % (self.code, self.name)
     
     def get_table_name(self):
         return "Descuentos Generales"
@@ -176,7 +176,7 @@ class Places(models.Model):
     objects = CommonQueriesManager()
     
     def __unicode__(self):
-        return "%s - %s: %s" % (self.code, self.name, self.is_active)
+        return "%s - %s" % (self.code, self.name)
     
     def get_table_name(self):
         return "Lugares"
@@ -195,7 +195,7 @@ class Tools(models.Model):
     objects = CommonQueriesManager()
     
     def __unicode__(self):
-        return "%s - %s: %s" % (self.code, self.name, self.is_active)
+        return "%s - %s" % (self.code, self.name)
     
     def get_table_name(self):
         return "Herramientas"
