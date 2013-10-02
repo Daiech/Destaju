@@ -9,7 +9,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 #from django.core import serializers
 #from apps.actions_log.views import save_with_modifications
-from apps.actions_log.views import save_with_modifications, save_m2m_with_modifications
+from apps.process_admin.models import Tools, Places, Activities
+from apps.actions_log.views import save_with_modifications
 
 @login_required()
 def create_production_order(request):
@@ -48,7 +49,7 @@ def update_production_order(request, id_production_order):
     if request.method == "POST":
         form = ProductionOrderForm(request.POST, instance=obj)
         if form.is_valid():
-            save_m2m_with_modifications(request.user, form, obj, ProductionOrder)
+            save_with_modifications(request.user, form, obj, ProductionOrder)
             return HttpResponseRedirect(reverse(create_production_order))
         else:
             show_form = True
@@ -67,3 +68,11 @@ def delete_production_order(request, id_production_order):
     obj.is_active=False
     obj.save()
     return HttpResponseRedirect(reverse(create_production_order))
+
+
+
+
+
+
+
+
