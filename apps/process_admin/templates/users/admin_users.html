@@ -48,9 +48,9 @@
 				<td>{{ u.userprofile.user_type.name }}</td>
 				<td class="text-center actions">
 					{% if u.userprofile.user_type.can_login %}
-						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma" class="btn btn-can-login" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-user"></span></a>
+						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-user"></span></a>
 					{% else %}
-						<span class="glyphicon">&nbsp;</span>
+						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder" class="glyphicon glyphicon-user disabled"></span>
 					{% endif %}
 					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-eye-open"></span></a>
 					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -123,102 +123,100 @@
 	</div>
 <!-- closeModal -->
 <!-- Show User Template -->
-<div id="userTemplate" class="hidden">
-	{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
-			<div class="text-right">
-				<a href="[[ url_update ]]{% if not u.userprofile.is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
-		   		<a href="[[ url_delete ]]" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+	<div id="userTemplate" class="hidden">
+		{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
+				<div class="text-right">
+					<a href="[[ url_update ]]{% if not u.userprofile.is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+			   		<a href="[[ url_delete ]]" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+				</div>
 			</div>
-		</div>
-		<table class="table table-hover table-condensed table-striped ">
-			<tr>
-				<th>Nombres/Apellidos</th>
-				<td>
-				[[ first_name ]] [[ last_name ]]
-				</td>
-			</tr>
-			<tr>
-				<th>Correo Electr&oacute;nico</th>
-				<td>[[ email ]]</td>
-			</tr>
-			<tr>
-				<th>C&eacute;dula</th>
-				<td>[[ userprofile.dni  ]]</td>
-			</tr>
-			<tr>
-				<th>Tel&eacute;fono Celular</th> 
-				<td>[[ userprofile.cell_phone ]]</td>
-			</tr>
-			<tr>
-				<th>Fecha Nacimiento</th>
-				<td>[[ userprofile.date_born ]]</td>
-			</tr>
-			<tr>
-				<th>Direcci&oacute;n</th>
-				<td>[[ userprofile.address ]]</td>
-			</tr>
-			<tr>
-				<th>Ciudad</th>
-				<td>[[ userprofile.city ]]</td>
-			</tr>
-			<tr>
-				<th>Tipo de usuario</th>
-				<td>[[ userprofile.user_type.name ]]</td>
-			</tr>
-			<tr>
-				<th>Cargo</th>
-				<td>[[ userprofile.employment ]]</td>
-			</tr>
-			<tr>
-				<th>Trabajador Activo</th>
-				<td class="">
-					[[#userprofile.is_active_worker]]
-						<span title="[[ fist_name ]]s trabajador Activo" class="glyphicon glyphicon-ok" ></span>
-					[[/userprofile.is_active_worker]]
-					[[^userprofile.is_active_worker]]
-						<span title="No es trabajador Activo" class="glyphicon glyphicon-ban-circle" ></span>
-					[[/userprofile.is_active_worker]]
-				</td>
-			</tr>
-		</table>
-	</div>	
-</div>
+			<table class="table table-hover table-condensed table-striped ">
+				<tr>
+					<th>Nombres/Apellidos</th>
+					<td>
+					[[ first_name ]] [[ last_name ]]
+					</td>
+				</tr>
+				<tr>
+					<th>Correo Electr&oacute;nico</th>
+					<td>[[ email ]]</td>
+				</tr>
+				<tr>
+					<th>C&eacute;dula</th>
+					<td>[[ userprofile.dni  ]]</td>
+				</tr>
+				<tr>
+					<th>Tel&eacute;fono Celular</th> 
+					<td>[[ userprofile.cell_phone ]]</td>
+				</tr>
+				<tr>
+					<th>Fecha Nacimiento</th>
+					<td>[[ userprofile.date_born ]]</td>
+				</tr>
+				<tr>
+					<th>Direcci&oacute;n</th>
+					<td>[[ userprofile.address ]]</td>
+				</tr>
+				<tr>
+					<th>Ciudad</th>
+					<td>[[ userprofile.city ]]</td>
+				</tr>
+				<tr>
+					<th>Tipo de usuario</th>
+					<td>[[ userprofile.user_type.name ]]</td>
+				</tr>
+				<tr>
+					<th>Cargo</th>
+					<td>[[ userprofile.employment ]]</td>
+				</tr>
+				<tr>
+					<th>Trabajador Activo</th>
+					<td class="">
+						[[#userprofile.is_active_worker]]
+							<span title="[[ fist_name ]]s trabajador Activo" class="glyphicon glyphicon-ok" ></span>
+						[[/userprofile.is_active_worker]]
+						[[^userprofile.is_active_worker]]
+							<span title="No es trabajador Activo" class="glyphicon glyphicon-ban-circle" ></span>
+						[[/userprofile.is_active_worker]]
+					</td>
+				</tr>
+			</table>
+		</div>	
+	</div>
 <!-- /Show User Template -->
-
 <!-- can user login Template -->
-
-<div id="userLoginTemplate" class="hidden">
-	{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h3 class="panel-title">¿Seguro que quiere que [[ first_name ]] pueda acceder a la plataforma?</h3>
-		</div>
-		<div class="panel-body">
-			<p class="text-message">
+	<div id="userLoginTemplate" class="hidden">
+		{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">¿Seguro que quiere que [[ first_name ]] pueda acceder a la plataforma?</h3>
+			</div>
+			<div class="panel-body">
+				<p class="text-message">
+					[[#email]]
+						Se enviar&aacute; un correo electr&oacute;nico a <strong>[[ email ]]</strong> (<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]">Editar</a>) con los datos para acceder a la plataforma.<br><br>
+						<strong>[[ first_name ]] [[ last_name ]]</strong> podr&aacute; acceder a la plataforma como <strong>[[ userprofile.user_type.name ]]</strong>.
+					[[/email]]
+					[[^email]]
+						no tiene email asignado, es necesario un correo electr&oacute;nico para la acitvaci&oacute;n de la cuenta.
+					[[/email]]
+				</p>
+			</div>
+			<div class="panel-footer text-center">
 				[[#email]]
-					Se enviar&aacute; un correo electr&oacute;nico a <strong>[[ email ]]</strong> (<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]">Editar</a>) con los datos para acceder a la plataforma.<br><br>
-					<strong>[[ first_name ]] [[ last_name ]]</strong> podr&aacute; acceder a la plataforma como <strong>[[ userprofile.user_type.name ]]</strong>.
+					<a href="[[ url_login ]]" class="btn btn-success [[^email]]disabled[[/email]]">Si, permitir acceso</a>
+					<button type="button" class="btn btn-link" data-dismiss="modal">No, Cancelar</button>
 				[[/email]]
 				[[^email]]
-					no tiene email asignado, es necesario un correo electr&oacute;nico para la acitvaci&oacute;n de la cuenta.
+					<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]" class="btn btn-info">Agregar correo electr&oacute;nico.</a>
 				[[/email]]
-			</p>
+			</div>
 		</div>
-		<div class="panel-footer text-center">
-			[[#email]]
-				<a href="[[ url_login ]]" class="btn btn-success [[^email]]disabled[[/email]]">Si, permitir acceso</a>
-				<button type="button" class="btn btn-link" data-dismiss="modal">No, Cancelar</button>
-			[[/email]]
-			[[^email]]
-				<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]" class="btn btn-info">Agregar correo electr&oacute;nico.</a>
-			[[/email]]
-		</div>
+		<small><strong>Nota</strong>: Descripci&oacute;n de <strong>[[ userprofile.user_type.name ]]</strong>: [[ userprofile.user_type.description ]]</small>
 	</div>
-	<small><strong>Nota</strong>: Descripci&oacute;n de <strong>[[ userprofile.user_type.name ]]</strong>: [[ userprofile.user_type.description ]]</small>
-</div>
 <!-- /can user login Template -->
 
 {% endblock %}

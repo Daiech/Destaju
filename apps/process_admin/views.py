@@ -63,7 +63,7 @@ def admin_users(request):
     form_mode  = "_create"
     users, is_active_worker = get_users_by_workers(request)
     user_obj = False
-    pk = str(request.GET.get("user")) if "user" in request.GET and request.GET.get("user") != "" else "#"
+    pk = str(request.GET.get("user")) if "user" in request.GET and request.GET.get("user") != "" else "0"
     return render_to_response("users/admin_users.html", locals(), context_instance=RequestContext(request))
 
 
@@ -122,6 +122,7 @@ def permission_login(request, id_user):
         from apps.account.views import getActivationKey
         activation_key = getActivationKey(_user.email)
         _user.set_password(activation_key[:8])
+        # enviar correo a _user con la siguiente pass
         print "pass:", activation_key[:8]
         _user.save()
     else:
