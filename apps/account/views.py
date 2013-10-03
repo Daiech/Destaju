@@ -342,7 +342,7 @@ def password_reset_complete2(request):
 
 
 def activationKeyIsValid(activation_key):
-    from account.models import activation_keys
+    from apps.account.models import activation_keys
     try:
         return activation_keys.objects.get(activation_key=activation_key, is_expired=False)
     except activation_keys.DoesNotExist:
@@ -355,31 +355,7 @@ def confirm_account(request, activation_key, is_invited=False):
     saveViewsLog(request, "account.views.confirm_account")
     ak = activationKeyIsValid(activation_key)
     if ak:
-        from groups.models import rel_user_group
-        try:
-            rels = rel_user_group.objects.filter(id_user=ak.id_user, is_active=False)
-        except rel_user_group.DoesNotExist:
-            return False
-        except Exception:
-            return False
-        update = False
-        if request.method == "POST":
-            form = UserForm(request.POST, instance=ak.id_user)
-            if form.is_valid():
-                form.save()
-                update = True
-                return HttpResponseRedirect(reverse("activate_account", args=(activation_key,)) + "?is_invited=1")
-            else:
-                update = False
-        else:
-            form = UserForm(initial={
-                "username": ak.id_user.username,
-                "first_name": ak.id_user.first_name,
-                "last_name": ak.id_user.last_name,
-                "email": ak.id_user.email
-            })
-        ctx = {"invitations": rels, "invited": True, "form": form, "update": update}
-        return render_to_response('confirm_account.html', ctx, context_instance=RequestContext(request))
+        return HttpResponseRedirect(reverse("activate_account", args=(activation_key,)) + "?is_invited=1")
     else:
         return render_to_response('invalid_link.html', {}, context_instance=RequestContext(request))
 
@@ -387,10 +363,7 @@ def confirm_account(request, activation_key, is_invited=False):
 def activate_account(request, activation_key):
     saveViewsLog(request, "account.views.activate_account")
     if activate_account_now(request, activation_key):
-        try:
-            is_invited = request.GET['is_invited']
-        except Exception:
-            is_invited = False
+        is_invited = request.GET.get('is_invited') if "is_invited" in request.GET and request.GET.get("is_invited") != "" else False
         return render_to_response('account_actived.html', {"invited": is_invited}, context_instance=RequestContext(request))
     else:
         return render_to_response('invalid_link.html', {}, context_instance=RequestContext(request))
@@ -398,7 +371,7 @@ def activate_account(request, activation_key):
 
 def activate_account_now(request, activation_key):
     saveViewsLog(request, "account.views.activate_account_now")
-    from models import activation_keys
+    from .models import activation_keys
     try:
         activation_obj = activation_keys.objects.get(activation_key=activation_key)
         if not activation_obj.is_expired:

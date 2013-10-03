@@ -48,7 +48,7 @@
 				<td>{{ u.userprofile.user_type.name }}</td>
 				<td class="text-center actions">
 					{% if u.userprofile.user_type.can_login %}
-						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-user"></span></a>
+						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login {% if u.is_active %}disabled{% endif %}" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-user"></span></a>
 					{% else %}
 						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder" class="glyphicon glyphicon-user disabled"></span>
 					{% endif %}
