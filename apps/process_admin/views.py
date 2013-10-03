@@ -132,7 +132,7 @@ def permission_login(request, id_user):
         from apps.emailmodule.views import sendEmailHtml
         email_ctx = {
             "PROJECT_NAME": settings.PROJECT_NAME,
-            "username": request.user.get_full_name(),
+            "username": request.user.username(),
             "newuser_username": _user.get_full_name(),
             "pass": activation_key[:8],
             "link": settings.URL_BASE + reverse("confirm_account", args=(activation_key, activation_key[5:20])),
