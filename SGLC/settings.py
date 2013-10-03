@@ -7,7 +7,7 @@ ADMINS = (
     ('Edwin Mesa', 'emesa@daiech.com'),
 )
 
-URL_BASE = "http://localhost:8000"
+URL_BASE = "http://sglc.daiech.com/"
 PROJECT_NAME = "SGLC"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.process_admin", "apps.production_orders"]
@@ -15,7 +15,7 @@ APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", 
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"
 LOGIN_REDIRECT_URL = "/"
-FROM_EMAIL = "Daiech <no-reply@daiech.com>"
+FROM_EMAIL = "SGLC <no-reply@daiech.com>"
 
 MANAGERS = ADMINS
 
