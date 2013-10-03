@@ -203,6 +203,16 @@ def userLogin(request, user_name, password):
         return HttpResponseRedirect(reverse('log_in') + '?next=' + next)
 
 
+def set_activation_key(user):
+    try:
+        from .models import activation_keys
+        ak_obj = activation_keys(id_user=user, email=user.email, activation_key=getActivationKey(user.email))
+        ak_obj.save()
+        return ak_obj
+    except Exception, e:
+        print "Error in activation_keys:", e
+        return False
+
 #------------------------------- </Normal User>---------------------------
 
 

@@ -7,7 +7,7 @@ ADMINS = (
     ('Edwin Mesa', 'emesa@daiech.com'),
 )
 
-URL_BASE = "http://sglc.daiech.com/"
+URL_BASE = "http://sglc.daiech.com"
 PROJECT_NAME = "SGLC"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.process_admin", "apps.production_orders"]

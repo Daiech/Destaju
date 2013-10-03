@@ -31,7 +31,7 @@
 			</thead>
 			<tbody>
 			{% for u in users %}
-			<tr>
+			<tr id="user{{ u.pk }}">
 				<td class="text-center">
 					{% if u.userprofile.is_active_worker %}
 						<span title="{{ u.get_short_name }} es trabajador Activo" class="glyphicon glyphicon-ok" ></span>
@@ -258,6 +258,7 @@
 				"is_active": {{ u.is_active|lower }},
 				"first_name": "{{ u.first_name }}",
 				"last_name": "{{ u.last_name }}",
+				"get_full_name": "{{ u.get_full_name }}",
 				"email": "{{ u.email }}",
 				"userprofile": {
 						"dni": "{{ u.userprofile.dni }}",
@@ -318,6 +319,24 @@
 		}
 		if (getUrlVars().user){
 			$("#pkUser").val(getUrlVars().user);
+		}
+		if (getUrlVars().msj){
+			var u = getUrlVars().user;
+			var pk = users_list[u].pk;
+			switch(getUrlVars().msj){
+				case "ahora-puede-iniciar": 
+					$("#user"+pk).addClass("alert alert-success");
+					setAlertMessage("Correo enviado", "Se envi&oacute; un correo electr&oacute;nico con los datos de acceso a la plataforma a " + users_list[u].get_full_name);
+					break;
+				case "no-tiene-correo":
+					$("#user"+pk).addClass("alert alert-warning");
+					setAlertError("No se envi&oacute; el correo", users_list[u].get_full_name + " no tiene asignado un correo electr&oacute;nico");
+					break;
+				case "Error-no-se-envio-coreo":
+					$("#user"+pk).addClass("alert alert-danger");
+					setAlertError("No se envi&oacute; el correo", "Ocurri&oacute; un error al enviar los datos. <a href='.'>Recarga la p&aacute;gina</a> e intenta de nuevo.");
+					break;
+			}
 		}
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
 		setDataTables('#dataTable');

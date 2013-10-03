@@ -120,28 +120,27 @@ def delete_user(request, id_user):
 def permission_login(request, id_user):
     _user = get_object_or_404(User, pk=id_user)
     if _user.email:
-        from apps.account.views import getActivationKey
-        activation_key = getActivationKey(_user.email)
-        _user.set_password(activation_key[:8])
-        try:
-            from apps.account.models import activation_keys
-            activation_keys(id_user=_user, email=_user.email, activation_key=activation_key).save()
-        except Exception, e:
-            print "Error in activation_keys:", e
-        print settings.URL_BASE + reverse("confirm_account", args=(activation_key, activation_key[5:20]))
-        from apps.emailmodule.views import sendEmailHtml
-        email_ctx = {
-            "PROJECT_NAME": settings.PROJECT_NAME,
-            "username": request.user.username(),
-            "newuser_username": _user.get_full_name(),
-            "pass": activation_key[:8],
-            "link": settings.URL_BASE + reverse("confirm_account", args=(activation_key, activation_key[5:20])),
-        }
-        sendEmailHtml(2, email_ctx, [_user.email])
-        _user.save()
+        from apps.account.views import set_activation_key
+        ak_obj = set_activation_key(_user)
+        if ak_obj:
+            activation_key = ak_obj.activation_key
+            _user.set_password(activation_key[:8])
+            print settings.URL_BASE + reverse("confirm_account", args=(activation_key, activation_key[5:20]))
+            from apps.emailmodule.views import sendEmailHtml
+            email_ctx = {
+                "PROJECT_NAME": settings.PROJECT_NAME,
+                "username": request.user.get_full_name(),
+                "newuser_username": _user.username,
+                "pass": activation_key[:8],
+                "link": settings.URL_BASE + reverse("confirm_account", args=(activation_key, activation_key[5:20])),
+            }
+            sendEmailHtml(2, email_ctx, [_user.email])
+            _user.save()
+        else:
+            return HttpResponseRedirect(reverse("admin_users") + "?user=" + str(_user.id) + "&msj=Error-no-se-envio-coreo")
     else:
-        return HttpResponseRedirect(reverse("admin_users") + "#no-tiene-correo"+ str(_user.id))
-    return HttpResponseRedirect(reverse("admin_users") + "#ahora-puede-iniciar"+ str(_user.id))
+        return HttpResponseRedirect(reverse("admin_users") + "?user=" + str(_user.id) + "&msj=no-tiene-correo")
+    return HttpResponseRedirect(reverse("admin_users")  + "?user=" + str(_user.id) + "&msj=ahora-puede-iniciar")
 	
 
 @login_required()

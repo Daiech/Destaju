@@ -22,7 +22,14 @@ function main () {
         }
     });
 }
-
+function hasHash (hash) {
+    if(window.location.hash && window.location.hash == hash){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 function getUrlVars() {
     var vars = {};
