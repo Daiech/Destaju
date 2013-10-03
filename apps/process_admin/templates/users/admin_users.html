@@ -48,9 +48,9 @@
 				<td>{{ u.userprofile.user_type.name }}</td>
 				<td class="text-center actions">
 					{% if u.userprofile.user_type.can_login %}
-						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login {% if u.is_active %}disabled{% endif %}" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-user"></span></a>
+						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-log-in"></span></a>
 					{% else %}
-						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder" class="glyphicon glyphicon-user disabled"></span>
+						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder" class="glyphicon glyphicon-log-in disabled"></span>
 					{% endif %}
 					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-eye-open"></span></a>
 					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -196,6 +196,10 @@
 			</div>
 			<div class="panel-body">
 				<p class="text-message">
+					[[#is_active]]
+					<p class="alert alert-success"><strong>[[ first_name ]] [[ last_name ]]</strong> Ya tiene acceso como <strong>[[ userprofile.user_type.name ]]</strong>.</p>
+					<strong>¿Enviar de nuevo?</strong>
+					[[/is_active]]
 					[[#email]]
 						Se enviar&aacute; un correo electr&oacute;nico a <strong>[[ email ]]</strong> (<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]">Editar</a>) con los datos para acceder a la plataforma.<br><br>
 						<strong>[[ first_name ]] [[ last_name ]]</strong> podr&aacute; acceder a la plataforma como <strong>[[ userprofile.user_type.name ]]</strong>.
@@ -207,7 +211,8 @@
 			</div>
 			<div class="panel-footer text-center">
 				[[#email]]
-					<a href="[[ url_login ]]" class="btn btn-success [[^email]]disabled[[/email]]">Si, permitir acceso</a>
+					<a href="[[ url_login ]]" class="btn btn-success [[^email]]disabled[[/email]]">
+					[[#is_active]]Enviar datos[[/is_active]][[^is_active]]Si, permitir acceso[[/is_active]]</a>
 					<button type="button" class="btn btn-link" data-dismiss="modal">No, Cancelar</button>
 				[[/email]]
 				[[^email]]
@@ -249,11 +254,12 @@
 				"pk":"{{ u.pk }}",
 				"url_update": "{% url 'update_user' u.id %}",
 				"url_delete": "{% url 'delete_user' u.id %}",
-				"username":"{{ u.username }}",
-				"first_name":"{{ u.first_name }}",
-				"last_name":"{{ u.last_name }}",
-				"email":"{{ u.email }}",
-				"userprofile":{
+				"username": "{{ u.username }}",
+				"is_active": {{ u.is_active|lower }},
+				"first_name": "{{ u.first_name }}",
+				"last_name": "{{ u.last_name }}",
+				"email": "{{ u.email }}",
+				"userprofile": {
 						"dni": "{{ u.userprofile.dni }}",
 					    "cell_phone": "{{ u.userprofile.cell_phone }}",
 					    "city": "{{ u.userprofile.city }}",

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.conf import settings
 from apps.actions_log.views import save_with_modifications
 
 
@@ -127,15 +128,15 @@ def permission_login(request, id_user):
             activation_keys(id_user=_user, email=_user.email, activation_key=activation_key).save()
         except Exception, e:
             print "Error in activation_keys:", e
-        print reverse("confirm_account", args=(activation_key, activation_key[5:20]))
+        print settings.URL_BASE + reverse("confirm_account", args=(activation_key, activation_key[5:20]))
         from apps.emailmodule.views import sendEmailHtml
         email_ctx = {
+            "PROJECT_NAME": settings.PROJECT_NAME,
             "username": request.user.get_full_name(),
             "newuser_username": _user.get_full_name(),
             "pass": activation_key[:8],
-            "link": reverse("confirm_account", args=(activation_key, activation_key[5:20])),
+            "link": settings.URL_BASE + reverse("confirm_account", args=(activation_key, activation_key[5:20])),
         }
-        print "pass:", activation_key[:8]
         sendEmailHtml(2, email_ctx, [_user.email])
         _user.save()
     else:
