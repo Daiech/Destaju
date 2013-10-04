@@ -41,7 +41,7 @@ class ProductionOrder(models.Model):
 
 class FillingProOrd(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user')
-    production_order = models.ForeignKey(ProductionOrder,  null=False, related_name='%(class)s_production_order')
+    production_order = models.OneToOneField(ProductionOrder)
     
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -52,7 +52,7 @@ class FillingProOrd(models.Model):
     
 class QualificationProOrd(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
-    production_order = models.ForeignKey(ProductionOrder,  null=False, related_name='%(class)s_production_order')
+    production_order = models.OneToOneField(ProductionOrder)
     
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
