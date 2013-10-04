@@ -13,8 +13,11 @@ from apps.process_admin.models import Tools, Places, Activities
 from apps.actions_log.views import save_with_modifications
 # from django.forms.formsets import modelformset_factory
 from django.forms.models import modelformset_factory
+from apps.account.decorators import access_required
+
 
 @login_required()
+@access_required("superadmin", "admin", "s1")
 def create_production_order(request):
     """Form to generate a production order"""
     if request.method == 'POST':

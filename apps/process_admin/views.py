@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from django.conf import settings
 from apps.actions_log.views import save_with_modifications
+from apps.account.decorators import access_required
 
 
 def get_users_by_workers(request):
@@ -30,6 +31,7 @@ def get_users_by_workers(request):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def admin_users(request):
     from apps.account.forms import UserForm
     from apps.process_admin.forms import UserProfileForm
@@ -69,12 +71,14 @@ def admin_users(request):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def read_user(request, id_user):
 	u = get_object_or_404(User, pk=id_user)
 	return render_to_response("users/read_user.html", locals(), context_instance=RequestContext(request))
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def update_user(request, id_user):
     _user = get_object_or_404(User, pk=id_user)
     users, is_active_worker = get_users_by_workers(request)
@@ -108,6 +112,7 @@ def update_user(request, id_user):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def delete_user(request, id_user):
     _user = get_object_or_404(User, pk=id_user)
     _user.userprofile.is_active = False
@@ -117,6 +122,7 @@ def delete_user(request, id_user):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def permission_login(request, id_user):
     _user = get_object_or_404(User, pk=id_user)
     if _user.email:
@@ -144,6 +150,7 @@ def permission_login(request, id_user):
 	
 
 @login_required()
+@access_required("superadmin", "admin")
 def admin_employments(request):
 	"""admin employments"""
 	if request.method == 'POST':
@@ -167,6 +174,7 @@ def admin_employments(request):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def update_employment(request, id_employment):
 	"""Manage employments"""
 	obj = get_object_or_404(Employments, pk=id_employment)
@@ -186,6 +194,7 @@ def update_employment(request, id_employment):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def delete_employment(request, id_employment):
 	"""Logical deletion of employments"""
 	obj = get_object_or_404(Employments, pk=id_employment)
@@ -195,6 +204,7 @@ def delete_employment(request, id_employment):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def create_activity(request):
 	"""Form to create an activity"""
 	if request.method == 'POST':
@@ -215,9 +225,8 @@ def create_activity(request):
 	return render_to_response('activities/create_activity.html', locals(), context_instance=RequestContext(request))
 
 
-
-
 @login_required()
+@access_required("superadmin", "admin")
 def update_activity(request, id_activity):
 	"""Manage activities"""
 	obj = get_object_or_404(Activities, pk=id_activity)
@@ -237,6 +246,7 @@ def update_activity(request, id_activity):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def delete_activity(request, id_activity):
 	"""Logical deletion of activities"""
 	_activity = get_object_or_404(Activities, pk=id_activity)
@@ -246,6 +256,7 @@ def delete_activity(request, id_activity):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def create_legal_discounts(request):
 	"""Form to create legal discounts"""
 	if request.method == 'POST':
@@ -267,6 +278,7 @@ def create_legal_discounts(request):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def update_legal_discount(request, id_legal_discount):
 	"""Manage legal discounts"""
 	obj = get_object_or_404(LegalDiscounts, pk=id_legal_discount)
@@ -286,6 +298,7 @@ def update_legal_discount(request, id_legal_discount):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def delete_legal_discount(request, id_legal_discount):
 	"""Logical deletion of legal discounts"""
 	_legal_discount = get_object_or_404(LegalDiscounts, pk=id_legal_discount)
@@ -295,6 +308,7 @@ def delete_legal_discount(request, id_legal_discount):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def create_general_discounts(request):
 	"""Form to create general discounts"""
 	if request.method == 'POST':
@@ -320,6 +334,7 @@ def create_general_discounts(request):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def update_general_discount(request, id_general_discount):
 	"""Manage general discounts"""
 	obj = get_object_or_404(GeneralDiscounts, pk=id_general_discount)
@@ -339,6 +354,7 @@ def update_general_discount(request, id_general_discount):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def delete_general_discount(request, id_general_discount):
 	"""Logical deletion of general discounts"""
 	_general_discount = get_object_or_404(GeneralDiscounts, pk=id_general_discount)
@@ -348,6 +364,7 @@ def delete_general_discount(request, id_general_discount):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def create_places(request):
 	"""Form to create places"""
 	if request.method == 'POST':
@@ -392,6 +409,7 @@ def update_place(request, id_place):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def delete_place(request, id_place):
 	"""Logical deletion of places"""
 	_place = get_object_or_404(Places, pk=id_place)
@@ -401,6 +419,7 @@ def delete_place(request, id_place):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def create_tools(request):
 	"""Form to create tools"""
 	if request.method == 'POST':
@@ -426,6 +445,7 @@ def create_tools(request):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def update_tool(request, id_tool):
 	"""Manage tools"""
 	obj = get_object_or_404(Tools, pk=id_tool)
@@ -445,6 +465,7 @@ def update_tool(request, id_tool):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def delete_tool(request, id_tool):
 	"""Logical deletion of tools"""
 	_tool = get_object_or_404(Tools, pk=id_tool)
