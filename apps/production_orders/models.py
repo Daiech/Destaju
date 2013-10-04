@@ -24,7 +24,7 @@ class ProductionOrder(models.Model):
     status = models.IntegerField(default=1, choices=((1,"Generada"),(2,"Llena"),(3,"Aprobada")))
     is_active = models.BooleanField(default=True)
     responsible = models.ManyToManyField(User)
-    tools = models.ManyToManyField(Tools)
+    tools = models.ManyToManyField(Tools, null=True, blank=True)
     modifications = models.IntegerField(default=0)
     
     date_added = models.DateTimeField(auto_now_add=True)
@@ -63,7 +63,7 @@ class QualificationProOrd(models.Model):
 
 class Filling(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
-    value = models.CharField(max_length=100, verbose_name="value")
+    value = models.CharField(max_length=100, verbose_name="value", null=False)
     filling_pro_ord = models.ForeignKey(FillingProOrd,  null=False, related_name='%(class)s_filling_pro_ord')
     
     date_added = models.DateTimeField(auto_now_add=True)

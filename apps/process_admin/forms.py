@@ -10,7 +10,7 @@ class ActivityForm(forms.ModelForm):
     name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
     description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del anuncio'}))
     measuring_unit = forms.CharField(label="Unidad de medida", widget=forms.TextInput(attrs={'placeholder': 'Unidad de medida'}))
-    value = forms.CharField(label="Valor", widget=forms.TextInput(attrs={'placeholder': '','type':"number"}))
+    value = forms.CharField(label="Valor", widget=forms.TextInput(attrs={'placeholder': '','type':"number","step":"any"}))
     is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
     
     class Meta:

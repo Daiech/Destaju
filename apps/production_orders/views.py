@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 #from apps.actions_log.views import save_with_modifications
 from apps.process_admin.models import Tools, Places, Activities
 from apps.actions_log.views import save_with_modifications
+# from django.forms.formsets import modelformset_factory
+from django.forms.models import modelformset_factory
 
 @login_required()
 def create_production_order(request):
@@ -70,8 +72,52 @@ def delete_production_order(request, id_production_order):
     return HttpResponseRedirect(reverse(create_production_order))
 
 
+@login_required()
+def filling(request, id_production_order):
+    """Form to filling a production order"""
+    
 
+    po = ProductionOrder.objects.get(pk=id_production_order)
+    if request.method == 'POST':
+        print "ESTADO",po.status
+        if po.status == 1:
+            FillingFormSet = modelformset_factory(Filling, form=FillingForm)
+            formset =  FillingFormSet(request.POST)
+            if formset.is_valid():
+                filling_pro_ord_obj = FillingProOrd(user=request.user, production_order=po)
+                filling_pro_ord_obj.save()
+                po.status = 2
+                po.save()
+                print "FILLING PRO ORD",filling_pro_ord_obj
+                object_list = formset.save(commit=False)
+                for obj in object_list:
+                    obj.filling_pro_ord = filling_pro_ord_obj
+                formset.save()
+        else:
+            qs = Filling.objects.filter(filling_pro_ord=FillingProOrd.objects.get(production_order=po))
+            FillingFormSet = modelformset_factory(Filling, form=FillingForm,  extra=0)
+            
+            formset =  FillingFormSet(request.POST, queryset=qs)
+            formset.save()
+    else:
+        responsible_list = ProductionOrder.objects.get(pk=id_production_order).responsible.all()
+        responsible = []
+        for user in responsible_list:
+            responsible.append({"user":user})
+        
+        print "ESTADO: ", po.status
+        if po.status == 1:
+            FillingFormSet = modelformset_factory(Filling, form=FillingForm, extra=len(responsible))
+            qs = Filling.objects.none()
+            formset =  FillingFormSet(initial=responsible,queryset = qs)
+        else:
+            FillingFormSet = modelformset_factory(Filling, form=FillingForm, extra=0)
+            qs = Filling.objects.filter(filling_pro_ord=FillingProOrd.objects.get(production_order=po))
+            formset =  FillingFormSet(queryset = qs)
+        print "NOT IS POST____________"
+    return render_to_response('filling.html', locals(), context_instance=RequestContext(request))
 
+# instance = Filling(user=request.user)
 
 
 

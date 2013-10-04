@@ -7,4 +7,9 @@ generation_of_production_order = patterns('apps.production_orders.views',
     url(r'^eliminar-orden-de-produccion/(?P<id_production_order>[0-9]+)', 'delete_production_order', name="delete_production_order")
 )
 
-production_orders_urls = generation_of_production_order
+filling = patterns('apps.production_orders.views',
+    url(r'^llenado/(?P<id_production_order>[0-9]+)$', 'filling', name="filling"),
+)
+ 
+
+production_orders_urls = generation_of_production_order + filling

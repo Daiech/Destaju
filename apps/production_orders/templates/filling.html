@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block TITLE %}Inicio{% endblock %}
+{% block content %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title pull-left">Llenado de ordenes de produccion</h3>
+        <div class="text-right">
+            <a  href="#FormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-plus"></span> Agregar
+            </a>
+        </div>
+    </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>
+                ORDEN DE PRODUCCI&Oacute;N
+                </h4>
+            </div>
+            <form method = "POST"  enctype="multipart/form-data" id="Form">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            <div class="modal-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Formulario para llenar ordenes de produccion
+                        </h3>
+                    </div>
+                    <table class="table table-hover table-condensed table-striped">
+                    {% for form in formset %}
+                         <tr>
+                            <td>{{ form.user }}</td>
+                            <td>{{ form.value }}{{ form.value.errors }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    
+
+
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+    .actions .btn{padding: 0;}
+    .panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("span").tooltip();
+        $(".name-only").each(function(i){
+            var t = $(this).find("option:selected").text();$(this).css("display", "none");
+            $(this).parent().append(t)})
+        /* dataTables jQuery plugin activation setDataTables(id_table)*/
+        //setDataTables('#dataTable')
+        
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
