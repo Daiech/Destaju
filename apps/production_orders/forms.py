@@ -36,3 +36,14 @@ class FillingForm(forms.ModelForm):
         widgets = {
             'user': forms.Select(attrs={'class':'name-only'}),
         }
+
+
+class QualificationsForm(forms.ModelForm):
+    comments = forms.CharField(label="Comentario", widget=forms.TextInput(attrs={'placeholder': 'Observaciones'}), required=False)
+
+    class Meta:
+        model = Filling
+        fields = ('user','value','comments')
+        widgets = {
+            'user': forms.Select(attrs={'class':'name-only'}),
+        }
