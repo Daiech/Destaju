@@ -28,12 +28,19 @@ class UserType(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    objects = GenericManager()
 
     def can_login(self):
         if self.permissions_set.filter(code="AD_US_LOGIN").count() == 0:
             return False
         else:
             return True
+
+    def can_admin(self):
+        if self.pk == 1 or self.pk == 2:
+            return True
+        else:
+            return False
 
     def get_permissions(self):
         return ", ".join([s.code for s in self.permissions_set.all()])
@@ -54,6 +61,7 @@ class Permissions(models.Model):
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    objects = GenericManager()
 
     def __unicode__(self):
         return self.code
