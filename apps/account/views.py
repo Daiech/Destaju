@@ -236,7 +236,12 @@ def get_userprofile_form(request, is_POST=False):
 
 
 @login_required()
-def personalData(request):
+def personal_data(request):
+    return render_to_response('personal_data.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+def update_personal_data(request):
     '''Control para usuarios logueados.
         se consultan los datos y se los envia al template para imprimirlos'''
     saveViewsLog(request, "apps.account.views.personalData")
@@ -254,43 +259,13 @@ def personalData(request):
             _up.save()
             saveActionLog(request.user, "CHG_USDATA", last_data, request.META['REMOTE_ADDR'])  # Guarda datos de usuarios antes de modificarse
             update = True
-            error_email = None
-                # _email = form.cleaned_data['email']
-                # print "Correo a cambiar", _email
-                # try:
-                #     _user = User.objects.get(email=_email)
-                #     if request.user == _user:
-                #         print "Si se puede cambiar el correo, el usuario que lo tiene es el mismo."
-                #         saveActionLog(request.user, "CHG_USDATA", last_data, request.META['REMOTE_ADDR'])  # Guarda datos de usuarios antes de modificarse
-                #         form.save()
-                #         update = True
-                #         error_email = None
-                #     else:
-                #         print "El correo no se puede cambiar, otro usuario tiene el este correo ya asignado"
-                #         error_email = True
-                #         update = False
-                # except User.DoesNotExist:
-                #     print "No existe un usuario con ese correo, el correo puede ser asignado"
-                #     saveActionLog(request.user, "CHG_USDATA", last_data, request.META['REMOTE_ADDR'])  # Guarda datos de usuarios antes de modificarse
-                #     form.save()
-                #     update = True
-                #     error_email = None
-                # except User.MultipleObjectsReturned:
-                #     print "Multiples objetos retornados, error en la base de datos, se debe revizar"
-                #     error_email = True
-                #     update = False
-                # except Exception, e:
-                #     print "Error desconocido: ", e
-                #     error_email = True
-                #     update = False
+            user_form = False  # don't show the form
         else:
             update = False
-            error_email = None
     else:
         user_form = UserForm(instance=request.user)
         userprofile_form = get_userprofile_form(request)
         update = False
-        error_email = None
     return render_to_response('personal_data.html', locals(), context_instance=RequestContext(request))
 
 

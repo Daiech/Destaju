@@ -39,3 +39,50 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 #dataTable_filter{padding: 5px;padding-right: 10px;padding-bottom: 0}
 #dataTable_info, #dataTable_paginate{padding: 10px 0}
 /*close Table Plugin*/
+
+.box-container{margin: 0 auto; width: 50%;}
+
+
+@media (min-width: 1280px) {
+}
+@media (min-width: 1200px) {
+}
+@media (min-width: 980px){
+}
+@media (min-width: 980px) and (max-width: 1280px) {
+}
+@media (min-width: 768px){
+    .navbar-fixed-top {margin-bottom: 0;}
+    .nav{min-height: 50px;}
+    .nav > li {min-height: 50px;}
+    .navbar .nav > li > a{padding-top: 15px;padding-bottom: 15px;}
+}
+@media (min-width: 768px) and (max-width: 979px) {
+    .navbar-fixed-top {margin-bottom: 0;}
+}
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+    body {padding-right: 0;padding-left: 0;}
+    .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {margin-right: 0;margin-left: 0;}
+    .box-container{width: 100%;}
+}
+/* Landscape phones and down */
+@media (max-width: 480px) {
+}
+
+@media (max-width: 380px) {
+}
+   /*==================================================*/
+    /*                  Modal for view in mobile       */                    
+    /*==================================================*/
+@media (max-height: 480px) {
+    .modal.fade.in{top: 10%;height: 370px}
+    .modal-body{max-height: 291px}
+}
+@media (max-height: 380px) {
+    .modal.fade.in{top: 10%;height: 270px}
+    .modal-body{max-height: 191px}
+}
+/*==================================================*/
+/*                  Cierra Modal               */                    
+/*==================================================*/
