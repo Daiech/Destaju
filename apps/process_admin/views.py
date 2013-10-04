@@ -24,9 +24,9 @@ def get_users_by_workers(request):
             w = 1
         is_active_worker = bool(w)
     if is_active_worker:
-        users = User.objects.filter(userprofile__is_active=True).order_by("-userprofile__is_active_worker")
+        users = User.objects.exclude(userprofile__user_type__pk=1).filter(userprofile__is_active=True).order_by("-userprofile__is_active_worker")
     else:
-        users = User.objects.filter(userprofile__is_active_worker=is_active_worker, userprofile__is_active=True)
+        users = User.objects.exclude(userprofile__user_type__pk=1).filter(userprofile__is_active_worker=is_active_worker, userprofile__is_active=True)
     return users, is_active_worker
 
 

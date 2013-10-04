@@ -17,6 +17,7 @@ import random
 from django.core.urlresolvers import reverse
 
 from apps.account.forms import RegisterForm
+from apps.account.decorators import access_required
 from apps.account.templatetags.gravatartag import showgravatar
 try:
     from apps.actions_log.views import *
@@ -241,6 +242,7 @@ def personal_data(request):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def update_personal_data(request):
     '''Control para usuarios logueados.
         se consultan los datos y se los envia al template para imprimirlos'''
