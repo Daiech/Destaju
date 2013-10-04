@@ -1,16 +1,11 @@
 {% extends "base.html" %}
-{% block TITLE %}Inicio{% endblock %}
+{% block TITLE %}Ordenes de producci&oacute;n {% endblock %}
 {% block content %}
-<div class="page-header">
- 	<h1>ORDENES DE PRODUCCI&Oacute;N <small>Agrega, edita o elimina ordenes de producci&oacute;n</small> 
-  		
-	</h1>
-</div>
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h3 class="panel-title pull-left">Gesti&oacute;n de ordenes de produccion</h3>
+		<h3 class="panel-title pull-left">Generaci&oacute;n de ordenes de produccion</h3>
 		<div class="text-right">
-			<a  href="#FormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
+			<a  href="#formModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
     			<span class="glyphicon glyphicon-plus"></span> Agregar
     		</a>
 		</div>
@@ -35,10 +30,15 @@
 		<tbody>
 		{% for obj in object_list %}
 		<tr>
-			<td class="text-center">{% if obj.is_available %}
-				<span title="Esta actividad se lista actualmente" class="glyphicon glyphicon-ok" ></span>{% else %}
-				<span title="Esta actividad no se encuentra activa actualmente 
-							y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-ban-circle" ></span>
+			<td class="text-center">
+				{% if obj.status == 1 %}
+					Generada
+				{% elif obj.status == 2 %}
+					llena
+				{% elif ob.status == 3%}
+					Calificada
+				{% else %}
+					ERROR
 				{% endif %}
 			</td>
 			<td >{{obj.pk}}</td>
@@ -63,8 +63,13 @@
 			<td class="text-center">{{obj.modifications}}</td>
 			<td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center actions">
+				{% if obj.status == 1%}
 				<a href="{% url 'update_production_order' obj.id %}" title="Editar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a href="{% url 'delete_production_order' obj.id %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+				{% else %}
+				<span title = "Esta orden no se puede editar" class="glyphicon glyphicon-pencil disabled"></span>
+				<span title = "Esta orden no se puede editar" class="glyphicon glyphicon-remove disabled"></span>
+				{% endif %}
 			</td>
 		</tr>
 		{% endfor %}
@@ -73,7 +78,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="FormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -132,18 +137,21 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		{% if show_form %}
-				$('#FormModal').modal('show')
+				$('#formModal').modal('show')
 		{% endif %}
 		$("span").tooltip();
+
 		{% if form_mode ==  "_update" %}
-			$(".close-modal").on('click', function(){
-				top.location ="{% url 'create_production_order' %}";
-			});
+            $('#formModal').on('hidden.bs.modal', function () {
+                top.location = "{% url 'create_production_order' %}"
+            });
 		{% endif %}
 
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
 		setDataTables('#dataTable')
-		
+		{% if error %}
+			setAlertError("No se puede procesar la solicitud", "{{ error }}");
+		{% endif%}
 	});
 </script>
 {% endblock %}

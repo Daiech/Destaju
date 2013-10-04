@@ -28,24 +28,6 @@ class ProductionOrderForm(forms.ModelForm):
 
 
 class FillingForm(forms.ModelForm):
-    # def __init__(self, *args, **kwargs):
-    #     super(FillingForm, self).__init__(*args, **kwargs)
-    #     self.fields['value'].label = self.instance.user.username
-
-    def __init__(self, *args, **kwargs):
-        super(FillingForm, self).__init__(*args, **kwargs)
-        instance = getattr(self, 'instance', None)
-        if instance and instance.pk:
-            self.fields['user'].widget.attrs['readonly'] = True
-            self.fields['user'].widget.attrs['disabled'] = True
-
-    def clean_user(self):
-        instance = getattr(self, 'instance', None)
-        if instance and instance.pk:
-            return instance.user
-        else:
-            return self.cleaned_data['user']
-
     value = forms.CharField(label="Value", widget=forms.TextInput(attrs={'placeholder': 'cantidad','type':"number","step":"any"}))
 
     class Meta:

@@ -33,6 +33,7 @@ def create_production_order(request):
             form.save_m2m()
 
             form = ProductionOrderForm()
+            HttpResponseRedirect(reverse(create_production_order))
         else:
                 show_form = True
         if '_createanother' in request.POST:
@@ -48,17 +49,20 @@ def create_production_order(request):
 def update_production_order(request, id_production_order):
     """Manage tools"""
     obj = get_object_or_404(ProductionOrder, pk=id_production_order)
-    if request.method == "POST":
-        form = ProductionOrderForm(request.POST, instance=obj)
-        if form.is_valid():
-            save_with_modifications(request.user, form, obj, ProductionOrder)
-            return HttpResponseRedirect(reverse(create_production_order))
+    if obj.status == 1:
+        if request.method == "POST":
+            form = ProductionOrderForm(request.POST, instance=obj)
+            if form.is_valid():
+                save_with_modifications(request.user, form, obj, ProductionOrder)
+                return HttpResponseRedirect(reverse(create_production_order))
+            else:
+                show_form = True
         else:
             show_form = True
+            form = ProductionOrderForm(instance=obj)
+        form_mode = "_update"
     else:
-        show_form = True
-        form = ProductionOrderForm(instance=obj)
-    form_mode = "_update"
+        return HttpResponseRedirect(reverse(create_production_order))
     object_list = ProductionOrder.objects.get_all_active()
     return render_to_response("production_order.html", locals(), context_instance=RequestContext(request))
 
@@ -71,15 +75,18 @@ def delete_production_order(request, id_production_order):
     obj.save()
     return HttpResponseRedirect(reverse(create_production_order))
 
+@login_required()
+def filling_pro_ord(request):
+    """Show the production orders with status 1:generate and 2:fulled """
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
+    form_mode = None
+    return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
 
 @login_required()
 def filling(request, id_production_order):
     """Form to filling a production order"""
-    
-
-    po = ProductionOrder.objects.get(pk=id_production_order)
+    po = get_object_or_404(ProductionOrder, pk=id_production_order)
     if request.method == 'POST':
-        print "ESTADO",po.status
         if po.status == 1:
             FillingFormSet = modelformset_factory(Filling, form=FillingForm)
             formset =  FillingFormSet(request.POST)
@@ -88,24 +95,24 @@ def filling(request, id_production_order):
                 filling_pro_ord_obj.save()
                 po.status = 2
                 po.save()
-                print "FILLING PRO ORD",filling_pro_ord_obj
                 object_list = formset.save(commit=False)
                 for obj in object_list:
                     obj.filling_pro_ord = filling_pro_ord_obj
                 formset.save()
+                return HttpResponseRedirect(reverse(filling_pro_ord))
         else:
+
             qs = Filling.objects.filter(filling_pro_ord=FillingProOrd.objects.get(production_order=po))
             FillingFormSet = modelformset_factory(Filling, form=FillingForm,  extra=0)
-            
             formset =  FillingFormSet(request.POST, queryset=qs)
-            formset.save()
+            if formset.is_valid():
+                formset.save()
+                return HttpResponseRedirect(reverse(filling_pro_ord))
     else:
         responsible_list = ProductionOrder.objects.get(pk=id_production_order).responsible.all()
         responsible = []
         for user in responsible_list:
             responsible.append({"user":user})
-        
-        print "ESTADO: ", po.status
         if po.status == 1:
             FillingFormSet = modelformset_factory(Filling, form=FillingForm, extra=len(responsible))
             qs = Filling.objects.none()
@@ -114,8 +121,10 @@ def filling(request, id_production_order):
             FillingFormSet = modelformset_factory(Filling, form=FillingForm, extra=0)
             qs = Filling.objects.filter(filling_pro_ord=FillingProOrd.objects.get(production_order=po))
             formset =  FillingFormSet(queryset = qs)
-        print "NOT IS POST____________"
-    return render_to_response('filling.html', locals(), context_instance=RequestContext(request))
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
+    form_mode = "_update"
+    show_form =True
+    return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
 
 # instance = Filling(user=request.user)
 

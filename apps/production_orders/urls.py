@@ -8,7 +8,8 @@ generation_of_production_order = patterns('apps.production_orders.views',
 )
 
 filling = patterns('apps.production_orders.views',
-    url(r'^llenado/(?P<id_production_order>[0-9]+)$', 'filling', name="filling"),
+    url(r'^llenado_de_op$', 'filling_pro_ord', name="filling_pro_ord"),
+    url(r'^llenar/(?P<id_production_order>[0-9]+)$', 'filling', name="filling"),
 )
  
 
