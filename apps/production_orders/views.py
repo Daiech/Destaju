@@ -49,6 +49,7 @@ def create_production_order(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "s1")
 def update_production_order(request, id_production_order):
     """Manage tools"""
     obj = get_object_or_404(ProductionOrder, pk=id_production_order)
@@ -71,6 +72,7 @@ def update_production_order(request, id_production_order):
 
 
 @login_required()
+@access_required("superadmin", "admin", "s1")
 def delete_production_order(request, id_production_order):
     """Logical deletion of tools"""
     obj = get_object_or_404(ProductionOrder, pk=id_production_order)
@@ -78,14 +80,18 @@ def delete_production_order(request, id_production_order):
     obj.save()
     return HttpResponseRedirect(reverse(create_production_order))
 
+
 @login_required()
+@access_required("superadmin", "admin", "s2")
 def filling_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
     form_mode = None
     return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
 
+
 @login_required()
+@access_required("superadmin", "admin", "s2")
 def filling(request, id_production_order):
     """Form to filling a production order"""
     po = get_object_or_404(ProductionOrder, pk=id_production_order)

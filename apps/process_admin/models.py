@@ -42,6 +42,30 @@ class UserType(models.Model):
         else:
             return False
 
+    def can_generate_op(self):
+        if self.pk == 1 or self.pk == 2 or self.pk == 3:
+            return True
+        else:
+            return False
+
+    def can_fill_op(self):
+        if self.pk == 1 or self.pk == 2 or self.pk == 4:
+            return True
+        else:
+            return False
+
+    def can_rate_op(self):
+        if self.pk == 1 or self.pk == 2 or self.pk == 5:
+            return True
+        else:
+            return False
+
+    def can_view_op(self):
+        if self.pk == 1 or self.pk == 2 or self.pk == 6:
+            return True
+        else:
+            return False
+
     def get_permissions(self):
         return ", ".join([s.code for s in self.permissions_set.all()])
 
