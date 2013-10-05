@@ -7,47 +7,82 @@
         <img src="{{ user.email|showgravatar:'32'}}" width="32px" />
         Hola
         <strong>
-            <a href="#">
+            <a href="{% url 'personal_data' %}">
                 {{ user.first_name }} ({{user.username}})
             </a>
         </strong>
     </div>
     <hr>
-    <div class="white-box-container">
-        <form method="POST"  action="{% url 'personal_data' %}">
+    <div class="box-container">
+        <form method="POST"  action="{% url 'update_personal_data' %}">
             {% csrf_token %}
-            <table class="">
+            <table class="table table-hover table-condensed table-striped table-bordered">
                 <tr>
-                    <th colspan="2" class="text-center">Tus datos <hr> </th>
+                    <th colspan="2" class="text-center">Tus datos </th>
                 </tr>
-                {{ user_form }}
-                {{ userprofile_form }}
+                {% if user_form and userprofile_form %}
+                    {{ user_form }}
+                    {{ userprofile_form }}
+                {% else %}
+                    <tr>
+                        <th>Nombres/Apellidos</th>
+                        <td>
+                        {{ user.get_full_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Correo Electr&oacute;nico</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>C&eacute;dula</th>
+                        <td>{{ user.userprofile.dni }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tel&eacute;fono Celular</th> 
+                        <td>{{ user.userprofile.cell_phone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha Nacimiento</th>
+                        <td>{{ user.userprofile.date_born|date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Direcci&oacute;n/Ciudad</th>
+                        <td>{{ user.userprofile.address }} {{ user.userprofile.city }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tipo de usuario</th>
+                        <td>{{ user.userprofile.user_type.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cargo</th>
+                        <td>{{ user.userprofile.employment.name }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td colspan="2" class="gravatar"><img src="{{ user.email|showgravatar:'28'}}" alt="Avatar" width="28px"> Cambia tu avatar en <a href="http://gravatar.com/" target="_blank">Gravatar.com</a>.</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="">
-                        <hr>
-                        <a class="btn btn-link" href="{% url 'change_password' %}">Cambiar contrase&ntilde;a</a>
-                        <button type="submit" class="btn btn-success pull-right">
-                            Actualizar Datos
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" >
-                        <hr>
-                        <p class=""><strong>Nota:</strong> Todos los datos son de caracter obligatorio.</p>
+                        <a class="btn btn-warning" href="{% url 'change_password' %}">Cambiar contrase&ntilde;a</a>
+                        {% if user.userprofile.user_type.pk == 1 or user.userprofile.user_type.pk == 2 %}
+                            {% if user_form %}
+                            <button type="submit" class="btn btn-success pull-right">Actualizar Datos</button>
+                            {% else %}
+                            <a href="{% url 'update_personal_data' %}" class="btn btn-success pull-right">Editar datos</a>
+                            {% endif %}
+                        {% endif %}
                     </td>
                 </tr>
             </table>
-
+            <p class=""><strong>Nota:</strong> Todos los datos son de caracter obligatorio.</p>
         </form>
     </div>
-    <hr>
-
-    <p>Eres miembro desde el {{ user.date_joined }} </p>
-    <p>Ultimo logueo: {{ user.last_login}}.</p>
+    <div  class="box-container">
+        <hr>
+        <p>Eres miembro desde el {{ user.date_joined }} </p>
+        <p>Ultimo logueo: {{ user.last_login}}.</p>
+    </div>
 </div>
 
 {% endblock%}
@@ -56,36 +91,7 @@
 
 {% block style %}
 <style>
-	td{padding-left:7px;}
-    .gravatar{padding-left: 0;}
-    article p{font-size: 12px;line-height: 1;margin: 5px;}
-
-    li hr{
-        margin:20px;
-    }
-    article form table tr th{
-        width: 40%;
-    }article form table tr td{
-        text-align: left;
-    }
-    table tr th label{
-        font-size: 16px;
-        margin-top: 5px;
-    }
-    table tr td input[type=password],table tr td input[type=text]{
-        /*height: 30px;*/
-        /*padding: 10px;
-        font-size: 16px;*/
-    }
-    article form table{
-        margin: 0 auto;
-        text-align: center;
-        width: 100%;
-    }
-    .title{
-        text-align: center;
-    }
-
+    
 </style>
 {% endblock %}
 
@@ -94,10 +100,7 @@
 	$(document).on("ready", function() {
 		$("#settings-personal-data").addClass("active");
 	});
-	{% if error_email %}
-    setAlertError("Error al actualizar correo","Tu correo electronico no pudo ser actualizado")
-    {% endif %}
-    {% if dataUpdate %}
+    {% if update %}
     setAlertMessage("Datos Actualizados","Tus datos fueron actualizados correctamente")
     {% endif %}
     {% if passwordUpdate %}

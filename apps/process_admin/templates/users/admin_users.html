@@ -54,7 +54,7 @@
 						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-log-in"></span></a>
 					{% else %}
 						<span class="hidden">0</span>
-						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder" class="glyphicon glyphicon-log-in disabled"></span>
+						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder a la plataforma" class="glyphicon glyphicon-log-in disabled"></span>
 					{% endif %}
 					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-eye-open"></span></a>
 					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>

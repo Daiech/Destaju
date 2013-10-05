@@ -36,10 +36,18 @@
           <li class="dropdown">
               <a href="#" id="menu-op" role="button" class="dropdown-toggle" data-toggle="dropdown">Ordenes de Producci&oacute;n <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu-op">
+                {% if user.userprofile.user_type.can_generate_op %}
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_production_order' %}">Generaci&oacute;n de OP</a></li>
+                {% endif %}
+                {% if user.userprofile.user_type.can_fill_op %}
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'filling_pro_ord' %}">Llenado de OP</a></li>
+                {% endif %}
+                {% if user.userprofile.user_type.can_rate_op %}
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'qualification_pro_ord' %}">Calificaci&oacute;n de OP</a></li>
+                {% endif %}
+                {% if user.userprofile.user_type.can_view_op %}
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Visualizaci&oacute;n de OP</a></li>
+                {% endif %}
               </ul>
           </li>
           <li class="dropdown">
