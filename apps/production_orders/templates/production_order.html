@@ -14,6 +14,7 @@
 	<table id="dataTable" class="table table-hover table-condensed table-striped">
 		<thead>
 		<tr>
+			<th></th>
 			<th>Estado</th>
 			<th>#</th>
 			<th>Creador</th>
@@ -30,12 +31,23 @@
 		<tbody>
 		{% for obj in object_list %}
 		<tr>
+			<td class="text-center actions">
+				{% if obj.status == 1 %}
+				<span title="Orden generada aun no se ha llenado" class="glyphicon glyphicon-unchecked" ></span></a>
+                {% elif obj.status == 2 %}
+                <span title="Orden llena,aun no se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
+                {% elif obj.status == 3 %}
+                <span title="Orden calificada" class="glyphicon glyphicon-ok-circle" ></span></a>
+                {% else %}
+                ERROR
+                {% endif %}
+            </td>
 			<td class="text-center">
 				{% if obj.status == 1 %}
 					Generada
 				{% elif obj.status == 2 %}
 					llena
-				{% elif ob.status == 3%}
+				{% elif obj.status == 3 %}
 					Calificada
 				{% else %}
 					ERROR
