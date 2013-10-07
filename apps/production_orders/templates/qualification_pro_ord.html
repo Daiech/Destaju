@@ -17,8 +17,8 @@
             <th>Lugar</th>
             <th>Herramientas</th>
             <th>Responsables</th>
-            <th>Fecha Generacion</th>
-            <th>Fecha de llenado</th>
+            <th>Fecha llenado</th>
+            <th>Fecha de calificaci&oacute;n</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -61,8 +61,8 @@
                 {% endfor %}
                 </ul>
             </td>
-            <td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-            <td><span title="{{obj.date_added}}">{{obj.fillingproord.date_added|date:"Y/m/d G:i"}}</span></td>
+            <td><span title="{{obj.last_filling}}">{{obj.last_filling|date:"Y/m/d G:i"}}</span></td></td>
+            <td><span title="{{obj.last_qualification}}">{{obj.last_qualification|date:"Y/m/d G:i"}}</span></td>
             <td class="text-center actions">
                 {% if obj.status == 2 %}
                 <a href="{% url 'qualification' obj.id %}" title="Calificar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-ok-circle" ></span></a>

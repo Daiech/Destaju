@@ -19,9 +19,10 @@ class GenericManager(models.Manager):
 class DiscountsApplied(models.Model):
     """Table to apply employee's discounts"""
     admin = models.ForeignKey(User,  null=False, related_name='%(class)s_admin') 
-    employee = models.ManyToOneField(User)
+    employee = models.ForeignKey(User,  null=False, related_name='%(class)s_employee') 
     general_discount = models.ForeignKey(GeneralDiscounts,  null=False, related_name='%(class)s_general_discounts')
     value = models.CharField(max_length=100, verbose_name="value", null=False)
+    is_active = models.BooleanField(default=True)
     
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

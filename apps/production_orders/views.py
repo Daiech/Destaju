@@ -14,7 +14,7 @@ from apps.actions_log.views import save_with_modifications
 # from django.forms.formsets import modelformset_factory
 from django.forms.models import modelformset_factory
 from apps.account.decorators import access_required
-
+from django.db.models import Max
 
 @login_required()
 @access_required("superadmin", "admin", "s1")
@@ -85,7 +85,8 @@ def delete_production_order(request, id_production_order):
 @access_required("superadmin", "admin", "s2")
 def filling_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]) \
+    .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
 
 
@@ -131,7 +132,8 @@ def filling(request, id_production_order):
             formset =  FillingFormSet(queryset = qs)
         else:
             HttpResponseRedirect(reverse(filling_pro_ord))
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]) \
+    .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     form_mode = "_update"
     show_form =True
     return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
@@ -139,7 +141,9 @@ def filling(request, id_production_order):
 @login_required()
 def qualification_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3])
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    .annotate(last_qualification=Max('qualificationproord__qualifications_qualification_pro_ord__date_modified')) \
+    .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('qualification_pro_ord.html', locals(), context_instance=RequestContext(request))
 
 @login_required()
@@ -184,7 +188,9 @@ def qualification(request, id_production_order):
             formset =  QualificationsFormSet(queryset = qs)
         else:
             HttpResponseRedirect(reverse(qualification_pro_ord))
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3])
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    .annotate(last_qualification=Max('qualificationproord__qualifications_qualification_pro_ord__date_modified')) \
+    .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     form_mode = "_update"
     show_form =True
     return render_to_response('qualification_pro_ord.html', locals(), context_instance=RequestContext(request))

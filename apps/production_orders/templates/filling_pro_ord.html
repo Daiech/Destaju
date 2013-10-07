@@ -62,7 +62,7 @@
                 </ul>
             </td>
             <td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-            <td><span title="{{obj.date_added}}">{{obj.fillingproord.date_added|date:"Y/m/d G:i"}}</span></td>
+            <td><span title="{{obj.last_filling}}">{{obj.last_filling|date:"Y/m/d G:i"}}</span></td>
             <td class="text-center actions">
                 {% if obj.status == 1 %}
                 <a href="{% url 'filling' obj.id %}" title="LLenar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-th-list" ></span></a>

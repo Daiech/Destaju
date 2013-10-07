@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block TITLE %}Inicio{% endblock %}
+{% block content %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title pull-left">Gesti&oacute;n de actividades</h3>
+        <div class="text-right">
+            <a  href="#formModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-plus"></span> Agregar
+            </a>
+            <a href="" title="Haz click aqu&iacute; si deseas cargar las actividades desde un archivo CSV" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-arrow-up" ></span> Cargar
+            </a>
+        </div>
+    </div>
+    <div class="table-responsive">
+    <table id="dataTable" class="table table-hover table-condensed table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>id</th>
+            <th>Nombre Completo</th>
+            <th>Total deuda</th>
+            <th>Fecha ultima deuda</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in obj_list %}
+        <tr class= "discounts" data-title="{{obj.get_full_name}}" data-content="<table>{% for discount in obj.discountsapplied_employee.all %}<tr><td>{{discount.general_discount.name}}</td><td>{{discount.value}}</td><td>{{discount.date_added}}</td></tr>{% endfor %}</table>">
+            <td></td>
+            <td>{{obj.pk}}</td>
+            <td>{{obj.get_full_name}}</td>
+            <td>${% if obj.total_discounts %}{{obj.total_discounts}}{% else %}0{% endif %}</td>
+            <td><span title="{{obj.last_discount}}">{{obj.last_discount|date:"Y/m/d G:i"}}</span></td>
+            <td class="text-center actions">
+                <a href="{% url 'create_discount_applied' obj.id %}" title="Aplicar descuento" class="btn"><span class="glyphicon glyphicon-plus"></span></a>
+                <a href="{% url 'update_discount_applied' obj.id %}" title="Editar algun descuento" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="{% url 'delete_discount_applied' obj.id %}" title="Eliminar descuento" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>
+                ACTIVIDAD
+                </h4>
+            </div>
+            <form method = "POST"  enctype="multipart/form-data" id="activityForm">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title pull-left">
+                        {% if form_mode == "_create" %}
+                            AGREGAR
+                        {% elif form_mode ==  "_update" %}
+                            EDITAR
+                        {% endif %}
+                        </h3>
+                        <div class="text-right">
+                        {% if form_mode == '_update' %}
+                            <a href="{% url 'delete_activity' obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+                        {% else %}
+                        <a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <table class="table table-hover table-condensed table-striped">
+                    {{ form }}
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if form_mode == "_create" %}
+                <button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+                {% endif %}             
+                <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+    .actions .btn{padding: 0;}
+    .panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        {% if show_form %}
+                $('#formModal').modal('show')
+        {% endif %}
+        $("span").tooltip();
+        {% if form_mode ==  "_update" %}
+            $(".close-modal").on('click', function(){
+                top.location ="{% url 'create_activity' %}";
+            });
+        {% endif %}
+
+        /* dataTables jQuery plugin activation setDataTables(id_table)*/
+        setDataTables('#dataTable')
+        $(".discounts").popover({html:true, placement:'top',trigger:'hover'})
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
