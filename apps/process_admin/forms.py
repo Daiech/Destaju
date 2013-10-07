@@ -24,9 +24,9 @@ class UserProfileForm(forms.ModelForm):
     queryset_employments = Employments.objects.all()
 
     dni = forms.CharField(label="* Cédula", validators=[], widget=forms.TextInput(attrs={'placeholder': 'Cédula de ciudadanía', 'autofocus': 'autofocus'}))
-    cell_phone = forms.CharField(label="* Celular", widget=forms.TextInput(attrs={'placeholder': 'Telefono Celular', 'type': 'tel'}))
-    city = forms.CharField(label="* Ciudad", widget=forms.TextInput(attrs={'placeholder': 'Ciudad'}))
-    address = forms.CharField(label="* Dirección", widget=forms.TextInput(attrs={'placeholder': 'Dirección'}))
+    cell_phone = forms.CharField(label="Celular", required=False, widget=forms.TextInput(attrs={'placeholder': 'Telefono Celular', 'type': 'tel'}))
+    city = forms.CharField(label="Ciudad", required=False, widget=forms.TextInput(attrs={'placeholder': 'Ciudad'}))
+    address = forms.CharField(label="Dirección", required=False, widget=forms.TextInput(attrs={'placeholder': 'Dirección'}))
     date_born = forms.CharField(label="* Fecha de nacimiento", widget=forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD'}))
     is_active_worker = forms.BooleanField(label="* Trabajador activo", initial=True, required=False)
     user_type = forms.ModelChoiceField(label="* Tipo de usuario", queryset=queryset_usertype, empty_label=None)
