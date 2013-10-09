@@ -4,6 +4,19 @@ from django.contrib.auth.models import User
 from apps.process_admin.models import GeneralDiscounts
 from django.db.models import Max, Sum, Q
 
+class MyUser(User):
+
+    def get_total_discounts(self):
+        return  DiscountsApplied.objects.get_total_discounts_by_user(self.pk)        
+
+    def get_date_last_discount(self):
+        return  DiscountsApplied.objects.get_date_last_discount_by_user(self.pk)
+
+    class Meta:
+        proxy=True
+
+
+
 class GenericManager(models.Manager):
 
     def get_all_active(self):
@@ -17,31 +30,19 @@ class GenericManager(models.Manager):
 
 
 class DiscountsAppliedManager(GenericManager):
-
+    
     def get_query_set(self):
-        print "Se esta ejecut Quwery"
         return super(DiscountsAppliedManager, self).get_query_set().filter(is_active=True)
     
-    def filter(self):
-        print "Se esta ejecut"
-        return super(DiscountsAppliedManager, self).filter().filter(is_active=True)
-    
-    def all(self):
-        print "Se esta ejecut all"
-        return super(DiscountsAppliedManager, self).all().filter(is_active=True)
-    
-    def get(self):
-        print "Se ejeccuta get"
-        if self.is_active == False :
-            return None
-        else:
-            return self
-    
-    def get_user_with_discounts_applied(self):
-        return User.objects.filter(is_active=True) \
-                .annotate(total_discounts = Sum('discountsapplied_employee__value')) \
-                .annotate(date_last_discount = Max('discountsapplied_employee__date_modified')) \
-                .order_by('-total_discounts')
+    def get_total_discounts_by_user(self, id_user):
+        a = DiscountsApplied.objects.filter(employee__pk=id_user, is_active=True)\
+                .aggregate(total_discounts=Sum('value'))
+        return a['total_discounts']
+
+    def get_date_last_discount_by_user(self, id_user):
+        a = DiscountsApplied.objects.filter(employee__pk=id_user, is_active=True)\
+                .aggregate(date_last_discount=Max('date_modified'))
+        return a['date_last_discount']
 
 
 class DiscountsApplied(models.Model):
@@ -49,7 +50,7 @@ class DiscountsApplied(models.Model):
     admin = models.ForeignKey(User,  null=False, related_name='%(class)s_admin') 
     employee = models.ForeignKey(User,  null=False, related_name='%(class)s_employee') 
     general_discount = models.ForeignKey(GeneralDiscounts,  null=False, related_name='%(class)s_general_discounts')
-    value = models.CharField(max_length=100, verbose_name="value", null=False)
+    value = models.IntegerField(max_length=100, verbose_name="value", null=False)
     is_active = models.BooleanField(default=True)
     
     date_added = models.DateTimeField(auto_now_add=True)

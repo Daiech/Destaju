@@ -33,7 +33,7 @@
                     	</tr>
                     	{% endfor %}
                     	<tr>
-                    		<td>TOTAL</td><td class="text-right"><strong>${% if user_obj.total_discounts %}{{user_obj.total_discounts}}{% else %}0{% endif %}</strong></td><td></td><td></td>
+                    		<td>TOTAL</td><td class="text-right"><strong>${% if user_obj.get_total_discounts %}{{user_obj.get_total_discounts}}{% else %}0{% endif %}</strong></td><td></td><td></td>
                     	</tr>
                     </table>
                 </div>

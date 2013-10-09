@@ -19,7 +19,8 @@ from apps.account.decorators import access_required
 @login_required()
 def list_discounts_applied(request):
     """List all users with resume of discounts already applied"""    
-    obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
+    # obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
     # for obj in obj_list:
     #     print "OBJETO", obj.discountsapplied_employee.all()
     show_modal = False
@@ -27,17 +28,21 @@ def list_discounts_applied(request):
 
 def read_discounts_applied(request,id_user):
     """ Show all discounts for a user"""
-    obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
+    # obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
     # for obj in obj_list:
     #     print "OBJETO", obj.discountsapplied_employee.all()
     user_obj = get_object_or_404(obj_list,pk=id_user)
     show_modal = True
+    # print "total_discounts", DiscountsApplied.objects.get_sum_of_values(id_user)["total_discounts"]
+
     return render_to_response('read_user_discounts.html', locals(), context_instance=RequestContext(request))
 
 
 def create_discount_applied(request, id_user):
     """Form to apply a general discount to an employee"""
-    obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
+    # obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
     user_obj = get_object_or_404(User,pk=id_user)
     if request.method == 'POST':
         form  = DiscountsAppliedForm(request.POST)
@@ -62,7 +67,8 @@ def create_discount_applied(request, id_user):
 
 def update_discount_applied(request,id_discount_applied):
     """Form to edit a general discount to an employee"""
-    obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
+    # obj_list = DiscountsApplied.objects.get_user_with_discounts_applied()
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
     discount_obj = get_object_or_404(DiscountsApplied, pk= id_discount_applied)
     user_obj = discount_obj.employee
     if request.method == 'POST':
