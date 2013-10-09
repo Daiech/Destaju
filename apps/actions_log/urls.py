@@ -1,3 +1,4 @@
+#encoding:utf-8
 from django.conf.urls import url, patterns
 actions_log_urls = patterns('apps.actions_log.views',
 	# url(r'^pdf', 'actions_log.views.getPDF', name='getPDF'),

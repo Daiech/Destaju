@@ -1,4 +1,3 @@
-# Create your views here.
 #encoding:utf-8
 from django.contrib.auth.decorators import login_required
 from apps.actions_log.models import actions, rel_user_action, UpdateTables

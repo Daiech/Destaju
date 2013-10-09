@@ -1,4 +1,4 @@
-#encoding:utf-8
+# encoding:utf-8
 from django import forms
 # from apps.process_admin.models import LegalDiscounts, GeneralDiscounts
 from apps.payroll.models import DiscountsApplied
@@ -14,5 +14,7 @@ class DiscountsAppliedForm(forms.ModelForm):
     # is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
     
     class Meta:
-        model = Activities
+        model = DiscountsApplied
         fields = ('general_discount', 'value')
+
+        
