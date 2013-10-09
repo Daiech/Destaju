@@ -40,6 +40,9 @@
 						<span class="hidden">0</span>
 						<span title="No es trabajador Activo" class="glyphicon glyphicon-ban-circle" ></span>
 					{% endif %}
+					{% if u.is_active %}
+				<a href="#" title="{{ u.get_short_name }} ya activ&oacute; su cuenta y tiene acceso como {{ u.userprofile.user_type.name }}"><span class="glyphicon glyphicon-check"></span></a>
+				{% endif %}
 				</td>
 				<td>
 				{{ u.get_full_name }}
@@ -51,7 +54,7 @@
 				<td class="text-center actions">
 					{% if u.userprofile.user_type.can_login %}
 						<span class="hidden">1</span>
-						<a href="{% url 'permission_login' u.id %}" title="Permitir ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-log-in"></span></a>
+						<a href="{% url 'permission_login' u.id %}" title="Permitir {% if u.is_active %}de nuevo{% endif %} ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login {% if u.is_active %}{% endif %}" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-log-in"></span></a>
 					{% else %}
 						<span class="hidden">0</span>
 						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder a la plataforma" class="glyphicon glyphicon-log-in disabled"></span>
@@ -217,7 +220,7 @@
 				[[#email]]
 					<a href="[[ url_login ]]" class="btn btn-success [[^email]]disabled[[/email]]">
 					[[#is_active]]Enviar datos[[/is_active]][[^is_active]]Si, permitir acceso[[/is_active]]</a>
-					<button type="button" class="btn btn-link" data-dismiss="modal">No, Cancelar</button>
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
 				[[/email]]
 				[[^email]]
 					<a href="[[ url_update ]]?next=login-access&user=[[ pk ]]" class="btn btn-info">Agregar correo electr&oacute;nico.</a>
@@ -250,7 +253,7 @@
 			  	top.location = "{% url 'admin_users' %}"
 			});
 		{% endif %}
-		$("span, .actions a").tooltip();
+		$("span, .actions a, a").tooltip();
 		users_list = {
 		{% for u in users %}
 			"{{ u.pk }}":
