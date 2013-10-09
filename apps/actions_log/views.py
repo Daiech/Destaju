@@ -231,7 +231,7 @@ def save_with_modifications(user,form,form_obj,model):
                             field = str(form[f].label),
                             modification_number = obj.modifications + 1, 
                             last_data = getattr(obj,f), 
-                            new_data = str(form_cleaned[f]),
+                            new_data = form_cleaned[f],
                             )
                 object_list.append(update_table_obj)
     if object_list != []:
