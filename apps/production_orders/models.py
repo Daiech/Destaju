@@ -53,6 +53,8 @@ class FillingProOrd(models.Model):
 class QualificationProOrd(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     production_order = models.OneToOneField(ProductionOrder)
+    comments = models.TextField(blank=True)
+    value = models.IntegerField(default=4,  choices=((1,"Malo"),(2,"Regular"),(3,"Bueno"), (4,"Muy bueno"), (5,"Excelente")))
     
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -72,15 +74,3 @@ class Filling(models.Model):
     def __unicode__(self):
         return "%s - %s : %s"%(self.user, self.filling_pro_ord, self.value)
     
-    
-class Qualifications(models.Model):
-    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
-    comments = models.TextField(blank=True)
-    value = models.IntegerField(default=4,  choices=((1,"Malo"),(2,"Regular"),(3,"Bueno"), (4,"Muy bueno"), (5,"Excelente")))
-    qualification_pro_ord = models.ForeignKey(QualificationProOrd,  null=False, related_name='%(class)s_qualification_pro_ord')
-    
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    
-    def __unicode__(self):
-        return "%s - %s : %s"%(self.user, self.qualification_pro_ord, self.value)

@@ -142,7 +142,6 @@ def filling(request, id_production_order):
 def qualification_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
-    .annotate(last_qualification=Max('qualificationproord__qualifications_qualification_pro_ord__date_modified')) \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('qualification_pro_ord.html', locals(), context_instance=RequestContext(request))
 
@@ -152,48 +151,34 @@ def qualification(request, id_production_order):
     po = get_object_or_404(ProductionOrder, pk=id_production_order)
     if request.method == 'POST':
         if po.status == 2:
-            QualificationsFormSet = modelformset_factory(Qualifications, form=QualificationsForm)
-            formset =  QualificationsFormSet(request.POST)
-            if formset.is_valid():
-                qualification_pro_ord_obj = QualificationProOrd(user=request.user, production_order=po)
-                qualification_pro_ord_obj.save()
+            form =  QualificationsForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit = False)
+                obj.user=request.user 
+                obj.production_order=po
+                obj.save()
                 po.status = 3
                 po.save()
-                object_list = formset.save(commit=False)
-                for obj in object_list:
-                    obj.qualification_pro_ord = qualification_pro_ord_obj
-                formset.save()
                 return HttpResponseRedirect(reverse(qualification_pro_ord))
         elif po.status == 3:
-            qs = Qualifications.objects.filter(qualification_pro_ord=QualificationProOrd.objects.get(production_order=po))
-            QualificationsFormSet = modelformset_factory(Qualifications, form=QualificationsForm,  extra=0)
-            formset =  QualificationsFormSet(request.POST, queryset=qs)
-            if formset.is_valid():
-                formset.save()
+            form =  QualificationsForm(request.POST, instance= po.qualificationproord)
+            if form.is_valid():
+                form.save()
                 return HttpResponseRedirect(reverse(qualification_pro_ord))
         else:
             return HttpResponseRedirect(reverse(qualification_pro_ord))
     else:
-        responsible_list = ProductionOrder.objects.get(pk=id_production_order).responsible.all()
-        responsible = []
-        for user in responsible_list:
-            responsible.append({"user":user})
         if po.status == 2:
-            QualificationsFormSet = modelformset_factory(Qualifications, form=QualificationsForm, extra=len(responsible))
-            qs = Qualifications.objects.none()
-            formset =  QualificationsFormSet(initial=responsible,queryset = qs)
+            form =  QualificationsForm()
         elif po.status == 3:
-            QualificationsFormSet = modelformset_factory(Qualifications, form=QualificationsForm, extra=0)
-            qs = Qualifications.objects.filter(qualification_pro_ord=QualificationProOrd.objects.get(production_order=po))
-            formset =  QualificationsFormSet(queryset = qs)
+            form =  QualificationsForm(instance = po.qualificationproord)
         else:
             HttpResponseRedirect(reverse(qualification_pro_ord))
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
-    .annotate(last_qualification=Max('qualificationproord__qualifications_qualification_pro_ord__date_modified')) \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
-    form_mode = "_update"
+    #    form_mode = "_create"
     show_form =True
-    return render_to_response('qualification_pro_ord.html', locals(), context_instance=RequestContext(request))
+    return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
 
 
 

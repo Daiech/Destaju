@@ -1,6 +1,6 @@
 #encoding:utf-8
 from django import forms
-from apps.production_orders.models import ProductionOrder, FillingProOrd, QualificationProOrd, Filling, Qualifications
+from apps.production_orders.models import ProductionOrder, FillingProOrd, QualificationProOrd, Filling #Qualifications
 from apps.process_admin.models import Activities, Places, Tools, UserProfile
 from django.contrib.auth.models import User
 
@@ -42,8 +42,5 @@ class QualificationsForm(forms.ModelForm):
     comments = forms.CharField(label="Comentario", widget=forms.TextInput(attrs={'placeholder': 'Observaciones'}), required=False)
 
     class Meta:
-        model = Filling
-        fields = ('user','value','comments')
-        widgets = {
-            'user': forms.Select(attrs={'class':'name-only'}),
-        }
+        model = QualificationProOrd
+        fields = ('value','comments')
