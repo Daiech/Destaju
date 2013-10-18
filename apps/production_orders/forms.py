@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 def user_unicode(self):
-    return  u"%s" % (self.get_full_name())
+    return  u"%s - %s" % (self.userprofile.dni, self.get_full_name())
 
 User.__unicode__ = user_unicode
 
