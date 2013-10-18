@@ -108,10 +108,18 @@
 		    		<td>Total actividades</td>
 		    		<td class="text-right"><strong>${{payroll_obj.total_activities}}</strong></td>
 		    	</tr>
-		    	<tr>
-		    		<td>Total descuentos</td>
-		    		<td class="text-right"><strong>$-{{payroll_obj.total_discounts}}</strong></td>
-		    	</tr>
+                <tr>
+                    <td>Ajuste salarial</td>
+                    <td class="text-right"><strong>${{payroll_obj.adjust}}</strong></td>
+                </tr>
+                <tr>
+                    <td>{{payroll_obj.legal_discount_type}}</td>
+                    <td class="text-right"><strong>-${{payroll_obj.legal_discount_value}}</strong></td>
+                </tr>                
+                <tr>
+                    <td>Total desuentos por deudas</td>
+                    <td class="text-right"><strong>-${{payroll_obj.total_discounts}}</strong></td>
+                </tr>
 		    	<tr>
 		    		<td>Total</td>
 		    		<td class="text-right"><strong>${{payroll_obj.total_payroll}}</strong></td>

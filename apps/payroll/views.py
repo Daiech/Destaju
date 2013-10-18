@@ -102,21 +102,47 @@ def list_payroll(request):
     legal_discounts = LegalDiscounts.objects.filter(is_active=True)
     global_payroll = 0
     for obj in obj_list:
-        activities = filling_list.filter(user=obj)
-        discounts = discounts_list.filter(employee=obj)
+        #total activities
+        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__status = 3)
         total_activities = 0
+        for a in activities:
+            a1 = int(a.filling_pro_ord.production_order.activity.value)
+            activity_value = int(a.value) *  a1
+            total_activities +=  activity_value
+        total_payroll=total_activities
+
+        #adjust
+        SMMLV = 660000
+        adjust = 0
+        if total_activities < SMMLV:
+            adjust = SMMLV-total_activities
+            total_payroll = total_payroll + adjust
+            print "total_payroll", total_payroll
+
+        #legal discount
+        if total_activities > (SMMLV*4):
+            ld = LegalDiscounts.objects.get(pk=2)
+        else:
+            ld = LegalDiscounts.objects.get(pk=1)
+        ld_value = (total_payroll/100)*int(ld.value)
+        total_payroll = total_payroll-(total_payroll/100)*int(ld.value)
+
+        #General discount
+        discounts = discounts_list.filter(employee=obj)
         total_discounts = discounts.aggregate(t= Sum('value'))
         total_discounts = total_discounts["t"] if total_discounts["t"] != None else 0
-        for a in activities:
-            total_activities +=  (int(a.value) * int(a.filling_pro_ord.production_order.activity.value))
-        total_payroll = total_activities-total_discounts
+        total_payroll = total_payroll-total_discounts
+        
         global_payroll += total_payroll
         payroll_list.append({"user":obj,
                              "activities":activities,
                              "total_activities": total_activities,
                              "discounts": discounts,
                              "total_discounts": total_discounts,
-                             "total_payroll": total_payroll
+                             "total_payroll": total_payroll,
+                             "legal_discount_type": "%s %s%%"%(ld.name, ld.value),
+                             "legal_discount_value": ld_value,
+                             "adjust": adjust
                              })
     
     return render_to_response('payroll.html', locals(), context_instance=RequestContext(request))
