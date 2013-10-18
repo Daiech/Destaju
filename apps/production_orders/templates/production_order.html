@@ -139,17 +139,24 @@
 {% endblock %}
 
 {% block style %}
+<link href="{{ STATIC_URL }}css/chosen.css" rel="stylesheet">
 <style type="text/css">
 	.actions .btn{padding: 0;}
 	.panel-title{line-height: 34px;}
+	.default{ height: 25px !important}
+	.chosen-choices{height: 25px !important}
+	.search-field input{height: 25px !important}
 </style>
 {% endblock %}
 
 {% block js %}
+<script src="{{ STATIC_URL }}js/chosen.jquery.js"></script>
 <script type="text/javascript">
+	$('.chosen-select').chosen({width: "95%", height: "100%"})
 	$(document).ready(function(){
 		{% if show_form %}
-				$('#formModal').modal('show')
+				$('#formModal').modal('show');
+
 		{% endif %}
 		$("span").tooltip();
 

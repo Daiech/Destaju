@@ -19,8 +19,8 @@ class ProductionOrderForm(forms.ModelForm):
     
     activity = forms.ModelChoiceField(label="Actividad", queryset=queryset_activity, empty_label=None)
     place = forms.ModelChoiceField(label="Lugar", queryset=queryset_place, empty_label=None)
-    responsible = forms.ModelMultipleChoiceField(label="Responsables", queryset=queryset_responsable)
-    tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False)
+    responsible = forms.ModelMultipleChoiceField(label="Responsables", queryset=queryset_responsable,  widget= forms.SelectMultiple(attrs={'class': 'chosen-select'}))
+    tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False, widget= forms.SelectMultiple(attrs={'class': 'chosen-select'}))
 
     class Meta:
         model = ProductionOrder
