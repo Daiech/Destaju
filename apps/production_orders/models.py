@@ -79,4 +79,3 @@ class Filling(models.Model):
 #        print "Activity", self.filling_pro_ord.production_order.activity.value
 #        print "Total", int(self.value) * int(self.filling_pro_ord.production_order.activity.value)
         return (int(self.value) * int(self.filling_pro_ord.production_order.activity.value))
-    

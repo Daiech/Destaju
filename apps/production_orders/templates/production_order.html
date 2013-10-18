@@ -115,7 +115,7 @@
 						{% if form_mode == '_update' %}
 							<a href="{% url 'delete_production_order' obj.pk %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 						{% else %}
-						<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span>Volver</a>
+						<a href="{% url 'create_production_order' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span>Volver</a>
 						{% endif %}
 						</div>
 					</div>

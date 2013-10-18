@@ -36,7 +36,10 @@ def create_production_order(request):
             form.save_m2m()
 
             form = ProductionOrderForm()
-            return HttpResponseRedirect(reverse(create_production_order))
+            if '_createanother' in request.POST:
+                show_form = True
+            else:
+                return HttpResponseRedirect(reverse(create_production_order))
         else:
                 show_form = True
         if '_createanother' in request.POST:
