@@ -2,17 +2,16 @@
 {% block TITLE %}Inicio{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>{{ PROJECT_NAME }} <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+  <h1>Bienvendo a {{ PROJECT_NAME }} <small>{{ PROJECT_DESCRIPTION }}</small></h1>
 </div>
-<p class="lead">Bienvendo a {{ PROJECT_NAME }} <a href="{% url 'personal_data' %}">{{user.username}}</a></p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum, soluta, dolore sapiente corporis iure non eius? Perspiciatis, beatae, hic sit totam aliquam quibusdam aperiam delectus nostrum accusamus doloribus deleniti quasi.</p>
+<!-- <p class="lead">Bienvendo a {{ PROJECT_NAME }} <a href="{% url 'personal_data' %}">{{user.username}}</a></p> -->
 <div class="row">
 	<div class="col-sm-6 col-md-3">
 		<div class="thumbnail">
 			<img src="{{ STATIC_URL }}img/administration.png" alt="...">
 			<div class="caption">
 				<h3>Administraci&oacute;n</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, laborum, quod, blanditiis, amet assumenda aut vero error tempore praesentium provident accusamus voluptate sit at possimus eos quisquam est et hic!</p>
+				<p>Este m&oacute;dulo permite la gesti&oacute;n de usuarios, gesti&oacute;n de actividades y gesti&oacute;n de descuentos. <br><br> Creado para  los usuarios administrativos realizan el direccionamiento de los datos que suministran la informaci&oacute;n para los dem&aacute;s m&oacute;dulos del sistema.</p>
 				<p><a href="{% url 'admin_users' %}" class="btn btn-primary">Administrar</a></p>
 			</div>
 		</div>
@@ -22,8 +21,14 @@
 			<img src="{{ STATIC_URL }}img/report.png" alt="...">
 			<div class="caption">
 				<h3>Ordenes de producci&oacute;n</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, amet assumenda aut vero error tempore praesentium provident accusamus voluptate sit at possimus eos quisquam est et hic!</p>
-				<p><a href="#" class="btn btn-primary">Button</a></p>
+				<p>Este m&oacute;dulo permite la generaci&oacute;n de las &oacute;rdenes de producci&oacute;n, llenado, calificaci&oacute;n y visualizaci&oacute;n de las mismas.
+<br><br>
+Creado para usuarios operativos encargados de gestionar las labores de campo en todo el proceso de producci&oacute;n trascurriendo por cada una de las etapas.</p>
+				<p>
+				{% if user.userprofile.user_type.can_generate_op %}
+                  <a href="{% url 'create_production_order' %}" class="btn btn-primary">Generaci&oacute;n de OP</a>
+                {% endif %}
+				</p>
 			</div>
 		</div>
 	</div>
@@ -32,8 +37,10 @@
 			<img src="{{ STATIC_URL }}img/administration.png" alt="...">
 			<div class="caption">
 				<h3>N&oacute;mina de Destajo</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, laborum, quod, blanditiis, amet assumenda aut vero error tempore praesentium provident accusamus voluptate sit at possimus eos quisquam est et hic!</p>
-				<p><a href="#" class="btn btn-primary">Button</a></p>
+				<p>Este m&oacute;dulo permite aplicar los descuentos de ley as&iacute; como descuentos adicionales suministrados por el usuario administrativo y la generaci&oacute;n de la n&oacute;mina final a pagar a cada empleado de manera detallada.
+<br><br>
+Creado para usuarios administrativos encargados de gestionar la n&oacute;mina.</p>
+				<p><a href="{% url 'list_payroll' %}" class="btn btn-primary">Generar N&oacute;mina</a></p>
 			</div>
 		</div>
 	</div>
@@ -42,8 +49,10 @@
 			<img src="{{ STATIC_URL }}img/report.png" alt="...">
 			<div class="caption">
 				<h3>Reportes</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, laborum, quod, blanditiis, amet assumenda aut vero error tempore praesentium provident accusamus voluptate sit at possimus eos quisquam est et hic!</p>
-				<p><a href="#" class="btn btn-primary">Button</a></p>
+				<p>Este m&oacute;dulo permite la generaci&oacute;n de reportes de Órdenes de producci&oacute;n, historial de modificaciones en los distintos m&oacute;dulos y es de car&aacute;cter informativo para los usuarios que se designe.
+				<br><br>
+				Creado para usuarios administrativos para consulta, programaci&oacute;n o toma de decisiones.</p>
+				<p><a href="{% url 'read_modifications'%}" class="btn btn-primary">Historial de modificaciones</a></p>
 			</div>
 		</div>
 	</div>
