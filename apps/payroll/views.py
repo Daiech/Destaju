@@ -117,7 +117,6 @@ def list_payroll(request):
         if total_activities < SMMLV:
             adjust = SMMLV-total_activities
             total_payroll = total_payroll + adjust
-            print "total_payroll", total_payroll
 
         #legal discount
         if total_activities > (SMMLV*4):
