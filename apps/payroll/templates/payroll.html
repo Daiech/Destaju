@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block TITLE %}Inicio{% endblock %}
+{% block content %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">N&oacute;mina</h3>
+    </div>
+    <div class="table-responsive">
+    <table id="dataTable2" class="table table-hover table-condensed table-striped">
+        <thead>
+	        <tr>
+	            <th>Nombre completo</th>
+	            <th>Value</th>
+	        </tr>
+        </thead>
+        <tbody>
+	        {% for payroll_obj in payroll_list %}
+	        <tr>
+	            <td>{{payroll_obj.user.get_full_name}}</td>
+	            <td class="text-right"><strong>${{payroll_obj.total_payroll}}</strong></td>
+	        </tr>
+	    	{% endfor %}
+	    	<tr>
+	            <td><strong>TOTAL</strong></td>
+	            <td class="text-right"><h3>${{global_payroll}}</h3></td>
+	        </tr>
+    	</tbody>
+    </table>
+    </div>
+</div>
+
+{% for payroll_obj in payroll_list %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{payroll_obj.user.get_full_name}}</h3>
+    </div>
+    <div class="table-responsive">
+    	<h4>Actividades</h4>
+	    <table id="dataTable" class="table table-hover table-condensed table-striped">
+	        <thead>
+		        <tr>
+		            <th>Actividad</th>
+		            <th>Valor unidad</th>
+		            <th>Cantidad</th>
+		            <th>Unidades</th>
+		            <th>Fecha</th>
+		            <th>Orden de Pro</th>
+		            <th>Valor actividad</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+		        {% for obj in payroll_obj.activities %}
+		        <tr>
+		            <td>{{obj.filling_pro_ord.production_order.activity}}</td>
+		            <td class="text-right">${{obj.filling_pro_ord.production_order.activity.value}}</td>
+		            <td class="text-right">{{obj.value}}</td>
+		            <td>{{obj.filling_pro_ord.production_order.activity.measuring_unit}}</td>
+		            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+		            <td class="text-center">{{obj.filling_pro_ord.production_order.pk}}</td>
+		            <td class="text-right">${{obj.activity_value}}</td>
+		        </tr>
+		    	{% endfor %}
+		    	<tr>
+		    		<td><strong>Total actividades</strong></td>
+		    		<td colspan="5" ></td>
+		    		<td class="text-right"><strong>${{payroll_obj.total_activities}}</strong></td>
+		    	</tr>
+	    	</tbody>
+	    </table>
+    </div>
+    <div class="table-responsive">
+    	<h4>Descuentos</h4>
+	    <table id="dataTable" class="table table-hover table-condensed table-striped">
+	        <thead>
+		        <tr>
+		            <th>Tipo</th>
+		            <th>Fecha registro</th>
+		            <th>Valor descuento</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+		        {% for obj in payroll_obj.discounts %}
+		        <tr>
+		            <td>{{obj.general_discount.name}}</td>
+		            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+		            <td class="text-right">${{obj.value}}</td>
+		        </tr>
+		    	{% endfor %}
+		    	<tr>
+		    		<td><strong>Total descuentos</strong></td>
+		    		<td></td>
+		    		<td class="text-right"><strong>${{payroll_obj.total_discounts}}</strong></td>
+		    	</tr>
+	    	</tbody>
+	    </table>
+    </div>
+    <div class="table-responsive">
+    	<h4>TOTAL</h4>
+	    <table id="dataTable" class="table table-hover table-condensed table-striped">
+	        <thead>
+		        <tr>
+		            <th>Concepto</th>
+		            <th>Valor</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+		    	<tr>
+		    		<td>Total actividades</td>
+		    		<td class="text-right"><strong>${{payroll_obj.total_activities}}</strong></td>
+		    	</tr>
+		    	<tr>
+		    		<td>Total descuentos</td>
+		    		<td class="text-right"><strong>$-{{payroll_obj.total_discounts}}</strong></td>
+		    	</tr>
+		    	<tr>
+		    		<td>Total</td>
+		    		<td class="text-right"><strong>${{payroll_obj.total_payroll}}</strong></td>
+		    	</tr>
+	    	</tbody>
+	    </table>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+    .actions .btn{padding: 0;}
+    .panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("span").tooltip();
+    });
+</script>
+{% endblock %}

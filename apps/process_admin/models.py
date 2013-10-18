@@ -137,7 +137,7 @@ class UserProfile(models.Model):
         return self.user_type.get_permissions()
 
     def __unicode__(self):
-        return "%s: %s %s" % (self.user, self.user_type, self.is_active)
+        return u"%s: %s %s" % (self.user, self.user_type, self.is_active)
 
     class Meta:
         ordering = ('is_active',)
@@ -149,7 +149,7 @@ class Activities(models.Model):
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.TextField(blank=True)
     measuring_unit = models.CharField(max_length=50, verbose_name="measuring_unit")
-    value = models.CharField(max_length=50, verbose_name="value")
+    value = models.IntegerField(max_length=50, verbose_name="value")
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user')
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)

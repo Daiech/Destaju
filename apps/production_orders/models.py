@@ -21,7 +21,7 @@ class ProductionOrder(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     activity = models.ForeignKey(Activities,  null=False, related_name='%(class)s_activity')
     place = models.ForeignKey(Places,  null=False, related_name='%(class)s_place')
-    status = models.IntegerField(default=1, choices=((1,"Generada"),(2,"Llena"),(3,"Aprobada")))
+    status = models.IntegerField(default=1, choices=((1,"Generada"),(2,"Llena"),(3,"Calificada")))
     is_active = models.BooleanField(default=True)
     responsible = models.ManyToManyField(User)
     tools = models.ManyToManyField(Tools, null=True, blank=True)
@@ -65,7 +65,7 @@ class QualificationProOrd(models.Model):
 
 class Filling(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
-    value = models.CharField(max_length=100, verbose_name="value", null=False)
+    value = models.IntegerField(max_length=100, verbose_name="value", null=False)
     filling_pro_ord = models.ForeignKey(FillingProOrd,  null=False, related_name='%(class)s_filling_pro_ord')
     
     date_added = models.DateTimeField(auto_now_add=True)
@@ -73,4 +73,10 @@ class Filling(models.Model):
 
     def __unicode__(self):
         return "%s - %s : %s"%(self.user, self.filling_pro_ord, self.value)
+    
+    def activity_value(self):
+#        print "obj",self.value
+#        print "Activity", self.filling_pro_ord.production_order.activity.value
+#        print "Total", int(self.value) * int(self.filling_pro_ord.production_order.activity.value)
+        return (int(self.value) * int(self.filling_pro_ord.production_order.activity.value))
     

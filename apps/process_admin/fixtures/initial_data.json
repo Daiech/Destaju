@@ -699,5 +699,37 @@
 			"date_added":"2013-07-25T09:16:08Z",
 			"date_modified":"2013-07-25T09:16:08Z"
 		}
+	},
+	{
+		"pk": 2, 
+		"model": "process_admin.legaldiscounts", 
+		"fields": {
+			"modifications": 2, 
+			"code": "002", 
+			"name": "Seguridad social: mayor a 4 salarios", 
+			"date_modified": "2013-10-17T16:11:06Z", 
+			"is_active": true, 
+			"value": "9", 
+			"is_available": true, 
+			"user": 1, 
+			"date_added": "2013-10-17T14:16:38Z", 
+			"description": "Seguridad social que se descuenta de la nomina de los empleados que ganen mas de 4 SMMLV"
+		}
+	}, 
+	{
+		"pk": 1, 
+		"model": "process_admin.legaldiscounts", 
+		"fields": {
+			"modifications": 4, 
+			"code": "001", 
+			"name": "Seguridad social: menos de 4 salarios", 
+			"date_modified": "2013-10-17T16:11:09Z", 
+			"is_active": true, 
+			"value": "8", 
+			"is_available": true, 
+			"user": 1, 
+			"date_added": "2013-10-01T22:24:14Z", 
+			"description": "Seguridad social que se descuenta de la nominas de empleados que ganan menos de 4 SMMLV"
+		}
 	}
 ]

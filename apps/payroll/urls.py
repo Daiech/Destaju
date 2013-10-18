@@ -9,4 +9,8 @@ discounts = patterns('apps.payroll.views',
     url(r'^eliminar-descuento-aplicado/(?P<id_discount_applied>[0-9]+)', 'delete_discount_applied', name="delete_discount_applied")
 )
 
-payroll_urls = discounts
+payroll = patterns('apps.payroll.views',
+    url(r'^listar-nomina/$', 'list_payroll', name="list_payroll"),
+)
+
+payroll_urls = discounts + payroll
