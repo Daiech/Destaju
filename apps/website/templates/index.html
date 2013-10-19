@@ -28,7 +28,9 @@
         <!-- Begin page content -->
         <div class="container">
 	        <div class="page-headers text-center">
-			  <h1>{{ PROJECT_NAME }} <br> <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+        <h1>
+        <img src="{{ STATIC_URL }}img/favicon.ico" alt="" width="50px">
+         {{ PROJECT_NAME }} <br> <small>{{ PROJECT_DESCRIPTION }}</small></h1>
 			</div>
 			<div class="">
 				<form class="form-signin" method="post" action="{% url 'log_in' %}">
