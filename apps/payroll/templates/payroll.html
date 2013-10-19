@@ -10,7 +10,7 @@
         <thead>
 	        <tr>
 	            <th>Nombre completo</th>
-	            <th>Value</th>
+	            <th>Valor</th>
 	        </tr>
         </thead>
         <tbody>
@@ -28,107 +28,116 @@
     </table>
     </div>
 </div>
-
-{% for payroll_obj in payroll_list %}
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{payroll_obj.user.get_full_name}}</h3>
-    </div>
-    <div class="table-responsive">
-    	<h4>Actividades</h4>
-	    <table id="dataTable" class="table table-hover table-condensed table-striped">
-	        <thead>
-		        <tr>
-		            <th>Actividad</th>
-		            <th>Valor unidad</th>
-		            <th>Cantidad</th>
-		            <th>Unidades</th>
-		            <th>Fecha</th>
-		            <th>Orden de Pro</th>
-		            <th>Valor actividad</th>
-		        </tr>
-	        </thead>
-	        <tbody>
-		        {% for obj in payroll_obj.activities %}
-		        <tr>
-		            <td>{{obj.filling_pro_ord.production_order.activity}}</td>
-		            <td class="text-right">${{obj.filling_pro_ord.production_order.activity.value}}</td>
-		            <td class="text-right">{{obj.value}}</td>
-		            <td>{{obj.filling_pro_ord.production_order.activity.measuring_unit}}</td>
-		            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-		            <td class="text-center">{{obj.filling_pro_ord.production_order.pk}}</td>
-		            <td class="text-right">${{obj.activity_value}}</td>
-		        </tr>
-		    	{% endfor %}
-		    	<tr>
-		    		<td><strong>Total actividades</strong></td>
-		    		<td colspan="5" ></td>
-		    		<td class="text-right"><strong>${{payroll_obj.total_activities}}</strong></td>
-		    	</tr>
-	    	</tbody>
-	    </table>
-    </div>
-    <div class="table-responsive">
-    	<h4>Descuentos</h4>
-	    <table id="dataTable" class="table table-hover table-condensed table-striped">
-	        <thead>
-		        <tr>
-		            <th>Tipo</th>
-		            <th>Fecha registro</th>
-		            <th>Valor descuento</th>
-		        </tr>
-	        </thead>
-	        <tbody>
-		        {% for obj in payroll_obj.discounts %}
-		        <tr>
-		            <td>{{obj.general_discount.name}}</td>
-		            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-		            <td class="text-right">${{obj.value}}</td>
-		        </tr>
-		    	{% endfor %}
-		    	<tr>
-		    		<td><strong>Total descuentos</strong></td>
-		    		<td></td>
-		    		<td class="text-right"><strong>${{payroll_obj.total_discounts}}</strong></td>
-		    	</tr>
-	    	</tbody>
-	    </table>
-    </div>
-    <div class="table-responsive">
-    	<h4>TOTAL</h4>
-	    <table id="dataTable" class="table table-hover table-condensed table-striped">
-	        <thead>
-		        <tr>
-		            <th>Concepto</th>
-		            <th>Valor</th>
-		        </tr>
-	        </thead>
-	        <tbody>
-		    	<tr>
-		    		<td>Total actividades</td>
-		    		<td class="text-right"><strong>${{payroll_obj.total_activities}}</strong></td>
-		    	</tr>
-                <tr>
-                    <td>Ajuste salarial</td>
-                    <td class="text-right"><strong>${{payroll_obj.adjust}}</strong></td>
-                </tr>
-                <tr>
-                    <td>{{payroll_obj.legal_discount_type}}</td>
-                    <td class="text-right"><strong>-${{payroll_obj.legal_discount_value}}</strong></td>
-                </tr>                
-                <tr>
-                    <td>Total desuentos por deudas</td>
-                    <td class="text-right"><strong>-${{payroll_obj.total_discounts}}</strong></td>
-                </tr>
-		    	<tr>
-		    		<td>Total</td>
-		    		<td class="text-right"><strong>${{payroll_obj.total_payroll}}</strong></td>
-		    	</tr>
-	    	</tbody>
-	    </table>
-    </div>
+<div class="panel-group" id="accordion">
+	{% for payroll_obj in payroll_list %}
+	<div class="panel panel-info">
+	    <div class="panel-heading">
+		    <h4 class="panel-title">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{payroll_obj.user.pk}}">
+		          {{payroll_obj.user.get_full_name}}
+		        </a>
+	        </h4>
+	    </div>
+	    <div id="collapse{{payroll_obj.user.pk}}" class="panel-collapse collapse in">
+		    <div class="panel-body">
+	            <div class="table-responsive">
+			    	<h4>Actividades</h4>
+				    <table id="dataTable" class="table table-hover table-condensed table-striped">
+				        <thead>
+					        <tr>
+					            <th>Actividad</th>
+					            <th>Valor unidad</th>
+					            <th>Cantidad</th>
+					            <th>Unidades</th>
+					            <th>Fecha</th>
+					            <th>Orden de Pro</th>
+					            <th>Valor actividad</th>
+					        </tr>
+				        </thead>
+				        <tbody>
+					        {% for obj in payroll_obj.activities %}
+					        <tr>
+					            <td>{{obj.filling_pro_ord.production_order.activity}}</td>
+					            <td class="text-right">${{obj.filling_pro_ord.production_order.activity.value}}</td>
+					            <td class="text-right">{{obj.value}}</td>
+					            <td>{{obj.filling_pro_ord.production_order.activity.measuring_unit}}</td>
+					            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+					            <td class="text-center">{{obj.filling_pro_ord.production_order.pk}}</td>
+					            <td class="text-right">${{obj.activity_value}}</td>
+					        </tr>
+					    	{% endfor %}
+					    	<tr>
+					    		<td><strong>Total actividades</strong></td>
+					    		<td colspan="5" ></td>
+					    		<td class="text-right"><strong>${{payroll_obj.total_activities}}</strong></td>
+					    	</tr>
+				    	</tbody>
+				    </table>
+			    </div>
+			    <div class="table-responsive">
+			    	<h4>Descuentos</h4>
+				    <table id="dataTable" class="table table-hover table-condensed table-striped">
+				        <thead>
+					        <tr>
+					            <th>Tipo</th>
+					            <th>Fecha registro</th>
+					            <th>Valor descuento</th>
+					        </tr>
+				        </thead>
+				        <tbody>
+					        {% for obj in payroll_obj.discounts %}
+					        <tr>
+					            <td>{{obj.general_discount.name}}</td>
+					            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+					            <td class="text-right">${{obj.value}}</td>
+					        </tr>
+					    	{% endfor %}
+					    	<tr>
+					    		<td><strong>Total descuentos</strong></td>
+					    		<td></td>
+					    		<td class="text-right"><strong>${{payroll_obj.total_discounts}}</strong></td>
+					    	</tr>
+				    	</tbody>
+				    </table>
+			    </div>
+			    <div class="table-responsive">
+			    	<h4>TOTAL</h4>
+				    <table id="dataTable" class="table table-hover table-condensed table-striped">
+				        <thead>
+					        <tr>
+					            <th>Concepto</th>
+					            <th>Valor</th>
+					        </tr>
+				        </thead>
+				        <tbody>
+					    	<tr>
+					    		<td>Total actividades</td>
+					    		<td class="text-right"><strong>${{payroll_obj.total_activities}}</strong></td>
+					    	</tr>
+			                <tr>
+			                    <td>Ajuste salarial</td>
+			                    <td class="text-right"><strong>${{payroll_obj.adjust}}</strong></td>
+			                </tr>
+			                <tr>
+			                    <td>{{payroll_obj.legal_discount_type}}</td>
+			                    <td class="text-right"><strong>-${{payroll_obj.legal_discount_value}}</strong></td>
+			                </tr>                
+			                <tr>
+			                    <td>Total desuentos por deudas</td>
+			                    <td class="text-right"><strong>-${{payroll_obj.total_discounts}}</strong></td>
+			                </tr>
+					    	<tr>
+					    		<td>Total</td>
+					    		<td class="text-right"><strong>${{payroll_obj.total_payroll}}</strong></td>
+					    	</tr>
+				    	</tbody>
+				    </table>
+			    </div>
+			</div>
+	    </div>
+	</div>
+	{% endfor %}
 </div>
-{% endfor %}
 
 {% endblock %}
 
@@ -143,6 +152,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $("span").tooltip();
+        $(".collapse").collapse({
+            // toggle: false
+        });
     });
 </script>
 {% endblock %}
