@@ -21,8 +21,8 @@
         {% for obj in obj_list %}
         <tr class= "discounts" >
             <td></td>
-            <td>{{obj.pk}}</td>
-            <td>{{obj.get_full_name}}</td>
+            <td>{{ obj.pk }}</td>
+            <td>{{ obj.get_full_name|title }}</td>
             <td class="text-right" ><span class="hidden">{{obj.get_total_discounts}}</span>${% if obj.get_total_discounts %}{{obj.get_total_discounts}}{% else %}0{% endif %}</td>
             <td class="text-center"><span title="{{obj.get_date_last_discount}}">{{obj.get_date_last_discount|date:"Y/m/d G:i"}}</span></td>
             <td class="text-center actions">

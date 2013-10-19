@@ -11,37 +11,49 @@
         <thead>
 	        <tr>
 	            <th>Nombre completo</th>
-	            <th>Valor</th>
+	            <th>C&eacute;dula</th>
+	            <th>Tipo de usuario</th>
+	            <th class="text-right">Valor</th>
 	        </tr>
         </thead>
         <tbody>
 	        {% for payroll_obj in payroll_list %}
 	        <tr>
-	            <td>{{payroll_obj.user.get_full_name}}</td>
+	            <td>{{ payroll_obj.user.get_full_name|title }}</td>
+	            <td>{{ payroll_obj.user.userprofile.dni }}</td>
+	            <td>{{ payroll_obj.user.userprofile.user_type.name }}</td>
 	            <td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
 	        </tr>
 	    	{% endfor %}
 	    	<tr>
 	            <td><strong>TOTAL</strong></td>
+	            <td></td>
+	            <td></td>
 	            <td class="text-right"><h3>${{global_payroll|intcomma}}</h3></td>
 	        </tr>
     	</tbody>
     </table>
     </div>
 </div>
-<div class="panel-group" id="accordion">
+<div class="panel panel-default">
+  <div class="panel-body">
+    <label id="labelSearch" for="searchInput" class="pull-left">Buscar por c&eacute;dula o nombre: </label> <input type="text" id="searchInput" class="form-control" placeholder="Nombre o c&uacute;dula">
+  </div>
+</div>
+<ul class="panel-group" id="accordion">
 	{% for payroll_obj in payroll_list %}
-	<div class="panel panel-info">
+	<li class="panel panel-info">
 	    <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{payroll_obj.user.pk}}">
 		    <h4 class="panel-title">
-		          {{payroll_obj.user.get_full_name}}
+		          {{ payroll_obj.user.userprofile.dni }} - 
+		          {{ payroll_obj.user.get_full_name|title }}
 	        </h4>
 	    </div>
 	    <div id="collapse{{payroll_obj.user.pk}}" class="panel-collapse collapse in">
 		    <div class="panel-body">
 	            <div class="table-responsive">
 			    	<h4>Actividades</h4>
-				    <table id="dataTable" class="table table-hover table-condensed table-striped">
+				    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 				        <thead>
 					        <tr>
 					            <th>Actividad</th>
@@ -50,7 +62,7 @@
 					            <th>Unidades</th>
 					            <th>Fecha</th>
 					            <th>Orden de Pro</th>
-					            <th>Valor actividad</th>
+					            <th class="text-right">Valor actividad</th>
 					        </tr>
 				        </thead>
 				        <tbody>
@@ -75,7 +87,7 @@
 			    </div>
 			    <div class="table-responsive">
 			    	<h4>Descuentos</h4>
-				    <table id="dataTable" class="table table-hover table-condensed table-striped">
+				    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 				        <thead>
 					        <tr>
 					            <th>Tipo</th>
@@ -86,7 +98,7 @@
 				        <tbody>
 					        {% for obj in payroll_obj.discounts %}
 					        <tr>
-					            <td>{{obj.general_discount.name}}</td>
+					            <td>{{obj.general_discount.name|title}}</td>
 					            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 					            <td class="text-right">${{obj.value}}</td>
 					        </tr>
@@ -101,11 +113,11 @@
 			    </div>
 			    <div class="table-responsive">
 			    	<h4>TOTAL</h4>
-				    <table id="dataTable" class="table table-hover table-condensed table-striped">
+				    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 				        <thead>
 					        <tr>
 					            <th>Concepto</th>
-					            <th>Valor</th>
+					            <th class="text-right">Valor</th>
 					        </tr>
 				        </thead>
 				        <tbody>
@@ -134,9 +146,9 @@
 			    </div>
 			</div>
 	    </div>
-	</div>
+	</li>
 	{% endfor %}
-</div>
+</ul>
 
 {% endblock %}
 
@@ -145,12 +157,17 @@
     .actions .btn{padding: 0;}
     .panel-title{line-height: 34px;}
     .accordion-toggle{cursor: pointer}
+    #accordion{padding-left: 0}
+    #searchInput{width: 200px;}
+    #labelSearch{margin: 6px 6px 6px 0;}
 </style>
 {% endblock %}
 
 {% block js %}
+<script src="{{ STATIC_URL }}js/jquery.fastLiveFilter.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+    	$('#searchInput').fastLiveFilter('#accordion');
         $("span").tooltip();
         $("#accordion .collapse").collapse({
             // toggle: false

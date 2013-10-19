@@ -26,6 +26,7 @@ def list_discounts_applied(request):
     show_modal = False
     return render_to_response('discounts_applied.html', locals(), context_instance=RequestContext(request))
 
+
 def read_discounts_applied(request,id_user):
     """ Show all discounts for a user"""
     obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
@@ -97,13 +98,13 @@ def list_payroll(request):
     payroll_list =[]
     obj_list = MyUser.objects.filter(userprofile__user_type__pk__in=[7,8])
     filling_list = Filling.objects.filter()
-    filling_list2 = Filling.objects.filter().aggregate(total = Sum('value'))
+    filling_list2 = Filling.objects.filter().aggregate(total=Sum('value'))
     discounts_list = DiscountsApplied.objects.filter(is_active=True)
     legal_discounts = LegalDiscounts.objects.filter(is_active=True)
     global_payroll = 0
     for obj in obj_list:
         #total activities
-        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__status = 3)
+        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__status=3)
         total_activities = 0
         for a in activities:
             a1 = int(a.filling_pro_ord.production_order.activity.value)
@@ -133,8 +134,8 @@ def list_payroll(request):
         total_payroll = total_payroll-total_discounts
         
         global_payroll += total_payroll
-        payroll_list.append({"user":obj,
-                             "activities":activities,
+        payroll_list.append({"user": obj,
+                             "activities": activities,
                              "total_activities": total_activities,
                              "discounts": discounts,
                              "total_discounts": total_discounts,
