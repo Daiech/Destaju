@@ -1,6 +1,9 @@
 # Django settings for SGLC project.
 import os
-DEBUG = True
+try:
+    from .local_settings import DEBUG
+except Exception:
+    DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     ('Mauricio Aizaga', 'maizaga@daiech.com'),
@@ -15,21 +18,23 @@ APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", 
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"
 LOGIN_REDIRECT_URL = "/"
-FROM_EMAIL = "SGLC <no-reply@daiech.com>"
+FROM_EMAIL = PROJECT_NAME + " <no-reply@daiech.com>"
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'anuncio3_sglc',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'anuncio3_generic',
-        'PASSWORD': 'holamundo',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+try:
+    from .local_settings import DATABASES
+except Exception, e:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'anuncio3_sglc',
+            'USER': 'anuncio3_generic',
+            'PASSWORD': 'holamundo',
+            'HOST': '',
+            'PORT': '',
+        }
     }
-}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
