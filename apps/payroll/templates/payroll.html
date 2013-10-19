@@ -32,11 +32,9 @@
 <div class="panel-group" id="accordion">
 	{% for payroll_obj in payroll_list %}
 	<div class="panel panel-info">
-	    <div class="panel-heading">
+	    <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{payroll_obj.user.pk}}">
 		    <h4 class="panel-title">
-		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{payroll_obj.user.pk}}">
 		          {{payroll_obj.user.get_full_name}}
-		        </a>
 	        </h4>
 	    </div>
 	    <div id="collapse{{payroll_obj.user.pk}}" class="panel-collapse collapse in">
@@ -146,6 +144,7 @@
 <style type="text/css">
     .actions .btn{padding: 0;}
     .panel-title{line-height: 34px;}
+    .accordion-toggle{cursor: pointer}
 </style>
 {% endblock %}
 
