@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block TITLE %}Inicio{% endblock %}
 {% block content %}
 <div class="panel panel-info">
@@ -17,12 +18,12 @@
 	        {% for payroll_obj in payroll_list %}
 	        <tr>
 	            <td>{{payroll_obj.user.get_full_name}}</td>
-	            <td class="text-right"><strong>${{payroll_obj.total_payroll}}</strong></td>
+	            <td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
 	        </tr>
 	    	{% endfor %}
 	    	<tr>
 	            <td><strong>TOTAL</strong></td>
-	            <td class="text-right"><h3>${{global_payroll}}</h3></td>
+	            <td class="text-right"><h3>${{global_payroll|intcomma}}</h3></td>
 	        </tr>
     	</tbody>
     </table>

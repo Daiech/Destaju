@@ -22,13 +22,13 @@ from apps.account.decorators import access_required
 @login_required()
 def list_discounts_applied(request):
     """List all users with resume of discounts already applied"""    
-    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
     show_modal = False
     return render_to_response('discounts_applied.html', locals(), context_instance=RequestContext(request))
 
 def read_discounts_applied(request,id_user):
     """ Show all discounts for a user"""
-    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
     user_obj = get_object_or_404(obj_list,pk=id_user)
     show_modal = True
     return render_to_response('read_user_discounts.html', locals(), context_instance=RequestContext(request))
@@ -36,8 +36,8 @@ def read_discounts_applied(request,id_user):
 
 def create_discount_applied(request, id_user):
     """Form to apply a general discount to an employee"""
-    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
-    user_obj = get_object_or_404(User,pk=id_user)
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
+    user_obj = get_object_or_404(obj_list,pk=id_user)
     if request.method == 'POST':
         form  = DiscountsAppliedForm(request.POST)
         if form.is_valid():
@@ -61,7 +61,7 @@ def create_discount_applied(request, id_user):
 
 def update_discount_applied(request,id_discount_applied):
     """Form to edit a general discount to an employee"""
-    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True)
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
     discount_obj = get_object_or_404(DiscountsApplied, pk= id_discount_applied)
     user_obj = discount_obj.employee
     if request.method == 'POST':
