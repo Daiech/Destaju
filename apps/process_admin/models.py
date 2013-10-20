@@ -66,6 +66,12 @@ class UserType(models.Model):
         else:
             return False
 
+    def can_view_modifications(self):
+        if self.pk == 1 or self.pk == 2 or self.pk == 6:
+            return True
+        else:
+            return False
+
     def get_permissions(self):
         return ", ".join([s.code for s in self.permissions_set.all()])
 

@@ -8,6 +8,7 @@ from django.template import RequestContext
 from pymongo import MongoClient, DESCENDING as pymongo_DESCENDING
 from django.forms.models import model_to_dict
 from django.db.models.query import QuerySet
+from apps.account.decorators import access_required
 #from django.core.mail import EmailMessage
 
 import datetime
@@ -182,11 +183,11 @@ def showViewsStats(request):
             ctx = {"views": []}
         return render_to_response('actions/views_stats.html', ctx, context_instance=RequestContext(request))
     else:
-        return HttpResponseRedirect('/')
-    
+        return HttpResponseRedirect('/')    
 
 
 @login_required()
+@access_required("superadmin", "admin", "consultor")
 def read_modifications(request):
     """read the modifications"""
     object_list = UpdateTables.objects.all()
@@ -241,18 +242,3 @@ def save_with_modifications(user,form,form_obj,model):
         return True
     else:
         return False
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

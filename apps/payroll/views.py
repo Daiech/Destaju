@@ -20,6 +20,7 @@ from apps.account.decorators import access_required
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def list_discounts_applied(request):
     """List all users with resume of discounts already applied"""    
     obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
@@ -27,6 +28,8 @@ def list_discounts_applied(request):
     return render_to_response('discounts_applied.html', locals(), context_instance=RequestContext(request))
 
 
+@login_required()
+@access_required("superadmin", "admin")
 def read_discounts_applied(request,id_user):
     """ Show all discounts for a user"""
     obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
@@ -35,6 +38,8 @@ def read_discounts_applied(request,id_user):
     return render_to_response('read_user_discounts.html', locals(), context_instance=RequestContext(request))
 
 
+@login_required()
+@access_required("superadmin", "admin")
 def create_discount_applied(request, id_user):
     """Form to apply a general discount to an employee"""
     obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
@@ -60,6 +65,8 @@ def create_discount_applied(request, id_user):
     return render_to_response('create_discount_applied.html', locals(), context_instance=RequestContext(request))
 
 
+@login_required()
+@access_required("superadmin", "admin")
 def update_discount_applied(request,id_discount_applied):
     """Form to edit a general discount to an employee"""
     obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
@@ -69,8 +76,8 @@ def update_discount_applied(request,id_discount_applied):
         form  = DiscountsAppliedForm(request.POST, instance=discount_obj)
         if form.is_valid():
             obj = form.save(commit=False)
-#            obj.admin = request.user
-#            obj.employee = user_obj
+            # obj.admin = request.user
+            # obj.employee = user_obj
             obj.save()
             form = DiscountsAppliedForm()
             return HttpResponseRedirect(reverse(read_discounts_applied, kwargs={'id_user': user_obj.pk}))
@@ -83,6 +90,7 @@ def update_discount_applied(request,id_discount_applied):
     return render_to_response('create_discount_applied.html', locals(), context_instance=RequestContext(request))
 
 
+@access_required("superadmin", "admin")
 @login_required()
 def delete_discount_applied(request, id_discount_applied):
     """Delete a discount applied"""
@@ -93,6 +101,7 @@ def delete_discount_applied(request, id_discount_applied):
 
 
 @login_required()
+@access_required("superadmin", "admin")
 def list_payroll(request):
     """Show the list of employees with values of activities, general discounts applied and legal discounts applied."""
     payroll_list =[]
@@ -146,11 +155,3 @@ def list_payroll(request):
                              })
     
     return render_to_response('payroll.html', locals(), context_instance=RequestContext(request))
-
-
-
-
-
-
-
-
