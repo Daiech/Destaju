@@ -119,7 +119,7 @@
 						            <td class="text-right">${{obj.filling_pro_ord.production_order.activity.value|intcomma}}</td>
 						            <td class="text-right">{{obj.value}}</td>
 						            <td>{{obj.filling_pro_ord.production_order.activity.measuring_unit}}</td>
-						            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+						            <td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 						            <td class="text-center">{{obj.filling_pro_ord.production_order.pk}}</td>
 						            <td class="text-right">${{obj.activity_value|intcomma}}</td>
 						        </tr>
@@ -146,7 +146,7 @@
 						        {% for obj in payroll_obj.discounts %}
 						        <tr>
 						            <td>{{obj.general_discount.name|title}}</td>
-						            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+						            <td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 						            <td class="text-right">${{obj.value}}</td>
 						        </tr>
 						    	{% endfor %}
@@ -169,17 +169,17 @@
 						        </tr>
 					        </thead>
 					        <tbody>
-						        {% for obj in payroll_obj.discounts %}
+						        {% for obj in payroll_obj.increases %}
 						        <tr>
-						            <td>{{obj.general_discount.name|title}}</td>
-						            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+						            <td>{{obj.increase.name|title}}</td>
+						            <td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 						            <td class="text-right">${{obj.value}}</td>
 						        </tr>
 						    	{% endfor %}
 						    	<tr>
 						    		<td><strong>Total descuentos</strong></td>
 						    		<td></td>
-						    		<td class="text-right"><strong>${{payroll_obj.total_discounts|intcomma}}</strong></td>
+						    		<td class="text-right"><strong>${{payroll_obj.total_increases|intcomma}}</strong></td>
 						    	</tr>
 					    	</tbody>
 					    </table>
@@ -199,19 +199,25 @@
 						    		<td class="text-right"><strong>${{payroll_obj.total_activities|intcomma}}</strong></td>
 						    	</tr>
 				                <tr>
-				                    <td>Ajuste salarial</td>
-				                    <td class="text-right"><strong>${{payroll_obj.adjust|intcomma}}</strong></td>
+				                    <td>Total aumentos</td>
+				                    <td class="text-right"><strong>${{payroll_obj.total_increases|intcomma}}</strong></td>
 				                </tr>
+                                <tr><td></td><td></td></tr>
+                                <tr>
+                                    <td><strong>Total devengado</strong></td>
+                                    <td class="text-right"><strong>${{payroll_obj.total_accrued|intcomma}}</strong></td>
+                                </tr>
+                                <tr><td></td><td></td></tr>
 				                <tr>
 				                    <td>{{payroll_obj.legal_discount_type}}</td>
 				                    <td class="text-right"><strong>-${{payroll_obj.legal_discount_value|intcomma}}</strong></td>
-				                </tr>                
+				                </tr>    
 				                <tr>
-				                    <td>Total desuentos por deudas</td>
+				                    <td>Total descuentos</td>
 				                    <td class="text-right"><strong>-${{payroll_obj.total_discounts|intcomma}}</strong></td>
 				                </tr>
 						    	<tr>
-						    		<td>Total</td>
+						    		<td><strong>TOTAL</strong></td>
 						    		<td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
 						    	</tr>
 					    	</tbody>

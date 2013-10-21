@@ -796,5 +796,20 @@
 			"date_added":"2013-10-19T03:49:11Z",
 			"description":"Aumento al salario por total de horas extras"
 		}
+	},
+	{	
+		"pk":1,
+		"model":"process_admin.generaldiscounts",
+		"fields":{
+			"modifications":0,
+			"code":"001",
+			"name":"Seguridad social 1% extra",
+			"date_modified":"2013-10-19T03:49:11Z",
+			"is_active":true,
+			"is_available":true,
+			"user":1,
+			"date_added":"2013-10-19T03:49:11Z",
+			"description":"Descuento extra del 1% que se realiza a la nomina de los empleados que ganen mas de 4 salarios minimos para completar el 9% de descuento en seguridad social, este 1% se le saca al total devengado"
+		}
 	}
 ]
