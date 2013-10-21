@@ -4,7 +4,7 @@
 {% block content %}
 <div class="">
 	<h3>
-		N&oacute;mina
+		N&oacute;mina {{ PROJECT_NAME }}
 		<button class="btn btn-primary pull-right" id="btn-generate-pdf"><span class="glyphicon glyphicon-list-alt"></span> Generar en PDF</button>
 	</h3>
 </div>
@@ -51,7 +51,7 @@
     <div id="payrollTitle"></div>
 	<div class="panel panel-info">
 	    <div class="panel-heading" id="headerContent">
-	        <h3 class="panel-title">N&oacute;mina </h3>
+	        <h3 class="panel-title">N&oacute;mina {{ PROJECT_NAME }} - {% now "F j \d\e Y H:i" %}</h3>
 	    </div>
 	    <div class="table-responsive">
 	    <table id="dataTable2" class="table table-hover table-condensed table-striped">
@@ -99,7 +99,7 @@
 		    <div id="collapse{{payroll_obj.user.pk}}" class="panel-collapse collapse in">
 			    <div class="panel-body">
 		            <div class="table-responsive">
-				    	<h4>Actividades</h4>
+				    	<h4>Actividades:</h4>
 					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 					        <thead>
 						        <tr>
@@ -133,7 +133,7 @@
 					    </table>
 				    </div>
 				    <div class="table-responsive">
-				    	<h4>Descuentos</h4>
+				    	<h4>Descuentos:</h4>
 					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 					        <thead>
 						        <tr>
@@ -159,7 +159,7 @@
 					    </table>
 				    </div>
 				    <div class="table-responsive">
-				    	<h4>Aumentos</h4>
+				    	<h4>Aumentos:</h4>
 					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 					        <thead>
 						        <tr>
@@ -185,7 +185,7 @@
 					    </table>
 				    </div>
 				    <div class="table-responsive">
-				    	<h4>TOTAL</h4>
+				    	<h4>TOTAL:</h4>
 					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 					        <thead>
 						        <tr>
