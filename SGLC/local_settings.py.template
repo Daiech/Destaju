@@ -2,7 +2,7 @@ DEBUG = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.slite',
+        'NAME': 'db.sqlite',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',

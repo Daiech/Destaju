@@ -1,5 +1,24 @@
 [
 	{
+		"pk":1,
+		"model":"process_admin.userprofile",
+		"fields":{
+			"city":"00",
+			"date_born":"2013-10-20",
+			"is_active":true,
+			"is_active_worker":true,
+			"date_modified":"2013-10-21T04:16:33.348Z",
+			"dni":"00",
+			"user_type":1,
+			"phone":"00",
+			"user":1,
+			"address":"00",
+			"date_added":"2013-10-21T04:16:33.348Z",
+			"cell_phone":"00",
+			"employment":null
+		}
+	},
+	{
 		"model": "process_admin.employments",
 		"pk":1,
 		"fields":

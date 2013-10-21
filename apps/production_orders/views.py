@@ -134,7 +134,7 @@ def filling(request, id_production_order):
             qs = Filling.objects.filter(filling_pro_ord=FillingProOrd.objects.get(production_order=po))
             formset =  FillingFormSet(queryset = qs)
         else:
-            HttpResponseRedirect(reverse(filling_pro_ord))
+            return HttpResponseRedirect(reverse(filling_pro_ord))
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]) \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     form_mode = "_update"
@@ -176,7 +176,7 @@ def qualification(request, id_production_order):
         elif po.status == 3:
             form =  QualificationsForm(instance = po.qualificationproord)
         else:
-            HttpResponseRedirect(reverse(qualification_pro_ord))
+            return HttpResponseRedirect(reverse(qualification_pro_ord))
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     #    form_mode = "_create"
