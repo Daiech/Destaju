@@ -13,7 +13,8 @@ ADMINS = (
 URL_BASE = "http://sglc.daiech.com"
 PROJECT_NAME = "SISPALMA"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
-APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize']
+APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
+"apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
 
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"
@@ -65,12 +66,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.sep.join([os.path.dirname(os.path.dirname(__file__)), 'public/media'])
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
