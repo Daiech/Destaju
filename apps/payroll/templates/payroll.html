@@ -1,12 +1,57 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block TITLE %}Inicio{% endblock %}
+{% block TITLE %}N&oacute;mina{% endblock %}
 {% block content %}
+<div class="">
+	<h3>
+		N&oacute;mina
+		<button class="btn btn-primary pull-right" id="btn-generate-pdf"><span class="glyphicon glyphicon-list-alt"></span> Generar en PDF</button>
+	</h3>
+</div>
+<hr>
 <div id="data">
+	<style type="text/css">
+        body{font-family:Helvetica;color: #555;}
+        #footerContent{
+            margin: 20px 0;
+            margin-top: 45px;
+        }
+        .box{overflow: hidden;}
+        .box > div{float: left;width: 50%}
+        #headerContent{margin: 0}
+        th{text-align: left;vertical-align: center;}
+        th, td{padding: 3px}
+        #headerContent > div > img{height:50px;width:100px;margin:0;margin-top:0;}
+        .div-header{height:50px;max-width:100px;display:inline-block;margin:0;}
+        #payrollContent{line-height: 1.8;margin: 0}
+        table{width: 100%}
+        @page {
+          margin: 2.5cm;
+          margin-top: 3cm;
+          margin-bottom: 2.5cm;
+          font-size: 26px;
+          colordisplay:#555;
+          @frame header {
+            -pdf-frame-content: headerContent;
+            top: 1cm;
+            margin-left: 2.1cm;
+            margin-right: 1cm;
+            height: 2.5cm;
+          }
+          @frame footer {
+            -pdf-frame-content: footerContent;
+            bottom: 1cm;
+            margin-left: 2.5cm;
+            margin-right: 1cm;
+            margin-top: 1.5cm;
+            height: 2cm;
+          }
+        }
+    </style>
+    <div id="payrollTitle"></div>
 	<div class="panel panel-info">
-	    <div class="panel-heading">
-	        <h3 class="panel-title  pull-left">N&oacute;mina</h3>
-	        <div class="text-right"><button class="btn btn-primary" id="btn-generate-pdf"><span class="glyphicon glyphicon-list-alt"></span> Generar PDF</button> </div>
+	    <div class="panel-heading" id="headerContent">
+	        <h3 class="panel-title">N&oacute;mina </h3>
 	    </div>
 	    <div class="table-responsive">
 	    <table id="dataTable2" class="table table-hover table-condensed table-striped">
@@ -37,14 +82,14 @@
 	    </table>
 	    </div>
 	</div>
-	<div class="panel panel-default">
+	<div class="panel panel-default" id="userSearch">
 	  <div class="panel-body">
 	    <label id="labelSearch" for="searchInput" class="pull-left">Buscar por nombre o c&eacute;dula: </label> <input type="text" id="searchInput" class="form-control" placeholder="Nombre o c&eacute;dula">
 	  </div>
 	</div>
 	<ul class="panel-group" id="accordion">
 		{% for payroll_obj in payroll_list %}
-		<li class="panel panel-info">
+		<li class="panel panel-info panel-user">
 		    <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{payroll_obj.user.pk}}">
 			    <h4 class="panel-title">
 			          {{ payroll_obj.user.userprofile.dni }} - 
@@ -114,6 +159,32 @@
 					    </table>
 				    </div>
 				    <div class="table-responsive">
+				    	<h4>Aumentos</h4>
+					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
+					        <thead>
+						        <tr>
+						            <th>Tipo</th>
+						            <th>Fecha registro</th>
+						            <th>Valor aumento</th>
+						        </tr>
+					        </thead>
+					        <tbody>
+						        {% for obj in payroll_obj.discounts %}
+						        <tr>
+						            <td>{{obj.general_discount.name|title}}</td>
+						            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+						            <td class="text-right">${{obj.value}}</td>
+						        </tr>
+						    	{% endfor %}
+						    	<tr>
+						    		<td><strong>Total descuentos</strong></td>
+						    		<td></td>
+						    		<td class="text-right"><strong>${{payroll_obj.total_discounts|intcomma}}</strong></td>
+						    	</tr>
+					    	</tbody>
+					    </table>
+				    </div>
+				    <div class="table-responsive">
 				    	<h4>TOTAL</h4>
 					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
 					        <thead>
@@ -148,9 +219,13 @@
 				    </div>
 				</div>
 		    </div>
+		    <div class="userSeparator"></div>
 		</li>
 		{% endfor %}
 	</ul>
+	<div id="footerContent">
+		<script>document.write((new Date()).getFullYear())</script> {{ PROJECT_NAME }} - {{ PROJECT_DESCRIPTION }} 
+    </div>
 </div>
 <form id="pdf-form" method="post" class="" action="{% url 'html_to_pdf' %}">
 	{% csrf_token %}
@@ -179,10 +254,14 @@
         $("#accordion .collapse").collapse({
             // toggle: false
         });
-		$('#html-data').val($('#data').html());
         $("#btn-generate-pdf").on("click", function (e) {
 			e.preventDefault();
 			e.preventDefault();
+			$("#payrollTitle").html("<h1>Tabla General</h1>");
+			$("#userSearch").html("<br><br><br> <h1>Detalles por Empleado</h1><hr>");
+			$(".userSeparator").html("<br><br> <hr>");
+			$("#data table").attr("border","1");
+			$('#html-data').val($('#data').html());
 			$("#pdf-form").submit();
 		})
     });
