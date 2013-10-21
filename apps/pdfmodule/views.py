@@ -7,20 +7,14 @@ from apps.actions_log.views import saveActionLog, saveViewsLog
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
-# from reportlab.platypus import Table
-# from reportlab.platypus import Paragraph
-# from reportlab.platypus import Image
-# from reportlab.platypus import Spacer
-# from reportlab.lib.styles import getSampleStyleSheet
-# from reportlab.platypus import Frame
-
 
 def htmlToPdf(html_string, pdf_name):
     from django.template.defaultfilters import slugify
+    import datetime
     pdf_address = "pdf/%s_%s_%s.pdf" % (
                     slugify(pdf_name),
                     slugify(settings.PROJECT_NAME),
-                    int(random.random() * 100000)
+                    datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
                     )
     file_dir = "%s/%s" % (settings.MEDIA_ROOT, pdf_address)
     file_dir = file(file_dir, "wb")
@@ -39,6 +33,7 @@ def html_to_pdf(request):
         html_data = request.POST.get('html-data')
         pdf_name = request.POST.get('pdf_name')
         pdf_address = htmlToPdf(html_data, pdf_name)
+        #Vaciar NOMINA aqui
         return HttpResponseRedirect(pdf_address)
     except Exception, e:
         print e
