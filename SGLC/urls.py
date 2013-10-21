@@ -4,6 +4,8 @@ from apps.process_admin.urls import process_admin_urls
 from apps.actions_log.urls import actions_log_urls
 from apps.production_orders.urls import production_orders_urls
 from apps.payroll.urls import payroll_urls
+from apps.pdfmodule.urls import pdfmodule_urls
+from django.conf import settings
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -16,9 +18,17 @@ urlpatterns = patterns('',
     url(r'^historial/', include(actions_log_urls)),
     url(r'^ordenes-de-produccion/', include(production_orders_urls)),
     url(r'^nomina/', include(payroll_urls)),
+    url(r'^pdf/', include(pdfmodule_urls)),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+    )

@@ -2,154 +2,161 @@
 {% load humanize %}
 {% block TITLE %}Inicio{% endblock %}
 {% block content %}
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <h3 class="panel-title">N&oacute;mina</h3>
-    </div>
-    <div class="table-responsive">
-    <table id="dataTable2" class="table table-hover table-condensed table-striped">
-        <thead>
-	        <tr>
-	            <th>Nombre completo</th>
-	            <th>C&eacute;dula</th>
-	            <th>Tipo de usuario</th>
-	            <th class="text-right">Valor</th>
-	        </tr>
-        </thead>
-        <tbody>
-	        {% for payroll_obj in payroll_list %}
-	        <tr>
-	            <td>{{ payroll_obj.user.get_full_name|title }}</td>
-	            <td>{{ payroll_obj.user.userprofile.dni }}</td>
-	            <td>{{ payroll_obj.user.userprofile.user_type.name }}</td>
-	            <td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
-	        </tr>
-	    	{% endfor %}
-	    	<tr>
-	            <td><strong>TOTAL</strong></td>
-	            <td></td>
-	            <td></td>
-	            <td class="text-right"><h3>${{global_payroll|intcomma}}</h3></td>
-	        </tr>
-    	</tbody>
-    </table>
-    </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-body">
-    <label id="labelSearch" for="searchInput" class="pull-left">Buscar por c&eacute;dula o nombre: </label> <input type="text" id="searchInput" class="form-control" placeholder="Nombre o c&uacute;dula">
-  </div>
-</div>
-<ul class="panel-group" id="accordion">
-	{% for payroll_obj in payroll_list %}
-	<li class="panel panel-info">
-	    <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{payroll_obj.user.pk}}">
-		    <h4 class="panel-title">
-		          {{ payroll_obj.user.userprofile.dni }} - 
-		          {{ payroll_obj.user.get_full_name|title }}
-	        </h4>
+<div id="data">
+	<div class="panel panel-info">
+	    <div class="panel-heading">
+	        <h3 class="panel-title  pull-left">N&oacute;mina</h3>
+	        <div class="text-right"><button class="btn btn-primary" id="btn-generate-pdf"><span class="glyphicon glyphicon-list-alt"></span> Generar PDF</button> </div>
 	    </div>
-	    <div id="collapse{{payroll_obj.user.pk}}" class="panel-collapse collapse in">
-		    <div class="panel-body">
-	            <div class="table-responsive">
-			    	<h4>Actividades</h4>
-				    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
-				        <thead>
-					        <tr>
-					            <th>Actividad</th>
-					            <th>Valor unidad</th>
-					            <th>Cantidad</th>
-					            <th>Unidades</th>
-					            <th>Fecha</th>
-					            <th>Orden de Pro</th>
-					            <th class="text-right">Valor actividad</th>
-					        </tr>
-				        </thead>
-				        <tbody>
-					        {% for obj in payroll_obj.activities %}
-					        <tr>
-					            <td>{{obj.filling_pro_ord.production_order.activity}}</td>
-					            <td class="text-right">${{obj.filling_pro_ord.production_order.activity.value|intcomma}}</td>
-					            <td class="text-right">{{obj.value}}</td>
-					            <td>{{obj.filling_pro_ord.production_order.activity.measuring_unit}}</td>
-					            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-					            <td class="text-center">{{obj.filling_pro_ord.production_order.pk}}</td>
-					            <td class="text-right">${{obj.activity_value|intcomma}}</td>
-					        </tr>
-					    	{% endfor %}
-					    	<tr>
-					    		<td><strong>Total actividades</strong></td>
-					    		<td colspan="5" ></td>
-					    		<td class="text-right"><strong>${{payroll_obj.total_activities|intcomma}}</strong></td>
-					    	</tr>
-				    	</tbody>
-				    </table>
-			    </div>
-			    <div class="table-responsive">
-			    	<h4>Descuentos</h4>
-				    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
-				        <thead>
-					        <tr>
-					            <th>Tipo</th>
-					            <th>Fecha registro</th>
-					            <th>Valor descuento</th>
-					        </tr>
-				        </thead>
-				        <tbody>
-					        {% for obj in payroll_obj.discounts %}
-					        <tr>
-					            <td>{{obj.general_discount.name|title}}</td>
-					            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-					            <td class="text-right">${{obj.value}}</td>
-					        </tr>
-					    	{% endfor %}
-					    	<tr>
-					    		<td><strong>Total descuentos</strong></td>
-					    		<td></td>
-					    		<td class="text-right"><strong>${{payroll_obj.total_discounts|intcomma}}</strong></td>
-					    	</tr>
-				    	</tbody>
-				    </table>
-			    </div>
-			    <div class="table-responsive">
-			    	<h4>TOTAL</h4>
-				    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
-				        <thead>
-					        <tr>
-					            <th>Concepto</th>
-					            <th class="text-right">Valor</th>
-					        </tr>
-				        </thead>
-				        <tbody>
-					    	<tr>
-					    		<td>Total actividades</td>
-					    		<td class="text-right"><strong>${{payroll_obj.total_activities|intcomma}}</strong></td>
-					    	</tr>
-			                <tr>
-			                    <td>Ajuste salarial</td>
-			                    <td class="text-right"><strong>${{payroll_obj.adjust|intcomma}}</strong></td>
-			                </tr>
-			                <tr>
-			                    <td>{{payroll_obj.legal_discount_type}}</td>
-			                    <td class="text-right"><strong>-${{payroll_obj.legal_discount_value|intcomma}}</strong></td>
-			                </tr>                
-			                <tr>
-			                    <td>Total desuentos por deudas</td>
-			                    <td class="text-right"><strong>-${{payroll_obj.total_discounts|intcomma}}</strong></td>
-			                </tr>
-					    	<tr>
-					    		<td>Total</td>
-					    		<td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
-					    	</tr>
-				    	</tbody>
-				    </table>
-			    </div>
-			</div>
+	    <div class="table-responsive">
+	    <table id="dataTable2" class="table table-hover table-condensed table-striped">
+	        <thead>
+		        <tr>
+		            <th>Nombre completo</th>
+		            <th>C&eacute;dula</th>
+		            <th>Tipo de usuario</th>
+		            <th class="text-right">Valor</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+		        {% for payroll_obj in payroll_list %}
+		        <tr>
+		            <td>{{ payroll_obj.user.get_full_name|title }}</td>
+		            <td>{{ payroll_obj.user.userprofile.dni }}</td>
+		            <td>{{ payroll_obj.user.userprofile.user_type.name }}</td>
+		            <td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
+		        </tr>
+		    	{% endfor %}
+		    	<tr>
+		            <td><strong>TOTAL</strong></td>
+		            <td></td>
+		            <td></td>
+		            <td class="text-right"><h3>${{global_payroll|intcomma}}</h3></td>
+		        </tr>
+	    	</tbody>
+	    </table>
 	    </div>
-	</li>
-	{% endfor %}
-</ul>
-
+	</div>
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <label id="labelSearch" for="searchInput" class="pull-left">Buscar por nombre o c&eacute;dula: </label> <input type="text" id="searchInput" class="form-control" placeholder="Nombre o c&eacute;dula">
+	  </div>
+	</div>
+	<ul class="panel-group" id="accordion">
+		{% for payroll_obj in payroll_list %}
+		<li class="panel panel-info">
+		    <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{payroll_obj.user.pk}}">
+			    <h4 class="panel-title">
+			          {{ payroll_obj.user.userprofile.dni }} - 
+			          {{ payroll_obj.user.get_full_name|title }}
+		        </h4>
+		    </div>
+		    <div id="collapse{{payroll_obj.user.pk}}" class="panel-collapse collapse in">
+			    <div class="panel-body">
+		            <div class="table-responsive">
+				    	<h4>Actividades</h4>
+					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
+					        <thead>
+						        <tr>
+						            <th>Actividad</th>
+						            <th>Valor unidad</th>
+						            <th>Cantidad</th>
+						            <th>Unidades</th>
+						            <th>Fecha</th>
+						            <th>Orden de Pro</th>
+						            <th class="text-right">Valor actividad</th>
+						        </tr>
+					        </thead>
+					        <tbody>
+						        {% for obj in payroll_obj.activities %}
+						        <tr>
+						            <td>{{obj.filling_pro_ord.production_order.activity}}</td>
+						            <td class="text-right">${{obj.filling_pro_ord.production_order.activity.value|intcomma}}</td>
+						            <td class="text-right">{{obj.value}}</td>
+						            <td>{{obj.filling_pro_ord.production_order.activity.measuring_unit}}</td>
+						            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+						            <td class="text-center">{{obj.filling_pro_ord.production_order.pk}}</td>
+						            <td class="text-right">${{obj.activity_value|intcomma}}</td>
+						        </tr>
+						    	{% endfor %}
+						    	<tr>
+						    		<td><strong>Total actividades</strong></td>
+						    		<td colspan="5" ></td>
+						    		<td class="text-right"><strong>${{payroll_obj.total_activities|intcomma}}</strong></td>
+						    	</tr>
+					    	</tbody>
+					    </table>
+				    </div>
+				    <div class="table-responsive">
+				    	<h4>Descuentos</h4>
+					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
+					        <thead>
+						        <tr>
+						            <th>Tipo</th>
+						            <th>Fecha registro</th>
+						            <th>Valor descuento</th>
+						        </tr>
+					        </thead>
+					        <tbody>
+						        {% for obj in payroll_obj.discounts %}
+						        <tr>
+						            <td>{{obj.general_discount.name|title}}</td>
+						            <td><span title="obj.date_modified">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+						            <td class="text-right">${{obj.value}}</td>
+						        </tr>
+						    	{% endfor %}
+						    	<tr>
+						    		<td><strong>Total descuentos</strong></td>
+						    		<td></td>
+						    		<td class="text-right"><strong>${{payroll_obj.total_discounts|intcomma}}</strong></td>
+						    	</tr>
+					    	</tbody>
+					    </table>
+				    </div>
+				    <div class="table-responsive">
+				    	<h4>TOTAL</h4>
+					    <table id="dataTable" class="table table-hover table-condensed table-striped table-bordered">
+					        <thead>
+						        <tr>
+						            <th>Concepto</th>
+						            <th class="text-right">Valor</th>
+						        </tr>
+					        </thead>
+					        <tbody>
+						    	<tr>
+						    		<td>Total actividades</td>
+						    		<td class="text-right"><strong>${{payroll_obj.total_activities|intcomma}}</strong></td>
+						    	</tr>
+				                <tr>
+				                    <td>Ajuste salarial</td>
+				                    <td class="text-right"><strong>${{payroll_obj.adjust|intcomma}}</strong></td>
+				                </tr>
+				                <tr>
+				                    <td>{{payroll_obj.legal_discount_type}}</td>
+				                    <td class="text-right"><strong>-${{payroll_obj.legal_discount_value|intcomma}}</strong></td>
+				                </tr>                
+				                <tr>
+				                    <td>Total desuentos por deudas</td>
+				                    <td class="text-right"><strong>-${{payroll_obj.total_discounts|intcomma}}</strong></td>
+				                </tr>
+						    	<tr>
+						    		<td>Total</td>
+						    		<td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
+						    	</tr>
+					    	</tbody>
+					    </table>
+				    </div>
+				</div>
+		    </div>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+<form id="pdf-form" method="post" class="" action="{% url 'html_to_pdf' %}">
+	{% csrf_token %}
+	<input type="hidden" value="nomina" name="pdf_name">
+	<textarea id="html-data" name="html-data"  style="display:none;" ></textarea>
+</form>
 {% endblock %}
 
 {% block style %}
@@ -172,6 +179,12 @@
         $("#accordion .collapse").collapse({
             // toggle: false
         });
+		$('#html-data').val($('#data').html());
+        $("#btn-generate-pdf").on("click", function (e) {
+			e.preventDefault();
+			e.preventDefault();
+			$("#pdf-form").submit();
+		})
     });
 </script>
 {% endblock %}
