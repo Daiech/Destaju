@@ -202,12 +202,11 @@
 				                    <td>Total aumentos</td>
 				                    <td class="text-right"><strong>${{payroll_obj.total_increases|intcomma}}</strong></td>
 				                </tr>
-                                <tr><td></td><td></td></tr>
                                 <tr>
                                     <td><strong>Total devengado</strong></td>
                                     <td class="text-right"><strong>${{payroll_obj.total_accrued|intcomma}}</strong></td>
                                 </tr>
-                                <tr><td></td><td></td></tr>
+                                <tr><td>&nbsp; </td><td> &nbsp;</td></tr>
 				                <tr>
 				                    <td>{{payroll_obj.legal_discount_type}}</td>
 				                    <td class="text-right"><strong>-${{payroll_obj.legal_discount_value|intcomma}}</strong></td>
@@ -216,6 +215,7 @@
 				                    <td>Total descuentos</td>
 				                    <td class="text-right"><strong>-${{payroll_obj.total_discounts|intcomma}}</strong></td>
 				                </tr>
+                                <tr><td>&nbsp; </td><td> &nbsp;</td></tr>
 						    	<tr>
 						    		<td><strong>TOTAL</strong></td>
 						    		<td class="text-right"><strong>${{payroll_obj.total_payroll|intcomma}}</strong></td>
