@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block TITLE %}N&oacute;mina - Listado de PDF{% endblock %}
+{% block content %}
+<div class="">
+    <h3>
+        N&oacute;mina {{ PROJECT_NAME }} en PDF
+        <div class="pull-right">
+            <a href="javascript:window.history.back();" class="btn btn-primary "><span class="glyphicon glyphicon-arrow-left"></span> Volver</a>
+            
+        </div>
+    </h3>
+</div>
+<hr>
+<div class="fluid-row">
+    <ul class="list-unstyled">
+    {% for obj in obj_list %}
+        <li>
+            <a href="{{ pdf_url }}{{ obj }}">
+                <img src="{{ STATIC_URL }}img/pdf_icon.png" alt="PDF">
+                {{ obj }}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="{{ STATIC_URL }}js/jquery.fastLiveFilter.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+    });
+</script>
+{% endblock %}

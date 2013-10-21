@@ -9,6 +9,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.conf import settings
 #from django.core import serializers
 #from apps.actions_log.views import save_with_modifications
 # from apps.process_admin.models import Tools, Places, Activities
@@ -258,3 +259,10 @@ def list_payroll(request):
                              })
     
     return render_to_response('payroll.html', locals(), context_instance=RequestContext(request))
+
+def pdf_payroll_list(request):
+    from os import listdir
+    path = settings.MEDIA_ROOT + "/pdf/"
+    obj_list = listdir(path)   
+    pdf_url = settings.MEDIA_URL + "pdf/"
+    return render_to_response('pdf_payroll_list.html', locals(), context_instance=RequestContext(request))

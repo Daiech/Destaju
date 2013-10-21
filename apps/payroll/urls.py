@@ -11,6 +11,7 @@ discounts = patterns('apps.payroll.views',
 
 payroll = patterns('apps.payroll.views',
     url(r'^listar-nomina/$', 'list_payroll', name="list_payroll"),
+    url(r'^listar-pdf/$', 'pdf_payroll_list', name="pdf_payroll_list"),
 )
 
 increases = patterns('apps.payroll.views',
