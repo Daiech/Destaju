@@ -788,13 +788,13 @@
 		"fields":{
 			"modifications":0,
 			"code":"002",
-			"name":"Horas extras",
+			"name":"Pago horas extras",
 			"date_modified":"2013-10-19T03:49:11Z",
 			"is_active":true,
 			"is_available":true,
 			"user":1,
 			"date_added":"2013-10-19T03:49:11Z",
-			"description":"Aumento al salario por horas extras"
+			"description":"Aumento al salario por total de horas extras"
 		}
 	}
 ]

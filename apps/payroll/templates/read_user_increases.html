@@ -1,0 +1,61 @@
+{% extends "increases_applied.html" %}
+
+{% block modal%}
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar aumentos. -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>
+                AUMENTOS DE USUARIO
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title pull-left">
+                            {{ user_obj.get_full_name|title }}
+                        </h3>
+                        <div class="text-right">
+                            <a href="{% url 'create_increase_applied' user_obj.pk %}" title="Agregar aumento" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Applicar aumento</a>
+                        </div>
+                    </div>  
+                    <table class="table table-hover table-condensed table-striped">
+                        {% for increase in user_obj.increasesapplied_employee.all %}
+                        <tr>
+                            <td>{{increase.increase.name}}</td>
+                            <td class="text-right">${{increase.value}}</td>
+                            <td class="text-center"><span title="{{increase.date_added}}">{{increase.date_added|date:"Y/m/d G:i"}}</span></td>
+                            <td>
+                                <a href="{% url 'update_increase_applied' increase.id %}" title="Editar  aumento" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a href="{% url 'delete_increase_applied' increase.id %}" title="Eliminar aumento" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>TOTAL</td><td class="text-right"><strong>${% if user_obj.get_total_increases %}{{user_obj.get_total_increases}}{% else %}0{% endif %}</strong></td><td></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
