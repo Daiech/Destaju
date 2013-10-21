@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block TITLE %}Inicio{% endblock %}
+{% block content %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Aumentos aplicados</h3>
+    </div>
+    <div class="table-responsive">
+    <table id="dataTable" class="table table-hover table-condensed table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>id</th>
+            <th>Nombre Completo</th>
+            <th>Total deuda</th>
+            <th>Fecha ultima deuda</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in obj_list %}
+        <tr class= "increases" >
+            <td></td>
+            <td>{{ obj.pk }}</td>
+            <td>{{ obj.get_full_name|title }}</td>
+            <td class="text-right" ><span class="hidden">{{obj.get_total_increases}}</span>${% if obj.get_total_increases %}{{obj.get_total_increases}}{% else %}0{% endif %}</td>
+            <td class="text-center"><span title="{{obj.get_date_last_increase}}">{{obj.get_date_last_increase|date:"Y/m/d G:i"}}</span></td>
+            <td class="text-center actions">
+                <a href="{% url 'read_increases_applied' obj.id %}" title="Ver aumentos" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+                <a href="{% url 'create_increase_applied' obj.id %}" title="Aplicar aumento" class="btn"><span class="glyphicon glyphicon-plus"></span></a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+{% block modal%}
+{% endblock %}
+
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+    .actions .btn{padding: 0;}
+    .panel-title{line-height: 34px;}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        {% if show_modal %}
+                $('#formModal').modal('show')
+        {% endif %}
+        $("span").tooltip();
+        /* dataTables jQuery plugin activation setDataTables(id_table)*/
+        setDataTables('#dataTable')
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

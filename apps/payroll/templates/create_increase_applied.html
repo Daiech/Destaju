@@ -1,0 +1,48 @@
+{% extends "increases_applied.html" %}
+{% block modal%}
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar aumento. -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4>
+                APLICAR AUMENTO A: {{user_obj.get_full_name|title}}
+                </h4>
+            </div>
+            <form method = "POST"  enctype="multipart/form-data" id="Form">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title pull-left">
+                        {% if form_mode == "_create" %}
+                            AGREGAR
+                        {% elif form_mode ==  "_update" %}
+                            EDITAR
+                        {% endif %}
+                        </h3>
+                        <div class="text-right">
+                        {% if form_mode == '_update' %}
+                            <a href="{% url 'delete_increase_applied' increase_obj.pk %}" title="Eliminar este aumento" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+                        {% else %}
+                            <a href="{% url 'list_increases_applied' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Volver</a>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <table class="table table-hover table-condensed table-striped">
+                    {{ form }}
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {% if form_mode == "_create" %}
+                <button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+                {% endif %}             
+                <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

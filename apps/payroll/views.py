@@ -102,6 +102,88 @@ def delete_discount_applied(request, id_discount_applied):
 
 @login_required()
 @access_required("superadmin", "admin")
+def list_increases_applied(request):
+    """List all users with resume of increases already applied"""    
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
+    show_modal = False
+    return render_to_response('increases_applied.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+@access_required("superadmin", "admin")
+def read_increases_applied(request,id_user):
+    """ Show all increases for a user"""
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
+    user_obj = get_object_or_404(obj_list,pk=id_user)
+    show_modal = True
+    return render_to_response('read_user_increases.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+@access_required("superadmin", "admin")
+def create_increase_applied(request, id_user):
+    """Form to apply a general increase to an employee"""
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
+    user_obj = get_object_or_404(obj_list,pk=id_user)
+    if request.method == 'POST':
+        form  = IncreasesAppliedForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.admin = request.user
+            obj.employee = user_obj
+            obj.save()
+            form = IncreasesAppliedForm()
+            if not ('_createanother' in request.POST):
+                return HttpResponseRedirect(reverse(read_increases_applied, kwargs={'id_user': user_obj.pk}))
+        else:
+            show_modal = True
+        if '_createanother' in request.POST:
+            show_modal = True
+    else:
+        form  = IncreasesAppliedForm() 
+        show_modal =True
+    form_mode  = "_create"
+    return render_to_response('create_increase_applied.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+@access_required("superadmin", "admin")
+def update_increase_applied(request,id_increase_applied):
+    """Form to edit a general increase to an employee"""
+    obj_list = MyUser.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk=7)
+    increase_obj = get_object_or_404(IncreasesApplied, pk= id_increase_applied)
+    user_obj = increase_obj.employee
+    if request.method == 'POST':
+        form  = IncreasesAppliedForm(request.POST, instance=increase_obj)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            # obj.admin = request.user
+            # obj.employee = user_obj
+            obj.save()
+            form = IncreasesAppliedForm()
+            return HttpResponseRedirect(reverse(read_increases_applied, kwargs={'id_user': user_obj.pk}))
+        else:
+            show_modal = True
+    else:
+        form  = IncreasesAppliedForm(instance=increase_obj) 
+        show_modal =True
+    form_mode  = "_update"
+    return render_to_response('create_increase_applied.html', locals(), context_instance=RequestContext(request))
+
+
+@access_required("superadmin", "admin")
+@login_required()
+def delete_increase_applied(request, id_increase_applied):
+    """Delete a increase applied"""
+    obj = get_object_or_404(IncreasesApplied, pk=id_increase_applied)
+    obj.is_active=False
+    obj.save()
+    return HttpResponseRedirect(reverse(read_increases_applied, kwargs={'id_user': obj.employee.pk}))
+
+
+
+@login_required()
+@access_required("superadmin", "admin")
 def list_payroll(request):
     """Show the list of employees with values of activities, general discounts applied and legal discounts applied."""
     payroll_list =[]
