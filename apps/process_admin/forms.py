@@ -1,6 +1,6 @@
 #encoding:utf-8
 from django import forms
-from apps.process_admin.models import Activities, UserProfile, UserType, Employments, LegalDiscounts, GeneralDiscounts, Places, Tools
+from apps.process_admin.models import Activities, UserProfile, UserType, Employments, LegalDiscounts, GeneralDiscounts, Places, Tools, Increases
 from apps.process_admin.validators import validate_dni
 from django.contrib.auth.models import User
 
@@ -80,7 +80,7 @@ class LegalDiscountForm(forms.ModelForm):
 class GeneralDiscountForm(forms.ModelForm):
     code = forms.CharField(label="Codigo", widget=forms.TextInput(attrs={'placeholder': 'Codigo', 'autofocus': 'autofocus'}))
     name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
-    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del anuncio'}))
+    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del descuento'}))
     is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
     
     class Meta:
@@ -88,6 +88,17 @@ class GeneralDiscountForm(forms.ModelForm):
         fields = ('code','name', 'description', 'is_available')
          
         
+class IncreaseForm(forms.ModelForm):
+    code = forms.CharField(label="Codigo", widget=forms.TextInput(attrs={'placeholder': 'Codigo', 'autofocus': 'autofocus'}))
+    name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
+    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del aumento'}))
+    is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
+    
+    class Meta:
+        model = Increases
+        fields = ('code','name', 'description', 'is_available')
+
+
 class EmploymentsForm(forms.ModelForm):
     name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
     description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del anuncio'}))

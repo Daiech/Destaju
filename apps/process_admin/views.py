@@ -365,6 +365,62 @@ def delete_general_discount(request, id_general_discount):
 
 @login_required()
 @access_required("superadmin", "admin")
+def create_increase(request):
+    """Form to create increases"""
+    if request.method == 'POST':
+        form  = IncreaseForm(request.POST)
+        if form.is_valid():
+            increase = form.save(commit=False)
+            increase.user = request.user
+            try:
+                increase.save()
+                print "es valido"
+            except:
+                print "error guardando"
+            form = IncreaseForm()
+        else:
+                show_form = True
+        if '_createanother' in request.POST:
+            show_form = True
+    else:
+        form  = IncreaseForm() 
+    form_mode  = "_create"
+    increase_list = Increases.objects.get_all_active()
+    return render_to_response('increases/increases.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+@access_required("superadmin", "admin")
+def update_increase(request, id_increase):
+    """Manage increase"""
+    obj = get_object_or_404(Increases, pk=id_increase)
+    if request.method == "POST":
+        form = IncreaseForm(request.POST, instance=obj)
+        if form.is_valid():
+            save_with_modifications(request.user, form, obj, Increases)
+            return HttpResponseRedirect(reverse(create_increase))
+        else:
+            show_form = True
+    else:
+        show_form = True
+        form = IncreaseForm(instance=obj)
+    form_mode = "_update"
+    increase_list = Increases.objects.get_all_active()
+    return render_to_response("increases/increases.html", locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+@access_required("superadmin", "admin")
+def delete_increase(request, id_increase):
+    """Logical deletion of increases"""
+    increase = get_object_or_404(Increases, pk=id_increase)
+    increase.is_active=False
+    increase.save()
+    return HttpResponseRedirect(reverse(create_increase))
+
+
+@login_required()
+@access_required("superadmin", "admin")
 def create_places(request):
     """Form to create places"""
     if request.method == 'POST':
