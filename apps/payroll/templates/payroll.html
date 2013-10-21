@@ -5,7 +5,7 @@
 <div class="">
 	<h3>
 		N&oacute;mina {{ PROJECT_NAME }}
-		<button class="btn btn-primary pull-right" id="btn-generate-pdf"><span class="glyphicon glyphicon-list-alt"></span> Generar en PDF</button>
+		<button class="btn btn-primary pull-right confirm-action" id="btn-generate-pdf"><span class="glyphicon glyphicon-list-alt"></span> Generar n&oacute;mina PDF</button>
 	</h3>
 </div>
 <hr>
@@ -261,14 +261,18 @@
             // toggle: false
         });
         $("#btn-generate-pdf").on("click", function (e) {
-			e.preventDefault();
-			e.preventDefault();
-			$("#payrollTitle").html("<h1>Tabla General</h1>");
-			$("#userSearch").html("<br><br><br> <h1>Detalles por Empleado</h1><hr>");
-			$(".userSeparator").html("<br><br> <hr>");
-			$("#data table").attr("border","1");
-			$('#html-data').val($('#data').html());
-			$("#pdf-form").submit();
+            e.preventDefault();
+            e.stopPropagation();
+            if ( confirm("Seguro que desea generar la nomina? \n todos los valores quedaran en $0") ){
+                e.preventDefault();
+                e.preventDefault();
+                $("#payrollTitle").html("<h1>Tabla General</h1>");
+                $("#userSearch").html("<br><br><br> <h1>Detalles por Empleado</h1><hr>");
+                $(".userSeparator").html("<br><br> <hr>");
+                $("#data table").attr("border","1");
+                $('#html-data').val($('#data').html());
+                $("#pdf-form").submit();
+            }
 		})
     });
 </script>

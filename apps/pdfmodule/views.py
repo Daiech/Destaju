@@ -6,7 +6,8 @@ from xhtml2pdf.pisa import CreatePDF, startViewer
 from apps.actions_log.views import saveActionLog, saveViewsLog
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-
+from apps.production_orders.models import ProductionOrder
+from apps.payroll.models import DiscountsApplied, IncreasesApplied
 
 def htmlToPdf(html_string, pdf_name):
     from django.template.defaultfilters import slugify
@@ -33,7 +34,12 @@ def html_to_pdf(request):
         html_data = request.POST.get('html-data')
         pdf_name = request.POST.get('pdf_name')
         pdf_address = htmlToPdf(html_data, pdf_name)
-        #Vaciar NOMINA aqui
+        
+        #empty payroll
+        ProductionOrder.objects.filter(status=3).update(status=4)
+        DiscountsApplied.objects.filter(is_active=True).update(is_active=False)
+        IncreasesApplied.objects.filter(is_active=True).update(is_active=False)
+
         return HttpResponseRedirect(pdf_address)
     except Exception, e:
         print e

@@ -38,6 +38,8 @@
                 <span title="Orden llena,aun no se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
                 {% elif obj.status == 3 %}
                 <span title="Orden calificada" class="glyphicon glyphicon-ok-circle" ></span></a>
+                {% elif obj.status == 4 %}
+                <span title="En n&oacute;mina" class="glyphicon glyphicon-star" ></span></a>
                 {% else %}
                 ERROR
                 {% endif %}
@@ -49,6 +51,8 @@
 					llena
 				{% elif obj.status == 3 %}
 					Calificada
+				{% elif obj.status == 4 %}
+					En n&oacute;mina
 				{% else %}
 					ERROR
 				{% endif %}
