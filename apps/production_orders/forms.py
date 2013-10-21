@@ -6,7 +6,11 @@ from django.contrib.auth.models import User
 
 
 def user_unicode(self):
-    return  u"%s - %s" % (self.userprofile.dni, self.get_full_name())
+    try:
+        dni = self.userprofile.dni
+    except:
+        dni = "Sin DNI"
+    return  self.username if self.get_full_name() != ""  else u"%s - %s" % (dni, self.get_full_name())
 
 User.__unicode__ = user_unicode
 
