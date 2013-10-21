@@ -72,7 +72,7 @@
 						</h3>
 						<div class="text-right">
 						{% if form_mode == '_update' %}
-							<a href="{% url 'delete_general_discount' obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+							<a href="{% url 'delete_general_discount' obj.pk %}" title="Eliminar este tipo de descuento" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 						{% else %}
 							<a href="{% url 'create_general_discounts' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Volver</a>
 						{% endif %}

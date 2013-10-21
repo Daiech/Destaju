@@ -210,6 +210,24 @@ class GeneralDiscounts(models.Model):
         return "Descuentos Generales"
     
 
+class Increases(models.Model):
+    code = models.CharField(max_length=30, verbose_name="code")
+    name = models.CharField(max_length=150, verbose_name="name")
+    description = models.TextField(blank=True)
+    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
+    is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
+    modifications = models.IntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    objects = CommonQueriesManager()
+    
+    def __unicode__(self):
+        return "%s - %s" % (self.code, self.name)
+    
+    def get_table_name(self):
+        return "Descuentos Generales"
+
 class Places(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
     name = models.CharField(max_length=150, verbose_name="name")

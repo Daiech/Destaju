@@ -750,5 +750,51 @@
 			"date_added": "2013-10-01T22:24:14Z", 
 			"description": "Seguridad social que se descuenta de la nominas de empleados que ganan menos de 4 SMMLV"
 		}
+	},
+
+	{
+		"pk":3,
+		"model":"process_admin.increases",
+		"fields":{
+			"modifications":0,
+			"code":"003",
+			"name":"Bono",
+			"date_modified":"2013-10-18T03:57:21Z",
+			"is_active":true,
+			"is_available":true,
+			"user":1,
+			"date_added":"2013-10-18T03:50:07Z",
+			"description":"Bono extra para premiar a un trabajador"
+		}
+	},
+	{
+		"pk":1,
+		"model":"process_admin.increases",
+		"fields":{
+			"modifications":0,
+			"code":"001",
+			"name":"Ajuste salarial",
+			"date_modified":"2013-10-20T03:50:48Z",
+			"is_active":true,
+			"is_available":true,
+			"user":1,
+			"date_added":"2013-10-20T03:50:48Z",
+			"description":"Ajuste que se hace a un trabajador para completar el salario m\u00ednimo en caso de que se requiera."
+		}
+	},
+	{	
+		"pk":2,
+		"model":"process_admin.increases",
+		"fields":{
+			"modifications":0,
+			"code":"002",
+			"name":"Horas extras",
+			"date_modified":"2013-10-19T03:49:11Z",
+			"is_active":true,
+			"is_available":true,
+			"user":1,
+			"date_added":"2013-10-19T03:49:11Z",
+			"description":"Aumento al salario por horas extras"
+		}
 	}
 ]
