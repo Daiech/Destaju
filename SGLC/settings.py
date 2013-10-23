@@ -11,7 +11,7 @@ ADMINS = (
 )
 
 URL_BASE = "http://sglc.daiech.com"
-PROJECT_NAME = "SISPALMA"
+PROJECT_NAME = "SISPALMALLANO"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
 "apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
