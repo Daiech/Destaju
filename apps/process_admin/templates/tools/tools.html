@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block TITLE %}Administracion herramientas{% endblock %}
+{% block TITLE %}Administracion equipos e insumos{% endblock %}
 {% block content %}
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h3 class="panel-title pull-left">Gesti&oacute;n de herramientas</h3>
+		<h3 class="panel-title pull-left">Gesti&oacute;n de equipos e insumos</h3>
 		<div class="text-right">
-			<a  href="#toolsFormModal" title="Haz click aqu&iacute; para agregar una nueva herramienta" data-toggle="modal" class="btn btn-primary btn-sm">
+			<a  href="#toolsFormModal" title="Haz click aqu&iacute; para agregar un nuevo equipo/insumo" data-toggle="modal" class="btn btn-primary btn-sm">
     			<span class="glyphicon glyphicon-plus"></span> Agregar
     		</a>
 		</div>
@@ -40,8 +40,8 @@
 				<td class="text-center">{{a.modifications}}</td>
 				<td><span title="{{a.date_modified}}">{{a.date_modified|date:"Y/m/d G:i"}}</span></td>
 				<td class="text-center actions">
-					<a href="{% url 'update_tool' a.id %}" title="Editar esta herramienta" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
-					<a href="{% url 'delete_tool' a.id %}" title="Eliminar esta herramienta" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+					<a href="{% url 'update_tool' a.id %}" title="Editar este equipo/insumo" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{% url 'delete_tool' a.id %}" title="Eliminar este equipo/insumo" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
 				</td>
 			</tr>
 			{% endfor %}
@@ -49,13 +49,13 @@
 	</table>
 	</div>
 </div>
-<div class="modal fade" id="toolsFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar herramientas. -->
+<div class="modal fade" id="toolsFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar equipo/insumo. -->
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4>
-					HERRAMIENTAS
+					Equipos e insumos
 				</h4>
 			</div>
 			<form method = "POST"  enctype="multipart/form-data" id="toolsForm">
@@ -65,9 +65,9 @@
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left">
 						{% if form_mode == "_create" %}
-							AGREGAR
+							Agregar
 						{% elif form_mode ==  "_update" %}
-							EDITAR
+							Editar
 						{% endif %}
 						</h3>
 						<div class="text-right">
@@ -88,7 +88,7 @@
 				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
 				{% endif %}		        
 		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
-		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Cerrar</button>
 		    </div>
 		    </form>
 		</div>
@@ -111,8 +111,9 @@
 		{% endif %}
 		$("span").tooltip();
 		{% if form_mode ==  "_update" %}
-			$(".close-modal").on('click', function(){
+			$('#toolsFormModal').on('hidden.bs.modal', function () {
 				top.location ="{% url 'create_tools' %}";
+			  	top.location = "{% url 'admin_users' %}"
 			});
 		{% endif %}
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/

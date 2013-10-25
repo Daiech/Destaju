@@ -45,9 +45,9 @@ places = patterns('apps.process_admin.views',
 )
 
 tools = patterns('apps.process_admin.views',
-    url(r'^herramientas$', 'create_tools', name="create_tools"),
-    url(r'^editar-herramienta/(?P<id_tool>[0-9]+)', 'update_tool', name="update_tool"),
-    url(r'^eliminar-herramienta/(?P<id_tool>[0-9]+)', 'delete_tool', name="delete_tool")
+    url(r'^equipos-insumos$', 'create_tools', name="create_tools"),
+    url(r'^editar-equipo-insumo/(?P<id_tool>[0-9]+)', 'update_tool', name="update_tool"),
+    url(r'^eliminar-equipo-insumo/(?P<id_tool>[0-9]+)', 'delete_tool', name="delete_tool")
 )
 
 process_admin_urls = users + activities + legal_discounts + general_discounts + places + tools + employments + increases

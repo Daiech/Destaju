@@ -8,9 +8,9 @@
 			<a  href="#activityFormModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
     			<span class="glyphicon glyphicon-plus"></span> Agregar
     		</a>
-   			<a href="" title="Haz click aqu&iacute; si deseas cargar las actividades desde un archivo CSV" class="btn btn-primary btn-sm">
+   			<!-- <a href="" title="Haz click aqu&iacute; si deseas cargar las actividades desde un archivo CSV" class="btn btn-primary btn-sm">
    				<span class="glyphicon glyphicon-arrow-up" ></span> Cargar
-   			</a>
+   			</a> -->
 		</div>
 	</div>
 	<div class="table-responsive">
@@ -82,7 +82,7 @@
 						{% if form_mode == '_update' %}
 							<a href="{% url 'delete_activity' obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 						{% else %}
-						<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
+						<!-- <a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a> -->
 						{% endif %}
 						</div>
 					</div>

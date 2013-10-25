@@ -8,9 +8,9 @@
 				<a  href="#myModal" title="" data-toggle="modal" class="btn btn-primary btn-sm">
 			    	<span class="glyphicon glyphicon-plus"></span> Agregar
 			    </a>
-		   		<a href="#" title="" class="btn btn-primary btn-sm">
+		   		<!-- <a href="#" title="" class="btn btn-primary btn-sm">
 			   		<span class="glyphicon glyphicon-arrow-up" ></span> Cargar CSV
-			   	</a>
+			   	</a> -->
 			</div>
 		</div>
 		<div class="table-responsive">
@@ -56,14 +56,14 @@
 				<div class="modal-body">
 					<div class="panel panel-info">
 						<div class="panel-heading">
-							<h3 class="panel-title pull-left">Gesti&oacute;n de cargos</h3>
-							<div class="text-right">
+							<h3 class="panel-title {% if form_mode == '_update' %}pull-left{% endif %}">
+							Gesti&oacute;n de cargos
+							</h3>
 							{% if form_mode == '_update' %}
+							<div class="text-right">
 								<a href="{% url 'delete_employment' obj.pk %}" title="Eliminar este cargo" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
-							{% else %}
-							<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
-							{% endif %}
 							</div>
+							{% endif %}
 						</div>
 						<table class="table table-hover table-condensed table-striped">
 						{{ form }}

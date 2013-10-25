@@ -11,9 +11,9 @@
 				<a  href="#newUserModal" title="" data-toggle="modal" class="btn btn-primary btn-sm">
 			    	<span class="glyphicon glyphicon-plus"></span> Agregar
 			    </a>
-		   		<a href="#" title="" class="btn btn-primary btn-sm">
+		   		<!-- <a href="#" title="" class="btn btn-primary btn-sm">
 			   		<span class="glyphicon glyphicon-arrow-up" ></span> Cargar CSV
-			   	</a>
+			   	</a> -->
 			</div>
 		</div>
 		<div class="table-responsive">
@@ -45,12 +45,12 @@
 				{% endif %}
 				</td>
 				<td>
-				{{ u.get_full_name }}
+				{{ u.get_full_name|title }}
 				</td>
 				<td>{{ u.email }}</td>
 				<td>{{ u.userprofile.dni }}</td>
-				<td>{{ u.userprofile.employment.name }}</td>
-				<td>{{ u.userprofile.user_type.name }}</td>
+				<td>{{ u.userprofile.employment.name|title }}</td>
+				<td>{{ u.userprofile.user_type.name|title }}</td>
 				<td class="text-center actions">
 					{% if u.userprofile.user_type.can_login %}
 						<span class="hidden">1</span>
@@ -89,7 +89,7 @@
 							{% if form_mode == '_update' %}
 								<a href="{% url 'delete_user' user_obj.pk %}" title="Eliminar este usuario" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
 							{% else %}
-							<a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a>
+							<!-- <a href="#" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span> Cargar con CSV</a> -->
 							{% endif %}
 							</div>
 						</div>
