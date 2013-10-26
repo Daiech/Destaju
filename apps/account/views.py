@@ -30,42 +30,6 @@ except Exception, e:
 
 
 #------------------------------- <Normal User>---------------------------
-def newUser(request):
-    '''
-    crea un nuevo usuario usando un formulario propio
-    '''
-    saveViewsLog(request, "apps.account.views.newUser")
-    if not request.user.is_anonymous():
-        return HttpResponseRedirect(reverse("personal_data"))
-    if request.method == "POST":
-        formulario = RegisterForm(request.POST)
-        if formulario.is_valid():
-            # formulario.save()
-            # user_name = formulario['username'].data
-            email_user = formulario.cleaned_data['email']
-            name_newuser = formulario.cleaned_data['username']
-            activation_key = getActivationKey(email_user)
-            new_user = formulario.save()
-            new_user.is_active = False
-            new_user.username = new_user.username.replace(" ", "-")
-            try:
-                new_user.save()
-                from apps.account.models import activation_keys
-                activation_keys(id_user=new_user, email=email_user, activation_key=activation_key).save()
-                saveActionLog(new_user, "SIGN_IN", "username: %s, email: %s" % (name_newuser, formulario['email'].data), str(request.META['REMOTE_ADDR']))  # Registro en el Action log
-                sendEmailHtml(1, {'username': name_newuser, 'activation_key': activation_key}, [str(email_user)])  # Envio de correo con clave de activacion
-                return render_to_response('registered.html', {'email_address': email_user}, context_instance=RequestContext(request))
-            except Exception, e:
-                print e
-                return HttpResponseRedirect('/#Error-de-registro-de-usuario')
-            # return userLogin(request, user_name, formulario['password1'].data)
-    else:
-        formulario = RegisterForm()
-    ctx = {'formNewUser': formulario}
-    return render_to_response('newUser.html', ctx, context_instance=RequestContext(request))
-#    return render_to_response('newUser.html',{}, context_instance = RequestContext(request))
-
-
 def getActivationKey(email_user):
     return sha_constructor(sha_constructor(str(random.random())).hexdigest()[:5] + email_user).hexdigest()
 
