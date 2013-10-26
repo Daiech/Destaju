@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 account_urls = patterns('apps.account.views',
     url(r'^$', 'personal_data', name="personal_data"),
     url(r'^edit$', 'update_personal_data', name="update_personal_data"),
-    url(r'^new', 'newUser', name="new_user"),
+    # url(r'^new', 'newUser', name="new_user"),
     #url(r'^set-credentials', 'newInvitedUser', name="new_invited_user"),
     url(r'^login', 'log_in', name="log_in"),
     url(r'^logout', 'log_out', name="log_out"),
