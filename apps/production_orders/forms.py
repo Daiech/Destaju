@@ -23,28 +23,39 @@ class ProductionOrderForm(forms.ModelForm):
     
     activity = forms.ModelChoiceField(label="Actividad", queryset=queryset_activity, empty_label=None)
     place = forms.ModelChoiceField(label="Lugar", queryset=queryset_place, empty_label=None)
-    responsible = forms.ModelMultipleChoiceField(label="Responsables", queryset=queryset_responsable,  widget= forms.SelectMultiple(attrs={'class': 'chosen-select'}))
-    tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False, widget= forms.SelectMultiple(attrs={'class': 'chosen-select'}))
+    responsible = forms.ModelMultipleChoiceField(label="Responsables", queryset=queryset_responsable,  widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona los responsables"}))
+    tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False, widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona las herramientas"}))
+    comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = ProductionOrder
-        fields = ('activity', 'place', 'responsible', 'tools')
+        fields = ('activity', 'place', 'responsible', 'tools', 'comments')
 
 
 class FillingForm(forms.ModelForm):
     value = forms.CharField(label="Value", widget=forms.TextInput(attrs={'placeholder': 'cantidad','type':"number","step":"any"}))
+    comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = Filling
-        fields = ('user','value')
+        fields = ('user', 'value', 'comments')
         widgets = {
             'user': forms.Select(attrs={'class':'name-only'}),
         }
 
 
+class FillingProOrdForm(forms.ModelForm):
+    comments = forms.CharField(label=u"Observaciónes Generales", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes Generales"}), required=False)
+    class Meta:
+        model = Filling
+        fields = ('comments',)
+#        widgets = {
+#            'user': forms.Select(attrs={'class':'name-only'}),
+#        }
+
 class QualificationsForm(forms.ModelForm):
-    comments = forms.CharField(label="Comentario", widget=forms.TextInput(attrs={'placeholder': 'Observaciones'}), required=False)
+    comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = QualificationProOrd
-        fields = ('value','comments')
+        fields = ('value', 'status', 'comments')

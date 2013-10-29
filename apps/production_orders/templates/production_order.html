@@ -147,16 +147,22 @@
 <style type="text/css">
 	.actions .btn{padding: 0;}
 	.panel-title{line-height: 34px;}
-	.default{ height: 25px !important}
-	.chosen-choices{height: 25px !important}
-	.search-field input{height: 25px !important}
+	.default{ height: 25px !important;
+		width: 100% !important; }
+	.chosen-choices{height: 25px !important;
+		width: 100% !important;}
+	.search-field {
+		width: 100% !important;
+	}		
+	.search-field input{height: 25px !important;
+		}
 </style>
 {% endblock %}
 
 {% block js %}
 <script src="{{ STATIC_URL }}js/chosen.jquery.js"></script>
 <script type="text/javascript">
-	$('.chosen-select').chosen({width: "95%", height: "100%"})
+	$('.chosen-select').chosen({width: "95%", height: "100%", no_results_text: "No se encuentra!"})
 	$(document).ready(function(){
 		{% if show_form %}
 				$('#formModal').modal('show');

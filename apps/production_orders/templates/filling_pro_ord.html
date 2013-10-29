@@ -101,11 +101,13 @@
                         </h3>
                     </div>
                     <table class="table table-hover table-condensed table-striped">
+                    <tr><td colspan="3">{{ form.comments }}{{ form.comments.errors }}</td></tr>
                     {% for form in formset %}
                          <tr>
                             {{ form.id }}
                             <td>{{ form.user }}</td>
                             <td>{{ form.value }}{{ form.value.errors }}</td>
+                            <td>{{ form.comments }}{{ form.comments.errors }}</td>
                         </tr>
                     {% endfor %}
                     </table>

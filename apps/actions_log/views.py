@@ -195,7 +195,7 @@ def read_modifications(request):
     
 
 def save_with_modifications(user,form,form_obj,model):
-    "This method save_2m2 the data from form and save a record with the data modified"
+    "This method save_simple and 2m2 the data from form and save a record with the data modified"
     obj = model.objects.get(pk=form_obj.pk)
     form_cleaned = form.cleaned_data 
     table_name = obj.get_table_name()
@@ -218,7 +218,7 @@ def save_with_modifications(user,form,form_obj,model):
                 update_table_obj = UpdateTables(user = user, 
                         table_name = table_name, 
                         record_pk = pk_obj, 
-                        field = str(form[f].label),
+                        field = form[f].label,
                         modification_number = obj.modifications + 1, 
                         last_data = ld, 
                         new_data = nd
@@ -229,7 +229,7 @@ def save_with_modifications(user,form,form_obj,model):
                 update_table_obj = UpdateTables(user = user, 
                             table_name = table_name, 
                             record_pk = pk_obj, 
-                            field = str(form[f].label),
+                            field = form[f].label,
                             modification_number = obj.modifications + 1, 
                             last_data = getattr(obj,f), 
                             new_data = form_cleaned[f],

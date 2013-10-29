@@ -47,7 +47,7 @@ def create_production_order(request):
     else:
         form  = ProductionOrderForm() 
     form_mode  = "_create"
-    object_list = ProductionOrder.objects.get_all_active()
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
     return render_to_response('production_order.html', locals(), context_instance=RequestContext(request))
 
 
@@ -105,6 +105,9 @@ def filling(request, id_production_order):
             if formset.is_valid():
                 filling_pro_ord_obj = FillingProOrd(user=request.user, production_order=po)
                 filling_pro_ord_obj.save()
+                form = FillingProOrdForm(request.POST, instance=filling_pro_ord_obj)
+                if form.is_valid():
+                    form.save()
                 po.status = 2
                 po.save()
                 object_list = formset.save(commit=False)
@@ -112,8 +115,12 @@ def filling(request, id_production_order):
                     obj.filling_pro_ord = filling_pro_ord_obj
                 formset.save()
                 return HttpResponseRedirect(reverse(filling_pro_ord))
+            else:
+                form = FillingProOrdForm(request.POST)
         else:
-
+            form = FillingProOrdForm(request.POST, instance = po.fillingproord)
+            if form.is_valid():
+                    form.save()
             qs = Filling.objects.filter(filling_pro_ord=FillingProOrd.objects.get(production_order=po))
             FillingFormSet = modelformset_factory(Filling, form=FillingForm,  extra=0)
             formset =  FillingFormSet(request.POST, queryset=qs)
@@ -126,15 +133,19 @@ def filling(request, id_production_order):
         for user in responsible_list:
             responsible.append({"user":user})
         if po.status == 1:
+            form = FillingProOrdForm()
             FillingFormSet = modelformset_factory(Filling, form=FillingForm, extra=len(responsible))
             qs = Filling.objects.none()
             formset =  FillingFormSet(initial=responsible,queryset = qs)
         elif po.status == 2:
+            form = FillingProOrdForm(instance = po.fillingproord)
             FillingFormSet = modelformset_factory(Filling, form=FillingForm, extra=0)
             qs = Filling.objects.filter(filling_pro_ord=FillingProOrd.objects.get(production_order=po))
             formset =  FillingFormSet(queryset = qs)
         else:
             return HttpResponseRedirect(reverse(filling_pro_ord))
+        
+        
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]) \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     form_mode = "_update"

@@ -26,7 +26,9 @@
         {% for obj in object_list %}
         <tr>
             <td class="text-center actions">
-                {% if obj.status == 2 %}
+            	{% if obj.qualificationproord.status == 2%}
+            	<span title="No se ha aprobado" class="glyphicon glyphicon-remove-sign" ></span></a>
+                {% elif obj.status == 2 %}
                 <span title="No se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
                 {% elif obj.status == 3 %}
                 <span title="Ya se califico" class="glyphicon glyphicon-ok-circle" ></span></a>
@@ -35,13 +37,15 @@
                 {% endif %}
             </td>
             <td>
-            {% if obj.status == 2 %}
+            {% if obj.qualificationproord.status == 2%}
+            		No Aprobada
+            {% elif obj.status == 2 %}
                     llena
-                {% elif obj.status == 3 %}
+            {% elif obj.status == 3 %}
                     Calificada
-                {% else %}
+            {% else %}
                     ERROR
-                {% endif %}
+            {% endif %}
             </td>
             <td >{{obj.pk}}</td>
             <td>{{obj.user.username}}</td>

@@ -26,6 +26,7 @@ class ProductionOrder(models.Model):
     responsible = models.ManyToManyField(User)
     tools = models.ManyToManyField(Tools, null=True, blank=True)
     modifications = models.IntegerField(default=0)
+    comments = models.TextField(blank=True)
     
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -42,6 +43,7 @@ class ProductionOrder(models.Model):
 class FillingProOrd(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user')
     production_order = models.OneToOneField(ProductionOrder)
+    comments = models.TextField(blank=True)
     
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -54,6 +56,7 @@ class QualificationProOrd(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     production_order = models.OneToOneField(ProductionOrder)
     comments = models.TextField(blank=True)
+    status = models.IntegerField(default=1,  choices=((1,"Aprobada"),(2,"No aprobada")))
     value = models.IntegerField(default=4,  choices=((1,"Malo"),(2,"Regular"),(3,"Bueno"), (4,"Muy bueno"), (5,"Excelente")))
     
     date_added = models.DateTimeField(auto_now_add=True)
@@ -67,6 +70,7 @@ class Filling(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     value = models.IntegerField(max_length=100, verbose_name="value", null=False)
     filling_pro_ord = models.ForeignKey(FillingProOrd,  null=False, related_name='%(class)s_filling_pro_ord')
+    comments = models.TextField(blank=True)
     
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
