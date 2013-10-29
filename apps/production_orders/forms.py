@@ -59,3 +59,9 @@ class QualificationsForm(forms.ModelForm):
     class Meta:
         model = QualificationProOrd
         fields = ('value', 'status', 'comments')
+        
+
+class ListProductionOrderForm(forms.Form):
+    date_from = forms.DateTimeField(label="Desde", widget=forms.widgets.DateTimeInput(attrs={'class': 'date-pick'}), input_formats=['%Y-%m-%d'])
+    date_to = forms.DateTimeField(label="Hasta", widget=forms.widgets.DateTimeInput(attrs={'class': 'date-pick'}), input_formats=['%Y-%m-%d'])
+    type_date = forms.ChoiceField(label="Fecha",choices=[('added',u"Creación"),('modified',u"Modificación")])

@@ -195,5 +195,20 @@ def qualification(request, id_production_order):
     return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
 
 
+def list_production_orders(request):
+    if request.method == 'POST':
+        form = ListProductionOrderForm(request.POST)
+        if form.is_valid():
+            date_from = form.cleaned_data['date_from']
+            date_to = form.cleaned_data['date_to']
+            type_date = form.cleaned_data['type_date']
+            if type_date == 'added':
+                object_list = ProductionOrder.objects.filter(date_added__gt = date_from).filter(date_added__lt = date_to)
+            elif type_date == 'modified':
+                object_list = ProductionOrder.objects.filter(date_modified__gt = date_from).filter(date_modified__lt = date_to)
+    else:
+        form = ListProductionOrderForm()
+    return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
 
-
+def show_production_order(request, id_production_order):
+    pass
