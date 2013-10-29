@@ -203,7 +203,7 @@ def list_payroll(request):
     for obj in obj_list:
         total_payroll = 0
         #total activities
-        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__qualificationproord__status=1)
+        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__qualificationproord__status=1).exclude(filling_pro_ord__production_order__status=4)
         total_activities = 0
         for a in activities:
             a1 = int(a.filling_pro_ord.production_order.activity.value)

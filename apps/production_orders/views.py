@@ -41,9 +41,9 @@ def create_production_order(request):
             else:
                 return HttpResponseRedirect(reverse(create_production_order))
         else:
-                show_form = True
-        if '_createanother' in request.POST:
             show_form = True
+#        if '_createanother' in request.POST:
+#            show_form = True
     else:
         form  = ProductionOrderForm() 
     form_mode  = "_create"

@@ -170,11 +170,11 @@
 		{% endif %}
 		$("span").tooltip();
 
-		{% if form_mode ==  "_update" %}
-            $('#formModal').on('hidden.bs.modal', function () {
-                top.location = "{% url 'create_production_order' %}"
-            });
-		{% endif %}
+		
+        $('#formModal').on('hidden.bs.modal', function () {
+            top.location = "{% url 'create_production_order' %}"
+        });
+		
 
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
 		setDataTables('#dataTable')
