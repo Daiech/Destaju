@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% block TITLE %}Ordenes de producci&oacute;n {% endblock %}
+{% block content %}
+<div class="panel panel-info">
+	<div class="panel-heading ">
+		<h3 id="bluePanel" class="panel-title pull-left">Consultar ordenes de producci&oacute;n</h3>
+		<div class="pull-right">
+			<form method = "POST"  enctype="multipart/form-data" id="FormProOrd">
+			{% csrf_token %}
+			<table>
+				<tr>
+					<td>{{ form.type_date.label}}</td><td>{{ form.type_date}}{{form.type_date.errors}}</td>
+					<td>{{ form.date_from.label}}</td><td>{{ form.date_from}}{{ form.date_from.erros}}</td>
+					<td>{{ form.date_to.label}}</td><td>{{ form.date_to}}{{ form.date_to.errors}}</td>
+					<td> <button type="submit" class="btn btn-primary btn-sm" name="_query">Consultar</button></td>
+				</tr>
+			</table>
+			
+			</form>
+			<!--  <a  href="#formModal" title="Haz click aqu&iacute; para agregar una nueva actividad" data-toggle="modal" class="btn btn-primary btn-sm">
+    			<span class="glyphicon glyphicon-plus"></span> Agregar
+    		</a>-->
+		</div>
+	</div>
+	<div class="table-responsive">
+	<table id="dataTable" class="table table-hover table-condensed table-striped">
+		<thead>
+		<tr>
+			<th></th>
+			<th>Estado</th>
+			<th>#</th>
+			<th>Creador</th>
+			<th>Actividad</th>
+			<th>Lugar</th>
+			<th>Fecha Creaci&oacute;n</th>
+			<th>Ultima modificaci&oacute;n</th>
+			<th>Acciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for obj in object_list %}
+		<tr>
+			<td class="text-center actions">
+				{% if obj.status == 1 %}
+				<span title="Orden generada aun no se ha llenado" class="glyphicon glyphicon-unchecked" ></span></a>
+                {% elif obj.status == 2 %}
+                <span title="Orden llena,aun no se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
+                {% elif obj.status == 3 %}
+                	{% if obj.qualificationproord.status == 1%}
+                	<span title="Orden calificada y aprobada" class="glyphicon glyphicon-ok-circle" ></span></a>
+                	{%else%}
+                	<span title="Calificada pero no aprobada" class="glyphicon glyphicon-remove-sign" ></span></a>
+                	{%endif%}
+                {% elif obj.status == 4 %}
+                <span title="En n&oacute;mina" class="glyphicon glyphicon-star" ></span></a>
+                {% else %}
+                ERROR
+                {% endif %}
+            </td>
+			<td class="text-center">
+				{% if obj.status == 1 %}
+					Generada
+				{% elif obj.status == 2 %}
+					llena
+				{% elif obj.status == 3 %}
+					{% if obj.qualificationproord.status == 1%}
+                	Calificada y Aprobada
+                	{%else%}
+                	Calificada y No Aprobada
+                	{%endif%}
+				{% elif obj.status == 4 %}
+					En n&oacute;mina
+				{% else %}
+					ERROR
+				{% endif %}
+			</td>
+			<td >{{obj.pk}}</td>
+			<td>{{obj.user.username}}</td>
+			<td>{{obj.activity.name}}</td>
+			<td>{{obj.place.name}}</td>
+			<td><span title="{{obj.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
+			<td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+			<td class="text-center actions">
+				<a href="{% url 'show_production_order_ajax' obj.id %}" title="Ver orden completa" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+				
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+	</div>
+</div>
+
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+				ORDEN DE PRODUCCI&Oacute;N
+				</h4>
+			</div>
+			<form method = "POST"  enctype="multipart/form-data" id="Form">
+			{% csrf_token %}
+			<div class="modal-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left">
+						{% if form_mode == "_create" %}
+							AGREGAR
+						{% elif form_mode ==  "_update" %}
+							EDITAR
+						{% endif %}
+						</h3>
+						<div class="text-right">
+						{% if form_mode == '_update' %}
+							<a href="{% url 'delete_production_order' obj.pk %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+						{% else %}
+						<a href="{% url 'create_production_order' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span>Volver</a>
+						{% endif %}
+						</div>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+					{{ form }}
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				{% if form_mode == "_create" %}
+				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+				{% endif %}		        
+		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		    </div>
+		    </form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block style %}
+<link href="{{ STATIC_URL }}css/chosen.css" rel="stylesheet">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+	.default{ height: 25px !important;
+		width: 100% !important; }
+	.chosen-choices{height: 25px !important;
+		width: 100% !important;}
+	.search-field {
+		width: 100% !important;
+	}		
+	.search-field input{height: 25px !important;
+		}
+	.panel-heading{
+		overflow: auto;
+	}
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="{{ STATIC_URL }}js/chosen.jquery.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript">
+	$('.chosen-select').chosen({width: "95%", height: "100%", no_results_text: "No se encuentra!"})
+	$(document).ready(function(){
+		{% if show_form %}
+				$('#formModal').modal('show');
+
+		{% endif %}
+		$("span").tooltip();
+
+		
+        $('#formModal').on('hidden.bs.modal', function () {
+            top.location = "{% url 'create_production_order' %}"
+        });
+		
+
+		/* dataTables jQuery plugin activation setDataTables(id_table)*/
+		setDataTables('#dataTable')
+		{% if error %}
+			setAlertError("No se puede procesar la solicitud", "{{ error }}");
+		{% endif%}
+
+		$('.date-pick').datepicker({
+			dateFormat: 'yy-mm-dd',
+			//controlType: 'select',
+			//ampm: true
+		}).css({"z-index":"1031"});
+	});
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

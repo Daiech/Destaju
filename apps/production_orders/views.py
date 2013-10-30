@@ -15,6 +15,7 @@ from apps.actions_log.views import save_with_modifications
 from django.forms.models import modelformset_factory
 from apps.account.decorators import access_required
 from django.db.models import Max
+from django.utils import simplejson as json
 
 @login_required()
 @access_required("superadmin", "admin", "s1")
@@ -193,6 +194,59 @@ def qualification(request, id_production_order):
     #    form_mode = "_create"
     show_form =True
     return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
+
+
+def list_production_orders(request):
+    if request.method == 'POST':
+        form = ListProductionOrderForm(request.POST)
+        if form.is_valid():
+            date_from = form.cleaned_data['date_from']
+            date_to = form.cleaned_data['date_to']
+            type_date = form.cleaned_data['type_date']
+            if type_date == 'added':
+                object_list = ProductionOrder.objects.filter(date_added__gt = date_from).filter(date_added__lt = date_to)
+            elif type_date == 'modified':
+                object_list = ProductionOrder.objects.filter(date_modified__gt = date_from).filter(date_modified__lt = date_to)
+            elif type_date == 'filling':
+                object_list = ProductionOrder.objects.filter(fillingproord__date_modified__gt = date_from).filter(fillingproord__date_modified__lt = date_to)
+            else:
+                print "Error"
+    else:
+        form = ListProductionOrderForm()
+    return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
+
+def show_production_order_ajax(request, id_production_order):
+#    if request.is_ajax():
+    if request.method == "GET":
+        obj = get_object_or_404(ProductionOrder, pk=id_production_order)
+        response = {"obj":obj}
+    else:
+        response = u"Peticion denegada"
+    return HttpResponse(json.dumps(response), mimetype="application/json")
+#    else:
+#        return "Ha ocurrido un error"
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
