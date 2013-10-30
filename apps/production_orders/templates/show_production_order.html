@@ -16,5 +16,12 @@
 					"ERROR",
 				{% endif %}
 	"activity": "{{obj.activity.name}}",
-	"place": "{{obj.place.name}}"
+	"place": "{{obj.place.name}}",
+	"date_added":"{{obj.date_added}}",
+	"date_modified":"{{obj.date_modified}}",
+	"comments":{
+		"generated": "{{ obj.comments }}",
+		"filling": "{{ obj.fillingproord.comments}}",
+		"qualified": "{{ obj.qualificationproord.comments}}"
+	}
 }           

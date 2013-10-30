@@ -19,6 +19,7 @@ from django.utils import simplejson as json
 from django.forms.models import model_to_dict
 from django.core import serializers
 from django.template.loader import render_to_string
+from django.http import Http404
 
 @login_required()
 @access_required("superadmin", "admin", "s1")
@@ -198,7 +199,7 @@ def qualification(request, id_production_order):
     show_form =True
     return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
 
-
+@login_required()
 def list_production_orders(request):
     if request.method == 'POST':
         form = ListProductionOrderForm(request.POST)
@@ -218,16 +219,20 @@ def list_production_orders(request):
         form = ListProductionOrderForm()
     return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
 
+@login_required()
 def show_production_order_ajax(request, id_production_order):
     if request.is_ajax():
         if request.method == "GET":
-            obj = get_object_or_404(ProductionOrder, pk=id_production_order)
-            json_str = render_to_string("show_production_order.html",{'obj': obj})
+            try: 
+                obj = ProductionOrder.objects.get(pk=id_production_order)
+                json_str = render_to_string("show_production_order.html",{'obj': obj})
+            except:
+                json_str = '{"error":"No se encuentra informacion acerca de la orden de produccion solicitada"}'
         else:
             json_str = u"Peticion denegada"
         return HttpResponse(str(json_str), mimetype="application/json")
     else:
-        return "Ha ocurrido un error"
+        raise Http404
         
 
 

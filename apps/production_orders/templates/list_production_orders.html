@@ -124,6 +124,11 @@
 			<tr><td>Estado</td><td>[[status]]</td></tr>
 			<tr><td>Actividad</td><td>[[activity]]</td></tr>
 			<tr><td>Lugar</td><td>[[place]]</td></tr>
+			<tr><td>Fecha creaci&oacute;n</td><td>[[date_added]]</td></tr>
+			<tr><td>Ultima modificacion</td><td>[[date_modified]]</td></tr>
+			<tr><td>Observaci&oacute;n al generar</td><td>[[comments.generated]]</td></tr>
+			<tr><td>Observaci&oacute;n al llenar</td><td>[[comments.filling]]</td></tr>
+			<tr><td>Observaci&oacute;n al calificar</td><td>[[comments.qualified]]</td></tr>
 		</table>
 	</div>
 </div>
@@ -173,12 +178,16 @@
 		/* AJAX for get information of prouction order and show it in a modal*/
 		function showProOrdModal(data){//lista los usuarios disponibles a invitar
             if(data){
-                console.log(data)
-                var tpl = $("#proOrdTpl").html()
-                var html = Mustache.to_html(tpl, data);
-                $('#proOrdData').html(html);
-            	$('#formModal').modal('show');
-                console.log(data["status"]+data["activity"])
+            	//console.log(data)
+                if (data["error"]){
+                	setAlertError("No se puede procesar la solicitud", data["error"] );
+                }
+                else{
+	                var tpl = $("#proOrdTpl").html()
+	                var html = Mustache.to_html(tpl, data);
+	                $('#proOrdData').html(html);
+	            	$('#formModal').modal('show');
+                }
             }else{
                 setAlertError("Error en el servidor","Lo sentimos, algo sali&oacute; mal en el servidor, no es tu culpa<br><br>Gracias por darte cuenta, trataremos de repararlo.")
             }
