@@ -32,6 +32,8 @@ class ProductionOrder(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     objects = GenericManager()
     
+#    def natural_key(self):
+#        return (self.user, self.activity.name)
     
     def __unicode__(self):
         return "%s - %s - %s - %s"%(self.user, self.activity, self.place, self.status)

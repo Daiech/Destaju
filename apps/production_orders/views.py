@@ -16,6 +16,9 @@ from django.forms.models import modelformset_factory
 from apps.account.decorators import access_required
 from django.db.models import Max
 from django.utils import simplejson as json
+from django.forms.models import model_to_dict
+from django.core import serializers
+from django.template.loader import render_to_string
 
 @login_required()
 @access_required("superadmin", "admin", "s1")
@@ -216,15 +219,15 @@ def list_production_orders(request):
     return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
 
 def show_production_order_ajax(request, id_production_order):
-#    if request.is_ajax():
-    if request.method == "GET":
-        obj = get_object_or_404(ProductionOrder, pk=id_production_order)
-        response = {"obj":obj}
+    if request.is_ajax():
+        if request.method == "GET":
+            obj = get_object_or_404(ProductionOrder, pk=id_production_order)
+            json_str = render_to_string("show_production_order.html",{'obj': obj})
+        else:
+            json_str = u"Peticion denegada"
+        return HttpResponse(str(json_str), mimetype="application/json")
     else:
-        response = u"Peticion denegada"
-    return HttpResponse(json.dumps(response), mimetype="application/json")
-#    else:
-#        return "Ha ocurrido un error"
+        return "Ha ocurrido un error"
         
 
 

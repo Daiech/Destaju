@@ -81,7 +81,7 @@
 			<td><span title="{{obj.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center actions">
-				<a href="{% url 'show_production_order_ajax' obj.id %}" title="Ver orden completa" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+				<a class="show-pro-ord" data-ajax-url="{% url 'show_production_order_ajax' obj.pk %}" title="Ver orden completa" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
 				
 			</td>
 		</tr>
@@ -100,43 +100,33 @@
 				ORDEN DE PRODUCCI&Oacute;N
 				</h4>
 			</div>
-			<form method = "POST"  enctype="multipart/form-data" id="Form">
-			{% csrf_token %}
-			<div class="modal-body">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title pull-left">
-						{% if form_mode == "_create" %}
-							AGREGAR
-						{% elif form_mode ==  "_update" %}
-							EDITAR
-						{% endif %}
-						</h3>
-						<div class="text-right">
-						{% if form_mode == '_update' %}
-							<a href="{% url 'delete_production_order' obj.pk %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-danger btn-sm btn-delete"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
-						{% else %}
-						<a href="{% url 'create_production_order' %}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-arrow-up" ></span>Volver</a>
-						{% endif %}
-						</div>
-					</div>
-					<table class="table table-hover table-condensed table-striped">
-					{{ form }}
-					</table>
-				</div>
+			<div id="proOrdData" class="modal-body">
 			</div>
 			<div class="modal-footer">
-				{% if form_mode == "_create" %}
-				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
-				{% endif %}		        
-		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
 		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
 		    </div>
 		    </form>
 		</div>
 	</div>
 </div>
-
+<div id="proOrdTpl"  class="hidden">
+{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
+	<div  class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title pull-left">
+				Orden de producci&oacute;n 
+			</h3>
+			<div class="text-right">
+				<strong>#[[pk]]</strong>
+			</div>
+		</div>
+		<table class="table table-hover table-condensed table-striped">
+			<tr><td>Estado</td><td>[[status]]</td></tr>
+			<tr><td>Actividad</td><td>[[activity]]</td></tr>
+			<tr><td>Lugar</td><td>[[place]]</td></tr>
+		</table>
+	</div>
+</div>
 {% endblock %}
 
 {% block style %}
@@ -163,20 +153,11 @@
 {% block js %}
 <script src="{{ STATIC_URL }}js/chosen.jquery.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="{{ STATIC_URL }}libs/mustache.js"></script>
 <script type="text/javascript">
 	$('.chosen-select').chosen({width: "95%", height: "100%", no_results_text: "No se encuentra!"})
 	$(document).ready(function(){
-		{% if show_form %}
-				$('#formModal').modal('show');
-
-		{% endif %}
 		$("span").tooltip();
-
-		
-        $('#formModal').on('hidden.bs.modal', function () {
-            top.location = "{% url 'create_production_order' %}"
-        });
-		
 
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
 		setDataTables('#dataTable')
@@ -184,11 +165,30 @@
 			setAlertError("No se puede procesar la solicitud", "{{ error }}");
 		{% endif%}
 
+		/* active data-picker*/
 		$('.date-pick').datepicker({
 			dateFormat: 'yy-mm-dd',
-			//controlType: 'select',
-			//ampm: true
 		}).css({"z-index":"1031"});
+
+		/* AJAX for get information of prouction order and show it in a modal*/
+		function showProOrdModal(data){//lista los usuarios disponibles a invitar
+            if(data){
+                console.log(data)
+                var tpl = $("#proOrdTpl").html()
+                var html = Mustache.to_html(tpl, data);
+                $('#proOrdData').html(html);
+            	$('#formModal').modal('show');
+                console.log(data["status"]+data["activity"])
+            }else{
+                setAlertError("Error en el servidor","Lo sentimos, algo sali&oacute; mal en el servidor, no es tu culpa<br><br>Gracias por darte cuenta, trataremos de repararlo.")
+            }
+        }
+        function showProOrd(e){
+            e.preventDefault()
+        	ajax_url = $(this).attr("data-ajax-url")
+            sendAjax(ajax_url,{},"#load-member",showProOrdModal)
+        }
+        $(".show-pro-ord").on("click",showProOrd);
 	});
 </script>
 {% endblock %}
