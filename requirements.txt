@@ -1,2 +1,5 @@
 Django>=1.5.4
-reportlab
+MySQL-python>=1.2.3
+reportlab>=2.7
+xhtml2pdf>=0.0.5
+pymongo>=2.6.2
