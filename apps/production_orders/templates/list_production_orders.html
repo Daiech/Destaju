@@ -81,7 +81,7 @@
 			<td><span title="{{obj.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center actions">
-				<a href="{% url 'show_production_order' obj.id %}" title="Editar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+				<a href="{% url 'show_production_order_ajax' obj.id %}" title="Ver orden completa" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
 				
 			</td>
 		</tr>

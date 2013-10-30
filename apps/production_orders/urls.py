@@ -19,7 +19,7 @@ qualification = patterns('apps.production_orders.views',
 
 list_pro_ord = patterns('apps.production_orders.views',
     url(r'^consultar_op/$', 'list_production_orders', name="list_production_orders"),
-    url(r'^ver_op/(?P<id_production_order>[0-9]+)$', 'show_production_order', name="show_production_order"),
+    url(r'^ver_op/(?P<id_production_order>[0-9]+)$', 'show_production_order_ajax', name="show_production_order_ajax"),
 )
 
 production_orders_urls = generation_of_production_order + filling + qualification + list_pro_ord

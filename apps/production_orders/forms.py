@@ -54,6 +54,12 @@ class FillingProOrdForm(forms.ModelForm):
 #        }
 
 class QualificationsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(QualificationsForm, self).__init__(*args, **kwargs)
+
+        self.fields['status'].label = "Estado"
+        self.fields['value'].label = "Valor"
+        
     comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
@@ -62,6 +68,12 @@ class QualificationsForm(forms.ModelForm):
         
 
 class ListProductionOrderForm(forms.Form):
+    TYPE_CHOICES=[
+                  ('added',u"Creación"),
+                  ('modified',u"Modificación"),
+                  ('filling',u"LLenado")
+                  ]
+    
     date_from = forms.DateTimeField(label="Desde", widget=forms.widgets.DateTimeInput(attrs={'class': 'date-pick'}), input_formats=['%Y-%m-%d'])
     date_to = forms.DateTimeField(label="Hasta", widget=forms.widgets.DateTimeInput(attrs={'class': 'date-pick'}), input_formats=['%Y-%m-%d'])
-    type_date = forms.ChoiceField(label="Fecha",choices=[('added',u"Creación"),('modified',u"Modificación")])
+    type_date = forms.ChoiceField(label="Fecha",choices=TYPE_CHOICES)
