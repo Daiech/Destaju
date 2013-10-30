@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from apps.production_orders.models import ProductionOrder
 from apps.payroll.models import DiscountsApplied, IncreasesApplied
 
+
 def htmlToPdf(html_string, pdf_name):
     from django.template.defaultfilters import slugify
     import datetime
@@ -27,6 +28,11 @@ def htmlToPdf(html_string, pdf_name):
     return '%s%s' % (settings.MEDIA_URL, pdf_address)
 
 
+def generate_xls(filename, fields, values_list):
+    from export_xls.views import export_xlwt
+    return export_xlwt(filename, fields, values_list, save=True, folder="xls/")
+
+
 @login_required()
 @require_POST
 def html_to_pdf(request):
@@ -35,7 +41,14 @@ def html_to_pdf(request):
         pdf_name = request.POST.get('pdf_name')
         pdf_address = htmlToPdf(html_data, pdf_name)
         
-        #empty payroll
+        #vars for django-export-xls
+        filename = ""
+        fields = ["user", "activity", "place", "status", "modifications", "comments"]
+        values_list = ProductionOrder.objects.filter(status=3).values_list(*fields)
+
+        xls_address = generate_xls(filename, fields, values_list)
+        #relate xls_address, with pdf_address and payroll
+        empty payroll
         ProductionOrder.objects.filter(status=3).update(status=4)
         DiscountsApplied.objects.filter(is_active=True).update(is_active=False)
         IncreasesApplied.objects.filter(is_active=True).update(is_active=False)
