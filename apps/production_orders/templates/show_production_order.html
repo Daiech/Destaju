@@ -1,0 +1,27 @@
+{
+	"pk": "{{obj.pk}}",
+	"status": {% if obj.status == 1 %}
+					"Generada",
+				{% elif obj.status == 2 %}
+					"llena",
+				{% elif obj.status == 3 %}
+					{% if obj.qualificationproord.status == 1%}
+                	"Calificada y Aprobada",
+                	{%else%}
+                	"Calificada y No Aprobada",
+                	{%endif%}
+				{% elif obj.status == 4 %}
+					"En nomina",
+				{% else %}
+					"ERROR",
+				{% endif %}
+	"activity": "{{obj.activity.name}}",
+	"place": "{{obj.place.name}}",
+	"date_added":"{{obj.date_added}}",
+	"date_modified":"{{obj.date_modified}}",
+	"comments":{
+		"generated": "{{ obj.comments }}",
+		"filling": "{{ obj.fillingproord.comments}}",
+		"qualified": "{{ obj.qualificationproord.comments}}"
+	}
+}           
