@@ -206,4 +206,5 @@ Thumbs.db
 public/static/admin
 
 local_settings.py
-public/media/pdf
+public/media/pdf/*.pdf
+public/media/xls/*.xls
