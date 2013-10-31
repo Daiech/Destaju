@@ -20,6 +20,9 @@ from django.forms.models import model_to_dict
 from django.core import serializers
 from django.template.loader import render_to_string
 from django.http import Http404
+from django.utils import formats
+from django.db.models import Max, Sum
+
 
 @login_required()
 @access_required("superadmin", "admin", "s1")
@@ -219,15 +222,75 @@ def list_production_orders(request):
         form = ListProductionOrderForm()
     return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
 
+def get_production_order_json(pro_ord_obj):
+    filling_list = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj)
+    if pro_ord_obj.status == 1:
+        status="Generada"
+    elif pro_ord_obj.status == 2:
+        status="llena"
+    elif pro_ord_obj.status == 3:
+        if pro_ord_obj.qualificationproord.status == 1:
+            status="Calificada y Aprobada"
+        else:
+            status="Calificada y No Aprobada"
+    elif pro_ord_obj.status == 4:
+        status="En nomina"
+    else:
+        "ERROR"
+    responsible_list=[]
+    
+    for r in filling_list:
+        responsible_list.append({"name": r.user.get_full_name(),"filling":r.value,"comments":r.comments})
+
+    try:
+        comments_generated = pro_ord_obj.comments
+    except:
+        comments_generated = ""
+        
+    try:
+        comments_filling = pro_ord_obj.fillingproord.comments
+    except:
+        comments_filling = ""
+        
+    try:
+        comments_qualified = pro_ord_obj.qualificationproord.comments
+    except:
+        comments_qualified = ""
+        
+    try:
+        total_activities_obj = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj).aggregate(total_activities=Sum('value'))
+        total_activities = total_activities_obj['total_activities']
+
+    except:
+        total_activities = 0
+        
+    json_dict = {
+        "pk": pro_ord_obj.pk,
+        "status":  status,
+        "activity": pro_ord_obj.activity.name,
+        "place": pro_ord_obj.place.name,
+        "date_added":formats.date_format(pro_ord_obj.date_added, "DATETIME_FORMAT"),
+        "date_modified":formats.date_format(pro_ord_obj.date_modified, "DATETIME_FORMAT"),
+        "comments":{
+            "generated": comments_generated,
+            "filling": comments_filling,
+            "qualified": comments_qualified
+        },
+        "responsible": responsible_list,
+        "total": total_activities
+    }
+    return json_dict  
+
 @login_required()
 def show_production_order_ajax(request, id_production_order):
     if request.is_ajax():
         if request.method == "GET":
             try: 
-                obj = ProductionOrder.objects.get(pk=id_production_order)
-                json_str = render_to_string("show_production_order.html",{'obj': obj})
+                pro_ord_obj = ProductionOrder.objects.get(pk=id_production_order)
             except:
                 json_str = '{"error":"No se encuentra informacion acerca de la orden de produccion solicitada"}'
+            production_order_json = get_production_order_json(pro_ord_obj)
+            json_str = json.dumps(production_order_json)
         else:
             json_str = u"Peticion denegada"
         return HttpResponse(str(json_str), mimetype="application/json")
@@ -235,8 +298,7 @@ def show_production_order_ajax(request, id_production_order):
         raise Http404
         
 
-
-
+     
 
 
 

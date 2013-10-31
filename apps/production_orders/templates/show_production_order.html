@@ -1,27 +1,33 @@
 {
-	"pk": "{{obj.pk}}",
-	"status": {% if obj.status == 1 %}
+	"pk": "{{pro_ord_obj.pk}}",
+	"status": {% if pro_ord_obj.status == 1 %}
 					"Generada",
-				{% elif obj.status == 2 %}
+				{% elif pro_ord_obj.status == 2 %}
 					"llena",
-				{% elif obj.status == 3 %}
-					{% if obj.qualificationproord.status == 1%}
+				{% elif pro_ord_obj.status == 3 %}
+					{% if pro_ord_obj.qualificationproord.status == 1%}
                 	"Calificada y Aprobada",
                 	{%else%}
                 	"Calificada y No Aprobada",
                 	{%endif%}
-				{% elif obj.status == 4 %}
+				{% elif pro_ord_obj.status == 4 %}
 					"En nomina",
 				{% else %}
 					"ERROR",
 				{% endif %}
-	"activity": "{{obj.activity.name}}",
-	"place": "{{obj.place.name}}",
-	"date_added":"{{obj.date_added}}",
-	"date_modified":"{{obj.date_modified}}",
+	"activity": "{{pro_ord_obj.activity.name}}",
+	"place": "{{pro_ord_obj.place.name}}",
+	"date_added":"{{pro_ord_obj.date_added}}",
+	"date_modified":"{{pro_ord_obj.date_modified}}",
 	"comments":{
-		"generated": "{{ obj.comments }}",
-		"filling": "{{ obj.fillingproord.comments}}",
-		"qualified": "{{ obj.qualificationproord.comments}}"
-	}
+		"generated": "{{ pro_ord_obj.comments }}",
+		"filling": "{{ pro_ord_obj.fillingproord.comments}}",
+		"qualified": "{{ pro_ord_obj.qualificationproord.comments}}"
+	},
+	"responsible": [
+		{% for e in filling_list %}
+			{"name": "{{e.user.get_full_name}}","filling":"{{e.value}}"},
+		{% endfor %}
+		{"": ""}
+	]
 }           

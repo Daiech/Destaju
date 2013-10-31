@@ -110,7 +110,6 @@
 	</div>
 </div>
 <div id="proOrdTpl"  class="hidden">
-{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
 	<div  class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title pull-left">
@@ -121,14 +120,26 @@
 			</div>
 		</div>
 		<table class="table table-hover table-condensed table-striped">
-			<tr><td>Estado</td><td>[[status]]</td></tr>
-			<tr><td>Actividad</td><td>[[activity]]</td></tr>
-			<tr><td>Lugar</td><td>[[place]]</td></tr>
+			<tr><td>Estado</td><td>[[ status ]]</td></tr>
+			<tr><td>Actividad</td><td>[[ activity ]]</td></tr>
+			<tr><td>Lugar</td><td>[[ place ]]</td></tr>
 			<tr><td>Fecha creaci&oacute;n</td><td>[[date_added]]</td></tr>
-			<tr><td>Ultima modificacion</td><td>[[date_modified]]</td></tr>
+			<tr><td>Ultima modificaci&oacute;n</td><td>[[date_modified]]</td></tr>
 			<tr><td>Observaci&oacute;n al generar</td><td>[[comments.generated]]</td></tr>
 			<tr><td>Observaci&oacute;n al llenar</td><td>[[comments.filling]]</td></tr>
 			<tr><td>Observaci&oacute;n al calificar</td><td>[[comments.qualified]]</td></tr>
+		</table>
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				Responsables
+			</h3>
+		</div>
+		<table class="table table-hover table-condensed table-striped">
+			<tr><th>Nombre</th><th>Cantidad</th><th>Observaciones</th></tr>
+			<!-- [[#responsible]]  -->
+			<tr><td >[[name]]</td><td class="text-right">[[filling]]</td><td>[[comments]]</td></tr>
+			<!-- [[/responsible]]  -->
+			<tr><td >Total</td><td class="text-right">[[total]]</td><td></td></tr>
 		</table>
 	</div>
 </div>
@@ -178,12 +189,13 @@
 		/* AJAX for get information of prouction order and show it in a modal*/
 		function showProOrdModal(data){//lista los usuarios disponibles a invitar
             if(data){
-            	//console.log(data)
+            	//console.dir(data)
                 if (data["error"]){
                 	setAlertError("No se puede procesar la solicitud", data["error"] );
                 }
                 else{
 	                var tpl = $("#proOrdTpl").html()
+	                Mustache.tags = ['[[', ']]'];
 	                var html = Mustache.to_html(tpl, data);
 	                $('#proOrdData').html(html);
 	            	$('#formModal').modal('show');
