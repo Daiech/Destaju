@@ -34,6 +34,7 @@
 			<th>Lugar</th>
 			<th>Fecha Creaci&oacute;n</th>
 			<th>Ultima modificaci&oacute;n</th>
+			<th>Cantidad</th>
 			<th>Acciones</th>
 		</tr>
 		</thead>
@@ -80,6 +81,7 @@
 			<td>{{obj.place.name}}</td>
 			<td><span title="{{obj.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
+			<td class="text-right">{{obj.total_filling}}</td>
 			<td class="text-center actions">
 				<a class="show-pro-ord" data-ajax-url="{% url 'show_production_order_ajax' obj.pk %}" title="Ver orden completa" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
 				

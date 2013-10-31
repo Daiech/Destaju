@@ -211,7 +211,7 @@ def list_production_orders(request):
             date_to = form.cleaned_data['date_to']
             type_date = form.cleaned_data['type_date']
             if type_date == 'added':
-                object_list = ProductionOrder.objects.filter(date_added__gt = date_from).filter(date_added__lt = date_to)
+                object_list = ProductionOrder.objects.filter(date_added__gt = date_from).filter(date_added__lt = date_to).annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             elif type_date == 'modified':
                 object_list = ProductionOrder.objects.filter(date_modified__gt = date_from).filter(date_modified__lt = date_to)
             elif type_date == 'filling':
