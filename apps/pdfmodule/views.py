@@ -42,16 +42,17 @@ def html_to_pdf(request):
         pdf_address = htmlToPdf(html_data, pdf_name)
         
         #vars for django-export-xls
-        filename = ""
+        filename = "nomina"
         fields = ["user", "activity", "place", "status", "modifications", "comments"]
         values_list = ProductionOrder.objects.filter(status=3).values_list(*fields)
 
         xls_address = generate_xls(filename, fields, values_list)
         #relate xls_address, with pdf_address and payroll
-        empty payroll
-        ProductionOrder.objects.filter(status=3).update(status=4)
-        DiscountsApplied.objects.filter(is_active=True).update(is_active=False)
-        IncreasesApplied.objects.filter(is_active=True).update(is_active=False)
+
+        # empty payroll
+        # ProductionOrder.objects.filter(status=3).update(status=4)
+        # DiscountsApplied.objects.filter(is_active=True).update(is_active=False)
+        # IncreasesApplied.objects.filter(is_active=True).update(is_active=False)
 
         return HttpResponseRedirect(pdf_address)
     except Exception, e:
