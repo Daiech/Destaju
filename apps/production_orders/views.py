@@ -22,7 +22,7 @@ from django.template.loader import render_to_string
 from django.http import Http404
 from django.utils import formats
 from django.db.models import Max, Sum
-
+import datetime
 
 @login_required()
 @access_required("superadmin", "admin", "s1")
@@ -213,13 +213,25 @@ def list_production_orders(request):
             if type_date == 'added':
                 object_list = ProductionOrder.objects.filter(date_added__gt = date_from).filter(date_added__lt = date_to).annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             elif type_date == 'modified':
-                object_list = ProductionOrder.objects.filter(date_modified__gt = date_from).filter(date_modified__lt = date_to)
+                object_list = ProductionOrder.objects.filter(date_modified__gt = date_from).filter(date_modified__lt = date_to).annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             elif type_date == 'filling':
-                object_list = ProductionOrder.objects.filter(fillingproord__date_modified__gt = date_from).filter(fillingproord__date_modified__lt = date_to)
+                object_list = ProductionOrder.objects.filter(fillingproord__date_modified__gt = date_from).filter(fillingproord__date_modified__lt = date_to).annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             else:
                 print "Error"
+            if '_excel' in request.POST:
+                from export_xls.views import export_xlwt
+                values_list =[]
+                fields=["#","cantidad"]
+                for obj in object_list:
+                    values_list.append((obj.pk,obj.total_filling))
+                name_file = str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M'))
+                print name_file
+                return export_xlwt("op_"+(name_file), fields, values_list)
+        else:
+            disable_excel_button = True
     else:
         form = ListProductionOrderForm()
+        disable_excel_button = True
     return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
 
 def get_production_order_json(pro_ord_obj):
@@ -260,7 +272,6 @@ def get_production_order_json(pro_ord_obj):
     try:
         total_activities_obj = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj).aggregate(total_activities=Sum('value'))
         total_activities = total_activities_obj['total_activities']
-
     except:
         total_activities = 0
         

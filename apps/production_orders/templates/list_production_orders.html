@@ -13,6 +13,7 @@
 					<td>{{ form.date_from.label}}</td><td>{{ form.date_from}}{{ form.date_from.erros}}</td>
 					<td>{{ form.date_to.label}}</td><td>{{ form.date_to}}{{ form.date_to.errors}}</td>
 					<td> <button type="submit" class="btn btn-primary btn-sm" name="_query">Consultar</button></td>
+					<td> <button type="submit" class="btn btn-primary btn-sm {% if disable_excel_button %}disabled{% endif %}" name="_excel">Generar Excel</button></td>
 				</tr>
 			</table>
 			
@@ -81,7 +82,7 @@
 			<td>{{obj.place.name}}</td>
 			<td><span title="{{obj.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-			<td class="text-right">{{obj.total_filling}}</td>
+			<td class="text-right">{% if obj.total_filling %}{{obj.total_filling}}{% else %}0{% endif %}</td>
 			<td class="text-center actions">
 				<a class="show-pro-ord" data-ajax-url="{% url 'show_production_order_ajax' obj.pk %}" title="Ver orden completa" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
 				
@@ -141,7 +142,7 @@
 			<!-- [[#responsible]]  -->
 			<tr><td >[[name]]</td><td class="text-right">[[filling]]</td><td>[[comments]]</td></tr>
 			<!-- [[/responsible]]  -->
-			<tr><td >Total</td><td class="text-right">[[total]]</td><td></td></tr>
+			<tr><td >Total</td><td class="text-right"><strong>[[total]]</strong></td><td></td></tr>
 		</table>
 	</div>
 </div>
@@ -189,7 +190,7 @@
 		}).css({"z-index":"1031"});
 
 		/* AJAX for get information of prouction order and show it in a modal*/
-		function showProOrdModal(data){//lista los usuarios disponibles a invitar
+		function showProOrdModal(data,error){
             if(data){
             	//console.dir(data)
                 if (data["error"]){
