@@ -10,7 +10,7 @@ def user_unicode(self):
         dni = self.userprofile.dni
     except:
         dni = "Sin DNI"
-    return  self.username if self.get_full_name() != ""  else u"%s - %s" % (dni, self.get_full_name())
+    return  self.username if self.get_full_name() == ""  else u"%s - %s" % (dni, self.get_full_name())
 
 User.__unicode__ = user_unicode
 
