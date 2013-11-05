@@ -6,23 +6,16 @@ from apps.production_orders.models import *
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
-#from django.core import serializers
-#from apps.actions_log.views import save_with_modifications
 from apps.process_admin.models import Tools, Places, Activities
 from apps.actions_log.views import save_with_modifications
-# from django.forms.formsets import modelformset_factory
 from django.forms.models import modelformset_factory
 from apps.account.decorators import access_required
 from django.db.models import Max
 from django.utils import simplejson as json
-from django.forms.models import model_to_dict
-from django.core import serializers
-from django.template.loader import render_to_string
 from django.http import Http404
-from django.utils import formats
-from django.db.models import Max, Sum
+from django.db.models import Sum
 import datetime
+from apps.production_orders.functions import *
 
 @login_required()
 @access_required("superadmin", "admin", "s1")
@@ -202,6 +195,7 @@ def qualification(request, id_production_order):
     show_form =True
     return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
 
+
 @login_required()
 def list_production_orders(request):
     if request.method == 'POST':
@@ -221,11 +215,22 @@ def list_production_orders(request):
             if '_excel' in request.POST:
                 from export_xls.views import export_xlwt
                 values_list =[]
-                fields=["#","cantidad"]
+                fields=["#","Actividad", "Lugar", "Estado", "Fecha de creacion","Cantidad", "Calificacion"]
                 for obj in object_list:
-                    values_list.append((obj.pk,obj.total_filling))
+                    total_filling = obj.total_filling if obj.total_filling else 0
+                    values_list.append(
+                        (
+                            obj.pk, 
+                            obj.activity.name, 
+                            obj.place.name, 
+                            get_str_status(obj), 
+                            str(obj.date_added.strftime('%Y-%m-%d_%H-%M')), 
+                            total_filling,
+                            get_str_qualification_pro_ord(obj)
+                        )   
+                    )
                 name_file = str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M'))
-                print name_file
+                # print name_file
                 return export_xlwt("op_"+(name_file), fields, values_list)
         else:
             disable_excel_button = True
@@ -234,63 +239,7 @@ def list_production_orders(request):
         disable_excel_button = True
     return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
 
-def get_production_order_json(pro_ord_obj):
-    filling_list = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj)
-    if pro_ord_obj.status == 1:
-        status="Generada"
-    elif pro_ord_obj.status == 2:
-        status="llena"
-    elif pro_ord_obj.status == 3:
-        if pro_ord_obj.qualificationproord.status == 1:
-            status="Calificada y Aprobada"
-        else:
-            status="Calificada y No Aprobada"
-    elif pro_ord_obj.status == 4:
-        status="En nomina"
-    else:
-        "ERROR"
-    responsible_list=[]
-    
-    for r in filling_list:
-        responsible_list.append({"name": r.user.get_full_name(),"filling":r.value,"comments":r.comments})
 
-    try:
-        comments_generated = pro_ord_obj.comments
-    except:
-        comments_generated = ""
-        
-    try:
-        comments_filling = pro_ord_obj.fillingproord.comments
-    except:
-        comments_filling = ""
-        
-    try:
-        comments_qualified = pro_ord_obj.qualificationproord.comments
-    except:
-        comments_qualified = ""
-        
-    try:
-        total_activities_obj = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj).aggregate(total_activities=Sum('value'))
-        total_activities = total_activities_obj['total_activities']
-    except:
-        total_activities = 0
-        
-    json_dict = {
-        "pk": pro_ord_obj.pk,
-        "status":  status,
-        "activity": pro_ord_obj.activity.name,
-        "place": pro_ord_obj.place.name,
-        "date_added":formats.date_format(pro_ord_obj.date_added, "DATETIME_FORMAT"),
-        "date_modified":formats.date_format(pro_ord_obj.date_modified, "DATETIME_FORMAT"),
-        "comments":{
-            "generated": comments_generated,
-            "filling": comments_filling,
-            "qualified": comments_qualified
-        },
-        "responsible": responsible_list,
-        "total": total_activities
-    }
-    return json_dict  
 
 @login_required()
 def show_production_order_ajax(request, id_production_order):

@@ -264,6 +264,3 @@ class Tools(models.Model):
     
     def get_table_name(self):
         return "Herramientas"
-    
-    
-    
