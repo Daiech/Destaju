@@ -83,13 +83,12 @@ function setDataTables(id_table){
 			"sInfoFiltered": "(filtro de _MAX_ registros en total)",
 			"sSearch": "_INPUT_",
 			"oPaginate": {
-		        "sFirst": "Primera",
-		        "sLast": "Ultima",
-		        "sNext": "Siguiente",
-		        "sPrevious": "Anterior"
-		        	
-		      },
-			},
+                "sFirst": "Primera",
+                "sLast": "Ultima",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+                },
+            },
         } );
     $("#usersList_filter > label > input").attr("placeholder", "Filtrar");
 }

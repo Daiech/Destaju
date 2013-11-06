@@ -85,6 +85,12 @@ def delete_production_order(request, id_production_order):
     return HttpResponseRedirect(reverse(create_production_order))
 
 
+def generate_pdf(request,id_production_order):
+    from django.template.loader import render_to_string
+    html_string = render_to_string("generate_pdf.html",{"obj":ProductionOrder.objects.get(pk=id_production_order)})
+    from apps.pdfmodule.views import htmlToPdf
+    return HttpResponseRedirect(htmlToPdf(html_string, "pdf"))
+
 @login_required()
 @access_required("superadmin", "admin", "s2")
 def filling_pro_ord(request):

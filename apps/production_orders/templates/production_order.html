@@ -82,6 +82,7 @@
 				{% if obj.status == 1%}
 				<a href="{% url 'update_production_order' obj.id %}" title="Editar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a href="{% url 'delete_production_order' obj.id %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+				<a href="{% url 'generate_pdf' obj.id %}" title="Generar archivo PDF" class="btn "><span class="glyphicon glyphicon-print"></span></a>
 				{% else %}
 				<span title = "Esta orden no se puede editar" class="glyphicon glyphicon-pencil disabled"></span>
 				<span title = "Esta orden no se puede editar" class="glyphicon glyphicon-remove disabled"></span>

@@ -1,0 +1,14 @@
+<div class="table-responsive">
+    <table id="dataTable" class="table table-hover table-condensed table-striped">
+        
+        <tr><td>#</td><td>{{obj.pk}}</td></tr>
+        <tr><td>Creador</td><td>{{obj.user.get_full_name}}</td></tr>
+        <tr><td>Actividad</td><td>{{obj.activity.name}}</td></tr>
+        <tr><td>Lugar</td><td>{{obj.place.name}}</td></tr>
+        <tr><td>Herramientas</td><td><ul>{% for t in obj.tools.all %}<li>{{t.name}}</li>{% endfor %}</ul></td></tr>
+        <tr><td>Responsables</td><td><ul>{% for r in obj.responsible.all %}<li>{{r.get_full_name}}</li>{% endfor %}</ul></td></tr>
+        <tr><td>Fecha Creaci&oacute;n</td><td>{{obj.date_added}}</td></tr>            
+        <tr><td>Observaciones</td><td>{{obj.comments}}</td></tr>
+        
+    </table>
+</div>
