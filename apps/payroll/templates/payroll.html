@@ -6,8 +6,11 @@
 	<h3>
 		N&oacute;mina {{ PROJECT_NAME }}
 		<div class="pull-right">
-            
+            {% if last_payroll %}
+                <a href="{% url 'generate_pdf_payroll' pr_obj.pk %}" class="btn btn-primary">Generar PDF</a>
+            {% else %}
 			<button class="btn btn-primary confirm-action" id="btn-generate-payroll"><span class="glyphicon glyphicon-download-alt"></span> Generar n&oacute;mina</button>
+            {% endif %}
 		</div>
 	</h3>
 </div>
@@ -54,7 +57,7 @@
     <div id="payrollTitle"></div>
 	<div class="panel panel-info">
 	    <div class="panel-heading" id="headerContent">
-	        <h3 class="panel-title">N&oacute;mina {{ PROJECT_NAME }} - {% if last_payroll %} {{ payroll_obj.date_added }} {% else %}{% now "F j \d\e Y H:i" %}{% endif %}</h3>
+	        <h3 class="panel-title">N&oacute;mina {{ PROJECT_NAME }} - {% if last_payroll %} {{ pr_obj.date_added }} {% else %}{% now "F j \d\e Y H:i" %}{% endif %}</h3>
 	    </div>
 	    <div class="table-responsive">
 	    <table id="dataTable2" class="table table-hover table-condensed table-striped">

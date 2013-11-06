@@ -15,6 +15,7 @@ payroll = patterns('apps.payroll.views',
     url(r'^guardar-nomina/$', 'set_payroll', name="set_payroll"),
     url(r'^listar-nomina/$', 'show_payroll_list', name="show_payroll_list"),
     url(r'^ver-nomina/(?P<payroll_pk>[0-9]+)', 'read_payroll', name="read_payroll"),
+    url(r'^generar-pdf-nomina/(?P<payroll_pk>[0-9]+)', 'generate_pdf_payroll', name="generate_pdf_payroll"),
 )
 
 increases = patterns('apps.payroll.views',
