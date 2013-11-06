@@ -1,14 +1,57 @@
-<div class="table-responsive">
-    <table id="dataTable" class="table table-hover table-condensed table-striped">
-        
-        <tr><td>#</td><td>{{obj.pk}}</td></tr>
-        <tr><td>Creador</td><td>{{obj.user.get_full_name}}</td></tr>
-        <tr><td>Actividad</td><td>{{obj.activity.name}}</td></tr>
-        <tr><td>Lugar</td><td>{{obj.place.name}}</td></tr>
-        <tr><td>Herramientas</td><td><ul>{% for t in obj.tools.all %}<li>{{t.name}}</li>{% endfor %}</ul></td></tr>
-        <tr><td>Responsables</td><td><ul>{% for r in obj.responsible.all %}<li>{{r.get_full_name}}</li>{% endfor %}</ul></td></tr>
-        <tr><td>Fecha Creaci&oacute;n</td><td>{{obj.date_added}}</td></tr>            
-        <tr><td>Observaciones</td><td>{{obj.comments}}</td></tr>
-        
-    </table>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+        body{font-family:Helvetica;color: #555;}
+        #footerContent{
+            margin: 20px 0;
+            margin-top: 45px;
+        }
+        .box{overflow: hidden;}
+        .box > div{float: left;width: 50%}
+        #headerContent{margin: 0}
+        h1, h2 {text-align: center}
+        th{text-align: left;vertical-align: center;}
+        th, td{padding: 3px}
+        #headerContent > div > img{height:50px;width:100px;margin:0;margin-top:0;}
+        .div-header{height:50px;max-width:100px;display:inline-block;margin:0;}
+        #payrollContent{line-height: 1.8;margin: 0}
+        table{width: 100%}
+        @page {
+          margin: 2.5cm;
+          margin-top: 3cm;
+          margin-bottom: 2.5cm;
+          font-size: 28px;
+          colordisplay:#555;
+          @frame header {
+            -pdf-frame-content: headerContent;
+            top: 1cm;
+            margin-left: 2.1cm;
+            margin-right: 1cm;
+            height: 2.5cm;
+          }
+          @frame footer {
+            -pdf-frame-content: footerContent;
+            bottom: 1cm;
+            margin-left: 2.5cm;
+            margin-right: 1cm;
+            margin-top: 1.5cm;
+            height: 2cm;
+          }
+        }
+    </style>
+</head>
+<body>
+<h1>Orden de produccion #{{obj.pk}}</h1>
+<h2>{{obj.date_added}}</h2>
+<br />
+<table border="1">
+    <tr><td>Creador</td><td>{{obj.user.get_full_name}}</td></tr>
+    <tr><td>Actividad</td><td>{{obj.activity.name}}</td></tr>
+    <tr><td>Lugar</td><td>{{obj.place.name}}</td></tr>
+    <tr><td>Herramientas</td><td><ul>{% for t in obj.tools.all %}<li>{{t.name}}</li>{% endfor %}</ul></td></tr>
+    <tr><td>Responsables</td><td><ul>{% for r in obj.responsible.all %}<li>{{r.get_full_name}}</li>{% endfor %}</ul></td></tr>
+    <tr><td>Observaciones</td><td>{{obj.comments}}</td></tr>
+</table>
+</body>
+</html>
