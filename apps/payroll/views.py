@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from apps.account.decorators import access_required
 from django.utils import simplejson as json
+import datetime
 
 
 @login_required()
@@ -411,3 +412,85 @@ def generate_pdf_payroll(request, payroll_pk):
     html_string = render_to_string('generate_pdf_payroll.html', locals())
     from apps.pdfmodule.views import htmlToPdf
     return HttpResponseRedirect(htmlToPdf(html_string, "pdf"))
+
+
+def generate_xls_payroll(request, payroll_pk):
+    """Show the history, the list of employees with values of activities, general discounts applied and legal discounts applied."""
+    pr_obj = Payroll.objects.get(pk=payroll_pk)
+    payroll_list =[]
+
+    obj_list = MyUser.objects.filter(userprofile__user_type__pk__in=[7,8])
+
+    filling_list = Filling.objects.filter(filling_pro_ord__production_order__payroll=pr_obj)
+    filling_list2 = Filling.objects.filter(filling_pro_ord__production_order__payroll=pr_obj).aggregate(total=Sum('value'))
+
+    discounts_list = DiscountsApplied.objects.filter(payroll = pr_obj, is_active=False)
+    increases_list = IncreasesApplied.objects.filter(payroll = pr_obj, is_active=False)
+
+    legal_discounts = LegalDiscounts.objects.filter(is_active=True)
+
+    global_payroll = 0
+
+    values_list =[]
+
+    for obj in obj_list:
+        total_payroll = 0
+        #total activities
+        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__qualificationproord__status=1, filling_pro_ord__production_order__status=4)
+        total_activities = 0
+        for a in activities:
+            a1 = int(a.filling_pro_ord.production_order.activity.value)
+            activity_value = int(a.value) *  a1
+            total_activities +=  activity_value
+        # total_payroll=total_activities
+
+
+        #aumentos
+        increases = increases_list.filter(employee=obj)
+        total_increases = increases.aggregate(t= Sum('value'))
+        total_increases_value = total_increases["t"] if total_increases["t"] != None else 0
+        # total_payroll = total_payroll+total_increases_value
+
+        total_accrued = total_activities + total_increases_value
+
+        legal_discount_value = (total_accrued/100)*int(8)
+
+        #General discount
+        discounts = discounts_list.filter(employee=obj)
+        total_discounts = discounts.aggregate(t= Sum('value'))
+        total_discounts_value = total_discounts["t"] if total_discounts["t"] != None else 0
+
+        total_payroll = total_accrued-total_discounts_value-legal_discount_value
+        
+        global_payroll += total_payroll
+
+        #payroll
+        payroll_list.append({"user": obj,
+                             "activities": activities,
+                             "total_activities": total_activities,
+                             "discounts": discounts,
+                             "total_discounts": total_discounts_value,
+                             "increases": increases,
+                             "total_increases": total_increases_value,
+                             "total_payroll": total_payroll,
+                             "legal_discount_type": "Seguridad social 8%",  #"%s %s%%"%(ld.name, ld.value),
+                             "legal_discount_value": legal_discount_value,
+                             "total_accrued": total_accrued
+                             #"adjust": adjust
+                             })
+        values_list.append(
+            (
+                str(obj.get_full_name()), 
+                str(obj.userprofile.dni), 
+                str(obj.userprofile.user_type.name), 
+                total_payroll, 
+            )   
+        )
+    last_payroll=True
+    from export_xls.views import export_xlwt
+    
+    fields=["Nombre Completo","Cedula", "Tipo de usuario", "Valor"]
+    name_file = str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M'))
+    return export_xlwt("op_"+(name_file), fields, values_list)
+
+    # return render_to_response('payroll.html', locals(), context_instance=RequestContext(request))
