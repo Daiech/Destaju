@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.process_admin.models import Tools, Activities, Places
-
+from apps.payroll.models import Payroll
 
 class GenericManager(models.Manager):
 
@@ -32,8 +32,7 @@ class ProductionOrder(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     objects = GenericManager()
     
-#    def natural_key(self):
-#        return (self.user, self.activity.name)
+    payroll = models.ForeignKey(Payroll,  null=True, related_name='%(class)s_payroll')
     
     def __unicode__(self):
         return "%s - %s - %s - %s"%(self.user, self.activity, self.place, self.status)

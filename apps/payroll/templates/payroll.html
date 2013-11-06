@@ -6,8 +6,8 @@
 	<h3>
 		N&oacute;mina {{ PROJECT_NAME }}
 		<div class="pull-right">
-			<a href="{% url 'pdf_payroll_list' %}" class="btn btn-primary "><span class="glyphicon glyphicon-list-alt"></span> Listado de PDF</a>
-			<button class="btn btn-primary confirm-action" id="btn-generate-pdf"><span class="glyphicon glyphicon-download-alt"></span> Generar n&oacute;mina PDF</button>
+            
+			<button class="btn btn-primary confirm-action" id="btn-generate-payroll"><span class="glyphicon glyphicon-download-alt"></span> Generar n&oacute;mina</button>
 		</div>
 	</h3>
 </div>
@@ -54,7 +54,7 @@
     <div id="payrollTitle"></div>
 	<div class="panel panel-info">
 	    <div class="panel-heading" id="headerContent">
-	        <h3 class="panel-title">N&oacute;mina {{ PROJECT_NAME }} - {% now "F j \d\e Y H:i" %}</h3>
+	        <h3 class="panel-title">N&oacute;mina {{ PROJECT_NAME }} - {% if last_payroll %} {{ payroll_obj.date_added }} {% else %}{% now "F j \d\e Y H:i" %}{% endif %}</h3>
 	    </div>
 	    <div class="table-responsive">
 	    <table id="dataTable2" class="table table-hover table-condensed table-striped">
@@ -263,7 +263,7 @@
         $("#accordion .collapse").collapse({
             // toggle: false
         });
-        $("#btn-generate-pdf").on("click", function (e) {
+        /*$("#btn-generate-payroll").on("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
             if ( confirm("Seguro que desea generar la nomina? \n todos los valores quedaran en $0") ){
@@ -276,7 +276,35 @@
                 $('#html-data').val($('#data').html());
                 $("#pdf-form").submit();
             }
-		})
+		})*/
+
+        /* AJAX for get information of prouction order and show it in a modal*/
+        function showProOrdModal(data,error){
+            if(data){
+                //console.dir(data)
+                if (data["error"]){
+                    setAlertError("No se puede procesar la solicitud", data["error"] );
+                }
+                else{
+                    /*var tpl = $("#proOrdTpl").html()
+                    Mustache.tags = ['[[', ']]'];
+                    var html = Mustache.to_html(tpl, data);
+                    $('#proOrdData').html(html);
+                    $('#formModal').modal('show');*/
+                    top.location = "{% url 'show_payroll_list' %}"
+                }
+            }else{
+                setAlertError("Error en el servidor","Lo sentimos, algo sali&oacute; mal en el servidor, no es tu culpa<br><br>Gracias por darte cuenta, trataremos de repararlo.")
+            }
+        }
+        function showProOrd(e){
+            e.preventDefault()
+            //ajax_url = $(this).attr("data-ajax-url")
+            sendAjax("{% url 'set_payroll' %}",{},"#load-member",showProOrdModal)
+        }
+        $("#btn-generate-payroll").on("click",showProOrd);
+
+
     });
 </script>
 {% endblock %}

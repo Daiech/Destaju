@@ -37,8 +37,8 @@ class GenericManager(models.Manager):
 
 class DiscountsAppliedManager(GenericManager):
     
-    def get_query_set(self):
-        return super(DiscountsAppliedManager, self).get_query_set().filter(is_active=True)
+    # def get_query_set(self):
+    #     return super(DiscountsAppliedManager, self).get_query_set().filter(is_active=True)
     
     def get_total_discounts_by_user(self, id_user):
         a = DiscountsApplied.objects.filter(employee__pk=id_user, is_active=True)\
@@ -53,8 +53,8 @@ class DiscountsAppliedManager(GenericManager):
 
 class IncreasesAppliedManager(GenericManager):
     
-    def get_query_set(self):
-        return super(IncreasesAppliedManager, self).get_query_set().filter(is_active=True)
+    # def get_query_set(self):
+    #     return super(IncreasesAppliedManager, self).get_query_set().filter(is_active=True)
     
     def get_total_increases_by_user(self, id_user):
         a = IncreasesApplied.objects.filter(employee__pk=id_user, is_active=True)\
@@ -66,6 +66,16 @@ class IncreasesAppliedManager(GenericManager):
                 .aggregate(date_last_increase=Max('date_modified'))
         return a['date_last_increase']
 
+
+class Payroll(models.Model):
+    admin = models.ForeignKey(User,  null=False, related_name='%(class)s_admin')
+    is_active = models.BooleanField(default=True)
+    
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s:%s - %s"%(self.pk, self.admin, self.date_added)
 
 class DiscountsApplied(models.Model):
     """Table to apply employee's discounts"""    
@@ -79,6 +89,7 @@ class DiscountsApplied(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     objects = DiscountsAppliedManager()
     
+    payroll = models.ForeignKey(Payroll,  null=True, related_name='%(class)s_payroll')
     
     def __unicode__(self):
         return "%s - %s - %s - %s"%(self.admin, self.employee, self.general_discount, self.value)
@@ -99,9 +110,12 @@ class IncreasesApplied(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     objects = IncreasesAppliedManager()
     
-    
+    payroll = models.ForeignKey(Payroll,  null=True, related_name='%(class)s_payroll') 
+
     def __unicode__(self):
         return "%s - %s - %s - %s"%(self.admin, self.employee, self.increase, self.value)
     
     def get_table_name(self):
         return u"Aumentos"
+
+

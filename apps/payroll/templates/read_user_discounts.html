@@ -21,7 +21,7 @@
                     	</div>
                     </div>	
                     <table class="table table-hover table-condensed table-striped">
-                    	{% for discount in user_obj.discountsapplied_employee.all %}
+                    	{% for discount in discounts %}
                     	<tr>
                     		<td>{{discount.general_discount.name}}</td>
                     		<td class="text-right">${{discount.value}}</td>

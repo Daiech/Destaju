@@ -57,6 +57,7 @@
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_discounts_applied' %}">Aplicar descuentos</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_increases_applied' %}">Aplicar aumento</a></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_payroll' %}">Ver N&oacute;mina actual</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'show_payroll_list' %}">Ver historial de N&oacute;mina</a></li>
               </ul>
           </li>
         {% if user.userprofile.user_type.can_view_modifications %}

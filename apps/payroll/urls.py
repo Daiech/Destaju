@@ -10,8 +10,11 @@ discounts = patterns('apps.payroll.views',
 )
 
 payroll = patterns('apps.payroll.views',
-    url(r'^listar-nomina/$', 'list_payroll', name="list_payroll"),
+    url(r'^nomina-actual/$', 'list_payroll', name="list_payroll"),
     url(r'^listar-pdf/$', 'pdf_payroll_list', name="pdf_payroll_list"),
+    url(r'^guardar-nomina/$', 'set_payroll', name="set_payroll"),
+    url(r'^listar-nomina/$', 'show_payroll_list', name="show_payroll_list"),
+    url(r'^ver-nomina/(?P<payroll_pk>[0-9]+)', 'read_payroll', name="read_payroll"),
 )
 
 increases = patterns('apps.payroll.views',

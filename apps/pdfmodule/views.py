@@ -49,11 +49,6 @@ def html_to_pdf(request):
         xls_address = generate_xls(filename, fields, values_list)
         #relate xls_address, with pdf_address and payroll
 
-        # empty payroll
-        # ProductionOrder.objects.filter(status=3).update(status=4)
-        # DiscountsApplied.objects.filter(is_active=True).update(is_active=False)
-        # IncreasesApplied.objects.filter(is_active=True).update(is_active=False)
-
         return HttpResponseRedirect(pdf_address)
     except Exception, e:
         print e

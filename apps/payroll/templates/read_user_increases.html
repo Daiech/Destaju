@@ -21,7 +21,7 @@
                         </div>
                     </div>  
                     <table class="table table-hover table-condensed table-striped">
-                        {% for increase in user_obj.increasesapplied_employee.all %}
+                        {% for increase in increases %}
                         <tr>
                             <td>{{increase.increase.name}}</td>
                             <td class="text-right">${{increase.value}}</td>
