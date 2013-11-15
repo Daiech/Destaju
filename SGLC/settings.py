@@ -4,6 +4,7 @@ try:
     from .local_settings import DEBUG
 except Exception:
     DEBUG = True
+# DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     ('Mauricio Aizaga', 'maizaga@daiech.com'),
@@ -39,7 +40,7 @@ except Exception, e:
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["daiech.com", ".daiech.com", ".anunciosuniversitarios.com"]
+ALLOWED_HOSTS = ["daiech.com", ".daiech.com", ".anunciosuniversitarios.com","palmallano.net"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
