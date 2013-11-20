@@ -10,7 +10,7 @@
                 <a href="{% url 'generate_pdf_payroll' pr_obj.pk %}" class="btn btn-primary">Generar PDF</a>
                 <a href="{% url 'generate_xls_payroll' pr_obj.pk %}" class="btn btn-primary">Generar EXCEL</a>
             {% else %}
-			<button class="btn btn-primary confirm-action" id="btn-generate-payroll"><span class="glyphicon glyphicon-download-alt"></span> Generar n&oacute;mina</button>
+			<a href="#" class="btn btn-primary confirm-action {% ifequal global_payroll 0 %}disabled{% endifequal %}" {% ifequal global_payroll 0 %}title="No se puede generar una n&oacute;mina vac&iacute;a"{% endifequal %} id="btn-generate-payroll"><span class="glyphicon glyphicon-download-alt"></span> Generar n&oacute;mina</a>
             {% endif %}
 		</div>
 	</h3>
@@ -306,7 +306,7 @@
             //ajax_url = $(this).attr("data-ajax-url")
             sendAjax("{% url 'set_payroll' %}",{},"#load-member",showProOrdModal)
         }
-        $("#btn-generate-payroll").on("click",showProOrd);
+        $("#btn-generate-payroll").on("click",showProOrd).tooltip();
 
 
     });
