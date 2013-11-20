@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block TITLE %}Inicio{% endblock %}
+{% block TITLE %}Listado de n&oacute;minas generadas{% endblock %}
 {% block content %}
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title">Descuentos aplicados</h3>
+        <h3 class="panel-title">Listado de n&oacute;minas generadas</h3>
     </div>
     <div class="table-responsive">
     <table id="dataTable" class="table table-hover table-condensed table-striped">
@@ -11,8 +11,8 @@
         <tr>
             <th>#</th>
             <th>Responsable</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
+            <th>Fecha de generaci&oacute;n</th>
+            <th>Acciones sobre la n&oacute;mina</th>
         </tr>
         </thead>
         <tbody>
@@ -22,8 +22,15 @@
             <td>{{ obj.admin.get_full_name }}</td>
             <td class="text-center"><span title="{{obj.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
             <td class="text-center actions">
-                <a href="{% url 'read_payroll' obj.pk %}" title="Ver descuentos" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
-                <a href="{% url 'read_payroll' obj.pk %}" title="Aplicar descuento" class="btn"><span class="glyphicon glyphicon-plus"></span></a>
+                <a href="{% url 'read_payroll' obj.pk %}" title="Ver n&oacute;mina en {{ PROJECT_NAME }}" class="btn">
+                <span class="glyphicon glyphicon-eye-open"></span> </a>
+
+                <a href="{% url 'generate_pdf_payroll' obj.pk %}" class="btn" title="Ver n&oacute;mina en PDF">
+                <img src="{{ STATIC_URL }}img/icon-pdf.png" alt="Ver en PDF" width="16px">
+                </a>
+                <a href="{% url 'generate_xls_payroll' obj.pk %}" class="btn" title="Ver n&oacute;mina en EXCEL">
+                <img src="{{ STATIC_URL }}img/icon-xls.png" alt="Descargar EXCEL" width="16px">
+                </a>
             </td>
         </tr>
     {% endfor %}
