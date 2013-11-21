@@ -20,7 +20,7 @@ APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", 
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"
 LOGIN_REDIRECT_URL = "/"
-FROM_EMAIL = PROJECT_NAME + " <no-reply@daiech.com>"
+FROM_EMAIL = PROJECT_NAME + " <no-reply@palmallano.net>"
 
 MANAGERS = ADMINS
 
@@ -186,3 +186,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'apps.website.context_processors.get_project_name',
     # 'apps.website.context_processors.is_debug',
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'daiech.com'
+EMAIL_PORT = '26'
+EMAIL_HOST_USER = 'mauricioaizaga@gmail.com'
+EMAIL_HOST_PASSWORD = 'kzeziyvnrndynfaj'
+EMAIL_USE_TLS = True

@@ -12,10 +12,7 @@ from django.contrib.auth.views import password_reset, password_reset_done, passw
 
 from django.utils import simplejson as json
 from django.contrib.auth.models import User
-try:
-    from django.utils.hashcompat import sha_constructor
-except:
-    from hashlib import sha256 as sha_constructor
+from hashlib import sha256 as sha_constructor
 import random
 from django.core.urlresolvers import reverse
 
