@@ -11,7 +11,7 @@ ADMINS = (
     ('Edwin Mesa', 'emesa@daiech.com'),
 )
 
-URL_BASE = "http://sglc.daiech.com"
+URL_BASE = "http://palmallano.net"
 PROJECT_NAME = "SISPALMALLANO"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
@@ -29,10 +29,10 @@ try:
 except Exception, e:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'anuncio3_sglc',
-            'USER': 'anuncio3_generic',
-            'PASSWORD': 'holamundo',
+            'ENGINE': 'django.db.backends.sqlite',
+            'NAME': 'db.sqlite',
+            'USER': '',
+            'PASSWORD': '',
             'HOST': '',
             'PORT': '',
         }
@@ -56,7 +56,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
