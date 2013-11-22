@@ -52,7 +52,12 @@ def access_required(*permission):
                 except Exception, e:
                     return HttpResponseRedirect(reverse("personal_data") + "#usuario-sin-perfil")
                 l = filter(lambda x: x.id == my_ut.id, usertype_list)
-                if len(l) > 0:
+                s = False
+                for o in usertype_list:
+                    if o.id == my_ut.id:
+                        s = True
+                        break;
+                if s:
                     return func(request, *args, **kwargs)
                 else:
                     return HttpResponseRedirect(reverse('home'))
