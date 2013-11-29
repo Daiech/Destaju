@@ -3,4 +3,6 @@ MySQL-python>=1.2.3
 reportlab>=2.7
 xhtml2pdf>=0.0.5
 pymongo>=2.6.2
-django-export-xls>=0.1
+django-export-xls>=0.1.1
+Werkzeug>=0.9.4
+django-extensions>=1.2.5

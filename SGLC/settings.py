@@ -17,6 +17,12 @@ PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
 "apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
 
+try:
+    import django_extensions
+    APPS += ["django_extensions"]
+except:
+    pass
+
 LOGIN_URL = "/cuenta/login"
 LOGOUT_URL = "/cuenta/logout"
 LOGIN_REDIRECT_URL = "/"
@@ -29,7 +35,7 @@ try:
 except Exception, e:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite',
+            'ENGINE': 'django.db.backends.sqlite3',
             'NAME': 'db.sqlite',
             'USER': '',
             'PASSWORD': '',
