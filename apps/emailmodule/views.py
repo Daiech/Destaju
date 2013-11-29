@@ -69,8 +69,10 @@ def sendEmailHtml(email_type, ctx, to, _group=None):
     msg.attach_alternative(html_content, "text/html")
     try:
         msg.send()
-    except:
-        #        print "Error al enviar correo electronico tipo: ", email_type, " con plantilla HTML."
+        print "Mensage enviado"
+    except Exception, e:
+        print e
+        print "Error al enviar correo electronico tipo: ", email_type, " con plantilla HTML."
         saveErrorLog('Ha ocurrido un error al intentar enviar un correo de tipo %s a %s' % (email_type, to))
 
 
