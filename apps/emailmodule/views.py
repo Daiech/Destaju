@@ -15,6 +15,9 @@ except Exception, e:
 import json
 
 
+from email.header import Header
+
+
 def sendEmailHtml(email_type, ctx, to, _group=None):
     """
         Este modulo esta en proceso de construccion, por el momento se utilizara este metodo que recibe
@@ -41,7 +44,7 @@ def sendEmailHtml(email_type, ctx, to, _group=None):
         plaintext = get_template('emailtest.txt')
         htmly = get_template('email_activate_account.html')
     elif email_type == 2:
-        subject = ctx['username'] + u" te invitó a " + settings.PROJECT_NAME
+        subject = u"%s te invitó a %s"%( ctx['username'],unicode(settings.PROJECT_NAME,'utf-8'))
         plaintext = get_template('emailtest.txt')
         htmly = get_template('email_project_invitation.html')
     elif email_type == 3:
@@ -66,12 +69,13 @@ def sendEmailHtml(email_type, ctx, to, _group=None):
         to = activeFilter(to)
 
     try:
-        smtp = settings.GMAIL_USER and settings.GMAIL_USER_PASS
+        smtp = settings.GMAIL_USER_PASS and settings.GMAIL_USER
     except NameError:
         smtp = None
     if smtp:
+        sendGmailEmail(to, subject, html_content)
         try:
-            sendGmailEmail(to, subject, html_content)
+            pass
         except Exception, e:
             print "Exception sendGmailEmail", e
             saveErrorLog('Ha ocurrido un error al intentar enviar un correo de tipo %s a %s' % (email_type, to))
@@ -109,9 +113,11 @@ def sendGmailEmail(to, subject, text, attach=False):
 
     msg['From'] = gmail_user
     msg['To'] = ",".join(to)
-    msg['Subject'] = subject
+    # msg['Subject'] = subject
+    msg['Subject'] = "%s" % Header(subject, 'utf-8')
 
-    msg.attach(MIMEText(text, "html"))
+    # msg.attach(MIMEText(text, "html"))
+    msg.attach(MIMEText(text, "html", 'utf-8'))
 
     if attach:
         from email import Encoders
