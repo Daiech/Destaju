@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
 from apps.account.decorators import access_required
-from django.utils import simplejson as json
+import json
 import datetime
 
 

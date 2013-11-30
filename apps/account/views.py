@@ -10,7 +10,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import password_reset, password_reset_done, password_reset_complete, password_reset_confirm
 
-from django.utils import simplejson as json
+import json
 from django.contrib.auth.models import User
 from hashlib import sha256 as sha_constructor
 import random

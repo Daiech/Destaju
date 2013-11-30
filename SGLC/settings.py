@@ -28,6 +28,9 @@ LOGOUT_URL = "/cuenta/logout"
 LOGIN_REDIRECT_URL = "/"
 FROM_EMAIL = PROJECT_NAME + " <no-reply@daiech.com>"
 
+GMAIL_USER = "palmallano.net@gmail.com"
+GMAIL_USER_PASS = "pqmokmozverdakog"
+
 MANAGERS = ADMINS
 
 try:

@@ -12,7 +12,7 @@ try:
     from apps.actions_log.views import saveActionLog, saveViewsLog, saveErrorLog
 except Exception, e:
     print "-------------------apps.actions_log Exception:", e
-from django.utils import simplejson as json
+import json
 
 
 def sendEmailHtml(email_type, ctx, to, _group=None):
@@ -65,15 +65,25 @@ def sendEmailHtml(email_type, ctx, to, _group=None):
     if email_type in actives_required_list:
         to = activeFilter(to)
 
-    msg = EmailMultiAlternatives(subject, text_content, from_email, to)
-    msg.attach_alternative(html_content, "text/html")
     try:
-        msg.send()
-        print "Mensage enviado"
-    except Exception, e:
-        print e
-        print "Error al enviar correo electronico tipo: ", email_type, " con plantilla HTML."
-        saveErrorLog('Ha ocurrido un error al intentar enviar un correo de tipo %s a %s' % (email_type, to))
+        smtp = settings.GMAIL_USER and settings.GMAIL_USER_PASS
+    except NameError:
+        smtp = None
+    if smtp:
+        try:
+            sendGmailEmail(to, subject, html_content)
+        except Exception, e:
+            print "Exception sendGmailEmail", e
+            saveErrorLog('Ha ocurrido un error al intentar enviar un correo de tipo %s a %s' % (email_type, to))
+    else:
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+        msg.attach_alternative(html_content, "text/html")
+        try:
+            msg.send()
+        except Exception, e:
+            print e
+            print "Error al enviar correo electronico tipo: ", email_type, " con plantilla HTML."
+            saveErrorLog('Ha ocurrido un error al intentar enviar un correo de tipo %s a %s' % (email_type, to))
 
 
 def activeFilter(email_list):
@@ -87,43 +97,38 @@ def activeFilter(email_list):
     return new_email_list
 
 
-@login_required(login_url='/account/login')
-def emailAjax(request, slug_group):
-    saveViewsLog(request, "groups.views.emailAjax")
-    # if request.is_ajax():
-    _email_admin_type = email_admin_type.objects.get(name='grupo')
-    from groups.views import getGroupBySlug
-    _group = getGroupBySlug(slug=slug_group)
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
 
-    if request.method == "GET":
-        try:
-            id_email_type = str(request.GET['id_email_type'])
-            input_status = str(request.GET['input_status'])
-            if input_status == "false":
-                input_status = False
-            elif input_status == "true":
-                input_status = True
-            try:
-                _email = email.objects.get(admin_type=_email_admin_type, email_type=id_email_type)
-                try:
-                    _email_group_permission = email_group_permissions.objects.get(id_user=request.user, id_group=_group, id_email_type=_email)
-                    _email_group_permission.is_active = input_status
-                    _email_group_permission.save()
-                    message = {"saved": True}
-                    return HttpResponse(json.dumps(message), mimetype="application/json")
-                except email_group_permissions.DoesNotExist:
-                    email_group_permissions(id_user=request.user, id_group=_group, id_email_type=_email, is_active=input_status).save()
-                    message = {"saved": True}
-                    return HttpResponse(json.dumps(message), mimetype="application/json")
-                except:
-                    message = False
-                    return HttpResponse(message)
-            except:
-                message = False
-                return HttpResponse(message)
-        except:
-            message = False
-            return HttpResponse(message)
-    else:
-        message = False
-        return HttpResponse(message)
+
+def sendGmailEmail(to, subject, text, attach=False):
+    gmail_user = settings.GMAIL_USER
+    gmail_pwd = settings.GMAIL_USER_PASS
+    msg = MIMEMultipart()
+
+    msg['From'] = gmail_user
+    msg['To'] = ",".join(to)
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(text, "html"))
+
+    if attach:
+        from email import Encoders
+        from email.MIMEBase import MIMEBase
+        import os
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(open(attach, 'rb').read())
+        Encoders.encode_base64(part)
+        part.add_header('Content-Disposition',
+               'attachment; filename="%s"' % os.path.basename(attach))
+        msg.attach(part)
+
+    mailServer = smtplib.SMTP("smtp.gmail.com", 587)
+    mailServer.ehlo()
+    mailServer.starttls()
+    mailServer.ehlo()
+    mailServer.login(gmail_user, gmail_pwd)
+    mailServer.sendmail(gmail_user, to, msg.as_string())
+    # Should be mailServer.quit(), but that crashes...
+    mailServer.close()
