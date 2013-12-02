@@ -1,4 +1,9 @@
 from django.conf.urls import patterns, include, url
+
+try:
+    from django.conf.urls.defaults import handler500
+except:
+    from django.conf.urls import handler500
 from apps.account.urls import account_urls
 from apps.process_admin.urls import process_admin_urls
 from apps.actions_log.urls import actions_log_urls
@@ -32,3 +37,5 @@ if settings.DEBUG:
             'document_root': settings.MEDIA_ROOT,
         }),
     )
+
+handler500 = "apps.website.views.server_error"
