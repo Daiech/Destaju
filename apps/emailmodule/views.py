@@ -69,7 +69,7 @@ def sendEmailHtml(email_type, ctx, to, _group=None):
         to = activeFilter(to)
 
     try:
-        smtp = settings.GMAIL_USER_PASS and settings.GMAIL_USER
+        smtp = settings.EMAIL_HOST_PASSWORD and settings.EMAIL_HOST_USER
     except NameError:
         smtp = None
     if smtp:
