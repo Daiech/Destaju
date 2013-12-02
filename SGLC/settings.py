@@ -207,8 +207,3 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'daiech.com'
-EMAIL_PORT = '26'
-EMAIL_HOST_USER = 'mauricioaizaga@gmail.com'
-EMAIL_HOST_PASSWORD = 'kzeziyvnrndynfaj'
-EMAIL_USE_TLS = True
