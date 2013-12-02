@@ -20,7 +20,7 @@ class ActivityForm(forms.ModelForm):
     
 class UserProfileForm(forms.ModelForm):
     """docstring for UserProfileForm"""
-    queryset_usertype = UserType.objects.exclude(pk=1).order_by('-pk').all()
+    queryset_usertype = UserType.objects.get_all_active().exclude(pk=1).order_by('-pk')
     queryset_employments = Employments.objects.all()
 
     dni = forms.CharField(label="* Cédula", validators=[], widget=forms.TextInput(attrs={'placeholder': 'Cédula de ciudadanía', 'autofocus': 'autofocus'}))

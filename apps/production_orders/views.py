@@ -18,7 +18,7 @@ import datetime
 from apps.production_orders.functions import *
 
 @login_required()
-@access_required("superadmin", "admin", "s1")
+@access_required("superadmin", "admin", "s1", "s2")
 def create_production_order(request):
     """Form to generate a production order"""
     if request.method == 'POST':
@@ -43,8 +43,8 @@ def create_production_order(request):
                 return HttpResponseRedirect(reverse(create_production_order))
         else:
             show_form = True
-#        if '_createanother' in request.POST:
-#            show_form = True
+       # if '_createanother' in request.POST:
+       #     show_form = True
     else:
         form  = ProductionOrderForm() 
     form_mode  = "_create"
@@ -53,7 +53,7 @@ def create_production_order(request):
 
 
 @login_required()
-@access_required("superadmin", "admin", "s1")
+@access_required("superadmin", "admin", "s1", "s2")
 def update_production_order(request, id_production_order):
     """Manage tools"""
     obj = get_object_or_404(ProductionOrder, pk=id_production_order)
@@ -76,7 +76,7 @@ def update_production_order(request, id_production_order):
 
 
 @login_required()
-@access_required("superadmin", "admin", "s1")
+@access_required("superadmin", "admin", "s1", "s2")
 def delete_production_order(request, id_production_order):
     """Logical deletion of tools"""
     obj = get_object_or_404(ProductionOrder, pk=id_production_order)
@@ -91,8 +91,9 @@ def generate_pdf(request,id_production_order):
     from apps.pdfmodule.views import htmlToPdf
     return HttpResponseRedirect(htmlToPdf(html_string, "pdf"))
 
+
 @login_required()
-@access_required("superadmin", "admin", "s2")
+@access_required("superadmin", "admin", "s1", "s2")
 def filling_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]) \
@@ -101,7 +102,7 @@ def filling_pro_ord(request):
 
 
 @login_required()
-@access_required("superadmin", "admin", "s2")
+@access_required("superadmin", "admin", "s1", "s2")
 def filling(request, id_production_order):
     """Form to filling a production order"""
     po = get_object_or_404(ProductionOrder, pk=id_production_order)
@@ -159,14 +160,18 @@ def filling(request, id_production_order):
     show_form =True
     return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
 
+
 @login_required()
+@access_required("superadmin", "admin", "s1")
 def qualification_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('qualification_pro_ord.html', locals(), context_instance=RequestContext(request))
 
+
 @login_required()
+@access_required("superadmin", "admin", "s1")
 def qualification(request, id_production_order):
     """Form to qualify a production order"""
     po = get_object_or_404(ProductionOrder, pk=id_production_order)
@@ -203,6 +208,7 @@ def qualification(request, id_production_order):
 
 
 @login_required()
+@access_required("superadmin", "admin", "s1")
 def list_production_orders(request):
     if request.method == 'POST':
         form = ListProductionOrderForm(request.POST)
@@ -244,7 +250,6 @@ def list_production_orders(request):
         form = ListProductionOrderForm()
         disable_excel_button = True
     return render_to_response('list_production_orders.html', locals(), context_instance=RequestContext(request))
-
 
 
 @login_required()

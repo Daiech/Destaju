@@ -12,9 +12,8 @@ def access_required(*permission):
     NAME        : CODE
     superadmin  : superadmin
     admin       : admin
-    supervisor 1: s1
-    supervisor 2: s2
-    supervisor 3: s3
+    Coordinador de supervision: s1
+    supervisor: s2
     consultor   : consultor
     empleado    : empleado
     proveedor   : proveedor"""

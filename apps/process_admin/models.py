@@ -43,19 +43,19 @@ class UserType(models.Model):
             return False
 
     def can_generate_op(self):
-        if self.pk == 1 or self.pk == 2 or self.pk == 3:
+        if self.pk == 1 or self.pk == 2 or self.pk == 3 or self.pk == 4:
             return True
         else:
             return False
 
     def can_fill_op(self):
-        if self.pk == 1 or self.pk == 2 or self.pk == 4:
+        if self.pk == 1 or self.pk == 2 or self.pk == 3 or self.pk == 4:
             return True
         else:
             return False
 
     def can_rate_op(self):
-        if self.pk == 1 or self.pk == 2 or self.pk == 5:
+        if self.pk == 1 or self.pk == 2 or self.pk == 3:
             return True
         else:
             return False
