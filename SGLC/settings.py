@@ -28,8 +28,18 @@ LOGOUT_URL = "/cuenta/logout"
 LOGIN_REDIRECT_URL = "/"
 FROM_EMAIL = PROJECT_NAME + " <no-reply@daiech.com>"
 
-GMAIL_USER = "palmallano.net@gmail.com"
-GMAIL_USER_PASS = "pqmokmozverdakog"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+try:
+    from .local_settings import EMAIL_HOST_USER as GMAIL_USER
+except:
+    EMAIL_HOST_USER = ""
+try:
+    from .local_settings import EMAIL_HOST_PASSWORD as GMAIL_USER_PASS
+except:
+    EMAIL_HOST_PASSWORD = ""
 
 MANAGERS = ADMINS
 
