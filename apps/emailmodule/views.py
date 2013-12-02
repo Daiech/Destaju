@@ -107,8 +107,8 @@ from email.MIMEText import MIMEText
 
 
 def sendGmailEmail(to, subject, text, attach=False):
-    gmail_user = settings.GMAIL_USER
-    gmail_pwd = settings.GMAIL_USER_PASS
+    gmail_user = settings.EMAIL_HOST_USER
+    gmail_pwd = settings.EMAIL_HOST_PASSWORD
     msg = MIMEMultipart()
 
     msg['From'] = gmail_user

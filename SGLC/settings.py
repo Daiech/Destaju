@@ -33,11 +33,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 try:
-    from .local_settings import EMAIL_HOST_USER as GMAIL_USER
+    from .local_settings import EMAIL_HOST_USER
 except:
     EMAIL_HOST_USER = ""
 try:
-    from .local_settings import EMAIL_HOST_PASSWORD as GMAIL_USER_PASS
+    from .local_settings import EMAIL_HOST_PASSWORD
 except:
     EMAIL_HOST_PASSWORD = ""
 
