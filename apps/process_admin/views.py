@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from django.conf import settings
 from apps.actions_log.views import save_with_modifications
+from apps.account.views import validateUsername
 from apps.account.decorators import access_required
 
 
@@ -44,9 +45,6 @@ def admin_users(request):
             _user = user_form.save()
             ## add a username
             if user_form.cleaned_data['email'] != '':
-                _user.username = _user.email
-            else:
-                from apps.account.views import validateUsername
                 _user.username = validateUsername(_user.first_name)
             ## add a username
             _user.is_active = False
@@ -115,6 +113,9 @@ def update_user(request, id_user):
 @access_required("superadmin", "admin")
 def delete_user(request, id_user):
     _user = get_object_or_404(User, pk=id_user)
+    _user.email = validateUsername(_user.email)
+    _user.username = validateUsername(_user.username)
+    _user.save()
     _user.userprofile.is_active = False
     _user.userprofile.is_active_worker = False
     _user.userprofile.save()
