@@ -11,6 +11,7 @@ from django.core import serializers
 from django.conf import settings
 from apps.actions_log.views import save_with_modifications
 from apps.account.views import validateUsername
+from apps.account.utils import validateUniqueField
 from apps.account.decorators import access_required
 
 
@@ -43,10 +44,7 @@ def admin_users(request):
         up = userprofile_form.is_valid()
         if u and up:
             _user = user_form.save()
-            ## add a username
-            if user_form.cleaned_data['email'] != '':
-                _user.username = validateUsername(_user.first_name)
-            ## add a username
+            _user.username = validateUniqueField(User, "username", _user.first_name)
             _user.is_active = False
             _user.save()
             _up = userprofile_form.save(commit=False)
@@ -113,11 +111,12 @@ def update_user(request, id_user):
 @access_required("superadmin", "admin")
 def delete_user(request, id_user):
     _user = get_object_or_404(User, pk=id_user)
-    _user.email = validateUsername(_user.email)
-    _user.username = validateUsername(_user.username)
+    _user.email = validateUniqueField(User, "email", _user.email)
+    _user.username = validateUniqueField(User, "username", _user.username)
     _user.save()
     _user.userprofile.is_active = False
     _user.userprofile.is_active_worker = False
+    _user.userprofile.dni = validateUniqueField(UserProfile, "dni", _user.userprofile.dni)
     _user.userprofile.save()
     return HttpResponseRedirect(reverse("admin_users") + "#usuario-eliminado"+ str(_user.id))
 
