@@ -11,10 +11,10 @@ from apps.actions_log.views import save_with_modifications
 from django.forms.models import modelformset_factory
 from apps.account.decorators import access_required
 from django.db.models import Max
-from django.utils import simplejson as json
 from django.http import Http404
 from django.db.models import Sum
 import datetime
+import json
 from apps.production_orders.functions import *
 
 @login_required()

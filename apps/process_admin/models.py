@@ -151,7 +151,7 @@ class UserProfile(models.Model):
             
 
 class Activities(models.Model):
-    code = models.CharField(max_length=30, verbose_name="code")
+    code = models.CharField(max_length=30,  verbose_name="code", unique=True)
     name = models.CharField(max_length=150, verbose_name="name")
     description = models.TextField(blank=True)
     measuring_unit = models.CharField(max_length=50, verbose_name="measuring_unit")

@@ -194,6 +194,20 @@ def read_modifications(request):
     return render_to_response('modifications.html', locals(), context_instance=RequestContext(request))
     
 
+def save_editinline_modifications(model, field_name, obj, last_data, user):
+    update_table_obj = UpdateTables(user=user, 
+                        table_name = obj.get_table_name(), 
+                        record_pk = obj.pk, 
+                        field = field_name,
+                        modification_number = obj.modifications + 1, 
+                        last_data = last_data,
+                        new_data = obj.__getattribute__(field_name)
+                            )
+    update_table_obj.save()
+    obj.modifications = obj.modifications + 1
+    obj.save()
+
+
 def save_with_modifications(user,form,form_obj,model):
     "This method save_simple and 2m2 the data from form and save a record with the data modified"
     obj = model.objects.get(pk=form_obj.pk)

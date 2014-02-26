@@ -18,6 +18,11 @@ PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
 "apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
 
+EDITABLES_MODEL = {
+                    "process_admin": ["Activities"]
+                }
+
+
 try:
     import django_extensions
     APPS += ["django_extensions"]

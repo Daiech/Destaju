@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load editinline %}
 {% block TITLE %}Actividades{% endblock %}
 {% block content %}
 <div class="panel panel-info">
@@ -21,8 +22,8 @@
 			<th>C&oacute;digo</th>
 			<th>Nombre</th>
 			<th>Descripci&oacute;n</th>
-			<th>Unidad de medida</th>
-			<th>Precio</th>
+			<th>Unidad medida</th>
+			<th>Precio $</th>
 			<th>Fecha Creaci&oacute;n</th>
 			<th>Mod</th>
 			<th>Ultima modificaci&oacute;n</th>
@@ -38,11 +39,11 @@
 							y no se muestra en los listados de ordenes de producci&oacute;" class="glyphicon glyphicon-ban-circle" ></span>
 				{% endif %}
 			</td>
-			<td >{{a.code}}</td>
-			<td>{{a.name}}</td>
-			<td>{{a.description}}</td>
-			<td>{{a.measuring_unit}}</td>
-			<td>${{a.value}}</td>
+			<td>{% editinline "a.code" as code %} {{ code }}</td>
+			<td class="activity_text">{% editinline "a.name" as name %} {{ name }}</td>
+			<td class="activity_text">{% editinline "a.description" as description %} {{ description }}</td>
+			<td class="show_text_box">{% editinline "a.measuring_unit" as measuring_unit %} {{ measuring_unit }}</td>
+			<td class="show_text_box">{% editinline "a.value" as value %} {{ value }}</td>
 			<td><span title="{{a.date_added}}">{{a.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center">{{a.modifications}}</td>
 			<td><span title="{{a.date_modified}}">{{a.date_modified|date:"Y/m/d G:i"}}</span></td>
@@ -109,6 +110,8 @@
 <style type="text/css">
 	.actions .btn{padding: 0;}
 	.panel-title{line-height: 34px;}
+	.editable{width: 80px;}
+	.activity_text .editable{width: 200px;text-align: left;}
 </style>
 {% endblock %}
 

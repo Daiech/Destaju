@@ -1,3 +1,4 @@
+#encoding:utf-8
 from django.conf.urls import patterns, include, url
 
 from apps.account.urls import account_urls
@@ -20,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^ordenes-de-produccion/', include(production_orders_urls)),
     url(r'^nomina/', include(payroll_urls)),
     url(r'^pdf/', include(pdfmodule_urls)),
+    url(r'^ajax/editinline$', 'apps.website.views.ajax_edit_in_line', name="edit_in_line"),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

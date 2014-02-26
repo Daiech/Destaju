@@ -12,6 +12,70 @@ if (!(window.console && console.log)) {
 }
 
 // Place any jQuery/helper plugins in here.
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+});
+$(function(){
+    function editValue (elem) {
+        var data = elem.val();
+        if(elem.attr("data-value-saved") != data){
+            var ctx = {
+                obj_id: elem.attr("data-obj-id"),
+                name: elem.attr("name"),
+                reference: elem.attr("data-reference"),
+                data: data,
+                old_data: elem.attr("data-value-saved")
+            };
+            send_ajax(
+                "/ajax/editinline",
+                ctx,
+                function (data) {
+                    console.log(data);
+                    if (data.value != "Error"){
+                        elem.attr("value", data.value);
+                        elem.attr("data-value-saved", data.value)
+                    }else{
+                        console.log('este es editinline');
+                        setAlertError(data.value, data.message)
+                    }
+                },
+                {"load_elem":"#load", "method":"post"}
+            );
+        }
+    }
+    $(document).on("keypress", "input.editable", function (e) {
+        if (e.keyCode === 13){
+            //editValue($(this));
+            $(this).blur();
+        }
+    });
+    $(document).on("blur", "input.editable", function (e) {
+        editValue($(this));
+    });
+    $(document).on("click", "input.editable", function (e) {
+        this.select();
+    });
+});
 
 function main () {
     $("a.btn-delete").on("click", function (e) {
@@ -66,6 +130,32 @@ function sendAjax(url, params, load_elem, myCallback){
             $("#ac-load").fadeOut();
         }
     );
+}
+function send_ajax(url, params, myCallback, args) {
+    if (typeof args === "undefined") {
+        load_elem = "#load";
+    } else {
+        load_elem = args.load_elem;
+    }
+    /*$(load_elem).show().html('<img src="/static/img/load16.gif" />');*/
+    $(load_elem).show().html('Cargando...');
+    if (typeof args === "undefined" || args.method === "get") {
+        $.get(url, params)
+                .done(function(data) {
+            myCallback(data);
+            $(load_elem).fadeOut();
+        }).fail(function(error) {
+            console.log(error);
+        });
+    } else if (args.method === "post") {
+        $.post(url, params)
+                .done(function(data) {
+            myCallback(data);
+            $(load_elem).fadeOut();
+        }).fail(function(error) {
+            console.log(error);
+        });
+    }
 }
 function setDataTables(id_table){
 	var oTable = $(id_table).dataTable( {

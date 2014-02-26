@@ -41,7 +41,8 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 /*close Table Plugin*/
 
 .box-container{margin: 0 auto; width: 50%;}
-
+.editable{border: none;background-color: inherit;box-sizing: border-box;font-size: 14px;color: #5f5e5e;cursor: pointer;text-align: center;}
+.show_text_box .editable{background-color: white;border: solid thin #dadada;}
 
 @media (min-width: 1280px) {
 }
