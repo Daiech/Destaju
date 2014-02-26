@@ -163,6 +163,8 @@ users = [
 ]
 from apps.process_admin.models import Activities, UserProfile, UserType
 from django.contrib.auth.models import User
+import datetime
+
 
 def charge_activities():
 	activities_list = []
@@ -178,5 +180,5 @@ def charge_users():
 	for u in users:
 		user = User.objects.create(**u)
 		print "USUARIO:", user
-		up_list.append(UserProfile(dni=user.username, user=user, user_type=empleado))
+		up_list.append(UserProfile(dni=user.username, user=user, user_type=empleado, date_born=datetime.datetime.now()))
 	UserProfile.objects.bulk_create(up_list)

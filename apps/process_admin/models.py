@@ -127,7 +127,7 @@ class UserProfile(models.Model):
     cell_phone = models.CharField(max_length=150, verbose_name="cell_phone")
     city = models.CharField(max_length=150, verbose_name="city")
     address = models.CharField(max_length=150, verbose_name="address")
-    date_born = models.DateField(null=True)
+    date_born = models.DateField(null=True, blank=True)
     is_active_worker = models.BooleanField(default=True)
 
     user = models.OneToOneField(User)
