@@ -2,6 +2,7 @@
 from django.db import models
 # from django.template import defaultfilters
 from django.contrib.auth.models import User
+from apps.process_admin.models import GenericManager
 
 #class ActivationManager(models.Manager):
 #    """
@@ -22,3 +23,7 @@ class activation_keys(models.Model):
 
     def __unicode__(self):
         return "%s: %s %s" % (self.email, self.activation_key, self.is_expired)
+
+
+
+User.add_to_class('objects', GenericManager())

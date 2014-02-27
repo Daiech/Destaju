@@ -60,7 +60,10 @@ def ajax_edit_in_line(request):
                     last_data = a.__getattribute__(obj['name'])
                     a.__setattr__(obj['name'], obj['data'])
                     a.save()
-                    save_editinline_modifications(model, obj['name'], a, last_data, request.user)
+                    try:
+                        save_editinline_modifications(model, obj['name'], a, last_data, request.user)
+                    except Exception, e:
+                        print "ERROR AL GUARDAR COPIA:", e
                     obj = {"value": obj['name'] + " " + "ha sido agregado"}
                 else:
                     print "Error"

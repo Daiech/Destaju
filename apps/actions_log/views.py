@@ -196,7 +196,7 @@ def read_modifications(request):
 
 def save_editinline_modifications(model, field_name, obj, last_data, user):
     update_table_obj = UpdateTables(user=user, 
-                        table_name = obj.get_table_name(), 
+                        table_name = model.__name__, 
                         record_pk = obj.pk, 
                         field = field_name,
                         modification_number = obj.modifications + 1, 

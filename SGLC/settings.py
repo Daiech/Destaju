@@ -19,7 +19,8 @@ APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", 
 "apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
 
 EDITABLES_MODEL = {
-                    "process_admin": ["Activities"]
+                    "process_admin": ["Activities", "UserProfile"],
+                    "auth": ["User"]
                 }
 
 

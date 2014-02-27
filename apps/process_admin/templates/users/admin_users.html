@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load editinline %}
 {% block TITLE %}Administraci&oacute;n de usuarios{% endblock %}
 {% block content %}
 	<div class="panel panel-info">
@@ -21,7 +22,8 @@
 			<thead>
 			<tr>
 				<th>Activo</th>
-				<th>Nombres/Apellidos</th>
+				<th>Apellidos</th>
+				<th>Nombres</th>
 				<th>Correo Electr&oacute;nico</th>
 				<th>C&eacute;dula</th>
 				<th>Cargo</th>
@@ -44,11 +46,12 @@
 				<a href="#" title="{{ u.get_short_name }} ya activ&oacute; su cuenta y tiene acceso como {{ u.userprofile.user_type.name }}"><span class="glyphicon glyphicon-check"></span></a>
 				{% endif %}
 				</td>
-				<td>
-				{{ u.get_full_name|title }}
+				<td class="editable_text">{% editinline "u.last_name" as last_name %} {{ last_name }}
 				</td>
-				<td>{{ u.email }}</td>
-				<td>{{ u.userprofile.dni }}</td>
+				<td class="editable_text">{% editinline "u.first_name" as first_name %} {{ first_name }}
+				</td>
+				<td class="editable_text">{% editinline "u.email" as email %} {{ email }}</td>
+				<td class="editable_dni">{% editinline "u.userprofile.dni" as userprofile %} {{ userprofile }}</td>
 				<td>{{ u.userprofile.employment.name|title }}</td>
 				<td>{{ u.userprofile.user_type.name|title }}</td>
 				<td class="text-center actions">
@@ -237,6 +240,11 @@
 <style type="text/css">
 	.actions .btn{padding: 0;}
 	.panel-title{line-height: 34px;}
+
+	.editable{width: 90px;}
+	.editable:focus{/*border: solid thin #dadada;*/background-color: white}
+	.editable_text .editable{width: 200px;text-align: left;}
+	.editable_dni .editable{text-align: left;}
 </style>
 {% endblock %}
 {% load jsonify %}
