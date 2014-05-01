@@ -12,8 +12,8 @@ ADMINS = (
     ('Catalina Aristizabal', 'cataristi2002@hotmail.com'),
 )
 
-URL_BASE = "http://palmallano.net"
-PROJECT_NAME = "SISPALMALLANO"
+URL_BASE = "http://destaju.com"
+PROJECT_NAME = "DESTAJU"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
 "apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
