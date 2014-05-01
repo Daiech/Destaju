@@ -9,7 +9,7 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     ('Mauricio Aizaga', 'maizaga@daiech.com'),
     ('Edwin Mesa', 'emesa@daiech.com'),
-    ('Catalina Aristizabal', 'cataristi2002@hotmail.com'),
+    # ('Catalina Aristizabal', 'cataristi2002@hotmail.com'),
 )
 
 URL_BASE = "http://destaju.com"
