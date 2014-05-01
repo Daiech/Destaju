@@ -1,3 +1,2 @@
 #!/bin/bash
-
-uwsgi --socket :8001 --wsgi-file sglcWsgi.py -d service.log
+uwsgi --socket :9091 --wsgi-file SGLC/wsgi.py -d service.log
