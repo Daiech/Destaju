@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% spaceless %}<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="utf-8">
@@ -29,8 +29,8 @@
         <div class="container">
 	        <div class="page-headers text-center">
         <h1>
-        <img src="{{ STATIC_URL }}img/logo.jpg" alt="" width="150px"><br>
-         {{ PROJECT_NAME }} <br> <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+        <a href="http://daiech.com"><img src="{{ STATIC_URL }}img/logo.png" alt="" width="150px"></a><br>
+         {{ PROJECT_NAME }}<br><small>{{ PROJECT_DESCRIPTION }}</small></h1>
 			</div>
 			<div class="">
 				<form class="form-signin" method="post" action="{% url 'log_in' %}">
@@ -53,3 +53,4 @@
     </div>
   </body>
 </html>
+{% endspaceless %}
