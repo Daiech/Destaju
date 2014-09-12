@@ -69,7 +69,7 @@ class QualificationProOrd(models.Model):
 
 class Filling(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
-    value = models.IntegerField(max_length=100, verbose_name="value", null=False)
+    value = models.FloatField(max_length=100, verbose_name="value", null=False)
     filling_pro_ord = models.ForeignKey(FillingProOrd,  null=False, related_name='%(class)s_filling_pro_ord')
     comments = models.TextField(blank=True)
     
@@ -83,4 +83,4 @@ class Filling(models.Model):
 #        print "obj",self.value
 #        print "Activity", self.filling_pro_ord.production_order.activity.value
 #        print "Total", int(self.value) * int(self.filling_pro_ord.production_order.activity.value)
-        return (int(self.value) * int(self.filling_pro_ord.production_order.activity.value))
+        return int(round(self.value * self.filling_pro_ord.production_order.activity.value,0))
