@@ -263,7 +263,7 @@ def set_payroll(request):
         if request.method == "GET":
             payroll_obj = Payroll(admin = request.user)
             payroll_obj.save()
-            ProductionOrder.objects.filter(status=3).update(status=4, payroll=payroll_obj)
+            ProductionOrder.objects.filter(status=3, qualificationproord__is_verified= True).update(status=4, payroll=payroll_obj)
             DiscountsApplied.objects.filter(is_active=True).update(is_active=False, payroll=payroll_obj)
             IncreasesApplied.objects.filter(is_active=True).update(is_active=False, payroll=payroll_obj)
             json_str = json.dumps({"payroll_pk":payroll_obj.pk})

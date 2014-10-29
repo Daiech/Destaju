@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block TITLE %}Ordenes de producci&oacute;n {% endblock %}
 {% block content %}
+{% load po_status %}
 <div class="panel panel-info">
 	<div class="panel-heading ">
 		<h3 id="bluePanel" class="panel-title pull-left">Consultar ordenes de producci&oacute;n</h3>
@@ -43,38 +44,12 @@
 		{% for obj in object_list %}
 		<tr>
 			<td class="text-center actions">
-				{% if obj.status == 1 %}
-				<span title="Orden generada aun no se ha llenado" class="glyphicon glyphicon-unchecked" ></span></a>
-                {% elif obj.status == 2 %}
-                <span title="Orden llena,aun no se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
-                {% elif obj.status == 3 %}
-                	{% if obj.qualificationproord.status == 1%}
-                	<span title="Orden calificada y aprobada" class="glyphicon glyphicon-ok-circle" ></span></a>
-                	{%else%}
-                	<span title="Calificada pero no aprobada" class="glyphicon glyphicon-remove-sign" ></span></a>
-                	{%endif%}
-                {% elif obj.status == 4 %}
-                <span title="En n&oacute;mina" class="glyphicon glyphicon-star" ></span></a>
-                {% else %}
-                ERROR
-                {% endif %}
+			 {% autoescape off %}
+			 	{{ obj|po_status_icon}}
+			 {% endautoescape %}
             </td>
 			<td class="text-center">
-				{% if obj.status == 1 %}
-					Generada
-				{% elif obj.status == 2 %}
-					llena
-				{% elif obj.status == 3 %}
-					{% if obj.qualificationproord.status == 1%}
-                	Calificada y Aprobada
-                	{%else%}
-                	Calificada y No Aprobada
-                	{%endif%}
-				{% elif obj.status == 4 %}
-					En n&oacute;mina
-				{% else %}
-					ERROR
-				{% endif %}
+				{{ obj|po_status_text }}
 			</td>
 			<td >{{obj.pk}}</td>
 			<td>{{obj.user.username}}</td>

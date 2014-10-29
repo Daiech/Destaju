@@ -1,6 +1,7 @@
 from apps.production_orders.models import *
 from django.utils import formats
 from django.db.models import Sum
+from templatetags.po_status import *
 
 def get_str_status(obj):
     if obj.status == 1:
@@ -46,7 +47,9 @@ def get_production_order_json(pro_ord_obj):
 
     filling_list = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj)
 
-    status = get_str_status(pro_ord_obj)
+    # status = get_str_status(pro_ord_obj)
+    status = po_status_text(pro_ord_obj)
+
 
     responsible_list=[]
     

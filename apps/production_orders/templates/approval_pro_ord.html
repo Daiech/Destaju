@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block TITLE %}Llenado de ordenes de producci&oacute;n {% endblock %}
 {% block content %}
+
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title ">Calificar ordenes de produccion</h3>
+        <h3 class="panel-title ">Verificar ordenes de produccion para n&oacute;mina</h3>
     </div>
     <div class="table-responsive">
     <table id="dataTable" class="table table-hover table-condensed table-striped">
@@ -18,7 +19,7 @@
             <th>Herramientas</th>
             <th>Responsables</th>
             <th>Fecha llenado</th>
-            <th>Fecha de calificaci&oacute;n</th>
+            <th>Fecha de verificaci&oacute;n</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -26,22 +27,31 @@
         {% for obj in object_list %}
         <tr>
             <td class="text-center actions">
-            	{% if  obj.qualificationproord.is_qualified %}
-                    <span title="Ya se califico" class="glyphicon glyphicon-ok-circle" ></span></a>
-                {% elif  obj.status == 2 or obj.status == 3 %}
-                    <span title="No se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
+            	{% if obj.status == 3 and obj.qualificationproord.is_verified %}
+                    {% if obj.qualificationproord.status = 1 %}
+            	       <span title="Ya se aprob&oacute;" class="glyphicon glyphicon-ok-circle" ></span></a>
+                    {% else %}
+                        <span title="No se ha aprobado" class="glyphicon glyphicon-remove-sign" ></span></a>                
+                    {% endif %}
+                {% elif obj.status == 2 or not obj.qualificationproord.is_verified %}
+                    <span title="No se ha verificado" class="glyphicon glyphicon-time" ></span></a>
                 {% else %}
                     ERROR
                 {% endif %}
             </td>
             <td>
-            {% if  obj.qualificationproord.is_qualified %}
-                    Calificada
-            {% elif  obj.status == 2 or obj.status == 3  %}
-                    llena
-            {% else %}
+            
+            {% if obj.status == 3 and obj.qualificationproord.is_verified %}
+                    {% if obj.qualificationproord.status = 1 %}
+                       Aprobada
+                    {% else %}
+                        No Aprobada
+                    {% endif %}
+                {% elif obj.status == 2 or not obj.qualificationproord.is_verified %}
+                    En espera
+                {% else %}
                     ERROR
-            {% endif %}
+                {% endif %}
             </td>
             <td >{{obj.pk}}</td>
             <td>{{obj.user.username}}</td>
@@ -62,12 +72,12 @@
                 </ul>
             </td>
             <td><span title="{{obj.last_filling}}">{{obj.last_filling|date:"Y/m/d G:i"}}</span></td></td>
-            <td><span title="{{obj.qualificationproord.date_qualified}}">{{obj.qualificationproord.date_qualified|date:"Y/m/d G:i"}}</span></td>
+            <td><span title="{{obj.qualificationproord.date_verified}}">{{obj.qualificationproord.date_verified|date:"Y/m/d G:i"}}</span></td>
             <td class="text-center actions">
-                {% if obj.status == 2 or not obj.qualificationproord.is_qualified %}
-                <a href="{% url 'qualification' obj.id %}" title="Calificar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-ok-circle" ></span></a>
-                {% elif obj.status == 3 and obj.qualificationproord.is_qualified %}
-                <a href="{% url 'qualification' obj.id %}" title="Editar esta calificacion orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil" ></span></a>
+                {% if obj.status == 2 or not obj.qualificationproord.is_verified  %}
+                <a href="{% url 'approval' obj.id %}" title="Calificar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-ok-circle" ></span></a>
+                {% elif obj.status == 3 and obj.qualificationproord.is_verified %}
+                <a href="{% url 'approval' obj.id %}" title="Editar esta calificacion orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil" ></span></a>
                 {% else %}
                 ERROR
                 {% endif %}

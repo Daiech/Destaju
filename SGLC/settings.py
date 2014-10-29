@@ -16,7 +16,7 @@ URL_BASE = "http://palmallano.net"
 PROJECT_NAME = "SISPALMALLANO"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
-"apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
+"apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', 'south' ]
 
 EDITABLES_MODEL = {
                     "process_admin": ["Activities", "UserProfile"],

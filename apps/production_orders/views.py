@@ -160,7 +160,7 @@ def filling(request, id_production_order):
     show_form =True
     return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
 
-
+#qualification - this acction was sepparated in 2 actions - cualifications and approval. 
 @login_required()
 @access_required("superadmin", "admin", "s1")
 def qualification_pro_ord(request):
@@ -182,6 +182,8 @@ def qualification(request, id_production_order):
                 obj = form.save(commit = False)
                 obj.user=request.user 
                 obj.production_order=po
+                obj.is_qualified = True
+                obj.date_qualified = datetime.datetime.now()
                 obj.save()
                 po.status = 3
                 po.save()
@@ -189,7 +191,10 @@ def qualification(request, id_production_order):
         elif po.status == 3:
             form =  QualificationsForm(request.POST, instance= po.qualificationproord)
             if form.is_valid():
-                form.save()
+                obj = form.save(commit = False)
+                obj.is_qualified = True
+                obj.date_qualified = datetime.datetime.now()
+                obj.save()
                 return HttpResponseRedirect(reverse(qualification_pro_ord))
         else:
             return HttpResponseRedirect(reverse(qualification_pro_ord))
@@ -198,6 +203,57 @@ def qualification(request, id_production_order):
             form =  QualificationsForm()
         elif po.status == 3:
             form =  QualificationsForm(instance = po.qualificationproord)
+        else:
+            return HttpResponseRedirect(reverse(qualification_pro_ord))
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
+    #    form_mode = "_create"
+    show_form =True
+    return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+@access_required("superadmin", "admin", "s1")
+def approval_pro_ord(request):
+    """Show the production orders with status 1:generate and 2:fulled """
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
+    return render_to_response('approval_pro_ord.html', locals(), context_instance=RequestContext(request))
+
+
+@login_required()
+@access_required("superadmin", "admin", "s1")
+def approval(request, id_production_order):
+    """Form to qualify a production order"""
+    po = get_object_or_404(ProductionOrder, pk=id_production_order)
+    if request.method == 'POST':
+        if po.status == 2:
+            form =  ApprovalForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit = False)
+                obj.user=request.user 
+                obj.production_order=po
+                obj.is_verified = True
+                obj.date_verified = datetime.datetime.now()
+                obj.save()
+                po.status = 3
+                po.save()
+                return HttpResponseRedirect(reverse(approval_pro_ord))
+        elif po.status == 3:
+            form =  ApprovalForm(request.POST, instance= po.qualificationproord)
+            if form.is_valid():
+                obj = form.save(commit = False)
+                obj.is_verified = True
+                obj.date_verified = datetime.datetime.now()
+                obj.save()
+                return HttpResponseRedirect(reverse(approval_pro_ord))
+        else:
+            return HttpResponseRedirect(reverse(approval_pro_ord))
+    else:
+        if po.status == 2:
+            form =  ApprovalForm()
+        elif po.status == 3:
+            form =  ApprovalForm(instance = po.qualificationproord)
         else:
             return HttpResponseRedirect(reverse(qualification_pro_ord))
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \

@@ -47,6 +47,9 @@
                 {% if user.userprofile.user_type.can_rate_op %}
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'qualification_pro_ord' %}">Calificaci&oacute;n de OP</a></li>
                 {% endif %}
+                {% if user.userprofile.user_type.can_rate_op %}
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'approval_pro_ord' %}">Aprobaci&oacute;n de OP</a></li>
+                {% endif %}
                 {% if user.userprofile.user_type.can_view_op %}
                 {% endif %}
               </ul>

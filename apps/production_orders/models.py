@@ -21,7 +21,7 @@ class ProductionOrder(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     activity = models.ForeignKey(Activities,  null=False, related_name='%(class)s_activity')
     place = models.ForeignKey(Places,  null=False, related_name='%(class)s_place')
-    status = models.IntegerField(default=1, choices=((1,"Generada"),(2,"Llena"),(3,"Calificada")))
+    status = models.IntegerField(default=1, choices=((1,"Generada"),(2,"Llena"),(3,"Calificada"),(4,"En nomina")))
     is_active = models.BooleanField(default=True)
     responsible = models.ManyToManyField(User)
     tools = models.ManyToManyField(Tools, null=True, blank=True)
@@ -57,9 +57,14 @@ class QualificationProOrd(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     production_order = models.OneToOneField(ProductionOrder)
     comments = models.TextField(blank=True)
-    status = models.IntegerField(default=1,  choices=((1,"Aprobada"),(2,"No aprobada")))
+    comments_value = models.TextField(blank=True)
+    status = models.IntegerField(default=2,  choices=((1,"Aprobada"),(2,"No aprobada")))
     value = models.IntegerField(default=4,  choices=((1,"Malo"),(2,"Regular"),(3,"Bueno"), (4,"Muy bueno"), (5,"Excelente")))
-    
+    is_qualified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    date_qualified = models.DateTimeField(blank=True, null=True)
+    date_verified = models.DateTimeField(blank=True, null=True)
+
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     

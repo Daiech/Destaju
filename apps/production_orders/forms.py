@@ -57,14 +57,27 @@ class QualificationsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(QualificationsForm, self).__init__(*args, **kwargs)
 
-        self.fields['status'].label = "Estado"
+        # self.fields['status'].label = "Estado"
         self.fields['value'].label = "Valor"
+        
+    comments_value = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
+
+    class Meta:
+        model = QualificationProOrd
+        fields = ('value', 'comments_value')
+
+class ApprovalForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ApprovalForm, self).__init__(*args, **kwargs)
+
+        self.fields['status'].label = "Estado"
+        # self.fields['value'].label = "Valor"
         
     comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = QualificationProOrd
-        fields = ('value', 'status', 'comments')
+        fields = ('status', 'comments')
         
 
 class ListProductionOrderForm(forms.Form):
