@@ -67,15 +67,43 @@ def get_production_order_json(pro_ord_obj):
         comments_filling = ""
         
     try:
-        comments_qualified = pro_ord_obj.qualificationproord.comments
+        comments_qualified = pro_ord_obj.qualificationproord.comments_value
     except:
         comments_qualified = ""
+
+    try:
+        comments_verified = pro_ord_obj.qualificationproord.comments
+    except:
+        comments_verified = ""
         
     try:
         total_activities_obj = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj).aggregate(total_activities=Sum('value'))
         total_activities = total_activities_obj['total_activities'] if total_activities_obj['total_activities'] else 0
     except:
         total_activities = 0
+
+    # users
+    try:
+        user_generator = pro_ord_obj.user.get_full_name()
+    except:
+        user_generator = ""
+
+    try:
+        user_filling = pro_ord_obj.fillingproord.user.get_full_name()
+    except:
+        user_filling = ""    
+
+    try:
+        user_qualification = pro_ord_obj.qualificationproord.user_value.get_full_name()
+    except:
+        user_qualification = ""
+
+    try:
+        user_approval = pro_ord_obj.qualificationproord.user.get_full_name()
+    except:
+        user_approval = ""
+
+    
         
 
     qualification  = get_str_qualification_pro_ord(pro_ord_obj)
@@ -92,7 +120,14 @@ def get_production_order_json(pro_ord_obj):
         "comments":{
             "generated": comments_generated,
             "filling": comments_filling,
-            "qualified": comments_qualified
+            "qualified": comments_qualified,
+            "verified": comments_verified
+        },
+        "user":{
+            "generator": user_generator,
+            "filling": user_filling,
+            "qualification":user_qualification,
+            "approval": user_approval
         },
         "responsible": responsible_list,
         "total": total_activities

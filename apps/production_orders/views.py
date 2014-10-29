@@ -180,7 +180,7 @@ def qualification(request, id_production_order):
             form =  QualificationsForm(request.POST)
             if form.is_valid():
                 obj = form.save(commit = False)
-                obj.user=request.user 
+                obj.user_value=request.user 
                 obj.production_order=po
                 obj.is_qualified = True
                 obj.date_qualified = datetime.datetime.now()
@@ -192,6 +192,7 @@ def qualification(request, id_production_order):
             form =  QualificationsForm(request.POST, instance= po.qualificationproord)
             if form.is_valid():
                 obj = form.save(commit = False)
+                obj.user_value=request.user 
                 obj.is_qualified = True
                 obj.date_qualified = datetime.datetime.now()
                 obj.save()
@@ -244,6 +245,7 @@ def approval(request, id_production_order):
             if form.is_valid():
                 obj = form.save(commit = False)
                 obj.is_verified = True
+                obj.user=request.user 
                 obj.date_verified = datetime.datetime.now()
                 obj.save()
                 return HttpResponseRedirect(reverse(approval_pro_ord))

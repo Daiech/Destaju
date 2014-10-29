@@ -54,7 +54,8 @@ class FillingProOrd(models.Model):
 
     
 class QualificationProOrd(models.Model):
-    user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
+    user = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user') 
+    user_value = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_value') 
     production_order = models.OneToOneField(ProductionOrder)
     comments = models.TextField(blank=True)
     comments_value = models.TextField(blank=True)
