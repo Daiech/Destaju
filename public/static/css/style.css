@@ -24,9 +24,13 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 .show_text_box .editable{background-color: white;border: solid thin #dadada;}
 
 .btn-primary {color: #ffffff;background-color: #f0ad4e;border-color: #DBA251;}
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary{background-color: #f0ad4e;border-color: #DBA251;}
-
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary,
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{background-color: #f0ad4e;border-color: #DBA251;}
+/*.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus*/
 .text-lc,.text-rc{text-align: center;}
+
+.glyphicon-log-in:before{margin-right: 5px;}
+
 
 #footer{min-height: 60px;height: auto;}
 

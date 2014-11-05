@@ -43,7 +43,7 @@
 						<span title="No es trabajador Activo" class="glyphicon glyphicon-ban-circle" ></span>
 					{% endif %}
 					{% if u.is_active %}
-				<a href="#" title="{{ u.get_short_name }} ya activ&oacute; su cuenta y tiene acceso como {{ u.userprofile.user_type.name }}"><span class="glyphicon glyphicon-check"></span></a>
+				<a href="#" title="{{ u.get_short_name }} ya activ&oacute; su cuenta y tiene acceso como {{ u.userprofile.user_type.name }}"> <span class="glyphicon glyphicon-check"></span></a>
 				{% endif %}
 				</td>
 				<td class="editable_text">{% editinline "u.last_name" as last_name %} {{ last_name }}
@@ -62,9 +62,9 @@
 						<span class="hidden">0</span>
 						<span title="Los usuarios tipo '{{ u.userprofile.user_type.name }}'' No pueden acceder a la plataforma" class="glyphicon glyphicon-log-in disabled"></span>
 					{% endif %}
-					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-eye-open"></span></a>
-					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
-					<a href="{% url 'delete_user' u.id %}" title="Eliminar este usuario" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
+					<a href="{% url 'read_user' u.id %}" title="Ver infomaci&oacute;n completa" class="btn btn-view" data-pk="{{ u.pk }}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+					<a href="{% url 'update_user' u.id %}{% if not is_active_worker %}?workers=0{% endif %}" title="Editar este usuario" class="btn"> <span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="{% url 'delete_user' u.id %}" title="Eliminar este usuario" class="btn btn-delete"> <span class="glyphicon glyphicon-remove"></span></a>
 				</td>
 			</tr>
 			{% endfor %}
