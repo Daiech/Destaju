@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ PROJECT_NAME }}, {{ PROJECT_DESCRIPTION }}">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/png" >
 
     <title>{{ PROJECT_NAME }}</title>
 
@@ -29,8 +29,10 @@
         <div class="container">
 	        <div class="page-headers text-center">
         <h1>
-        <a href="http://daiech.com"><img src="{{ STATIC_URL }}img/logo.png" alt="" width="150px"></a><br>
-         {{ PROJECT_NAME }}<br><small>{{ PROJECT_DESCRIPTION }}</small></h1>
+        <a href="http://daiech.com"><img src="{{ STATIC_URL }}img/logo-destaju.png" alt="" width="150px"></a>
+        <br>
+        <!-- {{ PROJECT_NAME }}<br> -->
+        <small>{{ PROJECT_DESCRIPTION }}</small></h1>
 			</div>
 			<div class="">
 				<form class="form-signin" method="post" action="{% url 'log_in' %}">
@@ -46,9 +48,18 @@
 
     <div id="footer">
       <div class="container">
-        <p class="text-muted credit">
-          {{ PROJECT_NAME }} <script>document.write((new Date()).getFullYear())</script> <a href="http://daiech.com">Daiech.com</a>
-        </p>
+        <div class="row-fluid">
+          <div class="col-md-6 col-sm-6 text-lc">
+            <p class="text-muted credit">
+              {{ PROJECT_NAME }} <script>document.write((new Date()).getFullYear())</script>, un producto <a href="http://www.daiech.com" target="_blank"><img src="{{ STATIC_URL }}img/daiech.png" style="width: 80px;"></a>
+            </p>
+          </div>
+          <div class="col-md-6 col-sm-6 text-rc">
+            <p class="text-muted credit">
+              powered by <a href="http://www.parquesoftpereira.com/inteligencia-de-negocios/57-daiech.html"><img src="{{ STATIC_URL }}img/logo-parquesoft.png" style="width: 100px;"></a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </body>
