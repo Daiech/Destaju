@@ -15,6 +15,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'apps.website.views.home', name='home'),
+    url(r'^conozca-destaju$', 'apps.website.views.description', name='description'),
     url(r'^cuenta/', include(account_urls)),
     url(r'^administracion/', include(process_admin_urls)),
     url(r'^historial/', include(actions_log_urls)),
