@@ -35,7 +35,7 @@ class ProductionOrder(models.Model):
     payroll = models.ForeignKey(Payroll,  null=True, related_name='%(class)s_payroll')
     
     def __unicode__(self):
-        return "%s - %s - %s - %s"%(self.user, self.activity, self.place, self.status)
+        return "%s - %s "%(self.id, self.activity.name)
     
     def get_table_name(self):
         return u"Orden de producción"

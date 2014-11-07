@@ -19,7 +19,7 @@ class GenericManager(models.Manager):
 
 class Inventory(models.Model):
 
-    tool = models.ForeignKey(Tools,  null=True, blank=True, related_name='%(class)s_tool') 
+    tool = models.ForeignKey(Tools, related_name='%(class)s_tool') 
     quantity = models.FloatField(max_length=20, verbose_name="Quantity", null=False)
 
     is_active = models.BooleanField(default=True)
@@ -33,13 +33,15 @@ class Inventory(models.Model):
     
 class ProviderOrder(models.Model):
 
-    user_generator = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_generator') 
-    user_provider = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_provider') 
+    STATUS_CHOICES =( ('Waiting','En espera'), ('Approved','Aprobada'), ('Not_Approved','No aprobada'))
+
+    user_generator = models.ForeignKey(User, related_name='%(class)s_user_generator') 
+    user_provider = models.ForeignKey(User, related_name='%(class)s_user_provider') 
     user_approver = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_approved') 
-    invoice_number = models.CharField(max_length=50, verbose_name="Invoice number", blank=True, null=True)
+    invoice_number = models.CharField(max_length=50, verbose_name="Invoice number", blank=True, null=True, default='---')
     details = models.TextField(blank=True, null=True)
-    is_approved = models.BooleanField(default=False)
-    date_approved = models.DateTimeField()
+    status_order = models.CharField(max_length=20, choices=STATUS_CHOICES,  default='Waiting')
+    date_approved = models.DateTimeField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -47,19 +49,21 @@ class ProviderOrder(models.Model):
     objects = GenericManager()
     
     def __unicode__(self):
-        return "[%s] - %s"%(self.invoice_number, self.user_generator)
+        return "%s - [%s] - %s"%(self.id, self.invoice_number, self.user_generator.get_full_name())
 
 
 class EmployedOrder(models.Model):
 
-    TYPE_CHOICES =( ('Recovery','Entrada'),    ('Output','Ingreso'))
+    TYPE_CHOICES =( ('Recovery','Entrada'),    ('Output','Salida'))
+    STATUS_CHOICES =( ('Waiting','En espera'), ('Approved','Aprobada'), ('Not_Approved','No aprobada'))
 
     user_approver = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_approver') 
-    user_generator = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_generator') 
-    production_order = models.ForeignKey(ProductionOrder,  null=True, blank=True, related_name='%(class)s_production_order') 
+    user_generator = models.ForeignKey(User, related_name='%(class)s_user_generator') 
+    production_order = models.ForeignKey(ProductionOrder, related_name='%(class)s_production_order') 
     type_order = models.CharField(max_length=15, choices=TYPE_CHOICES)
     details = models.TextField(blank=True, null=True)
-    is_approved = models.BooleanField(default=False)
+    status_order = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Waiting')
+    date_approved = models.DateTimeField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -67,15 +71,15 @@ class EmployedOrder(models.Model):
     objects = GenericManager()
     
     def __unicode__(self):
-        return "%s %s"%(self.user_generator, self.type_order)
+        return "%s - %s"%(self.id, self.user_generator.get_full_name())
     
 
 class QuantityProviderTool(models.Model):
 
-    tool = models.ForeignKey(Tools,  null=True, blank=True, related_name='%(class)s_tool') 
+    tool = models.ForeignKey(Tools, related_name='%(class)s_tool') 
     quantity = models.FloatField(max_length=20, verbose_name="Quantity", null=False)
     unit_value = models.FloatField(max_length=30, verbose_name="Unit value", null=False)
-    provider_order = models.ForeignKey(ProviderOrder,  null=True, blank=True, related_name='%(class)s_provider_order') 
+    provider_order = models.ForeignKey(ProviderOrder, related_name='%(class)s_provider_order') 
 
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -83,14 +87,14 @@ class QuantityProviderTool(models.Model):
     objects = GenericManager()
     
     def __unicode__(self):
-        return "%s: %s"%(self.tool, self.quantity)
+        return "%s - %s: %s"%(self.id, self.tool, self.quantity)
     
-    
+
 class QuantityEmployedTool(models.Model):
 
-    tool = models.ForeignKey(Tools,  null=True, blank=True, related_name='%(class)s_tool') 
+    tool = models.ForeignKey(Tools, related_name='%(class)s_tool') 
     quantity = models.FloatField(max_length=20, verbose_name="Quantity", null=False)
-    employed_order = models.ForeignKey(EmployedOrder,  null=True, blank=True, related_name='%(class)s_employed_order') 
+    employed_order = models.ForeignKey(EmployedOrder, related_name='%(class)s_employed_order') 
 
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
