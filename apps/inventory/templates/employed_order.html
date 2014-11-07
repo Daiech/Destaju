@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block TITLE %}Ordenes de producci&oacute;n {% endblock %}
+{% block content %}
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title pull-left">Ordenes de ingreso y salida para empleados</h3>
+		<div class="text-right">
+			<a  href="#" title="Haz click aqu&iacute; para ingresar un item al almacen" class="btn btn-primary btn-sm">
+    			<span class="glyphicon glyphicon-plus"></span> Ingresar items
+    		</a>
+    		<a  href="#" title="Haz click aqu&iacute; para sacar un item al almacen" class="btn btn-primary btn-sm">
+    			<span class="glyphicon glyphicon-minus"></span> Sacar items
+    		</a>
+		</div>
+	</div>
+	<div class="table-responsive">
+	<table id="dataTable" class="table table-hover table-condensed table-striped">
+		<thead>
+		<tr>
+			<th>id</th>
+			<th>Estado</th>
+			<th>Tipo</th>
+			<th>OP</th>
+			<th>Fecha</th>
+			<th>Acciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for obj_employed_order in list_employed_order %}
+		<tr>
+			<td >
+				{{obj_employed_order.id}}
+            </td>
+			<td >
+				{{obj_employed_order.get_status_order_display}}
+			</td>
+			<td>
+				{{obj_employed_order.get_type_order_display}}
+			</td>
+			<td >
+				{{obj_employed_order.production_order.id}}
+			</td>
+			
+			<td><span title="{{obj_employed_order.date_added}}">{{obj_employed_order.date_added|date:"Y/m/d G:i"}}</span></td>
+			<td class="text-center actions">
+
+				<a href="url 'update_production_order' obj.id %}" title="Ver historial" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+				
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block style %}
+<link href="{{ STATIC_URL }}css/chosen.css" rel="stylesheet">
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+	.default{ height: 25px !important;
+		width: 100% !important; }
+	
+	.search-field {
+		width: 100% !important;
+	}		
+	.search-field input{height: 25px !important;
+		}
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="{{ STATIC_URL }}js/chosen.jquery.js"></script>
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+
+		$("span").tooltip();
+
+		setDataTables('#dataTable')
+		{% if error %}
+			setAlertError("No se puede procesar la solicitud", "{{ error }}");
+		{% endif%}
+	});
+</script>
+{% endblock %}
+
+
+
+
+
+
