@@ -5,7 +5,7 @@
 	<div class="panel-heading">
 		<h3 class="panel-title pull-left">Ordenes de ingreso para proveedores</h3>
 		<div class="text-right">
-			<a  href="#" title="Haz click aqu&iacute; para ingresar un item al almacen" class="btn btn-primary btn-sm">
+			<a  id="add_item" href="#formModal" title="Haz click aqu&iacute; para ingresar un item al almacen" data-toggle="modal" class="btn btn-primary btn-sm">
     			<span class="glyphicon glyphicon-plus"></span> Ingresar items
     		</a>
 		</div>
@@ -50,7 +50,50 @@
 	</div>
 </div>
 
-
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+					INGRESAR ITEM AL ALMACCEN
+				</h4>
+			</div>
+			<form method = "POST"  enctype="multipart/form-data" id="Form">
+			{% csrf_token %}
+			{{ formset.management_form }}
+			<div class="modal-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title ">
+							AGREGAR ITEMS AL INVENTARIO
+						</h3>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+                    <tr><td colspan="2">{{ form.user_provider }}{{ form.user_provider.errors }}</td><td >{{ form.invoice_number }}{{ form.invoice_number.errors }}</td></tr>
+                    <tr><td colspan="3">{{ form.details }}{{ form.details.errors }}</td></tr>
+                    {% for form in formset %}
+                         <tr>
+                            {{ form.id }}
+                            <td>{{ form.tool }}{{ form.toool.errors }}</td>
+                            <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
+                            <td>{{ form.unit_value }}{{ form.unit_value.errors }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				{% if form_mode == "_create" %}
+				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
+				{% endif %}		        
+		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		    </div>
+		    </form>
+		</div>
+	</div>
+</div>
 {% endblock %}
 
 {% block style %}
@@ -75,7 +118,15 @@
 	
 	$(document).ready(function(){
 
+		{% if show_form %}
+			$('#formModal').modal('show');
+		{% endif %}
 		$("span").tooltip();
+
+		
+        $('#formModal').on('hidden.bs.modal', function () {
+            top.location = "{% url 'list_provider_order' %}"
+        });
 
 		setDataTables('#dataTable')
 		{% if error %}

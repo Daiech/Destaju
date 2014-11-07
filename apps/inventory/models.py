@@ -79,7 +79,7 @@ class QuantityProviderTool(models.Model):
     tool = models.ForeignKey(Tools, related_name='%(class)s_tool') 
     quantity = models.FloatField(max_length=20, verbose_name="Quantity", null=False)
     unit_value = models.FloatField(max_length=30, verbose_name="Unit value", null=False)
-    provider_order = models.ForeignKey(ProviderOrder, related_name='%(class)s_provider_order') 
+    provider_order = models.ForeignKey(ProviderOrder, null=True, blank=True, related_name='%(class)s_provider_order') 
 
     is_active = models.BooleanField(default=True)
     date_added = models.DateTimeField(auto_now_add=True)
