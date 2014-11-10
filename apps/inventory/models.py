@@ -55,7 +55,7 @@ class ProviderOrder(models.Model):
 class EmployedOrder(models.Model):
 
     TYPE_CHOICES =( ('Recovery','Entrada'),    ('Output','Salida'))
-    STATUS_CHOICES =( ('Waiting','En espera'), ('Approved','Aprobada'), ('Not_Approved','No aprobada'))
+    STATUS_CHOICES =( ('Waiting','En espera'), ('Approved','Aprobada'), ('Not_Approved','Rechazada'))
 
     user_approver = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_approver') 
     user_generator = models.ForeignKey(User, related_name='%(class)s_user_generator') 
