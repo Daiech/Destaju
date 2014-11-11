@@ -30,6 +30,21 @@ class Inventory(models.Model):
     def __unicode__(self):
         return "%s: %s"%(self.tool, self.quantity)
 
+    def get_unit_value(self):
+        quantitiprovidertool_list = QuantityProviderTool.objects.filter(tool=self.tool, is_active=True, provider_order__status_order="Approved")
+        c1 = 0
+        c2 = 0
+        for quantitiprovidertool_obj in quantitiprovidertool_list:
+            c1 = c1+quantitiprovidertool_obj.quantity
+            c2 = c2 + quantitiprovidertool_obj.quantity*quantitiprovidertool_obj.unit_value
+        if c1 == 0:
+            return 0
+        else:
+            return c2/c1
+
+    def get_total_value(self):
+        return self.get_unit_value()*self.quantity 
+
     
 class ProviderOrder(models.Model):
 
@@ -88,6 +103,7 @@ class QuantityProviderTool(models.Model):
     
     def __unicode__(self):
         return "%s - %s: %s"%(self.id, self.tool, self.quantity)
+
     
 
 class QuantityEmployedTool(models.Model):

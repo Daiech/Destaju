@@ -14,8 +14,9 @@
 	<table id="dataTable" class="table table-hover table-condensed table-striped">
 		<thead>
 		<tr>
-			<th>id</th>
+			<th></th>
 			<th>Estado</th>
+			<th>id</th>
 			<th># Factura</th>
 			<th>Proveedor</th>
 			<th>Fecha</th>
@@ -25,11 +26,23 @@
 		<tbody>
 		{% for obj_provider_order in list_provider_order %}
 		<tr>
+			<td>
+				{% if obj_provider_order.status_order == "Waiting" %}
+					<span class="glyphicon glyphicon-time"></span>
+				{% elif obj_provider_order.status_order == "Approved" %}
+					<span class="glyphicon glyphicon-ok"></span>
+				{% elif obj_provider_order.status_order == "Not_Approved" %}
+					<span class="glyphicon glyphicon-remove"></span>
+				{% else %} 
+					<span class="glyphicon glyphicon-remove-sign"></span>
+				{% endif %}
+			</td>
+			<td >
+				{{obj_provider_order.get_status_order_display}}
+			</td >
 			<td >
 				{{obj_provider_order.id}}
             </td>
-			<td >
-				{{obj_provider_order.get_status_order_display}}
 			<td>
 				{{obj_provider_order.invoice_number}}
 			</td>
@@ -40,7 +53,11 @@
 			<td><span title="{{obj_provider_order.date_added}}">{{obj_provider_order.date_added|date:"Y/m/d G:i"}}</span></td>
 
 			<td class="text-center actions">
-				<a href="{% url 'list_provider_order' %}?provider_order_id={{ obj_provider_order.id }}" title="Ver historial" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+				<a href="{% url 'list_provider_order' %}?provider_order_id={{ obj_provider_order.id }}" title="Ver orden" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+				{% if obj_provider_order.status_order == "Waiting" %}
+					<a href="{% url 'approve_provider_order' %}?provider_order_id={{ obj_provider_order.id }}"  title="Aprobar orden" class="btn"> <span class="glyphicon glyphicon-ok"></span> </a>
+					<a href="{% url 'reject_provider_order' %}?provider_order_id={{ obj_provider_order.id }}"  title="Rechazar orden" class="btn"> <span class="glyphicon glyphicon-remove"></span> </a>
+				{% endif %}
 			</td>
 		</tr>
 		{% endfor %}
@@ -83,10 +100,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				{% if form_mode == "_create" %}
-				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
-				{% endif %}		        
-		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
+		        <button type="submit" class="btn btn-primary" >Guardar</button>
 		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
 		    </div>
 		    </form>
@@ -142,8 +156,8 @@
 			</div>
 			<div class="modal-footer">
 				{% if provider_order_obj.status_order == "Waiting" %}
-					<a href="#"  class="btn btn-primary" name="_create"> <span class="glyphicon glyphicon glyphicon-ok"></span> Aprobar</a>
-					<a href="#"  class="btn btn-primary" name="_create"> <span class="glyphicon glyphicon-remove"></span> Rechazar</a>
+					<a href="{% url 'approve_provider_order' %}?provider_order_id={{ provider_order_obj.id }}"  class="btn btn-primary" > <span class="glyphicon glyphicon-ok"></span> Aprobar</a>
+					<a href="{% url 'reject_provider_order' %}?provider_order_id={{ provider_order_obj.id }}"  class="btn btn-primary" > <span class="glyphicon glyphicon-remove"></span> Rechazar</a>
 				{% endif %}
 		        
 		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
