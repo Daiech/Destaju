@@ -5,11 +5,11 @@
 	<div class="panel-heading">
 		<h3 class="panel-title pull-left">Ordenes de ingreso y salida para empleados</h3>
 		<div class="text-right">
-			<a  href="#" title="Haz click aqu&iacute; para ingresar un item al almacen" class="btn btn-primary btn-sm">
-    			<span class="glyphicon glyphicon-plus"></span> Ingresar items
-    		</a>
-    		<a  href="#" title="Haz click aqu&iacute; para sacar un item al almacen" class="btn btn-primary btn-sm">
-    			<span class="glyphicon glyphicon-minus"></span> Sacar items
+			<!-- <a id="recovery_item"  href="#employedModal"  title="Haz click aqu&iacute; para ingresar un item al almacen" data-toggle="modal" class="btn btn-primary btn-sm">
+    			
+    		</a> -->
+    		<a  href="#employedFormModal"  title="Haz click aqu&iacute; para sacar un item al almacen" data-toggle="modal" class="btn btn-primary btn-sm">
+    			 <span class="glyphicon glyphicon-plus"></span> Devolver  /  <span class="glyphicon glyphicon-minus"></span> Sacar 
     		</a>
 		</div>
 	</div>
@@ -44,15 +44,141 @@
 			<td><span title="{{obj_employed_order.date_added}}">{{obj_employed_order.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center actions">
 
-				<a href="url 'update_production_order' obj.id %}" title="Ver historial" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
-				
+				<a href="{% url 'list_employed_order' %}?employed_order_id={{ obj_employed_order.id }}" title="Ver orden" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+				{% if obj_employed_order.status_order == "Waiting" %}
+					
+					<a href="{% url 'approve_employed_order' %}?employed_order_id={{ obj_employed_order.id }}"  title="Aprobar orden" class="btn"> <span class="glyphicon glyphicon-ok"></span> </a>
+					
+					<a href="{% url 'reject_employed_order' %}?employed_order_id={{ obj_employed_order.id }}"  title="Rechazar orden" class="btn"> <span class="glyphicon glyphicon-remove"></span> </a>
+				{% endif %}
 			</td>
+
 		</tr>
 		{% endfor %}
 	</tbody>
 	</table>
 	</div>
 </div>
+
+<div class="modal fade" id="employedOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+					ORDEN DE INGRESO Y SALIDA
+				</h4>
+			</div>
+		
+			<div class="modal-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title ">
+							ORDEN DE EMPLEADOS
+						</h3>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+					<tr><td><strong>Tipo </strong></td><td >{{ employed_order_obj.get_type_order_display}}</td></tr>
+					<tr><td><strong>Estado </strong></td><td >{{ employed_order_obj.get_status_order_display}}</td></tr>
+					<tr><td><strong>OP </strong></td><td >{{ employed_order_obj.production_order.id}}</td></tr>
+					<tr><td><strong>Generada por: </strong></td><td >{{ employed_order_obj.user_generator}}</td></tr>
+                    <tr><td><strong>Responsables: </strong></td><td >
+                    	<ul>
+                    		{% for responsible_obj in employed_order_obj.production_order.responsible.all %} 
+                    			<li> {{ responsible_obj.get_full_name}} </li> 
+                    		{% endfor %} 
+                    	</ul>
+                    	</td></tr>
+                    <tr><td><strong>Detalles: </strong></td><td >{{ employed_order_obj.details}}</td></tr>
+                    <tr><td><strong>Fecha generacion: </strong></td><td >{{ employed_order_obj.date_added}}</td></tr>
+                    {% if not employed_order_obj.status_order == "Waiting" %}
+                    <tr><td><strong>Responsable de aprobar: </strong></td><td >{{ employed_order_obj.user_approver}}</td></tr>
+                    <tr><td><strong>Fecha aprobaci&oacute;n/rechazo: </strong></td><td >{{ employed_order_obj.date_approved}}</td></tr>
+                    {% endif %}
+                    </table>
+                    <div class="panel-heading">
+						<h3 class="panel-title ">
+							ITEMS
+						</h3>
+					</div>
+                    <table class="table table-hover table-condensed table-striped">
+                    <tr><th>Item</th><th>Cantidad</th></tr>
+                    {% for quantity_order_obj in employed_order_obj.quantityemployedtool_employed_order.all %}
+                         <tr>
+                            <td>{{ quantity_order_obj.tool }}</td>
+                            <td>{{ quantity_order_obj.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				{% if employed_order_obj.status_order == "Waiting" %}
+					<a href="{% url 'approve_employed_order' %}?employed_order_id={{ employed_order_obj.id }}"  class="btn btn-primary" > <span class="glyphicon glyphicon-ok"></span> Aprobar</a>
+					<a href="{% url 'reject_employed_order' %}?employed_order_id={{ employed_order_obj.id }}"  class="btn btn-primary" > <span class="glyphicon glyphicon-remove"></span> Rechazar</a>
+				{% endif %}
+		        
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		    </div>
+		    
+		</div>
+	</div>
+</div>
+
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+<div class="modal fade" id="employedFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+					INGRESAR ITEM AL ALMACCEN
+				</h4>
+			</div>
+			<form method = "POST"  enctype="multipart/form-data" id="Form">
+			{% csrf_token %}
+			{{ formset.management_form }}
+			<div class="modal-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title ">
+							AGREGAR ITEMS AL INVENTARIO
+						</h3>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+                    <tr><td>OP</td><td colspan="2">{{ form.production_order }}{{ form.production_order.errors }}</td></tr>
+                    <tr><td>Tipo</td><td colspan="2">{{ form.type_order }}{{ form.type_order.errors }}</td></tr>
+                    <tr><td colspan="3">{{ form.details }}{{ form.details.errors }}</td></tr>
+                    
+                    </table>
+                    <table class="table table-hover table-condensed table-striped">
+                    <tr>
+                    	<th>Item</th>
+                    	<th>Cantidad</th>
+                    </tr>
+                    {% for form in formset %}
+                         <tr>
+                            {{ form.id }}
+                            <td>{{ form.tool }}{{ form.tool.errors }}</td>
+                            <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+				</div>
+			</div>
+			<div class="modal-footer">
+		        <button type="submit" class="btn btn-primary" >Guardar</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		    </div>
+		    
+		    </form>
+		</div>
+	</div>
+</div>
+
+
+
 
 
 {% endblock %}
@@ -81,8 +207,17 @@
 
 		$("span").tooltip();
 
+		{% if show_employed_order_modal %}
+			$('#employedOrderModal').modal('show');
+		{% endif %}
+
+		{% if show_form %}
+			$('#employedFormModal').modal('show');
+		{% endif %}
+
 		setDataTables('#dataTable')
 		{% if error %}
+			console.log("ERROR","{{ error }}")
 			setAlertError("No se puede procesar la solicitud", "{{ error }}");
 		{% endif%}
 	});

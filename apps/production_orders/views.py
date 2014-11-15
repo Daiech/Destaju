@@ -17,36 +17,61 @@ import datetime
 import json
 from apps.production_orders.functions import *
 
+from apps.inventory.models import Inventory, ProviderOrder, EmployedOrder, QuantityProviderTool, QuantityEmployedTool
+from apps.inventory.forms import ProviderOrderForm, QuantityProviderToolForm, QuantityEmployedToolForm
+
 @login_required()
 @access_required("superadmin", "admin", "s1", "s2")
 def create_production_order(request):
     """Form to generate a production order"""
+    
     if request.method == 'POST':
+        QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm)
+        formset =  QuantityEmployedToolFormSet(request.POST)
         form  = ProductionOrderForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.user = request.user
-            obj.save()
-            
-            for tool in request.POST.getlist('tools'):
-                obj.tools.add(tool)
+        if formset.is_valid():
+            if form.is_valid():
+                productionorder_obj = form.save(commit=False)
+                productionorder_obj.user = request.user
+                productionorder_obj.save()
                 
-            for user in request.POST.getlist('responsible'):
-                obj.responsible.add(user)
+                # for tool in request.POST.getlist('tools'):
+                #     productionorder_obj.tools.add(tool)
+                    
+                for user in request.POST.getlist('responsible'):
+                    productionorder_obj.responsible.add(user)
 
-            form.save_m2m()
+                form.save_m2m()
 
-            form = ProductionOrderForm()
-            if '_createanother' in request.POST:
-                show_form = True
+                # Quantity employed order
+                quantityemployedtool_list = formset.save(commit=False)
+
+                if len(quantityemployedtool_list) > 0:
+                    # Employed Order
+                    employedorder_obj = EmployedOrder(user_generator = request.user,  production_order=productionorder_obj, type_order='Output', status_order="Waiting", details=productionorder_obj.comments )
+                    employedorder_obj.save()
+                
+                    for quantityemployedtool_obj in quantityemployedtool_list:
+                        quantityemployedtool_obj.employed_order = employedorder_obj
+                
+                
+                    formset.save()
+
+                form = ProductionOrderForm()
+
+                if '_createanother' in request.POST:
+                    show_form = True
+                else:
+                    return HttpResponseRedirect(reverse(create_production_order))
             else:
-                return HttpResponseRedirect(reverse(create_production_order))
+                show_form = True
         else:
             show_form = True
-       # if '_createanother' in request.POST:
-       #     show_form = True
     else:
         form  = ProductionOrderForm() 
+        QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=5)
+        qs = QuantityEmployedTool.objects.none()
+        formset =  QuantityEmployedToolFormSet(queryset = qs) # initial=responsible,
     form_mode  = "_create"
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
     return render_to_response('production_order.html', locals(), context_instance=RequestContext(request))
@@ -56,18 +81,54 @@ def create_production_order(request):
 @access_required("superadmin", "admin", "s1", "s2")
 def update_production_order(request, id_production_order):
     """Manage tools"""
-    obj = get_object_or_404(ProductionOrder, pk=id_production_order)
-    if obj.status == 1:
+    productionorder_obj = get_object_or_404(ProductionOrder, pk=id_production_order)
+
+    if productionorder_obj.status == 1:
         if request.method == "POST":
-            form = ProductionOrderForm(request.POST, instance=obj)
-            if form.is_valid():
-                save_with_modifications(request.user, form, obj, ProductionOrder)
+            QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm)
+            formset =  QuantityEmployedToolFormSet(request.POST)
+            form = ProductionOrderForm(request.POST, instance=productionorder_obj)
+            if form.is_valid() and formset.is_valid():
+
+                 # Quantity employed order
+                quantityemployedtool_list = formset.save(commit=False)
+
+                if len(quantityemployedtool_list) > 0:
+                    # Employed Order
+                    employedorder_obj = EmployedOrder(user_generator = request.user,  production_order=productionorder_obj, type_order='Output', status_order="Waiting", details=productionorder_obj.comments )
+                    employedorder_obj.save()
+                
+                    for quantityemployedtool_obj in quantityemployedtool_list:
+                        quantityemployedtool_obj.employed_order = employedorder_obj
+                
+                    reject_employedorder_list = EmployedOrder.objects.filter(production_order=productionorder_obj, status_order="Waiting").exclude(id=employedorder_obj.id)
+                    for reject_employedorder_obj in reject_employedorder_list:
+                        reject_employedorder_obj.status_order='Not_Approved_OP'
+                        reject_employedorder_obj.user_approver = request.user
+                        reject_employedorder_obj.date_approved = datetime.datetime.now()
+                        reject_employedorder_obj.save()
+
+                    formset.save()
+
+                save_with_modifications(request.user, form, productionorder_obj, ProductionOrder)
                 return HttpResponseRedirect(reverse(create_production_order))
             else:
                 show_form = True
         else:
+            QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=5)
+            employedorder_obj = EmployedOrder.objects.filter(production_order=productionorder_obj).last()
+
+
+
+            qs = QuantityEmployedTool.objects.filter(employed_order=employedorder_obj)
+            
+            quantityemployedtool_list = []
+            for quantityemployedtool_obj in qs:
+                quantityemployedtool_list.append({'tool':quantityemployedtool_obj.tool.id,'quantity':quantityemployedtool_obj.quantity})
+            
+            formset =  QuantityEmployedToolFormSet(queryset = QuantityEmployedTool.objects.none(), initial=quantityemployedtool_list) # initial=responsible, queryset = qs
             show_form = True
-            form = ProductionOrderForm(instance=obj)
+            form = ProductionOrderForm(instance=productionorder_obj)
         form_mode = "_update"
     else:
         return HttpResponseRedirect(reverse(create_production_order))
@@ -300,7 +361,6 @@ def list_production_orders(request):
                         )   
                     )
                 name_file = str(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M'))
-                # print name_file
                 return export_xlwt("op_"+(name_file), fields, values_list)
         else:
             disable_excel_button = True

@@ -19,17 +19,17 @@ class ProductionOrderForm(forms.ModelForm):
     queryset_activity = Activities.objects.filter(is_active=True,is_available=True)
     queryset_place = Places.objects.filter(is_active=True, is_available=True)
     queryset_responsable = User.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk = 7)
-    queryset_tools = Tools.objects.filter(is_active=True, is_available=True) 
+    # queryset_tools = Tools.objects.filter(is_active=True, is_available=True) 
     
     activity = forms.ModelChoiceField(label="Actividad", queryset=queryset_activity, empty_label=None)
     place = forms.ModelChoiceField(label="Lugar", queryset=queryset_place, empty_label=None)
     responsible = forms.ModelMultipleChoiceField(label="Responsables", queryset=queryset_responsable,  widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona los responsables"}))
-    tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False, widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona las herramientas"}))
+    # tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False, widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona las herramientas"}))
     comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = ProductionOrder
-        fields = ('activity', 'place', 'responsible', 'tools', 'comments')
+        fields = ('activity', 'place', 'responsible', 'comments')
 
 
 class FillingForm(forms.ModelForm):

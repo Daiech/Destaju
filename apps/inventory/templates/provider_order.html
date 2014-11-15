@@ -88,10 +88,17 @@
 					<table class="table table-hover table-condensed table-striped">
                     <tr><td colspan="2">{{ form.user_provider }}{{ form.user_provider.errors }}</td><td >{{ form.invoice_number }}{{ form.invoice_number.errors }}</td></tr>
                     <tr><td colspan="3">{{ form.details }}{{ form.details.errors }}</td></tr>
+                    </table>
+                    <table class="table table-hover table-condensed table-striped">
+                    <tr>
+                    	<th>Item</th>
+                    	<th>Cantidad</th>
+                    	<th>Valor unitario</th>
+                    </tr>
                     {% for form in formset %}
                          <tr>
                             {{ form.id }}
-                            <td>{{ form.tool }}{{ form.toool.errors }}</td>
+                            <td>{{ form.tool }}{{ form.tool.errors }}</td>
                             <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
                             <td>{{ form.unit_value }}{{ form.unit_value.errors }}</td>
                         </tr>

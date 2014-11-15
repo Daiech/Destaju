@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block TITLE %}Ordenes de producci&oacute;n {% endblock %}
 {% block content %}
+{% load humanize %}
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<h3 class="panel-title ">Inventario</h3>
@@ -35,20 +36,21 @@
 			<td >
 				{{obj_inventory.tool.name}}
             </td>
-			<td >
-				{{obj_inventory.quantity}}
+			<td class="text-right" >
+				{{obj_inventory.quantity|floatformat:0|intcomma}}
 			</td>
-			<td >
-				{{obj_inventory.get_unit_value}}
+			<td class="text-right" >
+				$ {{obj_inventory.get_unit_value|floatformat:0|intcomma}}
 			</td>
-			<td>
-				{{obj_inventory.get_total_value}}
+			<td class="text-right" >
+				$ {{obj_inventory.get_total_value|floatformat:0|intcomma}}
 			</td>
-			
-			<td><span title="{{obj.date_modified}}">{{obj_inventory.date_modified|date:"Y/m/d G:i"}}</span></td>
+			<td class="text-right">
+				<span title="{{obj_inventory.date_modified}}">{{obj_inventory.date_modified|date:"Y/m/d G:i"}}</span>
+			</td>
 			<td class="text-center actions">
 				
-				<a href="url 'update_production_order' obj.id %}" title="Ver historial" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a href="{% url 'list_item_history' %}?tool_id={{ obj_inventory.tool.id }}" title="Ver historial de item" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
 				
 			</td>
 		</tr>
