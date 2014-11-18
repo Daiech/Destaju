@@ -107,8 +107,8 @@ def list_item_history(request):
     
     print inventory_obj
 
-    quantityprovidertool_list = QuantityProviderTool.objects.filter(tool__id=tool_id,provider_order__status_order="Approved")
-    quantityemployedtool_list = QuantityEmployedTool.objects.filter(tool__id=tool_id) #provider_order__status_order="Approved"
+    quantityprovidertool_list = QuantityProviderTool.objects.filter(tool__id=tool_id, provider_order__status_order="Approved")
+    quantityemployedtool_list = QuantityEmployedTool.objects.filter(tool__id=tool_id, employed_order__status_order="Approved") #provider_order__status_order="Approved"
     # print quantityprovidertool_list
     return render_to_response('item_history.html', locals(), context_instance=RequestContext(request))
 
