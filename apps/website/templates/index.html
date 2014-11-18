@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="{{ PROJECT_NAME }}, {{ PROJECT_DESCRIPTION }}">
     <meta name="author" content="">
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/png" >
@@ -28,11 +28,11 @@
         <!-- Begin page content -->
         <div class="container">
 	        <div class="page-headers text-center">
-            <h1>
-            <a href="http://daiech.com"><img src="{{ STATIC_URL }}img/logo-destaju.png" alt="" width="150px"></a>
-            <br>
-            <!-- {{ PROJECT_NAME }}<br> -->
-            <small>{{ PROJECT_DESCRIPTION }}</small></h1>
+            <a href="http://destaju.com/agro"><img src="{{ STATIC_URL }}img/logo-destaju.png" alt="" width="150px"></a>
+            <h1><span class="hidden">{{ PROJECT_NAME }}</span><small>{{ PROJECT_DESCRIPTION }}</small></h1>
+            <p>Prueba el demo sin ningún costo.</p>
+            <p><span>usuario:</span> Tester<br><span>Contraseña:</span> Tester</p>
+            <small>* Todos los datos son eliminados periodicamente.</small>
     			</div>
     			<div class="">
     				<form class="form-signin" method="post" action="{% url 'log_in' %}">
@@ -44,7 +44,7 @@
     				</form>
     			</div>
           <div class="text-center">
-            <a href="{% url 'description' %}" class="btn btn-link">¿Quiere saber más?</a>
+            <a href="{% url 'description' %}" class="btn btn-default">¿Quiere saber más?</a>
           </div>
         </div>
     </div>
