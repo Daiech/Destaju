@@ -73,7 +73,7 @@ def create_production_order(request):
         qs = QuantityEmployedTool.objects.none()
         formset =  QuantityEmployedToolFormSet(queryset = qs) # initial=responsible,
     form_mode  = "_create"
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]).order_by('-date_added')
     return render_to_response('production_order.html', locals(), context_instance=RequestContext(request))
 
 

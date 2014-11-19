@@ -32,3 +32,16 @@
 	{% endfor %}
 	<tr><td >Total</td><td class="text-right"><strong>{{ production_order_json.total }}</strong></td><td></td></tr>
 </table>
+<div class="panel-heading">
+	<h3 class="panel-title">
+		Ordenes de items de inventario
+	</h3>
+</div>
+<table class="table table-hover table-condensed table-striped">
+	{% for employed_order in production_order_json.employed_orders_output_approved %}
+	<tr><td colspan="3"><strong>No. Orden: {{ employed_order.id}} / {{ employed_order.status_order }} / {{ employed_order.type_order }} </strong></td></tr>
+		{% for item in employed_order.items %}
+			<tr><td ></td><td class="text-right">{{ item.name }}</td><td class="text-right" >{{ item.quantity }}</td></tr>
+		{% endfor %}
+	{% endfor %}
+</table>

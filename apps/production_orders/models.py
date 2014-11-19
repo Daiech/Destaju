@@ -40,6 +40,12 @@ class ProductionOrder(models.Model):
     def get_table_name(self):
         return u"Orden de producción"
 
+    def get_employed_orders_output_approved(self):
+        return self.employedorder_production_order.get_all_active().order_by('-date_added')
+
+    def get_employed_orders_for_op(self):
+        return self.employedorder_production_order.get_all_active().filter(status_order="Waiting",type_order="Output").order_by('-date_added')
+
 
 class FillingProOrd(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user')

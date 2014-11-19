@@ -109,6 +109,18 @@ def get_production_order_json(pro_ord_obj):
     qualification  = get_str_qualification_pro_ord(pro_ord_obj)
     
 
+    employed_orders_output_approved = []
+
+    for employed_order in pro_ord_obj.get_employed_orders_output_approved() :
+        employed_orders_output_approved.append({
+            "id":employed_order.id, 
+            "status_order":employed_order.get_status_order_display(),
+            "type_order":employed_order.get_type_order_display(), 
+            "items": [{"name": item.tool.name, "quantity": item.quantity } for item in employed_order.quantityemployedtool_employed_order.all()] 
+            })
+
+    print "OPOPOP", pro_ord_obj.get_employed_orders_output_approved()
+
     json_dict = {
         "pk": pro_ord_obj.pk,
         "status":  status,
@@ -130,6 +142,7 @@ def get_production_order_json(pro_ord_obj):
             "approval": user_approval
         },
         "responsible": responsible_list,
-        "total": total_activities
+        "total": total_activities,
+        "employed_orders_output_approved": employed_orders_output_approved
     }
     return json_dict  
