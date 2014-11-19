@@ -1,4 +1,4 @@
-{% extends "qualification_pro_ord.html" %}
+{% extends "approval_pro_ord.html" %}
 
 {% block modal%}
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
@@ -7,7 +7,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4>
-                CALIFICAR ORDEN DE PRODUCCI&Oacute;N
+                APROBAR ORDEN DE PRODUCCI&Oacute;N
                 </h4>
                 Actividad: {{ po.activity.name }}
             </div>
@@ -18,7 +18,7 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            Formulario para calificar ordenes de producci&oacute;n
+                            Formulario para aprobar ordenes de producci&oacute;n para n&oacute;mina
                         </h3>
                     </div>
                     <table class="table table-hover table-condensed table-striped">

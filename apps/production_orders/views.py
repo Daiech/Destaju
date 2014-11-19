@@ -69,7 +69,7 @@ def create_production_order(request):
             show_form = True
     else:
         form  = ProductionOrderForm() 
-        QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=5)
+        QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=10)
         qs = QuantityEmployedTool.objects.none()
         formset =  QuantityEmployedToolFormSet(queryset = qs) # initial=responsible,
     form_mode  = "_create"
@@ -115,7 +115,7 @@ def update_production_order(request, id_production_order):
             else:
                 show_form = True
         else:
-            QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=5)
+            QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=10)
             employedorder_obj = EmployedOrder.objects.filter(production_order=productionorder_obj).last()
 
 
@@ -132,7 +132,7 @@ def update_production_order(request, id_production_order):
         form_mode = "_update"
     else:
         return HttpResponseRedirect(reverse(create_production_order))
-    object_list = ProductionOrder.objects.get_all_active()
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
     return render_to_response("production_order.html", locals(), context_instance=RequestContext(request))
 
 
@@ -271,6 +271,7 @@ def qualification(request, id_production_order):
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     #    form_mode = "_create"
     show_form =True
+    production_order_json = get_production_order_json(po)
     return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
 
 
@@ -318,12 +319,13 @@ def approval(request, id_production_order):
         elif po.status == 3:
             form =  ApprovalForm(instance = po.qualificationproord)
         else:
-            return HttpResponseRedirect(reverse(qualification_pro_ord))
+            return HttpResponseRedirect(reverse(approval_pro_ord))
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     #    form_mode = "_create"
     show_form =True
-    return render_to_response('qualification_form.html', locals(), context_instance=RequestContext(request))
+    production_order_json = get_production_order_json(po)
+    return render_to_response('approval_form.html', locals(), context_instance=RequestContext(request))
 
 
 @login_required()
