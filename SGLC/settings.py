@@ -13,7 +13,7 @@ ADMINS = (
 )
 
 URL_BASE = "http://destaju.com"
-PROJECT_NAME = "DESTAJU"
+PROJECT_NAME = "DESTAJU AGRO"
 PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
 "apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
@@ -66,7 +66,7 @@ except Exception, e:
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = [".destaju.com.",".destaju.com.", "demo.destaju.com."]
+ALLOWED_HOSTS = [".destaju.com.",".destaju.com.", ".demo.destaju.com.","demo.destaju.com."]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
