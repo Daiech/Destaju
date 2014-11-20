@@ -69,6 +69,15 @@ class QuantityEmployedToolForm(forms.ModelForm):
         model = QuantityEmployedTool
         fields = ('tool', 'quantity')
 
+    def clean_quantity(self):
+        try:
+            inventory_obj = Inventory.objects.get(tool=self.cleaned_data.get('tool'))
+        except:
+            return self.cleaned_data.get('quantity')    
+        if inventory_obj.quantity < float(self.cleaned_data.get('quantity')):
+            raise forms.ValidationError("No hay suficientes items disponibles en el inventario, disponible ( %s: %s )"%(inventory_obj.tool.name, inventory_obj.quantity ))
+        return self.cleaned_data.get('quantity')
+
     # def clean(self):
     #     # try:
     #     tool_obj = self.cleaned_data.get('tool')

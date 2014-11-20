@@ -196,6 +196,9 @@
 		{% if error %}
 			setAlertError("No se puede procesar la solicitud", "{{ error }}");
 		{% endif%}
+		{% if message %}
+			setAlertMessage("Se ha guardado exitosamente la orden de produccion", "{{ message }}");
+		{% endif%}
 	});
 </script>
 {% endblock %}

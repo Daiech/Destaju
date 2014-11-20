@@ -58,8 +58,13 @@ def create_production_order(request):
                     formset.save()
 
                 form = ProductionOrderForm()
+                QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=10)
+                qs = QuantityEmployedTool.objects.none()
+                formset =  QuantityEmployedToolFormSet(queryset = qs) # initial=responsible,
 
                 if '_createanother' in request.POST:
+                    message = "Se ha creado correctamente la orden de produccion "
+
                     show_form = True
                 else:
                     return HttpResponseRedirect(reverse(create_production_order))
