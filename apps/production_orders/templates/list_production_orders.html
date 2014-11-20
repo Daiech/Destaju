@@ -166,7 +166,7 @@
         	ajax_url = $(this).attr("data-ajax-url")
             sendAjax(ajax_url,{},"#load-member",showProOrdModal)
         }
-        $(".show-pro-ord").on("click",showProOrd);
+        $(document).on("click",".show-pro-ord",showProOrd);
 	});
 </script>
 {% endblock %}
