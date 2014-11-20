@@ -3,7 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from apps.production_orders.models import ProductionOrder
 from apps.process_admin.models import Tools
-from apps.inventory.models import QuantityProviderTool, ProviderOrder, QuantityEmployedTool, EmployedOrder
+from apps.inventory.models import QuantityProviderTool, ProviderOrder, QuantityEmployedTool, EmployedOrder, Inventory
+from django.core.exceptions import ValidationError
 
 def user_unicode(self):
     try:
@@ -53,6 +54,9 @@ class EmployedOrderForm(forms.ModelForm):
         model = EmployedOrder
         fields = ('production_order','type_order','details')
 
+    
+
+
 
 class QuantityEmployedToolForm(forms.ModelForm):
     queryset_tools = Tools.objects.filter(is_active=True, is_available=True) 
@@ -65,3 +69,16 @@ class QuantityEmployedToolForm(forms.ModelForm):
         model = QuantityEmployedTool
         fields = ('tool', 'quantity')
 
+    # def clean(self):
+    #     # try:
+    #     tool_obj = self.cleaned_data.get('tool')
+    #     quantity_obj = self.cleaned_data.get('quantity')
+    #     print "tool obj",tool_obj
+    #     inventory_obj = Inventory.objects.get(tool=tool_obj)
+    #     print inventory_obj
+    #     if inventory_obj.quantity < quantity_obj:
+    #         print inventory_obj.quantity, quantity_obj, float(inventory_obj.quantity) < float(quantity_obj)
+    #         raise ValidationError("No hay suficientes items disponibles en el inventario")
+    #     # except Exception, e:
+    #     #     print e
+    #     #     raise ValidationError("El item solicitado no esta registrado en el inventario")

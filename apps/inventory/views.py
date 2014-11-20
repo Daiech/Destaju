@@ -119,32 +119,23 @@ def list_employed_order(request):
     if request.method == 'POST':
         QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm)
         formset =  QuantityEmployedToolFormSet(request.POST)
+        # print "FORMSET ", formset 
         if formset.is_valid():
-            pass
-            object_list = formset.save(commit=False)
 
+            object_list = formset.save(commit=False)
+            print "FORMSET----------------------------------------------------"
+            print object_list
             form = EmployedOrderForm(request.POST) 
-            print "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
-            # print request.POST
-            # print form 
-            print dir(form)
-            print form.data 
+            
+
             if form.is_valid() and len(object_list) > 0:
 
                 employed_order_obj = form.save(commit=False)
-                print "TYPE ORDER_______________"
-                print employed_order_obj.type_order
+
+
+
                 employed_order_obj.user_generator = request.user
                 employed_order_obj.status_order = 'Waiting'
-                
-                # if "type_order" in request.POST:
-                #     if request.POST['type_order'] == "recovery":
-                #         employed_order_obj.type_order = 'Recovery'
-                #     elif request.POST['type_order'] == "output":
-                #         employed_order_obj.type_order = 'Output_Stock'
-                #     else:
-                #         employed_order_obj.type_order = 'Error'
-
                 
 
                 form.save()
