@@ -137,7 +137,7 @@ def update_production_order(request, id_production_order):
         form_mode = "_update"
     else:
         return HttpResponseRedirect(reverse(create_production_order))
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2])
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]).order_by('-date_added')
     return render_to_response("production_order.html", locals(), context_instance=RequestContext(request))
 
 
@@ -162,7 +162,7 @@ def generate_pdf(request,id_production_order):
 @access_required("superadmin", "admin", "s1", "s2")
 def filling_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]) \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('filling_pro_ord.html', locals(), context_instance=RequestContext(request))
 
@@ -220,7 +220,7 @@ def filling(request, id_production_order):
             return HttpResponseRedirect(reverse(filling_pro_ord))
         
         
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]) \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [1,2]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     form_mode = "_update"
     show_form =True
@@ -231,7 +231,7 @@ def filling(request, id_production_order):
 @access_required("superadmin", "admin", "s1")
 def qualification_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('qualification_pro_ord.html', locals(), context_instance=RequestContext(request))
 
@@ -272,7 +272,7 @@ def qualification(request, id_production_order):
             form =  QualificationsForm(instance = po.qualificationproord)
         else:
             return HttpResponseRedirect(reverse(qualification_pro_ord))
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     #    form_mode = "_create"
     show_form =True
@@ -284,7 +284,7 @@ def qualification(request, id_production_order):
 @access_required("superadmin", "admin", "s1")
 def approval_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('approval_pro_ord.html', locals(), context_instance=RequestContext(request))
 
@@ -325,7 +325,7 @@ def approval(request, id_production_order):
             form =  ApprovalForm(instance = po.qualificationproord)
         else:
             return HttpResponseRedirect(reverse(approval_pro_ord))
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]) \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     #    form_mode = "_create"
     show_form =True
@@ -343,11 +343,11 @@ def list_production_orders(request):
             date_to = form.cleaned_data['date_to']
             type_date = form.cleaned_data['type_date']
             if type_date == 'added':
-                object_list = ProductionOrder.objects.filter(date_added__gt = date_from).filter(date_added__lt = date_to).annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
+                object_list = ProductionOrder.objects.filter(date_added__gt = date_from).filter(date_added__lt = date_to).order_by('-date_added').annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             elif type_date == 'modified':
-                object_list = ProductionOrder.objects.filter(date_modified__gt = date_from).filter(date_modified__lt = date_to).annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
+                object_list = ProductionOrder.objects.filter(date_modified__gt = date_from).filter(date_modified__lt = date_to).order_by('-date_added').annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             elif type_date == 'filling':
-                object_list = ProductionOrder.objects.filter(fillingproord__date_modified__gt = date_from).filter(fillingproord__date_modified__lt = date_to).annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
+                object_list = ProductionOrder.objects.filter(fillingproord__date_modified__gt = date_from).filter(fillingproord__date_modified__lt = date_to).order_by('-date_added').annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             else:
                 print "Error"
             if '_excel' in request.POST:
