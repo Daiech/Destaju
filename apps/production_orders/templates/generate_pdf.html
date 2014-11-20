@@ -59,7 +59,7 @@
 
 <table border="1">
   {% for employed_order in obj.get_employed_orders_for_op %}
-  <tr><td colspan="2"><strong>No. Orden de empleado: {{ employed_order.id}} / {{ employed_order.get_status_order_display }} / {{ employed_order.get_type_order_display }} </strong></td></tr>
+  <tr><td colspan="2"><strong>No. Orden de inventario de empleado: {{ employed_order.id}} / {{ employed_order.get_status_order_display }} / {{ employed_order.get_type_order_display }} </strong></td></tr>
     {% for item in employed_order.quantityemployedtool_employed_order.all %}
       <tr><td class="text-right">{{ item.tool.name }}</td><td class="text-right" >{{ item.quantity }}</td></tr>
     {% endfor %}

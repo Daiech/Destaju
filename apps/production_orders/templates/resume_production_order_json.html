@@ -26,9 +26,9 @@
 	</h3>
 </div>
 <table class="table table-hover table-condensed table-striped">
-	<tr><th>Nombre</th><th>Cantidad</th><th>Observaciones</th></tr>
+	<tr><th>Nombre</th><th class="text-right">Cantidad ({{production_order_json.measuring_unit}})</th><th class="text-right">Observaciones</th></tr>
 	{% for responsible in production_order_json.responsible %}
-	<tr><td >{{ responsible.name}}</td><td class="text-right">{{ responsible.filling }}</td><td>{{ responsible.comments }}</td></tr>
+	<tr><td >{{ responsible.name}}</td><td class="text-right">{{ responsible.filling }} </td><td>{{ responsible.comments }}</td></tr>
 	{% endfor %}
 	<tr><td >Total</td><td class="text-right"><strong>{{ production_order_json.total }}</strong></td><td></td></tr>
 </table>

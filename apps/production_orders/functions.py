@@ -119,12 +119,12 @@ def get_production_order_json(pro_ord_obj):
             "items": [{"name": item.tool.name, "quantity": item.quantity } for item in employed_order.quantityemployedtool_employed_order.all()] 
             })
 
-    print "OPOPOP", pro_ord_obj.get_employed_orders_output_approved()
 
     json_dict = {
         "pk": pro_ord_obj.pk,
         "status":  status,
         "activity": pro_ord_obj.activity.name,
+        "measuring_unit":pro_ord_obj.activity.measuring_unit,
         "place": pro_ord_obj.place.name,
         "date_added":formats.date_format(pro_ord_obj.date_added, "DATETIME_FORMAT"),
         "date_modified":formats.date_format(pro_ord_obj.date_modified, "DATETIME_FORMAT"),
