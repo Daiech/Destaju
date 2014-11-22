@@ -14,22 +14,20 @@
           <li class="dropdown">
               <a href="#" id="menu-admin" role="button" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu-admin">
-                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de usuarios</li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'admin_users' %}">Gesti&oacute;n de usuarios</a></li>
+                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de Usuarios</li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'admin_employments' %}">Gesti&oacute;n de Cargos</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'admin_users' %}">Gesti&oacute;n de Usuarios</a></li>
                   <li role="presentation" class="divider"></li>
                   <li role="presentation" class="dropdown-header">Gesti&oacute;n de Actividades</li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_activity'  %}">Gesti&oacute;n de Actividades</a></li>
                   <li role="presentation" class="divider"></li>
-                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de descuentos</li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_general_discounts'  %}">Gesti&oacute;n de Descuentos</a></li>
-                  <li role="presentation" class="divider"></li>
-                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de aumentos</li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_increase'  %}">Gesti&oacute;n de aumentos</a></li>
-                  <li role="presentation" class="divider"></li>
-                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de lugares y herramientas</li>
+                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de Lugares y Herramientas</li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_places'  %}">Gesti&oacute;n de Lugares</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_tools'  %}">Gesti&oacute;n de Equipos e insumos</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_tools'  %}">Gesti&oacute;n de Equipos e Insumos</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de Aumentos y Descuentos</li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_general_discounts'  %}">Gesti&oacute;n de Descuentos</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_increase'  %}">Gesti&oacute;n de Aumentos</a></li>
                   <!-- <li role="presentation" class="divider"></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li> -->
               </ul>
@@ -79,9 +77,12 @@
           <li class="dropdown">
               <a href="#" id="menu-stock" role="button" class="dropdown-toggle" data-toggle="dropdown">Almacen<b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu-op">
+                  <li role="presentation" class="dropdown-header">Gesti&oacute;n de almacen </li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_provider_order' %}">Proveedores</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_employed_order' %}">Empleados</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li role="presentation" class="dropdown-header">Consulta </li>
               	  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_inventory' %}">Inventario</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_employed_order' %}">Ordenes de empleados</a></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'list_provider_order' %}">Ordenes de proveedores</a></li>
               </ul>
           </li>
         {% endif %}

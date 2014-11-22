@@ -7,4 +7,5 @@ pymongo>=2.6.2
 django-export-xls>=0.1.1
 Werkzeug>=0.9.4
 django-extensions>=1.2.5
+south>=1.0.1
 uwsgi

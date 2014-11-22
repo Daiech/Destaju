@@ -72,11 +72,11 @@
 			<div class="modal-body">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title pull-left">
+						<h3 class="panel-title {% if form_mode == '_update' %}pull-left {% endif %}">
 						{% if form_mode == "_create" %}
-							AGREGAR
+							FORMULARIO PARA AGREGAR ACTIVIDAD
 						{% elif form_mode ==  "_update" %}
-							EDITAR
+							FORMULARIO PARA EDITAR ACTIVIDAD
 						{% endif %}
 						</h3>
 						<div class="text-right">

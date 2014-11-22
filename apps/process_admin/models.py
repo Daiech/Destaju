@@ -250,7 +250,7 @@ class Places(models.Model):
 class Tools(models.Model):
     code = models.CharField(max_length=30, verbose_name="code")
     name = models.CharField(max_length=150, verbose_name="name")
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)

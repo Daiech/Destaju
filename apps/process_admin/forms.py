@@ -6,12 +6,12 @@ from django.contrib.auth.models import User
 
 
 class ActivityForm(forms.ModelForm):
-    code = forms.CharField(label="Codigo", widget=forms.TextInput(attrs={'placeholder': 'Codigo', 'autofocus': 'autofocus'}))
-    name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
-    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion del anuncio'}))
-    measuring_unit = forms.CharField(label="Unidad de medida", widget=forms.TextInput(attrs={'placeholder': 'Unidad de medida'}))
-    value = forms.CharField(label="Valor", widget=forms.TextInput(attrs={'placeholder': '','type':"number","step":"any"}))
-    is_available = forms.BooleanField(label="Disponible", required=False, initial=True)
+    code = forms.CharField(label="Codigo", widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: 003, A03, A-003', 'autofocus': 'autofocus'}))
+    name = forms.CharField(label="Nombre", widget=forms.TextInput(attrs={'placeholder': 'Nombre de la actividad'}))
+    description = forms.CharField(label="Descripcion", widget=forms.Textarea(attrs={'placeholder': 'Descripcion detallada de la actividad'}))
+    measuring_unit = forms.CharField(label="Unidad de medida", widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: Kg, m, Hectareas, Unidades'}))
+    value = forms.CharField(label="Valor unitario ($)", widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: 1500','type':"number","step":"any"}))
+    is_available = forms.BooleanField(label="Disponible", required=False, initial=True, help_text="Las actividades marcadas como dispoibles apareceran en el formulario de ordenes de produccion")
     
     class Meta:
         model = Activities

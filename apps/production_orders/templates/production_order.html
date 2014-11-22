@@ -126,21 +126,29 @@
 						</div>
 					</div>
 					<table class="table table-hover table-condensed table-striped">
-					{{ form }}
-					</table>
-					<table class="table table-hover table-condensed table-striped">
+						{{ form }}
 						<tr>
-	                    	<th>Item</th>
-	                    	<th>Cantidad</th>
-                    	</tr>
-						{% for form in formset %}
-	                         <tr>
-	                            {{ form.id }}
-	                            <td>{{ form.tool }}{{ form.tool.errors }}</td>
-	                            <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
-	                        </tr>
-                    	{% endfor %}
+							<td><strong>Herramientas<br /> e Insumos</strong></td>
+							<td>
+								<table class="table table-hover ">
+									<tr>
+
+				                    	<th >Item</th>
+				                    	<th >Cantidad</th>
+			                    	</tr>
+									{% for form in formset %}
+				                         <tr>
+				                            {{ form.id }}
+				                            <td>{{ form.tool }}{{ form.tool.errors }}</td>
+				                            <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
+				                        </tr>
+			                    	{% endfor %}
+								</table>
+							</td>
+						</tr>
 					</table>
+					
+					
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -148,7 +156,7 @@
 				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
 				{% endif %}		        
 		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
-		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Cerrar</button>
 		    </div>
 		    </form>
 		</div>
