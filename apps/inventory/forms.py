@@ -5,6 +5,7 @@ from apps.production_orders.models import ProductionOrder
 from apps.process_admin.models import Tools
 from apps.inventory.models import QuantityProviderTool, ProviderOrder, QuantityEmployedTool, EmployedOrder, Inventory
 from django.core.exceptions import ValidationError
+from django.forms.models import BaseModelFormSet
 
 def user_unicode(self):
     try:
@@ -69,25 +70,17 @@ class QuantityEmployedToolForm(forms.ModelForm):
         model = QuantityEmployedTool
         fields = ('tool', 'quantity')
 
+    def add_employed_order(self,employed_order):
+        self.instance.employed_order = employed_order
+
+
     def clean_quantity(self):
-        try:
-            inventory_obj = Inventory.objects.get(tool=self.cleaned_data.get('tool'))
-        except:
-            return self.cleaned_data.get('quantity')    
-        if inventory_obj.quantity < float(self.cleaned_data.get('quantity')):
-            raise forms.ValidationError("No hay suficientes items disponibles en el inventario, disponible ( %s: %s )"%(inventory_obj.tool.name, inventory_obj.quantity ))
+        if self.instance.employed_order.type_order == "Output_Stock":
+            try:
+                inventory_obj = Inventory.objects.get(tool=self.cleaned_data.get('tool'))
+            except:
+                return self.cleaned_data.get('quantity')    
+            if inventory_obj.quantity < float(self.cleaned_data.get('quantity')):
+                raise forms.ValidationError("No hay suficientes items disponibles en el inventario, disponible ( %s: %s )"%(inventory_obj.tool.name, inventory_obj.quantity ))
         return self.cleaned_data.get('quantity')
 
-    # def clean(self):
-    #     # try:
-    #     tool_obj = self.cleaned_data.get('tool')
-    #     quantity_obj = self.cleaned_data.get('quantity')
-    #     print "tool obj",tool_obj
-    #     inventory_obj = Inventory.objects.get(tool=tool_obj)
-    #     print inventory_obj
-    #     if inventory_obj.quantity < quantity_obj:
-    #         print inventory_obj.quantity, quantity_obj, float(inventory_obj.quantity) < float(quantity_obj)
-    #         raise ValidationError("No hay suficientes items disponibles en el inventario")
-    #     # except Exception, e:
-    #     #     print e
-    #     #     raise ValidationError("El item solicitado no esta registrado en el inventario")

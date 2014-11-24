@@ -119,39 +119,31 @@ def list_employed_order(request):
     if request.method == 'POST':
         QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm)
         formset =  QuantityEmployedToolFormSet(request.POST)
-        # print "FORMSET ", formset 
-        if formset.is_valid():
+        form = EmployedOrderForm(request.POST) 
+        
+        if form.is_valid() and len(formset.forms) > 0:
+            employed_order_obj = form.save(commit=False)
+            employed_order_obj.user_generator = request.user
+            employed_order_obj.status_order = 'Waiting'
 
-            object_list = formset.save(commit=False)
-            print "FORMSET----------------------------------------------------"
-            print object_list
-            form = EmployedOrderForm(request.POST) 
-            
+            for q_form in formset.forms:
+                q_form.add_employed_order(employed_order_obj)
 
-            if form.is_valid() and len(object_list) > 0:
-
-                employed_order_obj = form.save(commit=False)
-
-
-
-                employed_order_obj.user_generator = request.user
-                employed_order_obj.status_order = 'Waiting'
-                
-
+            if formset.is_valid():
                 form.save()
-
+                object_list = formset.save(commit=False)
                 for obj in object_list:
                     obj.employed_order = employed_order_obj
                 formset.save()
                 return HttpResponseRedirect(reverse('list_employed_order'))
-
             else:
                 show_form = True
-                if len(object_list) == 0:
-                    error = "Debes llenar por lo menos un item"
+                form = EmployedOrderForm(request.POST)
         else:
             show_form = True
-            form = EmployedOrderForm(request.POST)
+            if len(formset.forms) == 0:
+                error = "Debes llenar por lo menos un item"
+
     else:
         employed_order_id = request.GET.get('employed_order_id')
         if employed_order_id:
