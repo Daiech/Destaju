@@ -123,10 +123,15 @@
 		{% endif %}
 		$("span").tooltip();
 		{% if form_mode ==  "_update" %}
-			$(".close-modal").on('click', function(){
-				top.location ="{% url 'create_activity' %}";
-			});
+			// $(".close-modal").on('click', function(){
+			// 	top.location ="{% url 'create_activity' %}";
+			// });
+			$('#activityFormModal').on('hidden.bs.modal', function () {
+            	top.location = "{% url 'create_activity' %}"
+        	});
 		{% endif %}
+
+
 
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
 		setDataTables('#dataTable')
