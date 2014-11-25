@@ -17,6 +17,11 @@ class ActivityForm(forms.ModelForm):
         model = Activities
         fields = ('code','name', 'description', 'measuring_unit', 'value', 'is_available')
 
+    def clean_value(self):
+        if float(self.cleaned_data.get('value')) <= 0:
+            raise forms.ValidationError(u"El el precio por unidad debe ser mayor que 0 ")
+        return self.cleaned_data.get('value')
+
     
 class UserProfileForm(forms.ModelForm):
     """docstring for UserProfileForm"""
@@ -36,7 +41,6 @@ class UserProfileForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         try:
             u = UserProfile.objects.exclude(user=user).get(dni=cleaned_data["dni"])
-            print "UUUUUUUUUUUUUUUUU", u
             if u:
                 from django.core.exceptions import ValidationError
                 raise ValidationError('estas editandote, Pilas, alguien ya tiene esta cedula')
