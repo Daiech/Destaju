@@ -73,7 +73,6 @@ class QuantityEmployedToolForm(forms.ModelForm):
     def add_employed_order(self,employed_order):
         self.instance.employed_order = employed_order
 
-
     def clean_quantity(self):
         if self.instance.employed_order.type_order == "Output_Stock":
             try:

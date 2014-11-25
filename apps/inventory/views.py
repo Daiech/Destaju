@@ -125,17 +125,36 @@ def list_employed_order(request):
             employed_order_obj = form.save(commit=False)
             employed_order_obj.user_generator = request.user
             employed_order_obj.status_order = 'Waiting'
-
+            
             for q_form in formset.forms:
                 q_form.add_employed_order(employed_order_obj)
 
+
             if formset.is_valid():
-                form.save()
-                object_list = formset.save(commit=False)
-                for obj in object_list:
-                    obj.employed_order = employed_order_obj
-                formset.save()
-                return HttpResponseRedirect(reverse('list_employed_order'))
+
+                # validate repeated tools
+                tool_list = []
+                repeated_tool = False
+                for q_form in formset.forms:
+                    tool_form = q_form.cleaned_data.get('tool')
+                    if tool_form:
+                        if tool_form.id in tool_list:
+                            repeated_tool = True
+                            break
+                        tool_list.append(tool_form.id)
+
+
+                if not repeated_tool:
+                    form.save()
+                    object_list = formset.save(commit=False)
+                    for obj in object_list:
+                        obj.employed_order = employed_order_obj
+
+                    formset.save()
+                    return HttpResponseRedirect(reverse('list_employed_order'))
+                else:
+                    show_form = True
+                    error = "No puede haber items repetidos en la orden"
             else:
                 show_form = True
                 form = EmployedOrderForm(request.POST)
@@ -148,7 +167,6 @@ def list_employed_order(request):
         employed_order_id = request.GET.get('employed_order_id')
         if employed_order_id:
             employed_order_obj = EmployedOrder.objects.get(id=employed_order_id)
-            print employed_order_obj
             show_employed_order_modal = True
 
         form = EmployedOrderForm()
