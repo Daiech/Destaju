@@ -40,15 +40,25 @@ class QuantityProviderToolForm(forms.ModelForm):
         model = QuantityProviderTool
         fields = ('tool', 'quantity', 'unit_value')
 
+    def clean_quantity(self):
+        if float(self.cleaned_data.get('quantity')) <= 0:
+            raise forms.ValidationError(u"El número de items debe ser mayor que 0 ")
+        return self.cleaned_data.get('quantity')
+
+    def clean_unit_value(self):
+        if float(self.cleaned_data.get('unit_value')) <= 0:
+            raise forms.ValidationError(u"El número de items debe ser mayor que 0 ")
+        return self.cleaned_data.get('unit_value')
+
 
 ############## --------------------------------    Employed ---------------------------------------------------###########################
 
 class EmployedOrderForm(forms.ModelForm):  
-    TYPE_ORDER = (('Recovery','Devolucion'),('Output_Stock',"Salida"))
+    TYPE_ORDER = (('','---------'),('Recovery','Devolucion'),('Output_Stock',"Salida"))
     queryset_production_order = ProductionOrder.objects.get_all_active().values_list('pk', flat=True)[0:50] # .filter(status=1)
 
     production_order = forms.ModelChoiceField(label="Orden de produccion", queryset=ProductionOrder.objects.filter(pk__in=list(queryset_production_order)).order_by('-date_added') )  #, empty_label=None
-    type_order = forms.CharField(label="Tipo", widget=forms.Select(choices=TYPE_ORDER))
+    type_order = forms.ChoiceField(label="Tipo", choices=TYPE_ORDER)
     details = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
@@ -74,12 +84,14 @@ class QuantityEmployedToolForm(forms.ModelForm):
         self.instance.employed_order = employed_order
 
     def clean_quantity(self):
-        if self.instance.employed_order.type_order == "Output_Stock":
+        if self.instance.employed_order.type_order == "Output_Stock" or self.instance.employed_order.type_order == "Output":
             try:
                 inventory_obj = Inventory.objects.get(tool=self.cleaned_data.get('tool'))
             except:
                 return self.cleaned_data.get('quantity')    
             if inventory_obj.quantity < float(self.cleaned_data.get('quantity')):
                 raise forms.ValidationError("No hay suficientes items disponibles en el inventario, disponible ( %s: %s )"%(inventory_obj.tool.name, inventory_obj.quantity ))
+        if float(self.cleaned_data.get('quantity')) <= 0:
+            raise forms.ValidationError(u"El número de items debe ser mayor que 0 ")
         return self.cleaned_data.get('quantity')
 

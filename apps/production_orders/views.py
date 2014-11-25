@@ -19,6 +19,7 @@ from apps.production_orders.functions import *
 
 from apps.inventory.models import Inventory, ProviderOrder, EmployedOrder, QuantityProviderTool, QuantityEmployedTool
 from apps.inventory.forms import ProviderOrderForm, QuantityProviderToolForm, QuantityEmployedToolForm
+from apps.inventory.utils import is_repeated_tool
 
 @login_required()
 @access_required("superadmin", "admin", "s1", "s2")
@@ -29,49 +30,58 @@ def create_production_order(request):
         QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm)
         formset =  QuantityEmployedToolFormSet(request.POST)
         form  = ProductionOrderForm(request.POST)
-        if formset.is_valid():
-            if form.is_valid():
-                productionorder_obj = form.save(commit=False)
-                productionorder_obj.user = request.user
-                productionorder_obj.save()
-                
-                # for tool in request.POST.getlist('tools'):
-                #     productionorder_obj.tools.add(tool)
+
+        if form.is_valid():
+            productionorder_obj = form.save(commit=False)
+            productionorder_obj.user = request.user
+            
+
+            employedorder_obj = EmployedOrder(user_generator = request.user, type_order='Output', status_order="Waiting", details=productionorder_obj.comments )
+            for q_form in formset.forms:
+                q_form.add_employed_order(employedorder_obj)
+
+            print "BANDERA UNO "
+            if formset.is_valid():
+                if not is_repeated_tool(formset):
+                    productionorder_obj.save()
+
+                    for user in request.POST.getlist('responsible'):
+                        productionorder_obj.responsible.add(user)
+
+                    form.save_m2m()
+
+                    # Quantity employed order
+                    quantityemployedtool_list = formset.save(commit=False)
+
+                    if len(quantityemployedtool_list) > 0:
+                        employedorder_obj.production_order = productionorder_obj
+                        employedorder_obj.save()
                     
-                for user in request.POST.getlist('responsible'):
-                    productionorder_obj.responsible.add(user)
+                        for quantityemployedtool_obj in quantityemployedtool_list:
+                            quantityemployedtool_obj.employed_order = employedorder_obj
+                    
+                    
+                        formset.save()
 
-                form.save_m2m()
+                    form = ProductionOrderForm()
+                    QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=10)
+                    qs = QuantityEmployedTool.objects.none()
+                    formset =  QuantityEmployedToolFormSet(queryset = qs) # initial=responsible,
 
-                # Quantity employed order
-                quantityemployedtool_list = formset.save(commit=False)
+                    if '_createanother' in request.POST:
+                        message = "Se ha creado correctamente la orden de produccion "
 
-                if len(quantityemployedtool_list) > 0:
-                    # Employed Order
-                    employedorder_obj = EmployedOrder(user_generator = request.user,  production_order=productionorder_obj, type_order='Output', status_order="Waiting", details=productionorder_obj.comments )
-                    employedorder_obj.save()
-                
-                    for quantityemployedtool_obj in quantityemployedtool_list:
-                        quantityemployedtool_obj.employed_order = employedorder_obj
-                
-                
-                    formset.save()
-
-                form = ProductionOrderForm()
-                QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=10)
-                qs = QuantityEmployedTool.objects.none()
-                formset =  QuantityEmployedToolFormSet(queryset = qs) # initial=responsible,
-
-                if '_createanother' in request.POST:
-                    message = "Se ha creado correctamente la orden de produccion "
-
-                    show_form = True
+                        show_form = True
+                    else:
+                        return HttpResponseRedirect(reverse(create_production_order))
                 else:
-                    return HttpResponseRedirect(reverse(create_production_order))
+                    show_form = True
+                    error = "No puede haber items repetidos en la orden"
             else:
                 show_form = True
         else:
             show_form = True
+
     else:
         form  = ProductionOrderForm() 
         QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=10)
@@ -93,39 +103,55 @@ def update_production_order(request, id_production_order):
             QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm)
             formset =  QuantityEmployedToolFormSet(request.POST)
             form = ProductionOrderForm(request.POST, instance=productionorder_obj)
-            if form.is_valid() and formset.is_valid():
-
-                 # Quantity employed order
-                quantityemployedtool_list = formset.save(commit=False)
-
-                if len(quantityemployedtool_list) > 0:
-                    # Employed Order
-                    employedorder_obj = EmployedOrder(user_generator = request.user,  production_order=productionorder_obj, type_order='Output', status_order="Waiting", details=productionorder_obj.comments )
-                    employedorder_obj.save()
+            if form.is_valid():
+                # employedorder_obj = EmployedOrder.objects.filter(production_order=productionorder_obj).order_by('-date_added').last()
+                employedorder_obj = EmployedOrder(user_generator = request.user, type_order='Output', status_order="Waiting", details=productionorder_obj.comments )
+                for q_form in formset.forms:
+                    q_form.add_employed_order(employedorder_obj)
                 
-                    for quantityemployedtool_obj in quantityemployedtool_list:
-                        quantityemployedtool_obj.employed_order = employedorder_obj
-                
-                    reject_employedorder_list = EmployedOrder.objects.filter(production_order=productionorder_obj, status_order="Waiting").exclude(id=employedorder_obj.id)
-                    for reject_employedorder_obj in reject_employedorder_list:
-                        reject_employedorder_obj.status_order='Not_Approved_OP'
-                        reject_employedorder_obj.user_approver = request.user
-                        reject_employedorder_obj.date_approved = datetime.datetime.now()
-                        reject_employedorder_obj.save()
+                if formset.is_valid():
+                    if not is_repeated_tool(formset):
+                        # the form and formset are valid, all the last inventory orders must be rejected
+                        reject_employedorder_list = EmployedOrder.objects.filter(production_order=productionorder_obj, status_order="Waiting") # .exclude(id=employedorder_obj.id)
+                        for reject_employedorder_obj in reject_employedorder_list:
+                            reject_employedorder_obj.status_order='Not_Approved_OP'
+                            reject_employedorder_obj.user_approver = request.user
+                            reject_employedorder_obj.date_approved = datetime.datetime.now()
+                            reject_employedorder_obj.save()
 
-                    formset.save()
+                         # Quantity employed order
+                        quantityemployedtool_list = formset.save(commit=False)
 
-                save_with_modifications(request.user, form, productionorder_obj, ProductionOrder)
-                return HttpResponseRedirect(reverse(create_production_order))
+                        if len(quantityemployedtool_list) > 0:
+                            # Employed Order
+                            # employedorder_obj = EmployedOrder(user_generator = request.user,  production_order=productionorder_obj, type_order='Output', status_order="Waiting", details=productionorder_obj.comments )
+                            employedorder_obj.production_order = productionorder_obj
+                            employedorder_obj.save()
+                        
+                            for quantityemployedtool_obj in quantityemployedtool_list:
+                                quantityemployedtool_obj.employed_order = employedorder_obj
+                        
+                            formset.save()
+
+                        save_with_modifications(request.user, form, productionorder_obj, ProductionOrder)
+                        return HttpResponseRedirect(reverse(create_production_order))
+                    else:
+                        show_form = True
+                        error = "No puede haber items repetidos en la orden"
+                else:
+                    show_form = True
             else:
                 show_form = True
         else:
             QuantityEmployedToolFormSet = modelformset_factory(QuantityEmployedTool, form=QuantityEmployedToolForm, extra=10)
-            employedorder_obj = EmployedOrder.objects.filter(production_order=productionorder_obj).last()
+            employedorder_obj = EmployedOrder.objects.filter(production_order=productionorder_obj, status_order ='Waiting')
+            employedorder_obj = employedorder_obj.last()
 
 
-
-            qs = QuantityEmployedTool.objects.filter(employed_order=employedorder_obj)
+            if employedorder_obj:
+                qs = QuantityEmployedTool.objects.filter(employed_order=employedorder_obj)
+            else:
+                qs = QuantityEmployedTool.objects.none()
             
             quantityemployedtool_list = []
             for quantityemployedtool_obj in qs:

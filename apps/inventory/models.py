@@ -75,7 +75,7 @@ class EmployedOrder(models.Model):
     user_approver = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_approver') 
     user_generator = models.ForeignKey(User, related_name='%(class)s_user_generator') 
     production_order = models.ForeignKey(ProductionOrder, related_name='%(class)s_production_order') 
-    type_order = models.CharField(max_length=15, choices=TYPE_CHOICES)
+    type_order = models.CharField(max_length=35, choices=TYPE_CHOICES)
     details = models.TextField(blank=True, null=True)
     status_order = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Waiting')
     date_approved = models.DateTimeField(null=True, blank=True)

@@ -7,10 +7,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import datetime
 # from django.utils.translation import activate
+# 
 
 
 from .models import Inventory, ProviderOrder, EmployedOrder, QuantityProviderTool, QuantityEmployedTool
 from .forms import ProviderOrderForm, QuantityProviderToolForm, EmployedOrderForm, QuantityEmployedToolForm
+from .utils import is_repeated_tool
 
 
 
@@ -19,32 +21,38 @@ def list_inventory(request):
     list_inventory = Inventory.objects.get_all_active()
     return render_to_response('inventory.html', locals(), context_instance=RequestContext(request))
 
+
 @login_required()
 def list_provider_order(request):
     list_provider_order = ProviderOrder.objects.get_all_active().order_by('-date_added')
     if request.method == 'POST':    
         QuantityProviderToolFormSet = modelformset_factory(QuantityProviderTool, form=QuantityProviderToolForm)
         formset =  QuantityProviderToolFormSet(request.POST)
+        form = ProviderOrderForm(request.POST) 
         if formset.is_valid():
             
-            object_list = formset.save(commit=False)
-            form = ProviderOrderForm(request.POST) 
-            if form.is_valid() and len(object_list) > 0:
-                provider_order_obj = form.save(commit=False)
-                provider_order_obj.user_generator = request.user
-                provider_order_obj.status_order = 'Waiting'
+            if not is_repeated_tool(formset):
+                object_list = formset.save(commit=False)
+                
+                if form.is_valid() and len(object_list) > 0:
+                    provider_order_obj = form.save(commit=False)
+                    provider_order_obj.user_generator = request.user
+                    provider_order_obj.status_order = 'Waiting'
 
-                form.save()
+                    form.save()
 
-                for obj in object_list:
-                    obj.provider_order = provider_order_obj
-                formset.save()
-                return HttpResponseRedirect(reverse('list_provider_order'))
+                    for obj in object_list:
+                        obj.provider_order = provider_order_obj
+                    formset.save()
+                    return HttpResponseRedirect(reverse('list_provider_order'))
 
+                else:
+                    show_form = True
+                    if len(object_list) == 0:
+                        error = "Debes llenar por lo menos un item"
             else:
                 show_form = True
-                if len(object_list) == 0:
-                    error = "Debes llenar por lo menos un item"
+                error = "No puede haber items repetidos en la orden"
         else:
             show_form = True
             form = ProviderOrderForm(request.POST)
@@ -132,19 +140,7 @@ def list_employed_order(request):
 
             if formset.is_valid():
 
-                # validate repeated tools
-                tool_list = []
-                repeated_tool = False
-                for q_form in formset.forms:
-                    tool_form = q_form.cleaned_data.get('tool')
-                    if tool_form:
-                        if tool_form.id in tool_list:
-                            repeated_tool = True
-                            break
-                        tool_list.append(tool_form.id)
-
-
-                if not repeated_tool:
+                if not is_repeated_tool(formset):
                     form.save()
                     object_list = formset.save(commit=False)
                     for obj in object_list:
