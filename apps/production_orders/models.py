@@ -21,10 +21,18 @@ class ProductionOrder(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     activity = models.ForeignKey(Activities,  null=False, related_name='%(class)s_activity')
     place = models.ForeignKey(Places,  null=False, related_name='%(class)s_place')
-    status = models.IntegerField(default=1, choices=((1,"Generada"),(2,"Llena"),(3,"Calificada"),(4,"En nomina")))
+    status = models.IntegerField(default=1, 
+            choices=(
+                (1,"Generada"),
+                (2,"Llena"),
+                (3,"Calificada y no aprobada"),
+                (4,"En nomina"),
+                (5,"Aprobada y no calificada"),
+                (6,"Calificada y aprobada")
+            )
+        )
     is_active = models.BooleanField(default=True)
     responsible = models.ManyToManyField(User)
-    tools = models.ManyToManyField(Tools, null=True, blank=True)
     modifications = models.IntegerField(default=0)
     comments = models.TextField(blank=True)
     
@@ -61,16 +69,24 @@ class FillingProOrd(models.Model):
     
 class QualificationProOrd(models.Model):
     user = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user') 
-    user_value = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_value') 
     production_order = models.OneToOneField(ProductionOrder)
     comments = models.TextField(blank=True)
-    comments_value = models.TextField(blank=True)
-    status = models.IntegerField(default=2,  choices=((1,"Aprobada"),(2,"No aprobada")))
     value = models.IntegerField(default=4,  choices=((1,"Malo"),(2,"Regular"),(3,"Bueno"), (4,"Muy bueno"), (5,"Excelente")))
     is_qualified = models.BooleanField(default=False)
+
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    
+    def __unicode__(self):
+        return "%s : %s"%(self.user, self.production_order)
+
+
+class ApprovalProOrd(models.Model):
+    user = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user') 
+    production_order = models.OneToOneField(ProductionOrder)
+    comments = models.TextField(blank=True)
+    status = models.IntegerField(default=2,  choices=((1,"Aprobada"),(2,"No aprobada")))
     is_verified = models.BooleanField(default=False)
-    date_qualified = models.DateTimeField(blank=True, null=True)
-    date_verified = models.DateTimeField(blank=True, null=True)
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -82,6 +98,7 @@ class QualificationProOrd(models.Model):
 class Filling(models.Model):
     user = models.ForeignKey(User,  null=False, related_name='%(class)s_user') 
     value = models.FloatField(max_length=100, verbose_name="value", null=False)
+    time = models.FloatField(max_length=20, verbose_name="Time", null=True, blank=True)
     filling_pro_ord = models.ForeignKey(FillingProOrd,  null=False, related_name='%(class)s_filling_pro_ord')
     comments = models.TextField(blank=True)
     

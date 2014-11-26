@@ -88,7 +88,7 @@ class QuantityEmployedToolForm(forms.ModelForm):
             try:
                 inventory_obj = Inventory.objects.get(tool=self.cleaned_data.get('tool'))
             except:
-                return self.cleaned_data.get('quantity')    
+                raise forms.ValidationError("Esta herramienta no se encuentra disponible en el inventario")
             if inventory_obj.quantity < float(self.cleaned_data.get('quantity')):
                 raise forms.ValidationError("No hay suficientes items disponibles en el inventario, disponible ( %s: %s )"%(inventory_obj.tool.name, inventory_obj.quantity ))
         if float(self.cleaned_data.get('quantity')) <= 0:

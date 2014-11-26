@@ -174,7 +174,7 @@ def delete_production_order(request, id_production_order):
     productionorder_obj = get_object_or_404(ProductionOrder, pk=id_production_order)
     productionorder_obj.is_active=False
     productionorder_obj.save()
-    
+
     # reject employed order
     reject_employedorder_list = EmployedOrder.objects.filter(production_order=productionorder_obj, status_order="Waiting") # .exclude(id=employedorder_obj.id)
     for reject_employedorder_obj in reject_employedorder_list:
@@ -277,37 +277,40 @@ def qualification(request, id_production_order):
     """Form to qualify a production order"""
     po = get_object_or_404(ProductionOrder, pk=id_production_order)
     if request.method == 'POST':
-        if po.status == 2:
+        if po.status == 2 or po.status == 5:
             form =  QualificationsForm(request.POST)
             if form.is_valid():
                 obj = form.save(commit = False)
-                obj.user_value=request.user 
+                obj.user=request.user 
                 obj.production_order=po
                 obj.is_qualified = True
-                obj.date_qualified = datetime.datetime.now()
                 obj.save()
-                po.status = 3
+                if po.status == 2:
+                    po.status = 3
+                elif po.satus == 5:
+                    po.status = 6
                 po.save()
                 return HttpResponseRedirect(reverse(qualification_pro_ord))
-        elif po.status == 3:
+        elif po.status == 3 or po.status == 6:
             form =  QualificationsForm(request.POST, instance= po.qualificationproord)
             if form.is_valid():
                 obj = form.save(commit = False)
-                obj.user_value=request.user 
+                obj.user=request.user 
                 obj.is_qualified = True
-                obj.date_qualified = datetime.datetime.now()
                 obj.save()
+
+
                 return HttpResponseRedirect(reverse(qualification_pro_ord))
         else:
             return HttpResponseRedirect(reverse(qualification_pro_ord))
     else:
-        if po.status == 2:
+        if po.status == 2 or po.status == 5:
             form =  QualificationsForm()
-        elif po.status == 3:
+        elif po.status == 3 or po.status == 6:
             form =  QualificationsForm(instance = po.qualificationproord)
         else:
             return HttpResponseRedirect(reverse(qualification_pro_ord))
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3,5,6]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     #    form_mode = "_create"
     show_form =True
@@ -330,34 +333,35 @@ def approval(request, id_production_order):
     """Form to qualify a production order"""
     po = get_object_or_404(ProductionOrder, pk=id_production_order)
     if request.method == 'POST':
-        if po.status == 2:
+        if po.status == 2 or po.status == 3:
             form =  ApprovalForm(request.POST)
             if form.is_valid():
                 obj = form.save(commit = False)
                 obj.user=request.user 
                 obj.production_order=po
                 obj.is_verified = True
-                obj.date_verified = datetime.datetime.now()
                 obj.save()
-                po.status = 3
+                if po.status == 2:
+                    po.status = 5
+                elif po.status == 3:
+                    po.status = 6
                 po.save()
                 return HttpResponseRedirect(reverse(approval_pro_ord))
-        elif po.status == 3:
-            form =  ApprovalForm(request.POST, instance= po.qualificationproord)
+        elif po.status == 5 or po.status == 6:
+            form =  ApprovalForm(request.POST, instance= po.approvalproord)
             if form.is_valid():
                 obj = form.save(commit = False)
                 obj.is_verified = True
                 obj.user=request.user 
-                obj.date_verified = datetime.datetime.now()
                 obj.save()
                 return HttpResponseRedirect(reverse(approval_pro_ord))
         else:
             return HttpResponseRedirect(reverse(approval_pro_ord))
     else:
-        if po.status == 2:
+        if po.status == 2 or po.status == 3:
             form =  ApprovalForm()
-        elif po.status == 3:
-            form =  ApprovalForm(instance = po.qualificationproord)
+        elif po.status == 5 or po.status == 6:
+            form =  ApprovalForm(instance = po.approvalproord)
         else:
             return HttpResponseRedirect(reverse(approval_pro_ord))
     object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \

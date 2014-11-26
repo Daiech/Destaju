@@ -7,14 +7,15 @@ def get_str_status(obj):
     if obj.status == 1:
         status="Generada"
     elif obj.status == 2:
-        status="llena"
+        status="Llena"
     elif obj.status == 3:
-        if obj.qualificationproord.status == 1:
-            status="Calificada y Aprobada"
-        else:
-            status="Calificada y No Aprobada"
+        status="Calificada y no aprobada"
     elif obj.status == 4:
         status="En nomina"
+    elif obj.status == 5:
+        status="Aprobada y no calificada"
+    elif obj.status == 6:
+        status="Aprobada y calificada"
     else:
         status = "ERROR"
     return status
@@ -67,12 +68,12 @@ def get_production_order_json(pro_ord_obj):
         comments_filling = ""
         
     try:
-        comments_qualified = pro_ord_obj.qualificationproord.comments_value
+        comments_qualified = pro_ord_obj.qualificationproord.comments
     except:
         comments_qualified = ""
 
     try:
-        comments_verified = pro_ord_obj.qualificationproord.comments
+        comments_verified = pro_ord_obj.approvalproord.comments
     except:
         comments_verified = ""
         
@@ -94,12 +95,12 @@ def get_production_order_json(pro_ord_obj):
         user_filling = ""    
 
     try:
-        user_qualification = pro_ord_obj.qualificationproord.user_value.get_full_name()
+        user_qualification = pro_ord_obj.qualificationproord.user.get_full_name()
     except:
         user_qualification = ""
 
     try:
-        user_approval = pro_ord_obj.qualificationproord.user.get_full_name()
+        user_approval = pro_ord_obj.approvalproord.user.get_full_name()
     except:
         user_approval = ""
 
