@@ -171,9 +171,18 @@ def update_production_order(request, id_production_order):
 @access_required("superadmin", "admin", "s1", "s2")
 def delete_production_order(request, id_production_order):
     """Logical deletion of tools"""
-    obj = get_object_or_404(ProductionOrder, pk=id_production_order)
-    obj.is_active=False
-    obj.save()
+    productionorder_obj = get_object_or_404(ProductionOrder, pk=id_production_order)
+    productionorder_obj.is_active=False
+    productionorder_obj.save()
+    
+    # reject employed order
+    reject_employedorder_list = EmployedOrder.objects.filter(production_order=productionorder_obj, status_order="Waiting") # .exclude(id=employedorder_obj.id)
+    for reject_employedorder_obj in reject_employedorder_list:
+        reject_employedorder_obj.status_order='Not_Approved_OP_Canceled'
+        reject_employedorder_obj.user_approver = request.user
+        reject_employedorder_obj.date_approved = datetime.datetime.now()
+        reject_employedorder_obj.save()
+    
     return HttpResponseRedirect(reverse(create_production_order))
 
 

@@ -69,15 +69,26 @@ class ProviderOrder(models.Model):
 
 class EmployedOrder(models.Model):
 
-    TYPE_CHOICES =( ('Recovery','Retorno al almacen'),    ('Output','Salida por OP'), ('Output_Stock','Salida por almacen'))
-    STATUS_CHOICES =( ('Waiting','En espera'), ('Approved','Aprobada'), ('Not_Approved','Rechazada'),('Not_Approved_OP','Rechazada desde OP'))
+    TYPE_CHOICES =( 
+        ('Recovery','Retorno al almacen'),    
+        ('Output','Salida por OP'), 
+        ('Output_Stock','Salida por almacen')
+    )
+
+    STATUS_CHOICES =( 
+        ('Waiting','En espera'), 
+        ('Approved','Aprobada'), 
+        ('Not_Approved','Rechazada'),
+        ('Not_Approved_OP',u'Rechazada automaticamente por Modificación de OP'),
+        ('Not_Approved_OP_Canceled',u'Rechazada automaticamente por Cancelación de OP')
+    )
 
     user_approver = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user_approver') 
     user_generator = models.ForeignKey(User, related_name='%(class)s_user_generator') 
     production_order = models.ForeignKey(ProductionOrder, related_name='%(class)s_production_order') 
-    type_order = models.CharField(max_length=35, choices=TYPE_CHOICES)
+    type_order = models.CharField(max_length=50, choices=TYPE_CHOICES)
     details = models.TextField(blank=True, null=True)
-    status_order = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Waiting')
+    status_order = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Waiting')
     date_approved = models.DateTimeField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
