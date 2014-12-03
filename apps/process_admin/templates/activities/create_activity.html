@@ -72,11 +72,11 @@
 			<div class="modal-body">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title pull-left">
+						<h3 class="panel-title {% if form_mode == '_update' %}pull-left {% endif %}">
 						{% if form_mode == "_create" %}
-							AGREGAR
+							FORMULARIO PARA AGREGAR ACTIVIDAD
 						{% elif form_mode ==  "_update" %}
-							EDITAR
+							FORMULARIO PARA EDITAR ACTIVIDAD
 						{% endif %}
 						</h3>
 						<div class="text-right">
@@ -97,7 +97,7 @@
 				<button type="submit" class="btn btn-primary" name="_createanother">Guardar y agregar otro</button>
 				{% endif %}		        
 		        <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
-		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Cerrar</button>
 		    </div>
 		    </form>
 		</div>
@@ -123,10 +123,15 @@
 		{% endif %}
 		$("span").tooltip();
 		{% if form_mode ==  "_update" %}
-			$(".close-modal").on('click', function(){
-				top.location ="{% url 'create_activity' %}";
-			});
+			// $(".close-modal").on('click', function(){
+			// 	top.location ="{% url 'create_activity' %}";
+			// });
+			$('#activityFormModal').on('hidden.bs.modal', function () {
+            	top.location = "{% url 'create_activity' %}"
+        	});
 		{% endif %}
+
+
 
 		/* dataTables jQuery plugin activation setDataTables(id_table)*/
 		setDataTables('#dataTable')

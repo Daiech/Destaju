@@ -1,0 +1,49 @@
+<hr />
+<div class="panel-heading">
+	<h3 class="panel-title">
+		Resumen de orden de produccion 
+	</h3>
+</div>
+<table class="table table-hover table-condensed table-striped">
+	<tr><td>Estado</td><td>{{ production_order_json.status }}</td></tr>
+	<tr><td>Actividad</td><td>{{ production_order_json.activity }}</td></tr>
+	<tr><td>Lugar</td><td>{{ production_order_json.place }}</td></tr>
+	<tr><td>Fecha creaci&oacute;n</td><td>{{ production_order_json.date_added}}</td></tr>
+	<tr><td>Ultima modificaci&oacute;n</td><td>{{ production_order_json.date_modified}}</td></tr>
+	
+	<tr><td>Generada por</td><td>{{ production_order_json.user.generator}}</td></tr>
+	<tr><td>Observaci&oacute;n al generar</td><td>{{ production_order_json.comments.generated}}</td></tr>
+	<tr><td>Llenada por</td><td>{{ production_order_json.user.filling}}</td></tr>
+	<tr><td>Observaci&oacute;n al llenar</td><td>{{ production_order_json.comments.filling}}</td></tr>
+	<tr><td>Calificaci&oacute;n</td><td>{{ production_order_json.qualification}}</td></tr>
+	<tr><td>Calificada por</td><td>{{ production_order_json.user.qualification}}</td></tr>
+	<tr><td>Observaci&oacute;n al calificar</td><td>{{ production_order_json.comments.qualified}}</td></tr>
+	<tr><td>Verificaci&oacute;n</td><td>{{ production_order_json.verification}}</td></tr>
+	<tr><td>Verificada por</td><td>{{ production_order_json.user.approval}}</td></tr>
+	<tr><td>Observaci&oacute;n al verificar</td><td>{{ production_order_json.comments.verified}}</td></tr>
+</table>
+<div class="panel-heading">
+	<h3 class="panel-title">
+		Responsables
+	</h3>
+</div>
+<table class="table table-hover table-condensed table-striped">
+	<tr><th>Nombre</th><th class="text-right">Cantidad ({{production_order_json.measuring_unit}})</th><th class="text-right">Observaciones</th></tr>
+	{% for responsible in production_order_json.responsible %}
+	<tr><td >{{ responsible.name}}</td><td class="text-right">{{ responsible.filling }} </td><td>{{ responsible.comments }}</td></tr>
+	{% endfor %}
+	<tr><td >Total</td><td class="text-right"><strong>{{ production_order_json.total }}</strong></td><td></td></tr>
+</table>
+<div class="panel-heading">
+	<h3 class="panel-title">
+		Ordenes de items de inventario
+	</h3>
+</div>
+<table class="table table-hover table-condensed table-striped">
+	{% for employed_order in production_order_json.employed_orders_output_approved %}
+	<tr><td colspan="3"><strong>No. Orden: {{ employed_order.id}} / {{ employed_order.status_order }} / {{ employed_order.type_order }} </strong></td></tr>
+		{% for item in employed_order.items %}
+			<tr><td ></td><td class="text-right">{{ item.name }}</td><td class="text-right" >{{ item.quantity }}</td></tr>
+		{% endfor %}
+	{% endfor %}
+</table>

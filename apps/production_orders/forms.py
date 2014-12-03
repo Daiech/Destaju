@@ -1,6 +1,6 @@
 #encoding:utf-8
 from django import forms
-from apps.production_orders.models import ProductionOrder, FillingProOrd, QualificationProOrd, Filling #Qualifications
+from apps.production_orders.models import ProductionOrder, FillingProOrd, QualificationProOrd, Filling, ApprovalProOrd
 from apps.process_admin.models import Activities, Places, Tools, UserProfile
 from django.contrib.auth.models import User
 
@@ -19,21 +19,22 @@ class ProductionOrderForm(forms.ModelForm):
     queryset_activity = Activities.objects.filter(is_active=True,is_available=True)
     queryset_place = Places.objects.filter(is_active=True, is_available=True)
     queryset_responsable = User.objects.filter(userprofile__is_active_worker=True, userprofile__user_type__pk = 7)
-    queryset_tools = Tools.objects.filter(is_active=True, is_available=True) 
+    # queryset_tools = Tools.objects.filter(is_active=True, is_available=True) 
     
-    activity = forms.ModelChoiceField(label="Actividad", queryset=queryset_activity, empty_label=None)
-    place = forms.ModelChoiceField(label="Lugar", queryset=queryset_place, empty_label=None)
+    activity = forms.ModelChoiceField(label="Actividad", queryset=queryset_activity)
+    place = forms.ModelChoiceField(label="Lugar", queryset=queryset_place)
     responsible = forms.ModelMultipleChoiceField(label="Responsables", queryset=queryset_responsable,  widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona los responsables"}))
-    tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False, widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona las herramientas"}))
+    # tools = forms.ModelMultipleChoiceField(label="Herramientas", queryset=queryset_tools, required=False, widget= forms.SelectMultiple(attrs={'class': 'chosen-select', 'data-placeholder':"Selecciona las herramientas"}))
     comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = ProductionOrder
-        fields = ('activity', 'place', 'responsible', 'tools', 'comments')
+        fields = ('activity', 'place', 'responsible', 'comments')
 
 
 class FillingForm(forms.ModelForm):
-    value = forms.CharField(label="Value", widget=forms.TextInput(attrs={'placeholder': 'cantidad','type':"number","step":"any"}))
+    value = forms.CharField(label="Tiempo", widget=forms.TextInput(attrs={'placeholder': 'cantidad','type':"number","step":"any"}))
+    # time = forms.CharField(label="Tiempo (H)", widget=forms.TextInput(attrs={'placeholder': 'tiempo en horas','type':"number","step":"any"}))
     comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
@@ -53,18 +54,31 @@ class FillingProOrdForm(forms.ModelForm):
 #            'user': forms.Select(attrs={'class':'name-only'}),
 #        }
 
+
+
 class QualificationsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(QualificationsForm, self).__init__(*args, **kwargs)
-
-        self.fields['status'].label = "Estado"
         self.fields['value'].label = "Valor"
         
     comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = QualificationProOrd
-        fields = ('value', 'status', 'comments')
+        fields = ('value', 'comments')
+
+
+
+class ApprovalForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ApprovalForm, self).__init__(*args, **kwargs)
+        self.fields['status'].label = "Estado"
+        
+    comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
+
+    class Meta:
+        model = ApprovalProOrd
+        fields = ('status', 'comments')
         
 
 class ListProductionOrderForm(forms.Form):

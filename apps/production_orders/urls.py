@@ -18,6 +18,11 @@ qualification = patterns('apps.production_orders.views',
     url(r'^calificar/(?P<id_production_order>[0-9]+)$', 'qualification', name="qualification"),
 )
 
+approval = patterns('apps.production_orders.views',
+    url(r'^aprobacion_de_op/$', 'approval_pro_ord', name="approval_pro_ord"),
+    url(r'^aprobar/(?P<id_production_order>[0-9]+)$', 'approval', name="approval"),
+)
+
 list_pro_ord = patterns('apps.production_orders.views',
     url(r'^consultar_op/$', 'list_production_orders', name="list_production_orders"),
     url(r'^ver_op/(?P<id_production_order>[0-9]+)$', 'show_production_order_ajax', name="show_production_order_ajax"),
@@ -25,4 +30,4 @@ list_pro_ord = patterns('apps.production_orders.views',
 
 
 
-production_orders_urls = generation_of_production_order + filling + qualification + list_pro_ord
+production_orders_urls = generation_of_production_order + filling + qualification + list_pro_ord + approval

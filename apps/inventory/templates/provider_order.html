@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% block TITLE %} Inventario - Proveedores{% endblock %}
+{% block content %}
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title pull-left">Ordenes de ingreso para proveedores</h3>
+		<div class="text-right">
+			<a  id="add_item" href="#formModal" title="Haz click aqu&iacute; para ingresar un item al almacen" data-toggle="modal" class="btn btn-primary btn-sm">
+    			<span class="glyphicon glyphicon-plus"></span> Ingresar items
+    		</a>
+		</div>
+	</div>
+	<div class="table-responsive">
+	<table id="dataTable" class="table table-hover table-condensed table-striped">
+		<thead>
+		<tr>
+			<th></th>
+			<th>Estado</th>
+			<th>id</th>
+			<th># Factura</th>
+			<th>Proveedor</th>
+			<th>Fecha</th>
+			<th>Acciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for obj_provider_order in list_provider_order %}
+		<tr>
+			<td>
+				{% if obj_provider_order.status_order == "Waiting" %}
+					<span class="glyphicon glyphicon-time"></span>
+				{% elif obj_provider_order.status_order == "Approved" %}
+					<span class="glyphicon glyphicon-ok"></span>
+				{% elif obj_provider_order.status_order == "Not_Approved" %}
+					<span class="glyphicon glyphicon-remove"></span>
+				{% else %} 
+					<span class="glyphicon glyphicon-remove-sign"></span>
+				{% endif %}
+			</td>
+			<td >
+				{{obj_provider_order.get_status_order_display}}
+			</td >
+			<td >
+				{{obj_provider_order.id}}
+            </td>
+			<td>
+				{{obj_provider_order.invoice_number}}
+			</td>
+			<td >
+				{{obj_provider_order.user_provider.get_full_name}}
+			</td>
+			
+			<td><span title="{{obj_provider_order.date_added}}">{{obj_provider_order.date_added|date:"Y/m/d G:i"}}</span></td>
+
+			<td class="text-center actions">
+				<a href="{% url 'list_provider_order' %}?provider_order_id={{ obj_provider_order.id }}" title="Ver orden" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
+				{% if obj_provider_order.status_order == "Waiting" %}
+					<a href="{% url 'approve_provider_order' %}?provider_order_id={{ obj_provider_order.id }}"  title="Aprobar orden" class="btn"> <span class="glyphicon glyphicon-ok"></span> </a>
+					<a href="{% url 'reject_provider_order' %}?provider_order_id={{ obj_provider_order.id }}"  title="Rechazar orden" class="btn"> <span class="glyphicon glyphicon-remove"></span> </a>
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+	</div>
+</div>
+
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+					INGRESAR ITEM AL ALMACCEN
+				</h4>
+			</div>
+			<form method = "POST"  enctype="multipart/form-data" id="Form">
+			{% csrf_token %}
+			{{ formset.management_form }}
+			<div class="modal-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title ">
+							AGREGAR ITEMS AL INVENTARIO
+						</h3>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+                    <tr><td colspan="2">{{ form.user_provider }}{{ form.user_provider.errors }}</td><td >{{ form.invoice_number }}{{ form.invoice_number.errors }}</td></tr>
+                    <tr><td colspan="3">{{ form.details }}{{ form.details.errors }}</td></tr>
+                    </table>
+                    <table class="table table-hover table-condensed table-striped">
+                    <tr>
+                    	<th>Item</th>
+                    	<th>Cantidad</th>
+                    	<th>Valor unitario</th>
+                    </tr>
+                    {% for form in formset %}
+                         <tr>
+                            {{ form.id }}
+                            <td>{{ form.tool }}{{ form.tool.errors }}</td>
+                            <td>{{ form.quantity }}{{ form.quantity.errors }}</td>
+                            <td>{{ form.unit_value }}{{ form.unit_value.errors }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+				</div>
+			</div>
+			<div class="modal-footer">
+		        <button type="submit" class="btn btn-primary" >Guardar</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Cerrar</button>
+		    </div>
+		    </form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="providerOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <!-- Ventana Modal para agregar actividades. -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4>
+					ORDEN DE INGRESO
+				</h4>
+			</div>
+		
+			<div class="modal-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title ">
+							ORDEN DE PROVEEDOR
+						</h3>
+					</div>
+					<table class="table table-hover table-condensed table-striped">
+					<tr><td><strong>No. Factura: </strong></td><td >{{ provider_order_obj.invoice_number}}</td></tr>
+					<tr><td><strong>Estado </strong></td><td >{{ provider_order_obj.get_status_order_display}}</td></tr>
+					<tr><td><strong>Generada por: </strong></td><td >{{ provider_order_obj.user_generator}}</td></tr>
+                    <tr><td><strong>Proveedor: </strong></td><td >{{ provider_order_obj.user_provider}}</td></tr>
+                    <tr><td><strong>Detalles: </strong></td><td >{{ provider_order_obj.details}}</td></tr>
+                    <tr><td><strong>Fecha generacion: </strong></td><td >{{ provider_order_obj.date_added}}</td></tr>
+                    {% if not provider_order_obj.status_order == "Waiting" %}
+                    <tr><td><strong>Responsable de aprobar: </strong></td><td >{{ provider_order_obj.user_approver}}</td></tr>
+                    <tr><td><strong>Fecha aprobaci&oacute;n/rechazo: </strong></td><td >{{ provider_order_obj.date_approved}}</td></tr>
+                    {% endif %}
+                    </table>
+                    <div class="panel-heading">
+						<h3 class="panel-title ">
+							ITEMS
+						</h3>
+					</div>
+                    <table class="table table-hover table-condensed table-striped">
+                    <tr><th>Item</th><th>Cantidad</th><th>Valor unidad</th></tr>
+                    {% for quantity_order_obj in provider_order_obj.quantityprovidertool_provider_order.all %}
+                         <tr>
+                            <td>{{ quantity_order_obj.tool }}</td>
+                            <td>{{ quantity_order_obj.quantity }}</td>
+                            <td>{{ quantity_order_obj.unit_value }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				{% if provider_order_obj.status_order == "Waiting" %}
+					<a href="{% url 'approve_provider_order' %}?provider_order_id={{ provider_order_obj.id }}"  class="btn btn-primary" > <span class="glyphicon glyphicon-ok"></span> Aprobar</a>
+					<a href="{% url 'reject_provider_order' %}?provider_order_id={{ provider_order_obj.id }}"  class="btn btn-primary" > <span class="glyphicon glyphicon-remove"></span> Rechazar</a>
+				{% endif %}
+		        
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Cerrar</button>
+		    </div>
+		    
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block style %}
+<link href="{{ STATIC_URL }}css/chosen.css" rel="stylesheet">
+<style type="text/css">
+	.actions .btn{padding: 0;}
+	.panel-title{line-height: 34px;}
+	.default{ height: 25px !important;
+		width: 100% !important; }
+	
+	.search-field {
+		width: 100% !important;
+	}		
+	.search-field input{height: 25px !important;
+		}
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="{{ STATIC_URL }}js/chosen.jquery.js"></script>
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+
+		{% if show_form %}
+			$('#formModal').modal('show');
+		{% endif %}
+		{% if show_provider_order_modal %}
+			$('#providerOrderModal').modal('show');
+		{% endif %}
+		$("span").tooltip();
+
+		
+        // $('#formModal').on('hidden.bs.modal', function () {
+        //     top.location = "{% url 'list_provider_order' %}"
+        // });
+
+		setDataTables('#dataTable')
+		{% if error %}
+			setAlertError("No se puede procesar la solicitud", "{{ error }}");
+		{% endif%}
+	});
+</script>
+{% endblock %}
+
+
+
+
+
+

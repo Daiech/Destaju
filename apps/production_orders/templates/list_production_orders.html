@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block TITLE %}Ordenes de producci&oacute;n {% endblock %}
 {% block content %}
+{% load po_status %}
 <div class="panel panel-info">
 	<div class="panel-heading ">
 		<h3 id="bluePanel" class="panel-title pull-left">Consultar ordenes de producci&oacute;n</h3>
@@ -27,7 +28,7 @@
 	<table id="dataTable" class="table table-hover table-condensed table-striped">
 		<thead>
 		<tr>
-			<th></th>
+			<!-- <th></th> -->
 			<th>Estado</th>
 			<th>#</th>
 			<th>Creador</th>
@@ -42,39 +43,13 @@
 		<tbody>
 		{% for obj in object_list %}
 		<tr>
-			<td class="text-center actions">
-				{% if obj.status == 1 %}
-				<span title="Orden generada aun no se ha llenado" class="glyphicon glyphicon-unchecked" ></span></a>
-                {% elif obj.status == 2 %}
-                <span title="Orden llena,aun no se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
-                {% elif obj.status == 3 %}
-                	{% if obj.qualificationproord.status == 1%}
-                	<span title="Orden calificada y aprobada" class="glyphicon glyphicon-ok-circle" ></span></a>
-                	{%else%}
-                	<span title="Calificada pero no aprobada" class="glyphicon glyphicon-remove-sign" ></span></a>
-                	{%endif%}
-                {% elif obj.status == 4 %}
-                <span title="En n&oacute;mina" class="glyphicon glyphicon-star" ></span></a>
-                {% else %}
-                ERROR
-                {% endif %}
-            </td>
+			<!-- <td class="text-center actions">
+			 {% autoescape off %}
+			 	{{ obj|po_status_icon}}
+			 {% endautoescape %}
+            </td> -->
 			<td class="text-center">
-				{% if obj.status == 1 %}
-					Generada
-				{% elif obj.status == 2 %}
-					llena
-				{% elif obj.status == 3 %}
-					{% if obj.qualificationproord.status == 1%}
-                	Calificada y Aprobada
-                	{%else%}
-                	Calificada y No Aprobada
-                	{%endif%}
-				{% elif obj.status == 4 %}
-					En n&oacute;mina
-				{% else %}
-					ERROR
-				{% endif %}
+				{{ obj.get_status_display }}
 			</td>
 			<td >{{obj.pk}}</td>
 			<td>{{obj.user.username}}</td>
@@ -106,7 +81,7 @@
 			<div id="proOrdData" class="modal-body">
 			</div>
 			<div class="modal-footer">
-		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Cerrar</button>
 		    </div>
 		    </form>
 		</div>
@@ -122,29 +97,7 @@
 				<strong>#[[pk]]</strong>
 			</div>
 		</div>
-		<table class="table table-hover table-condensed table-striped">
-			<tr><td>Estado</td><td>[[ status ]]</td></tr>
-			<tr><td>Actividad</td><td>[[ activity ]]</td></tr>
-			<tr><td>Lugar</td><td>[[ place ]]</td></tr>
-			<tr><td>Fecha creaci&oacute;n</td><td>[[date_added]]</td></tr>
-			<tr><td>Ultima modificaci&oacute;n</td><td>[[date_modified]]</td></tr>
-			<tr><td>Calificaci&oacute;n</td><td>[[qualification]]</td></tr>
-			<tr><td>Observaci&oacute;n al generar</td><td>[[comments.generated]]</td></tr>
-			<tr><td>Observaci&oacute;n al llenar</td><td>[[comments.filling]]</td></tr>
-			<tr><td>Observaci&oacute;n al calificar</td><td>[[comments.qualified]]</td></tr>
-		</table>
-		<div class="panel-heading">
-			<h3 class="panel-title">
-				Responsables
-			</h3>
-		</div>
-		<table class="table table-hover table-condensed table-striped">
-			<tr><th>Nombre</th><th>Cantidad</th><th>Observaciones</th></tr>
-			<!-- [[#responsible]]  -->
-			<tr><td >[[name]]</td><td class="text-right">[[filling]]</td><td>[[comments]]</td></tr>
-			<!-- [[/responsible]]  -->
-			<tr><td >Total</td><td class="text-right"><strong>[[total]]</strong></td><td></td></tr>
-		</table>
+		{% include 'resume_production_order.html' %}
 	</div>
 </div>
 {% endblock %}
@@ -213,7 +166,7 @@
         	ajax_url = $(this).attr("data-ajax-url")
             sendAjax(ajax_url,{},"#load-member",showProOrdModal)
         }
-        $(".show-pro-ord").on("click",showProOrd);
+        $(document).on("click",".show-pro-ord",showProOrd);
 	});
 </script>
 {% endblock %}

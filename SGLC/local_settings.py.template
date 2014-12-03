@@ -1,11 +1,17 @@
 DEBUG = False
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # sqlite3, 
+        'NAME': 'destaju',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
     }
 }
+URL_BASE = "http://agro.destaju.com"
+PROJECT_NAME = "DESTAJU AGRO"
+PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
+
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
