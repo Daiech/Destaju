@@ -72,6 +72,18 @@ class UserType(models.Model):
         else:
             return False
 
+    def can_admin_inventory(self):
+        if self.pk == 1 or self.pk == 2 or self.pk == 9:
+            return True
+        else:
+            return False
+
+    def can_admin_op(self):
+        if self.pk in [1,2,3,4,6]:
+            return True
+        else:
+            return False
+
     def get_permissions(self):
         return ", ".join([s.code for s in self.permissions_set.all()])
 
@@ -97,7 +109,7 @@ class Permissions(models.Model):
         return self.code
 
     def user_types(self):
-        return ", ".join([s.code for s in self.usertype.all()])
+        return ", ".join([str(s) for s in self.usertype.all()])
 
     class Meta:
         ordering = ('code',)

@@ -4,44 +4,11 @@ from django.db.models import Sum
 from templatetags.po_status import *
 
 def get_str_status(obj):
-    if obj.status == 1:
-        status="Generada"
-    elif obj.status == 2:
-        status="Llena"
-    elif obj.status == 3:
-        status="Calificada y no aprobada"
-    elif obj.status == 4:
-        status="En nomina"
-    elif obj.status == 5:
-        status="Aprobada y no calificada"
-    elif obj.status == 6:
-        status="Aprobada y calificada"
-    else:
-        status = "ERROR"
-    return status
+    return obj.get_status_display()
 
 
 def get_str_qualification_pro_ord(obj):
-
-    try:
-        value = obj.qualificationproord.value
-    except:
-        value = 0
-
-    if value == 1:
-        str_value = "Malo"
-    elif value == 2:
-        str_value = "Regular"
-    elif value == 3:
-        str_value = "Bueno"
-    elif value == 4:
-        str_value = "Muy bueno"
-    elif value == 5:
-        str_value = "Excelente"
-    else:
-        str_value = "Sin Calificar"
-
-    return str_value
+    return obj.qualificationproord.get_value_display()
 
 
 def get_production_order_json(pro_ord_obj):
@@ -49,7 +16,7 @@ def get_production_order_json(pro_ord_obj):
     filling_list = Filling.objects.filter(filling_pro_ord__production_order=pro_ord_obj)
 
     # status = get_str_status(pro_ord_obj)
-    status = po_status_text(pro_ord_obj)
+    # status = po_status_text(pro_ord_obj)
 
 
     responsible_list=[]
@@ -107,7 +74,9 @@ def get_production_order_json(pro_ord_obj):
     
         
 
-    qualification  = get_str_qualification_pro_ord(pro_ord_obj)
+    # qualification  = get_str_qualification_pro_ord(pro_ord_obj)
+    qualification  = pro_ord_obj.qualificationproord.get_value_display()
+    verification  = pro_ord_obj.approvalproord.get_status_display()
     
 
     employed_orders_output_approved = []
@@ -123,13 +92,14 @@ def get_production_order_json(pro_ord_obj):
 
     json_dict = {
         "pk": pro_ord_obj.pk,
-        "status":  status,
+        "status":  pro_ord_obj.get_status_display(),
         "activity": pro_ord_obj.activity.name,
         "measuring_unit":pro_ord_obj.activity.measuring_unit,
         "place": pro_ord_obj.place.name,
         "date_added":formats.date_format(pro_ord_obj.date_added, "DATETIME_FORMAT"),
         "date_modified":formats.date_format(pro_ord_obj.date_modified, "DATETIME_FORMAT"),
         "qualification":qualification,
+        "verification":verification,
         "comments":{
             "generated": comments_generated,
             "filling": comments_filling,

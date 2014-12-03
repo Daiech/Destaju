@@ -27,31 +27,23 @@
         {% for obj in object_list %}
         <tr>
             <td class="text-center actions">
-            	{% if obj.status == 3 and obj.qualificationproord.is_verified %}
-                    {% if obj.qualificationproord.status = 1 %}
-            	       <span title="Ya se aprob&oacute;" class="glyphicon glyphicon-ok-circle" ></span></a>
+            	{% if obj.approvalproord.is_verified %}
+                    {% if obj.approvalproord.status = 1 %}
+            	       <span title="Ya se aprob&oacute;" class="glyphicon glyphicon-ok" ></span>
                     {% else %}
-                        <span title="No se ha aprobado" class="glyphicon glyphicon-remove-sign" ></span></a>                
+                        <span title="No se ha aprobado" class="glyphicon glyphicon-remove" ></span>                
                     {% endif %}
-                {% elif obj.status == 2 or not obj.qualificationproord.is_verified %}
-                    <span title="No se ha verificado" class="glyphicon glyphicon-time" ></span></a>
                 {% else %}
-                    ERROR
+                    <span title="No se ha verificado" class="glyphicon glyphicon-time" ></span>
                 {% endif %}
             </td>
             <td>
             
-            {% if obj.status == 3 and obj.qualificationproord.is_verified %}
-                    {% if obj.qualificationproord.status = 1 %}
-                       Aprobada
-                    {% else %}
-                        No Aprobada
-                    {% endif %}
-                {% elif obj.status == 2 or not obj.qualificationproord.is_verified %}
-                    En espera
-                {% else %}
-                    ERROR
-                {% endif %}
+            {% if obj.approvalproord.is_verified %}
+                    {{ obj.approvalproord.get_status_display }}
+            {% else %}
+                -------
+            {% endif %}
             </td>
             <td >{{obj.pk}}</td>
             <td>{{obj.user.username}}</td>
@@ -72,11 +64,11 @@
                 </ul>
             </td>
             <td><span title="{{obj.last_filling}}">{{obj.last_filling|date:"Y/m/d G:i"}}</span></td></td>
-            <td><span title="{{obj.qualificationproord.date_verified}}">{{obj.qualificationproord.date_verified|date:"Y/m/d G:i"}}</span></td>
+            <td><span title="{{obj.approvalproord.date_verified}}">{{obj.approvalproord.date_verified|date:"Y/m/d G:i"}}</span></td>
             <td class="text-center actions">
-                {% if obj.status == 2 or not obj.qualificationproord.is_verified  %}
+                {% if not obj.approvalproord.is_verified  %}
                 <a href="{% url 'approval' obj.id %}" title="Calificar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-ok-circle" ></span></a>
-                {% elif obj.status == 3 and obj.qualificationproord.is_verified %}
+                {% elif obj.approvalproord.is_verified %}
                 <a href="{% url 'approval' obj.id %}" title="Editar esta calificacion orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil" ></span></a>
                 {% else %}
                 ERROR
@@ -110,7 +102,7 @@
         $("span").tooltip();
         {% if form_mode ==  "_update" %}
             $('#formModal').on('hidden.bs.modal', function () {
-                top.location = "{% url 'qualification_pro_ord' %}"
+                top.location = "{% url 'approval_pro_ord' %}"
             });
         {% endif %}
         /* dataTables jQuery plugin activation setDataTables(id_table)*/

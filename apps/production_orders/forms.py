@@ -34,12 +34,12 @@ class ProductionOrderForm(forms.ModelForm):
 
 class FillingForm(forms.ModelForm):
     value = forms.CharField(label="Tiempo", widget=forms.TextInput(attrs={'placeholder': 'cantidad','type':"number","step":"any"}))
-    time = forms.CharField(label="Tiempo (H)", widget=forms.TextInput(attrs={'placeholder': 'tiempo en horas','type':"number","step":"any"}))
+    # time = forms.CharField(label="Tiempo (H)", widget=forms.TextInput(attrs={'placeholder': 'tiempo en horas','type':"number","step":"any"}))
     comments = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 
     class Meta:
         model = Filling
-        fields = ('user', 'value', 'comments','time')
+        fields = ('user', 'value', 'comments')
         widgets = {
             'user': forms.Select(attrs={'class':'name-only'}),
         }

@@ -55,9 +55,10 @@ class QuantityProviderToolForm(forms.ModelForm):
 
 class EmployedOrderForm(forms.ModelForm):  
     TYPE_ORDER = (('','---------'),('Recovery','Devolucion'),('Output_Stock',"Salida"))
-    queryset_production_order = ProductionOrder.objects.get_all_active().values_list('pk', flat=True)[0:50] # .filter(status=1)
+    list_production_order = ProductionOrder.objects.get_all_active().values_list('pk', flat=True)[0:50] # .filter(status=1)
+    
 
-    production_order = forms.ModelChoiceField(label="Orden de produccion", queryset=ProductionOrder.objects.filter(pk__in=list(queryset_production_order)).order_by('-date_added') )  #, empty_label=None
+    production_order = forms.ModelChoiceField(label="Orden de produccion", queryset=ProductionOrder.objects.filter(pk__in=list_production_order).order_by('-date_added') )  #, empty_label=None
     type_order = forms.ChoiceField(label="Tipo", choices=TYPE_ORDER)
     details = forms.CharField(label=u"Observaciónes", widget=forms.TextInput(attrs={'placeholder': u"Observaciónes"}), required=False)
 

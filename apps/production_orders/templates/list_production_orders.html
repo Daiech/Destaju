@@ -28,7 +28,7 @@
 	<table id="dataTable" class="table table-hover table-condensed table-striped">
 		<thead>
 		<tr>
-			<th></th>
+			<!-- <th></th> -->
 			<th>Estado</th>
 			<th>#</th>
 			<th>Creador</th>
@@ -43,13 +43,13 @@
 		<tbody>
 		{% for obj in object_list %}
 		<tr>
-			<td class="text-center actions">
+			<!-- <td class="text-center actions">
 			 {% autoescape off %}
 			 	{{ obj|po_status_icon}}
 			 {% endautoescape %}
-            </td>
+            </td> -->
 			<td class="text-center">
-				{{ obj|po_status_text }}
+				{{ obj.get_status_display }}
 			</td>
 			<td >{{obj.pk}}</td>
 			<td>{{obj.user.username}}</td>

@@ -10,13 +10,15 @@
 	<tr><td>Lugar</td><td>{{ production_order_json.place }}</td></tr>
 	<tr><td>Fecha creaci&oacute;n</td><td>{{ production_order_json.date_added}}</td></tr>
 	<tr><td>Ultima modificaci&oacute;n</td><td>{{ production_order_json.date_modified}}</td></tr>
-	<tr><td>Calificaci&oacute;n</td><td>{{ production_order_json.qualification}}</td></tr>
+	
 	<tr><td>Generada por</td><td>{{ production_order_json.user.generator}}</td></tr>
 	<tr><td>Observaci&oacute;n al generar</td><td>{{ production_order_json.comments.generated}}</td></tr>
 	<tr><td>Llenada por</td><td>{{ production_order_json.user.filling}}</td></tr>
 	<tr><td>Observaci&oacute;n al llenar</td><td>{{ production_order_json.comments.filling}}</td></tr>
+	<tr><td>Calificaci&oacute;n</td><td>{{ production_order_json.qualification}}</td></tr>
 	<tr><td>Calificada por</td><td>{{ production_order_json.user.qualification}}</td></tr>
 	<tr><td>Observaci&oacute;n al calificar</td><td>{{ production_order_json.comments.qualified}}</td></tr>
+	<tr><td>Verificaci&oacute;n</td><td>{{ production_order_json.verification}}</td></tr>
 	<tr><td>Verificada por</td><td>{{ production_order_json.user.approval}}</td></tr>
 	<tr><td>Observaci&oacute;n al verificar</td><td>{{ production_order_json.comments.verified}}</td></tr>
 </table>

@@ -27,20 +27,16 @@
         <tr>
             <td class="text-center actions">
             	{% if  obj.qualificationproord.is_qualified %}
-                    <span title="Ya se califico" class="glyphicon glyphicon-ok-circle" ></span></a>
-                {% elif  obj.status == 2 or obj.status == 3 %}
-                    <span title="No se ha calificado" class="glyphicon glyphicon-stop" ></span></a>
+                    <span title="Ya se califico" class="glyphicon glyphicon-star" ></span></a>
                 {% else %}
-                    ERROR
+                    <span title="No se ha verificado" class="glyphicon glyphicon-time" ></span>
                 {% endif %}
             </td>
             <td>
             {% if  obj.qualificationproord.is_qualified %}
-                    Calificada
-            {% elif  obj.status == 2 or obj.status == 3  %}
-                    llena
+                    {{ obj.qualificationproord.get_value_display }}
             {% else %}
-                    ERROR
+                -------
             {% endif %}
             </td>
             <td >{{obj.pk}}</td>
@@ -64,9 +60,9 @@
             <td><span title="{{obj.last_filling}}">{{obj.last_filling|date:"Y/m/d G:i"}}</span></td></td>
             <td><span title="{{obj.qualificationproord.date_qualified}}">{{obj.qualificationproord.date_qualified|date:"Y/m/d G:i"}}</span></td>
             <td class="text-center actions">
-                {% if obj.status == 2 or not obj.qualificationproord.is_qualified %}
+                {% if not obj.qualificationproord.is_qualified %}
                 <a href="{% url 'qualification' obj.id %}" title="Calificar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-ok-circle" ></span></a>
-                {% elif obj.status == 3 and obj.qualificationproord.is_qualified %}
+                {% elif obj.qualificationproord.is_qualified %}
                 <a href="{% url 'qualification' obj.id %}" title="Editar esta calificacion orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil" ></span></a>
                 {% else %}
                 ERROR

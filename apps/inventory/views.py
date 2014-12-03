@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.forms.models import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from apps.account.decorators import access_required
 import datetime
 # from django.utils.translation import activate
 # 
@@ -17,12 +18,14 @@ from .utils import is_repeated_tool
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def list_inventory(request):
     list_inventory = Inventory.objects.get_all_active()
     return render_to_response('inventory.html', locals(), context_instance=RequestContext(request))
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def list_provider_order(request):
     list_provider_order = ProviderOrder.objects.get_all_active().order_by('-date_added')
     if request.method == 'POST':    
@@ -70,6 +73,7 @@ def list_provider_order(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def approve_provider_order(request):
     provider_order_id = request.GET.get('provider_order_id')
     if provider_order_id:
@@ -91,6 +95,7 @@ def approve_provider_order(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def reject_provider_order(request):
     provider_order_id = request.GET.get('provider_order_id')
     if provider_order_id:
@@ -103,6 +108,7 @@ def reject_provider_order(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def list_item_history(request):
     
     tool_id = request.GET.get('tool_id')
@@ -122,6 +128,7 @@ def list_item_history(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def list_employed_order(request):
     
     if request.method == 'POST':
@@ -184,6 +191,7 @@ def list_employed_order(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def approve_employed_order(request):
     employed_order_id = request.GET.get('employed_order_id')
     # type_order = request.GET.get('type_order')
@@ -214,6 +222,7 @@ def approve_employed_order(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "storer")
 def reject_employed_order(request):
     employed_order_id = request.GET.get('employed_order_id')
     if employed_order_id:

@@ -200,7 +200,7 @@ def list_payroll(request):
     for obj in obj_list:
         total_payroll = 0
         #total activities
-        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__qualificationproord__status=1).exclude(filling_pro_ord__production_order__status=4)
+        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__approvalproord__status=1).exclude(filling_pro_ord__production_order__status=4)
         total_activities = 0
         for a in activities:
             a1 = a.filling_pro_ord.production_order.activity.value
@@ -263,7 +263,8 @@ def set_payroll(request):
         if request.method == "GET":
             payroll_obj = Payroll(admin = request.user)
             payroll_obj.save()
-            ProductionOrder.objects.filter(status=3, qualificationproord__is_verified= True).update(status=4, payroll=payroll_obj)
+            # only the verified production orders
+            ProductionOrder.objects.filter(status__in=[5,6], approvalproord__is_verified= True).update(status=4, payroll=payroll_obj)
             DiscountsApplied.objects.filter(is_active=True).update(is_active=False, payroll=payroll_obj)
             IncreasesApplied.objects.filter(is_active=True).update(is_active=False, payroll=payroll_obj)
             json_str = json.dumps({"payroll_pk":payroll_obj.pk})
@@ -300,7 +301,7 @@ def read_payroll(request, payroll_pk):
     for obj in obj_list:
         total_payroll = 0
         #total activities
-        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__qualificationproord__status=1, filling_pro_ord__production_order__status=4)
+        activities = filling_list.filter(user=obj, filling_pro_ord__production_order__approvalproord__status=1, filling_pro_ord__production_order__status=4)
         total_activities = 0
         for a in activities:
             a1 = a.filling_pro_ord.production_order.activity.value

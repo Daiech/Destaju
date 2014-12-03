@@ -185,7 +185,8 @@ def delete_production_order(request, id_production_order):
     
     return HttpResponseRedirect(reverse(create_production_order))
 
-
+@login_required()
+@access_required("superadmin", "admin", "s1", "s2")
 def generate_pdf(request,id_production_order):
     from django.template.loader import render_to_string
     html_string = render_to_string("generate_pdf.html",{"obj":ProductionOrder.objects.get(pk=id_production_order)})
@@ -266,7 +267,7 @@ def filling(request, id_production_order):
 @access_required("superadmin", "admin", "s1")
 def qualification_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3,5,6]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('qualification_pro_ord.html', locals(), context_instance=RequestContext(request))
 
@@ -287,7 +288,7 @@ def qualification(request, id_production_order):
                 obj.save()
                 if po.status == 2:
                     po.status = 3
-                elif po.satus == 5:
+                elif po.status == 5:
                     po.status = 6
                 po.save()
                 return HttpResponseRedirect(reverse(qualification_pro_ord))
@@ -322,7 +323,7 @@ def qualification(request, id_production_order):
 @access_required("superadmin", "admin", "s1")
 def approval_pro_ord(request):
     """Show the production orders with status 1:generate and 2:fulled """
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3,5,6]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     return render_to_response('approval_pro_ord.html', locals(), context_instance=RequestContext(request))
 
@@ -364,7 +365,7 @@ def approval(request, id_production_order):
             form =  ApprovalForm(instance = po.approvalproord)
         else:
             return HttpResponseRedirect(reverse(approval_pro_ord))
-    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3]).order_by('-date_added') \
+    object_list = ProductionOrder.objects.get_all_active().filter(status__in = [2,3,5,6]).order_by('-date_added') \
     .annotate(last_filling=Max('fillingproord__filling_filling_pro_ord__date_modified'))
     #    form_mode = "_create"
     show_form =True
@@ -417,6 +418,7 @@ def list_production_orders(request):
 
 
 @login_required()
+@access_required("superadmin", "admin", "s1", "s2")
 def show_production_order_ajax(request, id_production_order):
     if request.is_ajax():
         if request.method == "GET":

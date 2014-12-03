@@ -25,10 +25,10 @@ class ProductionOrder(models.Model):
             choices=(
                 (1,"Generada"),
                 (2,"Llena"),
-                (3,"Calificada y no aprobada"),
+                (3,"Ya calificada - no verificada"),
                 (4,"En nomina"),
-                (5,"Aprobada y no calificada"),
-                (6,"Calificada y aprobada")
+                (5,"No calificada - ya verificada"),
+                (6,"Ya calificada - ya verificada")
             )
         )
     is_active = models.BooleanField(default=True)
@@ -85,7 +85,7 @@ class ApprovalProOrd(models.Model):
     user = models.ForeignKey(User,  null=True, blank=True, related_name='%(class)s_user') 
     production_order = models.OneToOneField(ProductionOrder)
     comments = models.TextField(blank=True)
-    status = models.IntegerField(default=2,  choices=((1,"Aprobada"),(2,"No aprobada")))
+    status = models.IntegerField(default=2,  choices=((1,"Aprobada"),(2,"Rechazada")))
     is_verified = models.BooleanField(default=False)
 
     date_added = models.DateTimeField(auto_now_add=True)
