@@ -2,7 +2,7 @@
 {% load editinline %}
 {% block TITLE %}Administraci&oacute;n de usuarios{% endblock %}
 {% block content %}
-	<div class="panel panel-info">
+	<div class="panel panel-warning panel-daiech">
 		<div class="panel-heading">
 			<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
 			<div class="text-right">
@@ -85,7 +85,7 @@
 				<input type="hidden" value="" name="next" id="next">
 				<input type="hidden" value="" name="pk_user" id="pkUser">
 				<div class="modal-body">
-					<div class="panel panel-info">
+					<div class="panel panel-warning panel-daiech">
 						<div class="panel-heading">
 							<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
 							<div class="text-right">
@@ -135,7 +135,7 @@
 <!-- Show User Template -->
 	<div id="userTemplate" class="hidden">
 		{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
-		<div class="panel panel-info">
+		<div class="panel panel-warning panel-daiech">
 			<div class="panel-heading">
 				<h3 class="panel-title pull-left">Gesti&oacute;n de usuarios</h3>
 				<div class="text-right">
@@ -200,7 +200,7 @@
 <!-- can user login Template -->
 	<div id="userLoginTemplate" class="hidden">
 		{% templatetag openvariable %}=[[ ]]={% templatetag closevariable %}
-		<div class="panel panel-info">
+		<div class="panel panel-warning panel-daiech">
 			<div class="panel-heading">
 				<h3 class="panel-title">¿Seguro que quiere que [[ first_name ]] pueda acceder a la plataforma?</h3>
 			</div>

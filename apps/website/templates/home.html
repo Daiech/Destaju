@@ -6,7 +6,7 @@
 </div>
 <!-- <p class="lead">Bienvendo a {{ PROJECT_NAME }} <a href="{% url 'personal_data' %}">{{user.username}}</a></p> -->
 <div class="row">
-	<div class="col-sm-6 col-md-3">
+	<div class="col-sm-6 col-md-4">
 		<div class="thumbnail">
 			<img src="{{ STATIC_URL }}img/administration.png" alt="...">
 			<div class="caption">
@@ -16,14 +16,12 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6 col-md-3">
+	<div class="col-sm-6 col-md-4">
 		<div class="thumbnail">
 			<img src="{{ STATIC_URL }}img/report.png" alt="...">
 			<div class="caption">
 				<h3>Ordenes de producci&oacute;n</h3>
-				<p>Este m&oacute;dulo permite la generaci&oacute;n de las &oacute;rdenes de producci&oacute;n, llenado, calificaci&oacute;n y visualizaci&oacute;n de las mismas.
-<br><br>
-Creado para usuarios operativos encargados de gestionar las labores de campo en todo el proceso de producci&oacute;n trascurriendo por cada una de las etapas.</p>
+				<p>Este m&oacute;dulo permite la generaci&oacute;n de las &oacute;rdenes de producci&oacute;n, llenado, calificaci&oacute;n y visualizaci&oacute;n de las mismas.<br><br>Creado para usuarios operativos encargados de gestionar las labores de campo en todo el proceso de producci&oacute;n trascurriendo por cada una de las etapas.</p>
 				<p>
 				{% if user.userprofile.user_type.can_generate_op %}
                   <a href="{% url 'create_production_order' %}" class="btn btn-primary">Generaci&oacute;n de OP</a>
@@ -32,19 +30,7 @@ Creado para usuarios operativos encargados de gestionar las labores de campo en 
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6 col-md-3">
-		<div class="thumbnail">
-			<img src="{{ STATIC_URL }}img/administration.png" alt="...">
-			<div class="caption">
-				<h3>N&oacute;mina de Destajo</h3>
-				<p>Este m&oacute;dulo permite aplicar los descuentos de ley as&iacute; como descuentos adicionales suministrados por el usuario administrativo y la generaci&oacute;n de la n&oacute;mina final a pagar a cada empleado de manera detallada.
-<br><br>
-Creado para usuarios administrativos encargados de gestionar la n&oacute;mina.</p>
-				<p><a href="{% url 'list_payroll' %}" class="btn btn-primary">Generar N&oacute;mina</a></p>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-6 col-md-3">
+	<div class="col-sm-6 col-md-4">
 		<div class="thumbnail">
 			<img src="{{ STATIC_URL }}img/report.png" alt="...">
 			<div class="caption">
@@ -53,6 +39,33 @@ Creado para usuarios administrativos encargados de gestionar la n&oacute;mina.</
 				<br><br>
 				Creado para usuarios administrativos para consulta, programaci&oacute;n o toma de decisiones.</p>
 				<p><a href="{% url 'read_modifications'%}" class="btn btn-primary">Historial de modificaciones</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+<p></p>
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/administration.png" alt="...">
+			<div class="caption">
+				<h3>N&oacute;mina de Destajo</h3>
+				<p>Este m&oacute;dulo permite aplicar los descuentos de ley as&iacute; como descuentos adicionales suministrados por el usuario administrativo y la generaci&oacute;n de la n&oacute;mina final a pagar a cada empleado de manera detallada.<br><br>Creado para usuarios administrativos encargados de gestionar la n&oacute;mina.</p>
+				<p><a href="{% url 'list_payroll' %}" class="btn btn-primary">Generar N&oacute;mina</a></p>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<img src="{{ STATIC_URL }}img/administration.png" alt="...">
+			<div class="caption">
+				<h3>Inventario de herramientas</h3>
+				<p>Con este módulo de inventario de
+				herramientas e insumos se podrá tener un mayor control sobre las 
+				herramientas que se encuentran a disposición de todos los empleados y 
+				se evitará que se extravíen o que se devuelvan en mal estado.</p>
+				<p><a href="{% url 'list_inventory' %}" class="btn btn-primary">Inventario</a></p>
 			</div>
 		</div>
 	</div>

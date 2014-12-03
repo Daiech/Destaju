@@ -1,7 +1,7 @@
 
 body{height: calc(100% - 52px);height: -webkit-calc(100% - 52px);}
 #alert-message, #alert-error {margin-left: auto;margin-right: auto;margin-top: 8px;left:0;right:0;font-size: 14px;position: fixed;top:45px;width:50%;z-index: 10000;}
-.btn-account{border-right: solid thin #dadada;border-left: solid thin #dadada;}
+.btn-account{/*border-right: solid thin #dadada;*/border-left: solid thin #dadada;}
 .white-box-container{border-radius: 3px; border:solid thin #dadada;display:inline-block; padding: 15px;width: auto;}
 .t-center{text-align:center}
 input[type="text"], input[type="password"], input[type="url"], input[type="email"], input[type="tel"]{display: block;width: 100%;height: 34px;padding: 6px 12px;font-size: 14px;line-height: 1.428571429;color: #555555;vertical-align: middle;background-color: #ffffff;border: 1px solid #cccccc;border-radius: 4px;
@@ -19,6 +19,9 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 #dataTable_info, #dataTable_paginate{padding: 10px 0}
 /*close Table Plugin*/
 
+.modules-container{margin-top: 60px;padding: 0 20px;}
+.glyphicon-ok{color: #f0ad4e;}
+
 
 /* ====================================== forms ============================*/
 #id_description{ height:100px; width:100%; }
@@ -32,6 +35,9 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 
 .btn-primary {color: #ffffff;background-color: #f0ad4e;border-color: #DBA251;}
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary,
+.btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active
+{color: #ffffff;background-color: #f0ad4e;border-color: #DBA251;}
+
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{background-color: #f0ad4e;border-color: #DBA251;}
 /*.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus*/
 .text-lc,.text-rc{text-align: center;}

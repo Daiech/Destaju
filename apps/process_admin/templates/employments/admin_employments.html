@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block TITLE %}Administraci&oacute;n de cargos{% endblock %}
 {% block content %}
-	<div class="panel panel-info">
+	<div class="panel panel-warning panel-daiech">
 		<div class="panel-heading">
 			<h3 class="panel-title pull-left">Gesti&oacute;n de cargos</h3>
 			<div class="text-right">
@@ -54,7 +54,7 @@
 				<form method="POST"  enctype="multipart/form-data" id="ActivityForm" action="?workers={% if not is_active_worker %}0{% else %}1{% endif %}">
 				{% csrf_token %}
 				<div class="modal-body">
-					<div class="panel panel-info">
+					<div class="panel panel-warning panel-daiech">
 						<div class="panel-heading">
 							<h3 class="panel-title {% if form_mode == '_update' %}pull-left{% endif %}">
 							Gesti&oacute;n de cargos

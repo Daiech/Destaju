@@ -1,5 +1,5 @@
-{% load gravatartag %}
-<div class="container">
+{% load gravatartag i18n %}
+<div class="containers">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
       <span class="icon-bar"></span>
@@ -91,13 +91,14 @@
       </ul>
       {% if user.is_authenticated %}
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <!-- <li>
           <a href="{% url 'personal_data' %}"><strong>{{ user.userprofile.user_type.name }}</strong>: {{ user.username }}
            <img src="{{ user.email|showgravatar:'18'}}" width="18px" />
           </a>
-        </li>
+        </li> -->
+        <li class="btn-account"><a href="{% url 'personal_data' %}">{% trans "Cuenta" %}</a></li>
         <li class="btn-account">
-          <a href="{% url 'log_out' %}" class="alert-link">Cerrar sesi&oacute;n</a>
+          <a href="{% url 'log_out' %}" class="alert-link">Cerrar sesi&oacute;n <span class="glyphicon glyphicon-log-out"></span></a>
         </li>
       </ul>
     {% endif %}

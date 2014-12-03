@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block TITLE %}Administracion de descuentos por ley{% endblock %}
 {% block content %}
-<div class="panel panel-info">
+<div class="panel panel-warning panel-daiech">
 	<div class="panel-heading">
 		<h3 class="panel-title">Gesti&oacute;n de descuentos por ley</h3>
 	</div>
@@ -59,7 +59,7 @@
 			<form method = "POST"  enctype="multipart/form-data" id="legalDiscountsForm">
 			{% csrf_token %}
 			<div class="modal-body">
-				<div class="panel panel-info">
+				<div class="panel panel-warning panel-daiech">
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left">
 						{% if form_mode == "_create" %}
