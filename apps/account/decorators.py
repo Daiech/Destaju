@@ -16,12 +16,14 @@ def access_required(*permission):
     supervisor: s2
     consultor   : consultor
     empleado    : empleado
-    proveedor   : proveedor"""
+    proveedor   : proveedor
+    Almacenista : storer"""
 
     def decorator(func):
         def get_permissions_like_objects(*permission):
             """ut_list is a list with the permissions like objects"""
             obj_list = UserType.objects.get_all_active()
+            print obj_list
             ut_list = list()
             if 'superadmin' in permission:
                 ut_list.append(obj_list[0])
@@ -38,6 +40,8 @@ def access_required(*permission):
             if 'empleado' in permission:
                 ut_list.append(obj_list[6])
             if 'proveedor' in permission:
+                ut_list.append(obj_list[7])
+            if 'storer' in permission:
                 ut_list.append(obj_list[7])
             return ut_list
 

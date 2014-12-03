@@ -12,11 +12,15 @@ ADMINS = (
     # ('Catalina Aristizabal', 'cataristi2002@hotmail.com'),
 )
 
-URL_BASE = "http://destaju.com"
-PROJECT_NAME = "DESTAJU AGRO"
-PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
+try:
+    from .local_settings import URL_BASE, PROJECT_NAME, PROJECT_DESCRIPTION
+except ImportError:
+    URL_BASE = "http://destaju.com"
+    PROJECT_NAME = "DESTAJU AGRO"
+    PROJECT_DESCRIPTION = "Sistema Gestor de Labores de Campo"
+
 APPS = ["apps.website", "apps.account", "apps.actions_log", "apps.emailmodule", "apps.pdfmodule",
-"apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', ]
+"apps.process_admin", "apps.production_orders", "apps.payroll", 'django.contrib.humanize', 'south', 'apps.inventory' ]
 
 EDITABLES_MODEL = {
                     "process_admin": ["Activities", "UserProfile"],
@@ -53,16 +57,7 @@ MANAGERS = ADMINS
 try:
     from .local_settings import DATABASES
 except Exception, e:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'db.sqlite',
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': '',
-            'PORT': '',
-        }
-    }
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3','NAME': 'db.sqlite','USER': '','PASSWORD': '','HOST': '','PORT': '',}}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts

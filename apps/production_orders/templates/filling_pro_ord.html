@@ -102,11 +102,13 @@
                     </div>
                     <table class="table table-hover table-condensed table-striped">
                     <tr><td colspan="3">{{ form.comments }}{{ form.comments.errors }}</td></tr>
+                    <tr><td>Unidad de medida:</td><td ><strong>({{po.activity.measuring_unit }})</strong></td><td>Observaciones personales</td></tr>
                     {% for form in formset %}
                          <tr>
                             {{ form.id }}
                             <td>{{ form.user }}</td>
                             <td>{{ form.value }}{{ form.value.errors }}</td>
+                            
                             <td>{{ form.comments }}{{ form.comments.errors }}</td>
                         </tr>
                     {% endfor %}
@@ -115,7 +117,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" name="_create">Guardar</button>
-                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Cerrar</button>
             </div>
             </form>
         </div>
