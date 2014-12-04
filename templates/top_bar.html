@@ -12,7 +12,7 @@
       <ul class="nav navbar-nav">
         {% if user.userprofile.user_type.can_admin %}
           <li class="dropdown">
-              <a href="#" id="menu-admin" role="button" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n <b class="caret"></b></a>
+              <a href="#" id="menu-admin" role="button" class="dropdown-toggle" data-toggle="dropdown"><span class="normal">{% trans "Administración" %}</span><span class="reduced">{% trans "Admin." %}</span> <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu-admin">
                   <li role="presentation" class="dropdown-header">Gesti&oacute;n de Usuarios</li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'admin_employments' %}">Gesti&oacute;n de Cargos</a></li>
@@ -35,7 +35,7 @@
         {% endif %}
         {% if user.userprofile.user_type.can_admin_op %}
           <li class="dropdown">
-              <a href="#" id="menu-op" role="button" class="dropdown-toggle" data-toggle="dropdown">Ordenes de Producci&oacute;n <b class="caret"></b></a>
+              <a href="#" id="menu-op" role="button" class="dropdown-toggle" data-toggle="dropdown"><span class="normal">{% trans "Órdenes de Producción" %}</span><span class="reduced">{% trans "OP" %}</span> <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="menu-op">
                 {% if user.userprofile.user_type.can_generate_op %}
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'create_production_order' %}">Generaci&oacute;n de OP</a></li>
@@ -96,9 +96,9 @@
            <img src="{{ user.email|showgravatar:'18'}}" width="18px" />
           </a>
         </li> -->
-        <li class="btn-account"><a href="{% url 'personal_data' %}">{% trans "Cuenta" %}</a></li>
+        <li class="btn-account"><a href="{% url 'personal_data' %}" class="text-small">{% trans "Cuenta" %}</a></li>
         <li class="btn-account">
-          <a href="{% url 'log_out' %}" class="alert-link">Cerrar sesi&oacute;n <span class="glyphicon glyphicon-log-out"></span></a>
+          <a href="{% url 'log_out' %}" class="alert-link text-small">{% trans "Cerrar sesión" %} <span class="glyphicon glyphicon-log-out"></span></a>
         </li>
       </ul>
     {% endif %}

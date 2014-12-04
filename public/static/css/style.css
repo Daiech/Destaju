@@ -44,9 +44,10 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 
 .glyphicon-log-in:before{margin-right: 5px;}
 
-
+.navbar .nav > li > a{padding: 15px 12px;}
 #footer{min-height: 60px;height: auto;}
-
+.reduced{display: none;}
+/*.text-small{font-size: 12px !important;}*/
 @media (min-width: 1280px) {
 }
 @media (min-width: 1200px) {
@@ -64,6 +65,9 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 }
 @media (min-width: 768px) and (max-width: 979px) {
     .navbar-fixed-top {margin-bottom: 0;}
+    .reduced{display: inline-block;}
+    .normal{display: none;}
+    .navbar-brand{font-size: 14px;}
 }
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {

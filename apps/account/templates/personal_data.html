@@ -1,18 +1,11 @@
 {% extends "base.html" %}
 {% block TITLE %}Cuenta de Usuario{% endblock %}
-{% load gravatartag %}
+{% load gravatartag i18n %}
 {% block content %}
 <div>
-    <div class="uTop">
-        <img src="{{ user.email|showgravatar:'32'}}" width="32px" />
-        Hola
-        <strong>
-            <a href="{% url 'personal_data' %}">
-                {{ user.first_name }} ({{user.username}})
-            </a>
-        </strong>
+    <div class="text-center">
+        <h3>{% trans "Cuenta de usuario" %}</h3>
     </div>
-    <hr>
     <div class="box-container">
         <form method="POST"  action="{% url 'update_personal_data' %}">
             {% csrf_token %}
@@ -59,9 +52,9 @@
                         <td>{{ user.userprofile.employment.name }}</td>
                     </tr>
                 {% endif %}
-                <tr>
+                <!-- <tr>
                     <td colspan="2" class="gravatar"><img src="{{ user.email|showgravatar:'28'}}" alt="Avatar" width="28px"> Cambia tu avatar en <a href="http://gravatar.com/" target="_blank">Gravatar.com</a>.</td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td colspan="2" class="">
                         <a class="btn btn-warning" href="{% url 'change_password' %}">Cambiar contrase&ntilde;a</a>
