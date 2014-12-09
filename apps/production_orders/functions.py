@@ -75,8 +75,15 @@ def get_production_order_json(pro_ord_obj):
         
 
     # qualification  = get_str_qualification_pro_ord(pro_ord_obj)
-    qualification  = pro_ord_obj.qualificationproord.get_value_display()
-    verification  = pro_ord_obj.approvalproord.get_status_display()
+    try:
+        qualification  = pro_ord_obj.qualificationproord.get_value_display()
+    except:
+        qualification = ""
+
+    try:
+        verification  = pro_ord_obj.approvalproord.get_status_display()
+    except:
+        verification = ""
     
 
     employed_orders_output_approved = []
