@@ -205,7 +205,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     'django.core.context_processors.request',
     'apps.website.context_processors.get_project_name',
-    # 'apps.website.context_processors.is_debug',
+    'apps.website.context_processors.is_debug',
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -13,8 +13,9 @@
     <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/sticky-footer-navbar.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+    <style type="text/css">#wrap > .container{padding-top: 50px;}h1{margin: 0 5px 0;}</style>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -59,12 +60,12 @@
           </div>
           <div class="col-md-6 col-sm-6 text-rc">
             <p class="text-muted credit">
-              powered by <a href="http://www.parquesoftpereira.com/inteligencia-de-negocios/57-daiech.html"><img src="{{ STATIC_URL }}img/logo-parquesoft.png" style="width: 100px;"></a>
+              <a href="http://www.parquesoftpereira.com/inteligencia-de-negocios/57-daiech.html"><img src="{{ STATIC_URL }}img/logo-parquesoft.png" style="width: 100px;"></a>
             </p>
           </div>
         </div>
       </div>
-    </div>
+    </div>{% if not DEBUG %}
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -73,7 +74,7 @@
 
       ga('create', 'UA-26046263-3', 'auto');
       ga('send', 'pageview');
-    </script>
+    </script>{% endif %}
   </body>
 </html>
 {% endspaceless %}
