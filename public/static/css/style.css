@@ -21,6 +21,7 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 
 .modules-container{margin-top: 60px;padding: 0 20px;}
 .glyphicon-ok{color: #f0ad4e;}
+.btn-primary .glyphicon-ok{color: white;}
 
 
 /* ====================================== forms ============================*/
@@ -45,6 +46,8 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 .glyphicon-log-in:before{margin-right: 5px;}
 
 .navbar .nav > li > a{padding: 15px 12px;}
+.navbar-account{margin-right: 0 !important;}
+.navbar-brand img{display: inline-block;}
 #footer{min-height: 60px;height: auto;}
 .reduced{display: none;}
 /*.text-small{font-size: 12px !important;}*/

@@ -11,11 +11,11 @@
     <title>{% block TITLE %}{% endblock %} - {{ PROJECT_NAME }}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ STATIC_URL }}css/jquery.dataTables.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/sticky-footer-navbar.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
     {% block style %}
     {% endblock %}
@@ -62,7 +62,7 @@
           </div>
           <div class="col-md-6 col-sm-6 text-rc">
             <p class="text-muted credit">
-              powered by <a href="http://www.parquesoftpereira.com/inteligencia-de-negocios/57-daiech.html"><img src="{{ STATIC_URL }}img/logo-parquesoft.png" style="width: 100px;"></a>
+              <a href="http://www.parquesoftpereira.com/inteligencia-de-negocios/57-daiech.html"><img src="{{ STATIC_URL }}img/logo-parquesoft.png" style="width: 100px;"></a>
             </p>
           </div>
         </div>
@@ -82,7 +82,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ STATIC_URL }}libs/bootstrap/assets/js/jquery.js"></script>
+    {% if not DEBUG %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>{% endif %}
+    <script>window.jQuery || document.write('<script src="{{STATIC_PREFIX}}libs/jquery.min.js"><\/script>')</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/main.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.dataTables.js"></script>
