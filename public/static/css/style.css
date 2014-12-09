@@ -10,10 +10,15 @@ input[type="text"], input[type="password"], input[type="url"], input[type="email
 input:focus{border-color: #66afe9;outline: 0;
 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);}
+
 /*Table Plugin*/
+table.dataTable tr[role='row']{background-color: #F0AD4E;border-color: #DBA251;}
+table.dataTable tr[role='row'] th{border-color: #DBA251;color: white;}
+table.dataTable tr.odd{background-color: white;}
+table.dataTable tr.even{background-color: #FFF7EC;}
 table.dataTable tr.even td.sorting_1{background-color: transparent;}
 table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
-#dataTable{border-top: solid thin;}
+#dataTable{border-top: solid thin;border-color: #DBA251;}
 #dataTable_length{padding: 12px;padding-left: 10px;padding-bottom: 0}
 #dataTable_filter{padding: 5px;padding-right: 10px;padding-bottom: 0}
 #dataTable_info, #dataTable_paginate{padding: 10px 0}
@@ -21,6 +26,7 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 
 .modules-container{margin-top: 60px;padding: 0 20px;}
 .glyphicon-ok{color: #f0ad4e;}
+.glyphicon-ok:hover{color: white;}
 .btn-primary .glyphicon-ok{color: white;}
 
 
@@ -39,7 +45,11 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 .btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active
 {color: #ffffff;background-color: #f0ad4e;border-color: #DBA251;}
 
-.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{background-color: #f0ad4e;border-color: #DBA251;}
+.actions .btn{font-size: 18px;color: #CF7D34;border: solid 1px #FFCC86;padding: 3px;margin-right: 2px;margin-top: 2px;width: 26px;height: 26px;}
+.actions .btn .glyphicon{margin: 2px;}
+.actions .btn:hover, .actions .btn:active{background-color: #F0AD4E;color: white;}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{background-color: #f0ad4e;border-color: #DBA251;color: white;}
 /*.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus*/
 .text-lc,.text-rc{text-align: center;}
 
