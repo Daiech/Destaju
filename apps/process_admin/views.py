@@ -318,9 +318,9 @@ def create_general_discounts(request):
             general_discount.user = request.user
             try:
                 general_discount.save()
-                print "es valido"
-            except:
-                print "error guardando"
+                # print "es valido"
+            except Exception, e:
+                print str(e) + "\nError guardando descuento general"
             form = GeneralDiscountForm()
         else:
                 show_form = True
@@ -374,9 +374,9 @@ def create_increase(request):
             increase.user = request.user
             try:
                 increase.save()
-                print "es valido"
-            except:
-                print "error guardando"
+                # print "es valido"
+            except Exception, e:
+                print str(e) + "\nError guardando incremento"
             form = IncreaseForm()
         else:
                 show_form = True
@@ -430,9 +430,9 @@ def create_places(request):
             place.user = request.user
             try:
                 place.save()
-                print "es valido"
-            except:
-                print "error guardando"
+                # print "es valido"
+            except Exception, e:
+                print str(e) + "\nError guardando lugares"
             form = PlacesForm()
         else:
                 show_form = True
@@ -485,9 +485,9 @@ def create_tools(request):
             tool.user = request.user
             try:
                 tool.save()
-                print "es valido"
-            except:
-                print "error guardando"
+                # print "es valido"
+            except Exception, e:
+                print str(e) + "\nError guardando herramientas"
             form = ToolsForm()
         else:
                 show_form = True

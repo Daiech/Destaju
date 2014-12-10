@@ -38,7 +38,7 @@ class UserForm(forms.ModelForm):
         fields = ('first_name', 'last_name', 'email')
 
     def save(self):
-        print self.cleaned_data["email"]
+        # print self.cleaned_data["email"]
         user = super(UserForm, self).save()
         return user
 

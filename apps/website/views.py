@@ -66,7 +66,7 @@ def ajax_edit_in_line(request):
                         print "ERROR AL GUARDAR COPIA:", e
                     obj = {"value": obj['name'] + " " + "ha sido agregado"}
                 else:
-                    print "Error"
+                    print "Error al editar in line"
             except Exception, e:
                 print e
                 obj = {'value': "Error", "message": u"Ocurrió un error al intentar actualizar, por favor recarga la página e intenta de nuevo"}

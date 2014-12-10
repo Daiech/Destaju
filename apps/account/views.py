@@ -218,13 +218,13 @@ def password_reset2(request):
         """
         saveViewsLog(request, "account.views.password_reset2")
         if not request.user.is_authenticated():
-            print "entro a password_reset2"
+            # print "entro a password_reset2"
             try:
                 return password_reset(request, template_name='password_reset_form.html', email_template_name='password_reset_email.html', subject_template_name='password_reset_subject.txt', post_reset_redirect=reverse("password_reset_done2"))
             except Exception:
                 return HttpResponseRedirect(reverse("password_reset_done2"))
         else:
-            print "no entro a password_reset2"
+            # print "no entro a password_reset2"
             return HttpResponseRedirect(reverse("personal_data"))
 
 
@@ -245,10 +245,10 @@ def password_reset_confirm2(request, uidb36, token):
         """
         saveViewsLog(request, "account.views.password_reset_confirm2")
         if not request.user.is_authenticated():
-                print "entro a password_reset_confirm2"
+                # print "entro a password_reset_confirm2"
                 return password_reset_confirm(request, uidb36, token, template_name='password_reset_confirm.html', post_reset_redirect=reverse("password_reset_done2"))
         else:
-                print "no entro a password_reset_confirm2"
+                # print "no entro a password_reset_confirm2"
                 return HttpResponseRedirect(reverse("personal_data"))
 
 
@@ -258,10 +258,10 @@ def password_reset_complete2(request):
         """
         saveViewsLog(request, "account.views.password_reset_complete2")
         if not request.user.is_authenticated():
-                print "entro a password_reset_complete2"
+                # print "entro a password_reset_complete2"
                 return password_reset_complete(request, template_name='password_reset_complete.html')
         else:
-                print "no entro a password_reset_complete2"
+                # print "no entro a password_reset_complete2"
                 return HttpResponseRedirect(reverse("personal_data"))
 
 # --------------------------------</Recuperacion de contrasena>----------------------

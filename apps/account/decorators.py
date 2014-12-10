@@ -23,7 +23,7 @@ def access_required(*permission):
         def get_permissions_like_objects(*permission):
             """ut_list is a list with the permissions like objects"""
             obj_list = UserType.objects.get_all_active()
-            print obj_list
+            # print obj_list
             ut_list = list()
             if 'superadmin' in permission:
                 ut_list.append(obj_list[0])

@@ -216,10 +216,10 @@ def list_payroll(request):
         # total_payroll = total_payroll+total_increases_value
 
         total_accrued = total_activities + total_increases_value
-        print "Total Accrued", total_accrued
+        # print "Total Accrued", total_accrued
 
         legal_discount_value = int(round((total_accrued/float(100))*8,0))
-        print legal_discount_value 
+        # print legal_discount_value 
         # total_payroll = total_accrued-legal_discount_value
 
         #General discount

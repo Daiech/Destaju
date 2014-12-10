@@ -179,6 +179,6 @@ def charge_users():
 	empleado = UserType.objects.get_or_none(name="Empleado")
 	for u in users:
 		user = User.objects.create(**u)
-		print "USUARIO:", user
+		# print "USUARIO:", user
 		up_list.append(UserProfile(dni=user.username, user=user, user_type=empleado, date_born=datetime.datetime.now()))
 	UserProfile.objects.bulk_create(up_list)

@@ -40,7 +40,7 @@ def create_production_order(request):
             for q_form in formset.forms:
                 q_form.add_employed_order(employedorder_obj)
 
-            print "BANDERA UNO "
+            # print "BANDERA UNO "
             if formset.is_valid():
                 if not is_repeated_tool(formset):
                     productionorder_obj.save()
@@ -389,7 +389,7 @@ def list_production_orders(request):
             elif type_date == 'filling':
                 object_list = ProductionOrder.objects.filter(fillingproord__date_modified__gt = date_from).filter(fillingproord__date_modified__lt = date_to).order_by('-date_added').annotate(total_filling=Sum("fillingproord__filling_filling_pro_ord__value"))
             else:
-                print "Error"
+                print "Error in list_production_orders"
             if '_excel' in request.POST:
                 from export_xls.views import export_xlwt
                 values_list =[]

@@ -119,7 +119,7 @@ def list_item_history(request):
     if not inventory_obj:
         return HttpResponseRedirect(reverse('list_inventory'))
     
-    print inventory_obj
+    # print inventory_obj
 
     quantityprovidertool_list = QuantityProviderTool.objects.filter(tool__id=tool_id, provider_order__status_order="Approved")
     quantityemployedtool_list = QuantityEmployedTool.objects.filter(tool__id=tool_id, employed_order__status_order="Approved") #provider_order__status_order="Approved"
