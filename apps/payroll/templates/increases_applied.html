@@ -25,7 +25,7 @@
             <td>{{ obj.get_full_name|title }}</td>
             <td class="text-right" ><span class="hidden">{{obj.get_total_increases}}</span>${% if obj.get_total_increases %}{{obj.get_total_increases}}{% else %}0{% endif %}</td>
             <td class="text-center"><span title="{{obj.get_date_last_increase}}">{{obj.get_date_last_increase|date:"Y/m/d G:i"}}</span></td>
-            <td class="text-center actions">
+            <td class="actions">
                 <a href="{% url 'read_increases_applied' obj.id %}" title="Ver aumentos" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
                 <a href="{% url 'create_increase_applied' obj.id %}" title="Aplicar aumento" class="btn"><span class="glyphicon glyphicon-plus"></span></a>
             </td>

@@ -47,7 +47,7 @@
 			<td><span title="{{a.date_added}}">{{a.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center">{{a.modifications}}</td>
 			<td><span title="{{a.date_modified}}">{{a.date_modified|date:"Y/m/d G:i"}}</span></td>
-			<td class="text-center actions">
+			<td class="actions">
 				<a href="{% url 'update_activity' a.id %}" title="Editar esta actividad" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a href="{% url 'delete_activity' a.id %}" title="Eliminar esta actividad" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
 			</td>

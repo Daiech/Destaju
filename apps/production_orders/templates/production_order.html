@@ -31,7 +31,7 @@
 		<tbody>
 		{% for obj in object_list %}
 		<tr>
-			<td class="text-center actions">
+			<td class="actions">
 				{% if obj.status == 1 %}
 				<span title="Orden generada aun no se ha llenado" class="glyphicon glyphicon-unchecked" ></span></a>
                 {% elif obj.status == 2 %}
@@ -78,7 +78,7 @@
 			<td><span title="{{obj.date_added}}">{{obj.date_added|date:"Y/m/d G:i"}}</span></td>
 			<td class="text-center">{{obj.modifications}}</td>
 			<td><span title="{{obj.date_modified}}">{{obj.date_modified|date:"Y/m/d G:i"}}</span></td>
-			<td class="text-center actions">
+			<td class="actions">
 				{% if obj.status == 1%}
 				<a href="{% url 'update_production_order' obj.id %}" title="Editar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a href="{% url 'delete_production_order' obj.id %}" title="Eliminar esta orden de producci&oacute;n" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>

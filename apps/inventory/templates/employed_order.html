@@ -42,7 +42,7 @@
 			</td>
 			
 			<td><span title="{{obj_employed_order.date_added}}">{{obj_employed_order.date_added|date:"Y/m/d G:i"}}</span></td>
-			<td class="text-center actions">
+			<td class="actions">
 
 				<a href="{% url 'list_employed_order' %}?employed_order_id={{ obj_employed_order.id }}" title="Ver orden" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
 				{% if obj_employed_order.status_order == "Waiting" %}

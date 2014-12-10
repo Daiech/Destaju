@@ -45,7 +45,7 @@ table.dataTable tr.odd td.sorting_1{background-color: #f9f9f9;}
 .btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active
 {color: #ffffff;background-color: #f0ad4e;border-color: #DBA251;}
 
-.actions{min-width: 120px;}
+.actions{min-width: 120px;text-align: right !important;}
 .actions .btn{font-size: 18px;color: #CF7D34;border: solid 1px #FFCC86;padding: 3px;margin-right: 2px;margin-top: 2px;width: 26px;height: 26px;}
 .actions .btn .glyphicon{margin: 2px;}
 .actions .btn:hover, .actions .btn:active{background-color: #F0AD4E;color: white;}

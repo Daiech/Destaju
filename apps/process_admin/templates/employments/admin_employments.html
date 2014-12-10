@@ -33,7 +33,7 @@
 				<td>{{ obj.description }}</td>
 				<td>{{ obj.date_added }}</td>
 				<!-- <td>{{ obj.date_modified|date }}</td> -->
-				<td class="text-center actions">
+				<td class="actions">
 					<a href="{% url 'update_employment' obj.id %}" title="Editar" class="btn"><span class="glyphicon glyphicon-pencil"></span></a>
 					<a href="{% url 'delete_employment' obj.id %}" title="Eliminar" class="btn btn-delete"><span class="glyphicon glyphicon-remove"></span></a>
 				</td>

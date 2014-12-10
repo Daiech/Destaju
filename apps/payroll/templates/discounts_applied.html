@@ -25,7 +25,7 @@
             <td>{{ obj.get_full_name|title }}</td>
             <td class="text-right" ><span class="hidden">{{obj.get_total_discounts}}</span>${% if obj.get_total_discounts %}{{obj.get_total_discounts}}{% else %}0{% endif %}</td>
             <td class="text-center"><span title="{{obj.get_date_last_discount}}">{{obj.get_date_last_discount|date:"Y/m/d G:i"}}</span></td>
-            <td class="text-center actions">
+            <td class="actions">
            		<a href="{% url 'read_discounts_applied' obj.id %}" title="Ver descuentos" class="btn"><span class="glyphicon glyphicon-eye-open"></span></a>
                 <a href="{% url 'create_discount_applied' obj.id %}" title="Aplicar descuento" class="btn"><span class="glyphicon glyphicon-plus"></span></a>
             </td>

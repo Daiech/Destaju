@@ -54,7 +54,7 @@
 				<td class="editable_dni">{% editinline "u.userprofile.dni" as userprofile %} {{ userprofile }}</td>
 				<td>{{ u.userprofile.employment.name|title }}</td>
 				<td>{{ u.userprofile.user_type.name|title }}</td>
-				<td class="text-center actions">
+				<td class="actions">
 					{% if u.userprofile.user_type.can_login %}
 						<span class="hidden">1</span>
 						<a href="{% url 'permission_login' u.id %}" title="Permitir {% if u.is_active %}de nuevo{% endif %} ingreso a la plataforma a {{ u.get_short_name }}" class="btn btn-can-login {% if u.is_active %}{% endif %}" data-pk="{{ u.pk }}"><span class="glyphicon glyphicon-log-in"></span></a>

@@ -25,7 +25,7 @@
         <tbody>
         {% for obj in object_list %}
         <tr>
-            <td class="text-center actions">
+            <td class="actions">
             	{% if  obj.qualificationproord.is_qualified %}
                     <span title="Ya se califico" class="glyphicon glyphicon-star" ></span></a>
                 {% else %}
@@ -59,7 +59,7 @@
             </td>
             <td><span title="{{obj.last_filling}}">{{obj.last_filling|date:"Y/m/d G:i"}}</span></td></td>
             <td><span title="{{obj.qualificationproord.date_qualified}}">{{obj.qualificationproord.date_qualified|date:"Y/m/d G:i"}}</span></td>
-            <td class="text-center actions">
+            <td class="actions">
                 {% if not obj.qualificationproord.is_qualified %}
                 <a href="{% url 'qualification' obj.id %}" title="Calificar esta orden de producci&oacute;n" class="btn"><span class="glyphicon glyphicon-ok-circle" ></span></a>
                 {% elif obj.qualificationproord.is_qualified %}
