@@ -11,7 +11,7 @@
     <title>{% block TITLE %}{% endblock %} - {{ PROJECT_NAME }}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}libs/bootstrap3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ STATIC_URL }}css/jquery.dataTables.css" rel="stylesheet">
@@ -22,8 +22,8 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="{{ STATIC_URL }}libs/bootstrap/assets/js/html5shiv.js"></script>
-      <script src="{{ STATIC_URL }}libs/bootstrap/assets/js/respond.min.js"></script>
+      <script src="{{ STATIC_URL }}libs/bootstrap3/assets/js/html5shiv.js"></script>
+      <script src="{{ STATIC_URL }}libs/bootstrap3/assets/js/respond.min.js"></script>
     <![endif]-->
   </head>
 
@@ -84,9 +84,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     {% if not DEBUG %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>{% endif %}
-    <script>window.jQuery || document.write('<script src="{{STATIC_PREFIX}}libs/jquery.min.js"><\/script>')</script>
+    <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/jquery.min.js"><\/script>')</script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}libs/bootstrap3/dist/js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/main.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.dataTables.js"></script>
 	{% block js %}

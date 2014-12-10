@@ -8,25 +8,17 @@
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/png" >
 
     <title>{{ PROJECT_NAME }}</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{{ STATIC_URL }}libs/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+    <link href="{{ STATIC_URL }}libs/bootstrap3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/sticky-footer-navbar.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
     <style type="text/css">#wrap > .container{padding-top: 50px;}h1{margin: 0 5px 0;}</style>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="{{ STATIC_URL }}libs/bootstrap/assets/js/html5shiv.js"></script>
-      <script src="{{ STATIC_URL }}libs/bootstrap/assets/js/respond.min.js"></script>
+      <script src="{{ STATIC_URL }}libs/bootstrap3/assets/js/html5shiv.js"></script>
+      <script src="{{ STATIC_URL }}libs/bootstrap3/assets/js/respond.min.js"></script>
     <![endif]-->
   </head>
   <body>
-    <!-- Wrap all page content here -->
     <div id="wrap">
-        <!-- Begin page content -->
         <div class="container">
 	        <div class="page-headers text-center">
             <a href="http://destaju.com/agro"><img src="{{ STATIC_URL }}img/logo-destaju.png" alt="" width="150px"></a>
@@ -54,8 +46,7 @@
       <div class="container">
         <div class="row-fluid">
           <div class="col-md-6 col-sm-6 text-lc">
-            <p class="text-muted credit">
-              {{ PROJECT_NAME }} <script>document.write((new Date()).getFullYear())</script>, un producto <a href="http://www.daiech.com" target="_blank"><img src="{{ STATIC_URL }}img/daiech.png" style="width: 80px;"></a>
+            <p class="text-muted credit">{{ PROJECT_NAME }} <script>document.write((new Date()).getFullYear())</script>, un producto <a href="http://www.daiech.com" target="_blank"><img src="{{ STATIC_URL }}img/daiech.png" style="width: 80px;"></a>
             </p>
           </div>
           <div class="col-md-6 col-sm-6 text-rc">
